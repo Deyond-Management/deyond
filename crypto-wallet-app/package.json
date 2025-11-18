@@ -1,0 +1,57 @@
+{
+  "name": "crypto-wallet-app",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "expo": "~54.0.24",
+    "expo-status-bar": "~3.0.8",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "@reduxjs/toolkit": "^2.5.0",
+    "react-redux": "^9.1.2",
+    "redux-persist": "^6.0.0",
+    "@react-native-async-storage/async-storage": "^2.1.0",
+    "ethers": "^6.13.4",
+    "@noble/curves": "^1.9.0",
+    "@noble/hashes": "^1.6.1",
+    "bip39": "^3.1.0",
+    "buffer": "^6.0.3",
+    "zod": "^3.24.1",
+    "date-fns": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "typescript": "~5.9.2",
+    "@types/bip39": "^3.0.0",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "jest-expo": "~54.0.2",
+    "@babel/core": "^7.26.0",
+    "prettier": "^3.4.2"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*)"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/**/__tests__/**"
+    ]
+  },
+  "private": true
+}
