@@ -155,13 +155,46 @@ export const Colors = {
 
 export type ColorScheme = 'light' | 'dark';
 
-export type ThemeColors = typeof Colors.light | typeof Colors.dark;
+export interface ThemeColors {
+  background: string;
+  surface: string;
+  card: string;
+  text: string;
+  textSecondary: string;
+  divider: string;
+  border: string;
+  overlay: string;
+  shadow: string;
+  primary: string;
+  secondary: string;
+  success: string;
+  error: string;
+  warning: string;
+  info: string;
+}
 
 /**
  * Get colors for current theme
  */
 export const getThemeColors = (scheme: ColorScheme): ThemeColors => {
-  return scheme === 'dark' ? Colors.dark : Colors.light;
+  const base = scheme === 'dark' ? Colors.dark : Colors.light;
+  return {
+    background: base.background,
+    surface: base.surface,
+    card: base.card,
+    text: base.text.primary,
+    textSecondary: base.text.secondary,
+    divider: base.divider,
+    border: base.border,
+    overlay: base.overlay,
+    shadow: base.shadow,
+    primary: Colors.primary[500],
+    secondary: Colors.secondary[500],
+    success: Colors.success[500],
+    error: Colors.error[500],
+    warning: Colors.warning[500],
+    info: Colors.info[500],
+  };
 };
 
 export default Colors;
