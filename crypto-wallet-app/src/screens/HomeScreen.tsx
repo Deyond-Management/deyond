@@ -27,6 +27,8 @@ import {
   selectTotalBalance,
   selectTokenLoading,
 } from '../store/slices/tokenSlice';
+import { setCurrentNetwork } from '../store/slices/networkSlice';
+import { NetworkSelectorModal, Network } from '../components/organisms/NetworkSelectorModal';
 
 interface HomeScreenProps {
   navigation: any;
@@ -36,7 +38,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedNetwork, setSelectedNetwork] = useState('Ethereum Mainnet');
+  const [networkModalVisible, setNetworkModalVisible] = useState(false);
 
   // Get wallet state from Redux
   const isWalletInitialized = useAppSelector(state => state.wallet?.isInitialized ?? false);
@@ -46,6 +48,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const tokens = useAppSelector(selectTokens);
   const totalBalance = useAppSelector(selectTotalBalance);
   const isLoading = useAppSelector(selectTokenLoading);
+
+  // Get network state from Redux
+  const networks = useAppSelector(state => state.network?.networks ?? []);
+  const currentNetwork = useAppSelector(state => state.network?.currentNetwork);
+
+  // Map networks to modal format
+  const modalNetworks: Network[] = networks.map(n => ({
+    id: n.id,
+    name: n.name,
+    chainId: n.chainId,
+    rpcUrl: n.rpcUrl,
+    symbol: n.currencySymbol,
+    blockExplorer: n.blockExplorerUrl,
+    isTestnet: n.isTestnet,
+  }));
 
   // Fetch balances on mount
   useEffect(() => {
@@ -105,8 +122,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   };
 
   const handleNetworkSelect = () => {
-    // Will open network selector modal
-    navigation.navigate('NetworkSelector');
+    setNetworkModalVisible(true);
+  };
+
+  const handleNetworkChange = (network: Network) => {
+    // Find the original network from Redux state
+    const originalNetwork = networks.find(n => n.id === network.id);
+    if (originalNetwork) {
+      dispatch(setCurrentNetwork(originalNetwork));
+    }
+    setNetworkModalVisible(false);
   };
 
   const handleTokenPress = (symbol: string) => {
@@ -143,9 +168,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             onPress={handleNetworkSelect}
             testID="network-selector"
           >
-            <View style={[styles.networkDot, { backgroundColor: '#4CAF50' }]} />
+            <View style={[styles.networkDot, { backgroundColor: currentNetwork?.isTestnet ? '#FF9800' : '#4CAF50' }]} />
             <Text style={[styles.networkName, { color: theme.colors.text.primary }]}>
-              {selectedNetwork.includes('Mainnet') ? 'Ethereum' : selectedNetwork}
+              {currentNetwork?.name ?? 'Select Network'}
             </Text>
             <Text style={[styles.networkArrow, { color: theme.colors.text.secondary }]}>▼</Text>
           </TouchableOpacity>
@@ -260,6 +285,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           )}
         </View>
       </ScrollView>
+
+      {/* Network Selector Modal */}
+      <NetworkSelectorModal
+        visible={networkModalVisible}
+        networks={modalNetworks}
+        selectedNetworkId={currentNetwork?.id ?? ''}
+        onSelect={handleNetworkChange}
+        onClose={() => setNetworkModalVisible(false)}
+      />
     </SafeAreaView>
   );
 };

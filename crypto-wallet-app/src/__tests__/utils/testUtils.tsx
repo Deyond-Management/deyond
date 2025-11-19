@@ -11,6 +11,7 @@ import { ThemeProvider } from '../../contexts/ThemeContext';
 import onboardingReducer from '../../store/slices/onboardingSlice';
 import walletReducer from '../../store/slices/walletSlice';
 import tokenReducer from '../../store/slices/tokenSlice';
+import networkReducer from '../../store/slices/networkSlice';
 
 // Create a test store
 export const createTestStore = (preloadedState = {}) => {
@@ -19,6 +20,7 @@ export const createTestStore = (preloadedState = {}) => {
       onboarding: onboardingReducer,
       wallet: walletReducer,
       token: tokenReducer,
+      network: networkReducer,
     },
     preloadedState,
   });
