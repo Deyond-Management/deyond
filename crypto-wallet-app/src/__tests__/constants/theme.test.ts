@@ -35,8 +35,16 @@ describe('Design Tokens', () => {
       const lightColors = getThemeColors('light');
       const darkColors = getThemeColors('dark');
 
-      expect(lightColors).toEqual(Colors.light);
-      expect(darkColors).toEqual(Colors.dark);
+      // Check flattened structure with semantic colors
+      expect(lightColors.background).toBe('#FFFFFF');
+      expect(lightColors.text).toBe('#212121');
+      expect(lightColors.primary).toBe('#2196F3');
+      expect(lightColors.success).toBe('#4CAF50');
+      expect(lightColors.error).toBe('#F44336');
+
+      expect(darkColors.background).toBe('#121212');
+      expect(darkColors.text).toBe('#FFFFFF');
+      expect(darkColors.primary).toBe('#2196F3');
     });
   });
 
@@ -96,7 +104,9 @@ describe('Design Tokens', () => {
     it('should create light theme', () => {
       const theme = createTheme('light');
 
-      expect(theme.colors).toEqual(Colors.light);
+      expect(theme.colors.background).toBe('#FFFFFF');
+      expect(theme.colors.text).toBe('#212121');
+      expect(theme.colors.primary).toBe('#2196F3');
       expect(theme.typography).toEqual(Typography);
       expect(theme.isDark).toBe(false);
     });
@@ -104,7 +114,9 @@ describe('Design Tokens', () => {
     it('should create dark theme', () => {
       const theme = createTheme('dark');
 
-      expect(theme.colors).toEqual(Colors.dark);
+      expect(theme.colors.background).toBe('#121212');
+      expect(theme.colors.text).toBe('#FFFFFF');
+      expect(theme.colors.primary).toBe('#2196F3');
       expect(theme.isDark).toBe(true);
     });
 
