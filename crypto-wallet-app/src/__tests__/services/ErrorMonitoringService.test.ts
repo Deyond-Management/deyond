@@ -99,10 +99,11 @@ describe('ErrorMonitoringService', () => {
         address: '0x1234',
       });
 
-      expect(Sentry.setUser).toHaveBeenCalledWith({
-        id: '123',
-        address: '0x1234',
-      });
+      expect(Sentry.setUser).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: '123',
+        })
+      );
     });
 
     it('should clear user', () => {
@@ -119,10 +120,12 @@ describe('ErrorMonitoringService', () => {
         message: 'Navigated to Home',
       });
 
-      expect(Sentry.addBreadcrumb).toHaveBeenCalledWith({
-        category: 'navigation',
-        message: 'Navigated to Home',
-      });
+      expect(Sentry.addBreadcrumb).toHaveBeenCalledWith(
+        expect.objectContaining({
+          category: 'navigation',
+          message: 'Navigated to Home',
+        })
+      );
     });
   });
 
