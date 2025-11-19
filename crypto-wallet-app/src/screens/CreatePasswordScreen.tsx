@@ -17,6 +17,8 @@ import { useTheme } from '../contexts/ThemeContext';
 import { Input } from '../components/atoms/Input';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
+import { useAppDispatch } from '../store/hooks';
+import { setPassword as setReduxPassword } from '../store/slices/onboardingSlice';
 
 interface CreatePasswordScreenProps {
   navigation: any;
@@ -32,6 +34,7 @@ type PasswordStrength = 'Weak' | 'Medium' | 'Strong';
 export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navigation }) => {
   const { theme } = useTheme();
   const { colors, spacing } = theme;
+  const dispatch = useAppDispatch();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -88,6 +91,9 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
       setError('Passwords do not match');
       return;
     }
+
+    // Store password in Redux
+    dispatch(setReduxPassword(password));
 
     // Navigate to DisplayMnemonic screen
     navigation.navigate('DisplayMnemonic', { password });

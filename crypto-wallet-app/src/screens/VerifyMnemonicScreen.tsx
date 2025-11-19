@@ -16,6 +16,8 @@ import {
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { setStep } from '../store/slices/onboardingSlice';
 
 interface VerifyMnemonicScreenProps {
   navigation: any;
@@ -39,6 +41,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
 }) => {
   const { theme } = useTheme();
   const { colors, spacing } = theme;
+  const dispatch = useAppDispatch();
   const [selectedPositions, setSelectedPositions] = useState<WordPosition[]>([]);
   const [wordBank, setWordBank] = useState<string[]>([]);
   const [error, setError] = useState('');
@@ -137,21 +140,19 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
       return;
     }
 
-    // Success! Create wallet and navigate to Home
+    // Success! Navigate to BiometricSetup
     try {
-      // In a real app, we would:
-      // 1. Create wallet using WalletManager with mnemonic and password
-      // 2. Store wallet data securely
-      // 3. Initialize app state
+      // Update step in Redux
+      dispatch(setStep('biometric'));
 
-      // For now, just navigate to Home
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Home' }],
+      // Navigate to BiometricSetup
+      navigation.navigate('BiometricSetup', {
+        mnemonic: route.params.mnemonic,
+        password: route.params.password,
       });
     } catch (error) {
-      console.error('Failed to create wallet:', error);
-      setError('Failed to create wallet. Please try again.');
+      console.error('Failed to proceed:', error);
+      setError('Failed to proceed. Please try again.');
     }
   };
 

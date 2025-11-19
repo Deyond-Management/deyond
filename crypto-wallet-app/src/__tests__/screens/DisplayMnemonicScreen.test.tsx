@@ -4,9 +4,9 @@
  */
 
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { fireEvent } from '@testing-library/react-native';
 import { DisplayMnemonicScreen } from '../../screens/DisplayMnemonicScreen';
-import { ThemeProvider } from '../../contexts/ThemeContext';
+import { renderWithProviders } from '../utils/testUtils';
 
 // Mock navigation
 const mockNavigation = {
@@ -22,9 +22,9 @@ const mockRoute = {
   },
 };
 
-// Helper to render with theme
+// Helper to render with providers
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(<ThemeProvider>{component}</ThemeProvider>);
+  return renderWithProviders(component);
 };
 
 describe('DisplayMnemonicScreen', () => {

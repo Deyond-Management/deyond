@@ -17,6 +17,8 @@ import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
 import { WalletManager } from '../core/wallet/WalletManager';
+import { useAppDispatch } from '../store/hooks';
+import { setMnemonic as setReduxMnemonic } from '../store/slices/onboardingSlice';
 
 interface DisplayMnemonicScreenProps {
   navigation: any;
@@ -33,6 +35,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
 }) => {
   const { theme } = useTheme();
   const { colors, spacing } = theme;
+  const dispatch = useAppDispatch();
   const [mnemonic, setMnemonic] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
 
@@ -42,11 +45,14 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
       try {
         const walletManager = WalletManager.getInstance();
         const generatedMnemonic = walletManager.generateMnemonic();
-        setMnemonic(generatedMnemonic.split(' '));
+        const words = generatedMnemonic.split(' ');
+        setMnemonic(words);
+        // Store mnemonic in Redux
+        dispatch(setReduxMnemonic(words));
       } catch (error) {
         console.error('Failed to generate mnemonic:', error);
         // Fallback to mock data for testing
-        setMnemonic([
+        const fallbackWords = [
           'abandon',
           'ability',
           'able',
@@ -59,12 +65,14 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
           'abuse',
           'access',
           'accident',
-        ]);
+        ];
+        setMnemonic(fallbackWords);
+        dispatch(setReduxMnemonic(fallbackWords));
       }
     };
 
     generateMnemonic();
-  }, []);
+  }, [dispatch]);
 
   // Handle copy to clipboard
   const handleCopy = () => {

@@ -15,6 +15,15 @@ import {
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  setBiometricEnabled,
+  setOnboardingComplete,
+  createWallet,
+  selectOnboardingLoading,
+  selectOnboardingError,
+} from '../store/slices/onboardingSlice';
+import { setWallet, unlockWallet } from '../store/slices/walletSlice';
 
 interface BiometricSetupScreenProps {
   navigation: any;
@@ -32,6 +41,9 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
 }) => {
   const { theme } = useTheme();
   const { colors, spacing } = theme;
+  const dispatch = useAppDispatch();
+  const reduxLoading = useAppSelector(selectOnboardingLoading);
+  const reduxError = useAppSelector(selectOnboardingError);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -41,14 +53,22 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
     setError('');
 
     try {
-      // In a real app, we would:
-      // 1. Request biometric permission
-      // 2. Authenticate with biometric
-      // 3. Store biometric preference
-      // 4. Create/import wallet with biometric protection
+      // Set biometric preference in Redux
+      dispatch(setBiometricEnabled(true));
 
-      // Simulate biometric setup
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Create wallet if mnemonic is provided
+      if (route.params.mnemonic && route.params.password) {
+        const result = await dispatch(
+          createWallet({
+            password: route.params.password,
+            mnemonic: route.params.mnemonic,
+          })
+        ).unwrap();
+      }
+
+      // Mark onboarding as complete
+      dispatch(setOnboardingComplete(true));
+      dispatch(unlockWallet());
 
       // Navigate to Home
       navigation.reset({
@@ -64,12 +84,39 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
   };
 
   // Handle skip
-  const handleSkip = () => {
-    // Navigate to Home without biometric
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Home' }],
-    });
+  const handleSkip = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Set biometric disabled
+      dispatch(setBiometricEnabled(false));
+
+      // Create wallet if mnemonic is provided
+      if (route.params.mnemonic && route.params.password) {
+        await dispatch(
+          createWallet({
+            password: route.params.password,
+            mnemonic: route.params.mnemonic,
+          })
+        ).unwrap();
+      }
+
+      // Mark onboarding as complete
+      dispatch(setOnboardingComplete(true));
+      dispatch(unlockWallet());
+
+      // Navigate to Home without biometric
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home' }],
+      });
+    } catch (err) {
+      console.error('Failed to create wallet:', err);
+      setError('Failed to create wallet. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

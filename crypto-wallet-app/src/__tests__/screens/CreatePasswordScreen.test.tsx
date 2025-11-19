@@ -4,9 +4,9 @@
  */
 
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { fireEvent } from '@testing-library/react-native';
 import { CreatePasswordScreen } from '../../screens/CreatePasswordScreen';
-import { ThemeProvider } from '../../contexts/ThemeContext';
+import { renderWithProviders } from '../utils/testUtils';
 
 // Mock navigation
 const mockNavigation = {
@@ -15,9 +15,9 @@ const mockNavigation = {
   setOptions: jest.fn(),
 };
 
-// Helper to render with theme
+// Helper to render with providers
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(<ThemeProvider>{component}</ThemeProvider>);
+  return renderWithProviders(component);
 };
 
 describe('CreatePasswordScreen', () => {

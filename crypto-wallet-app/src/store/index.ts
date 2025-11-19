@@ -9,6 +9,7 @@ import walletReducer from './slices/walletSlice';
 import transactionReducer from './slices/transactionSlice';
 import chatReducer from './slices/chatSlice';
 import networkReducer from './slices/networkSlice';
+import onboardingReducer from './slices/onboardingSlice';
 
 // Persist configurations
 const walletPersistConfig = {
@@ -35,11 +36,18 @@ const networkPersistConfig = {
   whitelist: ['currentNetwork', 'networks'], // Persist network configuration
 };
 
+const onboardingPersistConfig = {
+  key: 'onboarding',
+  storage: AsyncStorage,
+  whitelist: ['isComplete', 'biometricEnabled'], // Persist completion status
+};
+
 // Create persisted reducers
 const persistedWalletReducer = persistReducer(walletPersistConfig, walletReducer);
 const persistedTransactionReducer = persistReducer(transactionPersistConfig, transactionReducer);
 const persistedChatReducer = persistReducer(chatPersistConfig, chatReducer);
 const persistedNetworkReducer = persistReducer(networkPersistConfig, networkReducer);
+const persistedOnboardingReducer = persistReducer(onboardingPersistConfig, onboardingReducer);
 
 // Configure store
 export const store = configureStore({
@@ -48,6 +56,7 @@ export const store = configureStore({
     transaction: persistedTransactionReducer,
     chat: persistedChatReducer,
     network: persistedNetworkReducer,
+    onboarding: persistedOnboardingReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
