@@ -1,0 +1,177 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "continue": "Continue",
+    "back": "Back",
+    "done": "Done",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "copy": "Copy",
+    "share": "Share",
+    "retry": "Retry",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning"
+  },
+  "welcome": {
+    "title": "Welcome to Deyond Wallet",
+    "subtitle": "Secure crypto wallet for everyone",
+    "createWallet": "Create Wallet",
+    "importWallet": "Import Wallet"
+  },
+  "onboarding": {
+    "createPassword": {
+      "title": "Create Password",
+      "subtitle": "Set a strong password to protect your wallet",
+      "passwordPlaceholder": "Enter password",
+      "confirmPlaceholder": "Confirm password",
+      "requirements": {
+        "length": "At least 8 characters",
+        "uppercase": "One uppercase letter",
+        "lowercase": "One lowercase letter",
+        "number": "One number",
+        "special": "One special character"
+      },
+      "passwordsMatch": "Passwords match",
+      "passwordsDontMatch": "Passwords don't match"
+    },
+    "mnemonic": {
+      "title": "Recovery Phrase",
+      "subtitle": "Write down these 12 words in order",
+      "warning": "Never share your recovery phrase with anyone",
+      "copied": "Copied to clipboard",
+      "verify": "Verify Phrase"
+    },
+    "verifyMnemonic": {
+      "title": "Verify Recovery Phrase",
+      "subtitle": "Select the words in correct order",
+      "incorrect": "Incorrect word. Try again.",
+      "complete": "Verification complete"
+    },
+    "import": {
+      "title": "Import Wallet",
+      "subtitle": "Enter your 12-word recovery phrase",
+      "placeholder": "Enter recovery phrase",
+      "invalid": "Invalid recovery phrase",
+      "success": "Wallet imported successfully"
+    },
+    "biometric": {
+      "title": "Enable Biometric",
+      "subtitle": "Use Face ID or fingerprint for quick access",
+      "enable": "Enable",
+      "skip": "Skip for now"
+    }
+  },
+  "home": {
+    "title": "Wallet",
+    "totalBalance": "Total Balance",
+    "send": "Send",
+    "receive": "Receive",
+    "swap": "Swap",
+    "tokens": "Tokens",
+    "activity": "Activity",
+    "noTokens": "No tokens yet"
+  },
+  "send": {
+    "title": "Send",
+    "to": "To",
+    "amount": "Amount",
+    "addressPlaceholder": "Enter address or ENS",
+    "amountPlaceholder": "0.00",
+    "max": "MAX",
+    "insufficientBalance": "Insufficient balance",
+    "invalidAddress": "Invalid address",
+    "networkFee": "Network Fee",
+    "total": "Total",
+    "review": "Review Transaction"
+  },
+  "receive": {
+    "title": "Receive",
+    "subtitle": "Scan QR code or copy address",
+    "copyAddress": "Copy Address",
+    "copied": "Address copied",
+    "share": "Share Address"
+  },
+  "transaction": {
+    "preview": {
+      "title": "Transaction Preview",
+      "from": "From",
+      "to": "To",
+      "amount": "Amount",
+      "networkFee": "Network Fee",
+      "total": "Total",
+      "confirm": "Confirm & Send"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "failed": "Failed"
+    },
+    "history": {
+      "title": "Transaction History",
+      "empty": "No transactions yet",
+      "sent": "Sent",
+      "received": "Received",
+      "swapped": "Swapped"
+    },
+    "details": {
+      "title": "Transaction Details",
+      "hash": "Transaction Hash",
+      "block": "Block Number",
+      "timestamp": "Timestamp",
+      "gasUsed": "Gas Used",
+      "viewOnExplorer": "View on Explorer"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "security": "Security",
+    "network": "Network",
+    "about": "About",
+    "language": "Language",
+    "currency": "Currency",
+    "theme": "Theme",
+    "notifications": "Notifications",
+    "version": "Version"
+  },
+  "security": {
+    "title": "Security Settings",
+    "biometric": "Biometric Authentication",
+    "autoLock": "Auto-lock",
+    "autoLockOptions": {
+      "immediately": "Immediately",
+      "1min": "After 1 minute",
+      "5min": "After 5 minutes",
+      "15min": "After 15 minutes"
+    },
+    "changePassword": "Change Password",
+    "showRecoveryPhrase": "Show Recovery Phrase",
+    "warning": "Keep your recovery phrase safe"
+  },
+  "auth": {
+    "enterPin": "Enter PIN",
+    "createPin": "Create PIN",
+    "confirmPin": "Confirm PIN",
+    "incorrectPin": "Incorrect PIN",
+    "tooManyAttempts": "Too many attempts. Try again later.",
+    "useBiometric": "Use {{type}}",
+    "usePin": "Use PIN instead"
+  },
+  "network": {
+    "title": "Network",
+    "mainnet": "Mainnet",
+    "testnet": "Testnet",
+    "custom": "Custom RPC",
+    "addNetwork": "Add Network"
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "network": "Network error. Please try again.",
+    "timeout": "Request timed out",
+    "unauthorized": "Unauthorized access"
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "common": {
+    "cancel": "취소",
+    "confirm": "확인",
+    "continue": "계속",
+    "back": "뒤로",
+    "done": "완료",
+    "save": "저장",
+    "delete": "삭제",
+    "edit": "편집",
+    "copy": "복사",
+    "share": "공유",
+    "retry": "재시도",
+    "loading": "로딩중...",
+    "error": "오류",
+    "success": "성공",
+    "warning": "경고"
+  },
+  "welcome": {
+    "title": "Deyond Wallet에 오신 것을 환영합니다",
+    "subtitle": "모두를 위한 안전한 암호화폐 지갑",
+    "createWallet": "지갑 생성",
+    "importWallet": "지갑 가져오기"
+  },
+  "onboarding": {
+    "createPassword": {
+      "title": "비밀번호 생성",
+      "subtitle": "지갑을 보호할 강력한 비밀번호를 설정하세요",
+      "passwordPlaceholder": "비밀번호 입력",
+      "confirmPlaceholder": "비밀번호 확인",
+      "requirements": {
+        "length": "8자 이상",
+        "uppercase": "대문자 1개",
+        "lowercase": "소문자 1개",
+        "number": "숫자 1개",
+        "special": "특수문자 1개"
+      },
+      "passwordsMatch": "비밀번호가 일치합니다",
+      "passwordsDontMatch": "비밀번호가 일치하지 않습니다"
+    },
+    "mnemonic": {
+      "title": "복구 문구",
+      "subtitle": "이 12개의 단어를 순서대로 적어두세요",
+      "warning": "복구 문구를 절대 다른 사람과 공유하지 마세요",
+      "copied": "클립보드에 복사됨",
+      "verify": "문구 확인"
+    },
+    "verifyMnemonic": {
+      "title": "복구 문구 확인",
+      "subtitle": "올바른 순서로 단어를 선택하세요",
+      "incorrect": "잘못된 단어입니다. 다시 시도하세요.",
+      "complete": "확인 완료"
+    },
+    "import": {
+      "title": "지갑 가져오기",
+      "subtitle": "12개의 복구 문구를 입력하세요",
+      "placeholder": "복구 문구 입력",
+      "invalid": "유효하지 않은 복구 문구",
+      "success": "지갑을 성공적으로 가져왔습니다"
+    },
+    "biometric": {
+      "title": "생체 인증 활성화",
+      "subtitle": "빠른 접근을 위해 Face ID 또는 지문을 사용하세요",
+      "enable": "활성화",
+      "skip": "나중에 하기"
+    }
+  },
+  "home": {
+    "title": "지갑",
+    "totalBalance": "총 잔액",
+    "send": "보내기",
+    "receive": "받기",
+    "swap": "스왑",
+    "tokens": "토큰",
+    "activity": "활동",
+    "noTokens": "아직 토큰이 없습니다"
+  },
+  "send": {
+    "title": "보내기",
+    "to": "받는 주소",
+    "amount": "금액",
+    "addressPlaceholder": "주소 또는 ENS 입력",
+    "amountPlaceholder": "0.00",
+    "max": "최대",
+    "insufficientBalance": "잔액 부족",
+    "invalidAddress": "유효하지 않은 주소",
+    "networkFee": "네트워크 수수료",
+    "total": "총액",
+    "review": "거래 검토"
+  },
+  "receive": {
+    "title": "받기",
+    "subtitle": "QR 코드를 스캔하거나 주소를 복사하세요",
+    "copyAddress": "주소 복사",
+    "copied": "주소가 복사되었습니다",
+    "share": "주소 공유"
+  },
+  "transaction": {
+    "preview": {
+      "title": "거래 미리보기",
+      "from": "보내는 주소",
+      "to": "받는 주소",
+      "amount": "금액",
+      "networkFee": "네트워크 수수료",
+      "total": "총액",
+      "confirm": "확인 및 보내기"
+    },
+    "status": {
+      "pending": "대기중",
+      "confirmed": "확인됨",
+      "failed": "실패"
+    },
+    "history": {
+      "title": "거래 내역",
+      "empty": "아직 거래가 없습니다",
+      "sent": "보냄",
+      "received": "받음",
+      "swapped": "스왑"
+    },
+    "details": {
+      "title": "거래 상세",
+      "hash": "거래 해시",
+      "block": "블록 번호",
+      "timestamp": "타임스탬프",
+      "gasUsed": "사용된 가스",
+      "viewOnExplorer": "익스플로러에서 보기"
+    }
+  },
+  "settings": {
+    "title": "설정",
+    "general": "일반",
+    "security": "보안",
+    "network": "네트워크",
+    "about": "정보",
+    "language": "언어",
+    "currency": "통화",
+    "theme": "테마",
+    "notifications": "알림",
+    "version": "버전"
+  },
+  "security": {
+    "title": "보안 설정",
+    "biometric": "생체 인증",
+    "autoLock": "자동 잠금",
+    "autoLockOptions": {
+      "immediately": "즉시",
+      "1min": "1분 후",
+      "5min": "5분 후",
+      "15min": "15분 후"
+    },
+    "changePassword": "비밀번호 변경",
+    "showRecoveryPhrase": "복구 문구 보기",
+    "warning": "복구 문구를 안전하게 보관하세요"
+  },
+  "auth": {
+    "enterPin": "PIN 입력",
+    "createPin": "PIN 생성",
+    "confirmPin": "PIN 확인",
+    "incorrectPin": "잘못된 PIN",
+    "tooManyAttempts": "시도 횟수 초과. 나중에 다시 시도하세요.",
+    "useBiometric": "{{type}} 사용",
+    "usePin": "PIN 사용"
+  },
+  "network": {
+    "title": "네트워크",
+    "mainnet": "메인넷",
+    "testnet": "테스트넷",
+    "custom": "커스텀 RPC",
+    "addNetwork": "네트워크 추가"
+  },
+  "errors": {
+    "generic": "문제가 발생했습니다",
+    "network": "네트워크 오류. 다시 시도해 주세요.",
+    "timeout": "요청 시간 초과",
+    "unauthorized": "권한이 없습니다"
+  }
+}
