@@ -15,9 +15,39 @@ const mockNavigation = {
   setOptions: jest.fn(),
 };
 
+// Pre-populated token state for tests
+const preloadedTokenState = {
+  token: {
+    tokens: [
+      {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        balance: '1.5',
+        usdValue: '2850.45',
+        priceChange24h: 2.35,
+        contractAddress: '0x0000000000000000000000000000000000000000',
+        decimals: 18,
+      },
+      {
+        symbol: 'USDT',
+        name: 'Tether USD',
+        balance: '500.00',
+        usdValue: '500.00',
+        priceChange24h: 0.01,
+        contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+        decimals: 6,
+      },
+    ],
+    totalBalance: '3350.45',
+    isLoading: false,
+    error: null,
+    lastUpdated: Date.now(),
+  },
+};
+
 // Wrapper with providers
 const renderWithTheme = (component: React.ReactElement) => {
-  return renderWithProviders(component);
+  return renderWithProviders(component, { preloadedState: preloadedTokenState });
 };
 
 describe('HomeScreen', () => {

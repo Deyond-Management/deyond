@@ -10,6 +10,7 @@ import transactionReducer from './slices/transactionSlice';
 import chatReducer from './slices/chatSlice';
 import networkReducer from './slices/networkSlice';
 import onboardingReducer from './slices/onboardingSlice';
+import tokenReducer from './slices/tokenSlice';
 
 // Persist configurations
 const walletPersistConfig = {
@@ -57,6 +58,7 @@ export const store = configureStore({
     chat: persistedChatReducer,
     network: persistedNetworkReducer,
     onboarding: persistedOnboardingReducer,
+    token: tokenReducer, // Token balances not persisted - fetched fresh
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

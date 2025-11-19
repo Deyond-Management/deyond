@@ -3,7 +3,7 @@
  * Main dashboard showing wallet balance, tokens, and recent transactions
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,12 +13,20 @@ import {
   RefreshControl,
   TouchableOpacity,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { TokenCard } from '../components/molecules/TokenCard';
 import { TransactionCard } from '../components/molecules/TransactionCard';
-import { useAppSelector } from '../store/hooks';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import {
+  fetchTokenBalances,
+  refreshTokenBalances,
+  selectTokens,
+  selectTotalBalance,
+  selectTokenLoading,
+} from '../store/slices/tokenSlice';
 
 interface HomeScreenProps {
   navigation: any;
@@ -26,38 +34,36 @@ interface HomeScreenProps {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch();
   const [refreshing, setRefreshing] = useState(false);
   const [selectedNetwork, setSelectedNetwork] = useState('Ethereum Mainnet');
 
   // Get wallet state from Redux
   const isWalletInitialized = useAppSelector(state => state.wallet?.isInitialized ?? false);
-  const walletAddress = '0x1234...5678'; // Will come from Redux in full implementation
+  const walletAddress = '0x1234567890123456789012345678901234567890'; // Full address for API
+
+  // Get token state from Redux
+  const tokens = useAppSelector(selectTokens);
+  const totalBalance = useAppSelector(selectTotalBalance);
+  const isLoading = useAppSelector(selectTokenLoading);
+
+  // Fetch balances on mount
+  useEffect(() => {
+    dispatch(fetchTokenBalances(walletAddress));
+  }, [dispatch, walletAddress]);
 
   // Pull to refresh handler
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    // Simulate fetching new data
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await dispatch(refreshTokenBalances(walletAddress));
     setRefreshing(false);
-  }, []);
+  }, [dispatch, walletAddress]);
 
-  // Mock data - in real app, this would come from Redux store
-  const mockTokens = [
-    {
-      symbol: 'ETH',
-      name: 'Ethereum',
-      balance: '1.5',
-      usdValue: '2250.00',
-      priceChange24h: 5.23,
-    },
-    {
-      symbol: 'BTC',
-      name: 'Bitcoin',
-      balance: '0.05',
-      usdValue: '1500.00',
-      priceChange24h: -2.15,
-    },
-  ];
+  // Format total balance for display
+  const formattedTotalBalance = parseFloat(totalBalance).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   const mockTransactions = [
     {
@@ -82,17 +88,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     },
   ];
 
-  // Calculate total balance
-  const calculateTotalBalance = (): string => {
-    const total = mockTokens.reduce(
-      (sum, token) => sum + parseFloat(token.usdValue),
-      0
-    );
-    return total.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
+  // Truncate address for display
+  const truncatedAddress = `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`;
 
   const handleSend = () => {
     navigation.navigate('Send');
@@ -138,7 +135,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               Wallet
             </Text>
             <Text style={[styles.headerAddress, { color: theme.colors.text.secondary }]}>
-              {walletAddress}
+              {truncatedAddress}
             </Text>
           </View>
           <TouchableOpacity
@@ -176,7 +173,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             style={[styles.balanceAmount, { color: theme.colors.text.primary }]}
             testID="total-balance"
           >
-            ${calculateTotalBalance()}
+            ${formattedTotalBalance}
           </Text>
         </View>
 
@@ -213,15 +210,32 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
             My Tokens
           </Text>
-          {mockTokens.map((token, index) => (
-            <TokenCard
-              key={token.symbol}
-              {...token}
-              onPress={() => handleTokenPress(token.symbol)}
-              testID={`token-card-${index}`}
-              style={styles.card}
-            />
-          ))}
+          {isLoading && tokens.length === 0 ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color={theme.colors.primary} />
+              <Text style={[styles.loadingText, { color: theme.colors.text.secondary }]}>
+                Loading balances...
+              </Text>
+            </View>
+          ) : tokens.length > 0 ? (
+            tokens.map((token, index) => (
+              <TokenCard
+                key={token.symbol}
+                symbol={token.symbol}
+                name={token.name}
+                balance={token.balance}
+                usdValue={token.usdValue}
+                priceChange24h={token.priceChange24h}
+                onPress={() => handleTokenPress(token.symbol)}
+                testID={`token-card-${index}`}
+                style={styles.card}
+              />
+            ))
+          ) : (
+            <Text style={[styles.emptyText, { color: theme.colors.text.secondary }]}>
+              No tokens found
+            </Text>
+          )}
         </View>
 
         {/* Transactions Section */}
@@ -335,6 +349,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     paddingVertical: 32,
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    paddingVertical: 32,
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 14,
   },
 });
 
