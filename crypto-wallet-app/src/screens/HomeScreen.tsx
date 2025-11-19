@@ -3,18 +3,22 @@
  * Main dashboard showing wallet balance, tokens, and recent transactions
  */
 
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   SafeAreaView,
+  RefreshControl,
+  TouchableOpacity,
+  Linking,
 } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { TokenCard } from '../components/molecules/TokenCard';
 import { TransactionCard } from '../components/molecules/TransactionCard';
+import { useAppSelector } from '../store/hooks';
 
 interface HomeScreenProps {
   navigation: any;
@@ -22,6 +26,20 @@ interface HomeScreenProps {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { theme } = useTheme();
+  const [refreshing, setRefreshing] = useState(false);
+  const [selectedNetwork, setSelectedNetwork] = useState('Ethereum Mainnet');
+
+  // Get wallet state from Redux
+  const isWalletInitialized = useAppSelector(state => state.wallet?.isInitialized ?? false);
+  const walletAddress = '0x1234...5678'; // Will come from Redux in full implementation
+
+  // Pull to refresh handler
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    // Simulate fetching new data
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setRefreshing(false);
+  }, []);
 
   // Mock data - in real app, this would come from Redux store
   const mockTokens = [
@@ -84,6 +102,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     navigation.navigate('Receive');
   };
 
+  const handleBuy = () => {
+    // Open external buy crypto link (placeholder)
+    Linking.openURL('https://buy.crypto.example.com');
+  };
+
+  const handleNetworkSelect = () => {
+    // Will open network selector modal
+    navigation.navigate('NetworkSelector');
+  };
+
   const handleTokenPress = (symbol: string) => {
     navigation.navigate('TokenDetails', { symbol });
   };
@@ -104,18 +132,40 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         ]}
         testID="account-header"
       >
-        <Text style={[styles.headerTitle, { color: theme.colors.text.primary }]}>
-          Wallet
-        </Text>
-        <Text style={[styles.headerAddress, { color: theme.colors.text.secondary }]}>
-          0x1234...5678
-        </Text>
+        <View style={styles.headerTop}>
+          <View>
+            <Text style={[styles.headerTitle, { color: theme.colors.text.primary }]}>
+              Wallet
+            </Text>
+            <Text style={[styles.headerAddress, { color: theme.colors.text.secondary }]}>
+              {walletAddress}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={[styles.networkSelector, { backgroundColor: theme.colors.surface }]}
+            onPress={handleNetworkSelect}
+            testID="network-selector"
+          >
+            <View style={[styles.networkDot, { backgroundColor: '#4CAF50' }]} />
+            <Text style={[styles.networkName, { color: theme.colors.text.primary }]}>
+              {selectedNetwork.includes('Mainnet') ? 'Ethereum' : selectedNetwork}
+            </Text>
+            <Text style={[styles.networkArrow, { color: theme.colors.text.secondary }]}>▼</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         testID="home-scroll"
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={theme.colors.primary}
+          />
+        }
       >
         {/* Total Balance Section */}
         <View style={styles.balanceSection}>
@@ -147,6 +197,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             accessibilityLabel="Receive"
           >
             Receive
+          </Button>
+          <Button
+            onPress={handleBuy}
+            variant="outlined"
+            style={styles.actionButton}
+            accessibilityLabel="Buy"
+          >
+            Buy
           </Button>
         </View>
 
@@ -200,6 +258,11 @@ const styles = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
   },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -207,6 +270,26 @@ const styles = StyleSheet.create({
   },
   headerAddress: {
     fontSize: 14,
+  },
+  networkSelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    gap: 6,
+  },
+  networkDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  networkName: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  networkArrow: {
+    fontSize: 8,
   },
   scrollView: {
     flex: 1,

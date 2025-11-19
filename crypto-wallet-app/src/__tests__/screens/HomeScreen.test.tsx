@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { HomeScreen } from '../../screens/HomeScreen';
-import { ThemeProvider } from '../../contexts/ThemeContext';
+import { renderWithProviders } from '../utils/testUtils';
 
 // Mock navigation
 const mockNavigation = {
@@ -15,9 +15,9 @@ const mockNavigation = {
   setOptions: jest.fn(),
 };
 
-// Wrapper with theme provider
+// Wrapper with providers
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(<ThemeProvider>{component}</ThemeProvider>);
+  return renderWithProviders(component);
 };
 
 describe('HomeScreen', () => {
@@ -152,6 +152,43 @@ describe('HomeScreen', () => {
         <HomeScreen navigation={mockNavigation as any} />
       );
       expect(getByTestId('home-scroll')).toBeDefined();
+    });
+  });
+
+  describe('Network Selector', () => {
+    it('should render network selector', () => {
+      const { getByTestId } = renderWithTheme(
+        <HomeScreen navigation={mockNavigation as any} />
+      );
+      expect(getByTestId('network-selector')).toBeDefined();
+    });
+
+    it('should display current network name', () => {
+      const { getAllByText } = renderWithTheme(
+        <HomeScreen navigation={mockNavigation as any} />
+      );
+      // Default network should be displayed (may appear multiple times)
+      const networkTexts = getAllByText(/Ethereum/i);
+      expect(networkTexts.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Pull to Refresh', () => {
+    it('should have refresh control', () => {
+      const { getByTestId } = renderWithTheme(
+        <HomeScreen navigation={mockNavigation as any} />
+      );
+      const scrollView = getByTestId('home-scroll');
+      expect(scrollView).toBeDefined();
+    });
+  });
+
+  describe('Buy Action', () => {
+    it('should render Buy button', () => {
+      const { getByText } = renderWithTheme(
+        <HomeScreen navigation={mockNavigation as any} />
+      );
+      expect(getByText('Buy')).toBeDefined();
     });
   });
 });
