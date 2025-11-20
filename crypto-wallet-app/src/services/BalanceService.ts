@@ -1,0 +1,197 @@
+/**
+ * Balance Service
+ * Handles fetching and formatting token balances
+ */
+
+export interface TokenBalance {
+  symbol: string;
+  name: string;
+  balance: string;
+  usdValue: string;
+  priceChange24h: number;
+  contractAddress: string;
+  decimals: number;
+  logoUrl?: string;
+}
+
+export class BalanceError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'BalanceError';
+  }
+}
+
+export class BalanceService {
+  private cache: Map<string, { data: TokenBalance[]; timestamp: number }> = new Map();
+  private cacheTimeout = 30000; // 30 seconds
+
+  /**
+   * Validate Ethereum address format
+   */
+  private validateAddress(address: string): boolean {
+    return /^0x[a-fA-F0-9]{40}$/.test(address);
+  }
+
+  /**
+   * Get native token (ETH) balance
+   */
+  async getNativeBalance(address: string): Promise<TokenBalance> {
+    if (!this.validateAddress(address)) {
+      throw new BalanceError('Invalid Ethereum address');
+    }
+
+    // Check cache
+    const cached = this.cache.get(address);
+    if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
+      const nativeToken = cached.data.find(t => t.symbol === 'ETH');
+      if (nativeToken) return nativeToken;
+    }
+
+    // Mock balance - in real app, would fetch from blockchain
+    const balance: TokenBalance = {
+      symbol: 'ETH',
+      name: 'Ethereum',
+      balance: '1.5234',
+      usdValue: '2850.45',
+      priceChange24h: 2.35,
+      contractAddress: '0x0000000000000000000000000000000000000000',
+      decimals: 18,
+    };
+
+    return balance;
+  }
+
+  /**
+   * Get all token balances for an address
+   */
+  async getTokenBalances(address: string): Promise<TokenBalance[]> {
+    if (!this.validateAddress(address)) {
+      throw new BalanceError('Invalid Ethereum address');
+    }
+
+    // Check cache
+    const cached = this.cache.get(address);
+    if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
+      return cached.data;
+    }
+
+    // Mock token balances - in real app, would fetch from blockchain/API
+    const balances: TokenBalance[] = [
+      {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        balance: '1.5234',
+        usdValue: '2850.45',
+        priceChange24h: 2.35,
+        contractAddress: '0x0000000000000000000000000000000000000000',
+        decimals: 18,
+      },
+      {
+        symbol: 'USDT',
+        name: 'Tether USD',
+        balance: '500.00',
+        usdValue: '500.00',
+        priceChange24h: 0.01,
+        contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+        decimals: 6,
+      },
+      {
+        symbol: 'USDC',
+        name: 'USD Coin',
+        balance: '250.50',
+        usdValue: '250.50',
+        priceChange24h: -0.02,
+        contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+        decimals: 6,
+      },
+      {
+        symbol: 'LINK',
+        name: 'Chainlink',
+        balance: '15.75',
+        usdValue: '187.43',
+        priceChange24h: 5.67,
+        contractAddress: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
+        decimals: 18,
+      },
+    ];
+
+    // Cache the result
+    this.cache.set(address, {
+      data: balances,
+      timestamp: Date.now(),
+    });
+
+    return balances;
+  }
+
+  /**
+   * Get total USD value of all tokens
+   */
+  async getTotalBalance(address: string): Promise<string> {
+    const balances = await this.getTokenBalances(address);
+
+    const total = balances.reduce((sum, token) => {
+      return sum + parseFloat(token.usdValue);
+    }, 0);
+
+    return total.toFixed(2);
+  }
+
+  /**
+   * Format balance with proper decimal places
+   */
+  formatBalance(balance: string): string {
+    const num = parseFloat(balance);
+
+    if (num === 0) return '0';
+
+    if (num >= 1000) {
+      return num.toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+    }
+
+    // For small numbers, preserve significant digits
+    if (num < 0.01) {
+      return balance;
+    }
+
+    return num.toLocaleString('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 6,
+    });
+  }
+
+  /**
+   * Format USD value with dollar sign
+   */
+  formatUSD(value: string): string {
+    const num = parseFloat(value);
+
+    return num.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }
+
+  /**
+   * Clear cached balances
+   */
+  clearCache(): void {
+    this.cache.clear();
+  }
+
+  /**
+   * Refresh balance for an address (bypasses cache)
+   */
+  async refreshBalance(address: string): Promise<TokenBalance[]> {
+    this.cache.delete(address);
+    return this.getTokenBalances(address);
+  }
+}
+
+// Singleton instance
+export const balanceService = new BalanceService();
