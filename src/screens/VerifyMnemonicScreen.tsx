@@ -202,7 +202,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
                   style={[
                     styles.positionText,
                     {
-                      color: position.selectedWord ? colors.text : colors.textSecondary,
+                      color: position.selectedWord ? colors.text.primary : colors.textSecondary,
                     },
                   ]}
                 >
@@ -242,7 +242,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
                     style={[
                       styles.wordOptionText,
                       {
-                        color: isUsed ? colors.textSecondary : colors.text,
+                        color: isUsed ? colors.textSecondary : colors.text.primary,
                       },
                     ]}
                   >

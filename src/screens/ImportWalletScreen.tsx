@@ -136,7 +136,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
               style={[
                 styles.tabText,
                 {
-                  color: importMethod === 'mnemonic' ? '#FFFFFF' : colors.text,
+                  color: importMethod === 'mnemonic' ? '#FFFFFF' : colors.text.primary,
                 },
               ]}
             >
@@ -164,7 +164,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
               style={[
                 styles.tabText,
                 {
-                  color: importMethod === 'privateKey' ? '#FFFFFF' : colors.text,
+                  color: importMethod === 'privateKey' ? '#FFFFFF' : colors.text.primary,
                 },
               ]}
             >
@@ -184,7 +184,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                 style={[
                   styles.textInput,
                   {
-                    color: colors.text,
+                    color: colors.text.primary,
                     backgroundColor: colors.surface,
                     borderColor: error ? colors.error : colors.border,
                   },
@@ -215,7 +215,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                 style={[
                   styles.textInput,
                   {
-                    color: colors.text,
+                    color: colors.text.primary,
                     backgroundColor: colors.surface,
                     borderColor: error ? colors.error : colors.border,
                   },

@@ -156,8 +156,7 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
             placeholder="Recipient address (0x...)"
             value={recipientAddress}
             onChangeText={handleAddressChange}
-            error={!!addressError}
-            errorMessage={addressError}
+            error={addressError}
             accessibilityLabel="Recipient address"
           />
         </Card>
@@ -171,8 +170,7 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
               value={amount}
               onChangeText={handleAmountChange}
               type="number"
-              error={!!amountError}
-              errorMessage={amountError}
+              error={amountError}
               accessibilityLabel="Amount"
             />
             <TouchableOpacity

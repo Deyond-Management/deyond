@@ -60,7 +60,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     chainId: n.chainId,
     rpcUrl: n.rpcUrl,
     symbol: n.currencySymbol,
-    blockExplorer: n.blockExplorerUrl,
+    blockExplorer: n.blockExplorerUrl || '',
     isTestnet: n.isTestnet,
   }));
 

@@ -200,7 +200,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
                 <Text
                   style={[
                     styles.ruleText,
-                    { color: isValid ? colors.text : colors.textSecondary },
+                    { color: isValid ? colors.text.primary : colors.textSecondary },
                   ]}
                 >
                   {rule.label}
