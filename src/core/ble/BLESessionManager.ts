@@ -5,7 +5,7 @@
 
 import { secp256k1 } from '@noble/curves/secp256k1';
 import { sha256 } from '@noble/hashes/sha256';
-import { Wallet } from 'ethers';
+import { Wallet, verifyMessage } from 'ethers';
 import { BLESession, SessionHandshake, SessionStatus } from '../../types/ble';
 import { CryptoUtils } from '../crypto/CryptoUtils';
 
@@ -201,10 +201,7 @@ export class BLESessionManager {
     address: string
   ): Promise<boolean> {
     try {
-      const recoveredAddress = Wallet.recoverAddress(
-        Wallet.hashMessage(message),
-        signature
-      );
+      const recoveredAddress = verifyMessage(message, signature);
       return recoveredAddress.toLowerCase() === address.toLowerCase();
     } catch (error) {
       return false;

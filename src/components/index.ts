@@ -9,17 +9,17 @@ export { Input } from './atoms/Input';
 export { Avatar } from './atoms/Avatar';
 export { Divider } from './atoms/Divider';
 export { Switch } from './atoms/Switch';
+export { Card } from './atoms/Card';
 export { SkeletonLoader, SkeletonText, SkeletonCard, TokenCardSkeleton, TransactionCardSkeleton, BalanceSkeleton } from './atoms/SkeletonLoader';
 export { ErrorDisplay } from './atoms/ErrorDisplay';
 export { EmptyState } from './atoms/EmptyState';
 
 // Molecules
-export { Card } from './molecules/Card';
 export { TokenCard } from './molecules/TokenCard';
 export { TransactionCard } from './molecules/TransactionCard';
-export { NetworkSelectorModal } from './molecules/NetworkSelectorModal';
 
 // Organisms
+export { NetworkSelectorModal } from './organisms/NetworkSelectorModal';
 export { TransactionDetailModal } from './organisms/TransactionDetailModal';
 
 // Utilities

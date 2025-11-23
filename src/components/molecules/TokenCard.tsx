@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   ViewStyle,
   TextStyle,
+  ImageStyle,
   ImageSourcePropType,
 } from 'react-native';
 import { Card } from '../atoms/Card';
@@ -95,7 +96,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({
   };
 
   // Icon style
-  const iconStyle: ViewStyle = {
+  const iconStyle: ImageStyle = {
     width: 40,
     height: 40,
     borderRadius: 20,
@@ -161,9 +162,10 @@ export const TokenCard: React.FC<TokenCardProps> = ({
   if (loading) {
     return (
       <Card
-        style={[containerStyle, style]}
+        style={style}
         testID={testID}
         elevation={1}
+        padding="md"
       >
         <View style={{ alignItems: 'center', paddingVertical: theme.spacing.lg }}>
           <ActivityIndicator

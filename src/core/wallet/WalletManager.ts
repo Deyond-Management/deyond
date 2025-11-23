@@ -32,6 +32,13 @@ export class WalletManager {
   }
 
   /**
+   * Validate mnemonic phrase
+   */
+  validateMnemonic(mnemonic: string): boolean {
+    return bip39.validateMnemonic(mnemonic);
+  }
+
+  /**
    * Create a new wallet with random mnemonic
    */
   async createWallet(password: string): Promise<WalletData> {

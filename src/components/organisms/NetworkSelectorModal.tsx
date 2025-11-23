@@ -70,7 +70,7 @@ export const NetworkSelectorModal: React.FC<NetworkSelectorModalProps> = ({
                   { borderBottomColor: colors.divider },
                 ]}
               >
-                <Text style={[styles.title, { color: colors.text }]}>
+                <Text style={[styles.title, { color: colors.text.primary }]}>
                   Select Network
                 </Text>
                 <TouchableOpacity
@@ -117,7 +117,7 @@ export const NetworkSelectorModal: React.FC<NetworkSelectorModalProps> = ({
                         <View style={styles.networkDetails}>
                           <View style={styles.networkNameRow}>
                             <Text
-                              style={[styles.networkName, { color: colors.text }]}
+                              style={[styles.networkName, { color: colors.text.primary }]}
                             >
                               {network.name}
                             </Text>

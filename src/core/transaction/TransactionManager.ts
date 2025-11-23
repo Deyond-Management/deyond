@@ -147,19 +147,26 @@ export class TransactionManager {
         throw new Error('Transaction receipt not found');
       }
 
+      // Get transaction details for properties not in receipt
+      const tx = await this.provider.getTransaction(txHash);
+
+      if (!tx) {
+        throw new Error('Transaction not found');
+      }
+
       return {
         id: txHash,
         hash: txHash,
         from: receipt.from,
         to: receipt.to || '',
-        value: receipt.value ? ethers.formatEther(receipt.value) : '0',
-        gasLimit: receipt.gasLimit.toString(),
-        gasPrice: receipt.gasPrice ? receipt.gasPrice.toString() : undefined,
-        nonce: receipt.nonce,
-        chainId: Number(receipt.chainId),
+        value: tx.value ? ethers.formatEther(tx.value) : '0',
+        gasLimit: tx.gasLimit.toString(),
+        gasPrice: tx.gasPrice ? tx.gasPrice.toString() : undefined,
+        nonce: tx.nonce,
+        chainId: Number(tx.chainId),
         status: receipt.status === 1 ? TransactionStatus.CONFIRMED : TransactionStatus.FAILED,
         timestamp: Date.now(),
-        confirmations: receipt.confirmations,
+        confirmations: await receipt.confirmations(),
       };
     } catch (error) {
       throw new Error(

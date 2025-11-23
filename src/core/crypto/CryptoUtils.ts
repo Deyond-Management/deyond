@@ -61,7 +61,7 @@ export class CryptoUtils {
       // Import key for Web Crypto API
       const cryptoKey = await crypto.subtle.importKey(
         'raw',
-        key,
+        key as BufferSource,
         { name: 'AES-GCM' },
         false,
         ['encrypt']
@@ -112,7 +112,7 @@ export class CryptoUtils {
       // Import key for Web Crypto API
       const cryptoKey = await crypto.subtle.importKey(
         'raw',
-        key,
+        key as BufferSource,
         { name: 'AES-GCM' },
         false,
         ['decrypt']

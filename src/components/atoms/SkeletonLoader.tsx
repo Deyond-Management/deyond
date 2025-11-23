@@ -59,18 +59,20 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
       })
     : 0.5;
 
+  const baseStyle = {
+    width,
+    height,
+    borderRadius,
+    backgroundColor: theme.colors.surface,
+  };
+
   return (
     <Animated.View
       testID={testID}
       style={[
         styles.skeleton,
-        {
-          width,
-          height,
-          borderRadius,
-          backgroundColor: theme.colors.surface,
-          opacity,
-        },
+        baseStyle,
+        { opacity },
         style,
       ]}
     />

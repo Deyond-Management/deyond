@@ -35,21 +35,21 @@ const mockMessages = [
     content: 'Hello!',
     timestamp: Date.now() - 1000 * 60 * 10,
     isOwn: false,
-    status: 'delivered',
+    status: 'delivered' as const,
   },
   {
     id: 'msg-2',
     content: 'Hi there! How are you?',
     timestamp: Date.now() - 1000 * 60 * 5,
     isOwn: true,
-    status: 'read',
+    status: 'read' as const,
   },
   {
     id: 'msg-3',
     content: 'I am doing great, thanks for asking!',
     timestamp: Date.now() - 1000 * 60 * 2,
     isOwn: false,
-    status: 'delivered',
+    status: 'delivered' as const,
   },
 ];
 

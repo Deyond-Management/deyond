@@ -3,7 +3,6 @@
  * Export all services for clean imports
  */
 
-export { WalletService } from './WalletService';
 export { GasService } from './GasService';
 export { TransactionService } from './TransactionService';
 export { ChatService } from './ChatService';
