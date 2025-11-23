@@ -9,10 +9,11 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
+  
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { EmptyState } from '../components/atoms/EmptyState';
 import { Button } from '../components/atoms/Button';
