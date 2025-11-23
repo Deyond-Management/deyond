@@ -18,7 +18,18 @@ export interface WalletData {
 export class WalletManager {
   private static readonly DERIVATION_PATH = "m/44'/60'/0'/0";
   private static readonly VAULT_VERSION = '1.0.0';
+  private static instance: WalletManager | null = null;
   private vault: SecureVault | null = null;
+
+  /**
+   * Get singleton instance of WalletManager
+   */
+  static getInstance(): WalletManager {
+    if (!WalletManager.instance) {
+      WalletManager.instance = new WalletManager();
+    }
+    return WalletManager.instance;
+  }
 
   /**
    * Create a new wallet with random mnemonic

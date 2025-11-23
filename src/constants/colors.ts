@@ -159,7 +159,12 @@ export interface ThemeColors {
   background: string;
   surface: string;
   card: string;
-  text: string;
+  text: {
+    primary: string;
+    secondary: string;
+    disabled: string;
+    hint: string;
+  };
   textSecondary: string;
   divider: string;
   border: string;
@@ -182,7 +187,7 @@ export const getThemeColors = (scheme: ColorScheme): ThemeColors => {
     background: base.background,
     surface: base.surface,
     card: base.card,
-    text: base.text.primary,
+    text: base.text,
     textSecondary: base.text.secondary,
     divider: base.divider,
     border: base.border,

@@ -12,6 +12,7 @@ import { Appearance } from 'react-native';
 interface ThemeContextType {
   theme: Theme;
   colorScheme: ColorScheme | 'auto';
+  isDark: boolean;
   setColorScheme: (scheme: ColorScheme | 'auto') => void;
   toggleTheme: () => void;
 }
@@ -77,6 +78,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const value: ThemeContextType = {
     theme,
     colorScheme,
+    isDark: actualScheme === 'dark',
     setColorScheme,
     toggleTheme,
   };

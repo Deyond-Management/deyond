@@ -16,7 +16,7 @@ import { AppNavigator } from './src/navigation/AppNavigator';
 const AppContent: React.FC = () => {
   const { theme, isDark } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated] = useState(false);
 
   useEffect(() => {
     // Simulate app initialization
