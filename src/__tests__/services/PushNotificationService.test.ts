@@ -62,7 +62,7 @@ describe('PushNotificationService', () => {
       await pushService.scheduleNotification({
         title: 'Delayed',
         body: 'Body',
-        trigger: { seconds: 60 },
+        trigger: { seconds: 60 } as any,
       });
 
       expect(Notifications.scheduleNotificationAsync).toHaveBeenCalledWith(

@@ -89,12 +89,12 @@ export const AppNavigator: React.FC<AppNavigatorProps> = ({
       {/* Transaction Flow */}
       <Stack.Screen
         name="TransactionPreview"
-        component={TransactionPreviewScreen}
+        component={TransactionPreviewScreen as any}
         options={{ animation: 'slide_from_bottom' }}
       />
       <Stack.Screen
         name="TransactionStatus"
-        component={TransactionStatusScreen}
+        component={TransactionStatusScreen as any}
         options={{ gestureEnabled: false }}
       />
 

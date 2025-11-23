@@ -16,7 +16,7 @@ interface TokenApproval {
 }
 
 // Known scam contracts (should be updated regularly)
-const KNOWN_SCAM_CONTRACTS = new Set([
+const KNOWN_SCAM_CONTRACTS = new Set<string>([
   // Add known scam contract addresses
 ]);
 
@@ -33,7 +33,7 @@ export class ContractSecurityService {
    */
   async validateContract(address: string, chainId: number): Promise<ContractValidation> {
     const warnings: string[] = [];
-    let riskLevel: ContractValidation['riskLevel'] = 'low';
+    let riskLevel: 'low' | 'medium' | 'high' | 'critical' = 'low';
 
     // Check if known scam
     if (KNOWN_SCAM_CONTRACTS.has(address.toLowerCase())) {
@@ -57,8 +57,10 @@ export class ContractSecurityService {
       riskLevel = 'high';
     }
 
+    const isCritical = (riskLevel as string) === 'critical';
+
     return {
-      isValid: warnings.length === 0 || riskLevel !== 'critical',
+      isValid: warnings.length === 0 || !isCritical,
       warnings,
       riskLevel,
     };

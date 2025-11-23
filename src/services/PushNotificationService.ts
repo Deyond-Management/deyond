@@ -9,7 +9,7 @@ interface NotificationContent {
   title: string;
   body: string;
   data?: Record<string, unknown>;
-  trigger?: { seconds: number } | null;
+  trigger?: Notifications.NotificationTriggerInput | null;
 }
 
 interface TransactionReceivedData {
@@ -36,6 +36,8 @@ export class PushNotificationService {
         shouldShowAlert: true,
         shouldPlaySound: true,
         shouldSetBadge: true,
+        shouldShowBanner: true,
+        shouldShowList: true,
       }),
     });
 

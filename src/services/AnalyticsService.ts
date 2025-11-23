@@ -15,7 +15,7 @@ interface EventData {
   timestamp: number;
 }
 
-interface TransactionData {
+interface TransactionData extends Record<string, unknown> {
   network: string;
   token?: string;
   amount?: string;
