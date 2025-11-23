@@ -221,7 +221,9 @@ describe('TokenCard', () => {
         <TokenCard {...mockToken} style={customStyle} testID="token-card" />
       );
       const card = getByTestId('token-card');
-      expect(card.props.style).toMatchObject(customStyle);
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining(customStyle)])
+      );
     });
   });
 });

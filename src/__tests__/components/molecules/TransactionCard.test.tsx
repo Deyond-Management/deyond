@@ -253,7 +253,9 @@ describe('TransactionCard', () => {
         />
       );
       const card = getByTestId('tx-card');
-      expect(card.props.style).toMatchObject(customStyle);
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining(customStyle)])
+      );
     });
   });
 });

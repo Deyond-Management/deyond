@@ -75,8 +75,8 @@ describe('Card', () => {
         </Card>
       );
       const card = getByTestId('card');
-      expect(card.props.style).toMatchObject(
-        expect.objectContaining({ padding: expect.any(Number) })
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining({ padding: expect.any(Number) })])
       );
     });
 
@@ -87,7 +87,9 @@ describe('Card', () => {
         </Card>
       );
       const card = getByTestId('card');
-      expect(card.props.style).toMatchObject({ padding: 0 });
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining({ padding: 0 })])
+      );
     });
 
     it('should support small padding', () => {
@@ -119,8 +121,8 @@ describe('Card', () => {
         </Card>
       );
       const card = getByTestId('card');
-      expect(card.props.style).toMatchObject(
-        expect.objectContaining({ borderRadius: expect.any(Number) })
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining({ borderRadius: expect.any(Number) })])
       );
     });
 
@@ -131,7 +133,9 @@ describe('Card', () => {
         </Card>
       );
       const card = getByTestId('card');
-      expect(card.props.style).toMatchObject({ borderRadius: 20 });
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining({ borderRadius: 20 })])
+      );
     });
   });
 
@@ -143,8 +147,8 @@ describe('Card', () => {
         </Card>
       );
       const card = getByTestId('card');
-      expect(card.props.style).toMatchObject(
-        expect.objectContaining({ backgroundColor: expect.any(String) })
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining({ backgroundColor: expect.any(String) })])
       );
     });
 
@@ -155,7 +159,9 @@ describe('Card', () => {
         </Card>
       );
       const card = getByTestId('card');
-      expect(card.props.style).toMatchObject({ backgroundColor: '#FF0000' });
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining({ backgroundColor: '#FF0000' })])
+      );
     });
   });
 
@@ -192,7 +198,9 @@ describe('Card', () => {
         </Card>
       );
       const card = getByTestId('card');
-      expect(card.props.style).toMatchObject(customStyle);
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining(customStyle)])
+      );
     });
   });
 
@@ -226,7 +234,9 @@ describe('Card', () => {
         </Card>
       );
       const card = getByTestId('card');
-      expect(card.props.style).toMatchObject({ alignSelf: 'stretch' });
+      expect(card.props.style).toEqual(
+        expect.arrayContaining([expect.objectContaining({ alignSelf: 'stretch' })])
+      );
     });
   });
 });
