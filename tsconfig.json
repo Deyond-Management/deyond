@@ -6,7 +6,7 @@
     "module": "ESNext",
     "lib": ["ES2020"],
     "jsx": "react-native",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
