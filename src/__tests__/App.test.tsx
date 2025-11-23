@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { render, waitFor } from '@testing-library/react-native';
-import App from '../App';
+import App from '../../App';
 
 // Mock react-native-safe-area-context
 jest.mock('react-native-safe-area-context', () => ({

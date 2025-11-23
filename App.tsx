@@ -1,40 +1,104 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './src/store';
+/**
+ * Main App Component
+ * Entry point with all providers and navigation
+ */
 
-export default function App() {
+import React, { useState, useEffect } from 'react';
+import { StatusBar, View, ActivityIndicator, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
+import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
+import { AppNavigator } from './src/navigation/AppNavigator';
+
+// App Content with theme access
+const AppContent: React.FC = () => {
+  const { theme, isDark } = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Simulate app initialization
+    const initializeApp = async () => {
+      try {
+        // Check for stored wallet
+        // Check authentication state
+        // Load user preferences
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeApp();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View
+        style={[
+          styles.loadingContainer,
+          { backgroundColor: theme.colors.background },
+        ]}
+      >
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
+
+  return (
+    <>
+      <StatusBar
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.colors.background}
+      />
+      <NavigationContainer
+        theme={{
+          dark: isDark,
+          colors: {
+            primary: theme.colors.primary,
+            background: theme.colors.background,
+            card: theme.colors.card,
+            text: theme.colors.text.primary,
+            border: theme.colors.divider,
+            notification: theme.colors.primary,
+          },
+          fonts: {
+            regular: { fontFamily: 'System', fontWeight: '400' },
+            medium: { fontFamily: 'System', fontWeight: '500' },
+            bold: { fontFamily: 'System', fontWeight: '600' },
+            heavy: { fontFamily: 'System', fontWeight: '700' },
+          },
+        }}
+      >
+        <AppNavigator
+          initialRouteName={isAuthenticated ? 'Home' : 'Welcome'}
+        />
+      </NavigationContainer>
+    </>
+  );
+};
+
+// Main App Component
+const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Crypto Wallet App</Text>
-          <Text style={styles.subtitle}>MetaMask Clone with BLE P2P Chat</Text>
-          <StatusBar style="auto" />
-        </View>
-      </PersistGate>
+      <ThemeProvider>
+        <SafeAreaProvider>
+          <AppContent />
+        </SafeAreaProvider>
+      </ThemeProvider>
     </Provider>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  loadingContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
+    alignItems: 'center',
   },
 });
+
+export default App;
