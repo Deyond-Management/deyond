@@ -59,12 +59,17 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
       })
     : 0.5;
 
-  const baseStyle = {
-    width,
+  const baseStyle: ViewStyle = {
+    width: typeof width === 'number' ? width : undefined,
     height,
     borderRadius,
     backgroundColor: theme.colors.surface,
   };
+
+  // Handle string width separately
+  if (typeof width === 'string') {
+    baseStyle.width = width as any;
+  }
 
   return (
     <Animated.View

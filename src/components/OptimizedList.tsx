@@ -12,6 +12,7 @@ import {
   Text,
   View,
   ListRenderItem,
+  ListRenderItemInfo,
 } from 'react-native';
 
 interface OptimizedListProps<T> extends Omit<FlatListProps<T>, 'renderItem'> {
@@ -41,7 +42,7 @@ export function OptimizedList<T>({
 }: OptimizedListProps<T>) {
   // Memoize render item callback
   const memoizedRenderItem = useCallback(
-    (info: { item: T; index: number }) => renderItem(info),
+    (info: ListRenderItemInfo<T>) => renderItem(info),
     [renderItem]
   );
 

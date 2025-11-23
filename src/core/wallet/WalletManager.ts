@@ -39,6 +39,13 @@ export class WalletManager {
   }
 
   /**
+   * Generate new mnemonic phrase
+   */
+  generateMnemonic(): string {
+    return bip39.generateMnemonic(128);
+  }
+
+  /**
    * Create a new wallet with random mnemonic
    */
   async createWallet(password: string): Promise<WalletData> {

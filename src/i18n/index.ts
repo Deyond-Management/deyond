@@ -1,36 +1,17 @@
 /**
  * i18n Configuration
  * Internationalization setup using react-i18next
+ * NOTE: Requires i18next and react-i18next packages to be installed
  */
 
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import * as Localization from 'expo-localization';
-
-import en from './locales/en.json';
-import ko from './locales/ko.json';
-
-const resources = {
-  en: { translation: en },
-  ko: { translation: ko },
-};
+// Get device language using expo-localization
+import { getLocales } from 'expo-localization';
 
 // Get device language
-const deviceLanguage = Localization.locale.split('-')[0];
+const deviceLanguage = getLocales()[0]?.languageCode || 'en';
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: deviceLanguage,
-    fallbackLng: 'en',
-    compatibilityJSON: 'v3',
-    interpolation: {
-      escapeValue: false,
-    },
-    react: {
-      useSuspense: false,
-    },
-  });
-
-export default i18n;
+// Placeholder export until i18next is installed
+export default {
+  t: (key: string) => key,
+  language: deviceLanguage,
+};

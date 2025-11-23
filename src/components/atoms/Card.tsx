@@ -9,6 +9,8 @@ import {
   View,
   Pressable,
   ViewStyle,
+  StyleProp,
+  StyleSheet,
   PressableProps,
   ViewProps,
 } from 'react-native';
@@ -29,7 +31,7 @@ export interface CardProps {
   /** Background color */
   backgroundColor?: string;
   /** Custom style */
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   /** On press handler (makes card pressable) */
   onPress?: () => void;
   /** Test ID */
@@ -70,14 +72,16 @@ export const Card: React.FC<CardProps> = ({
   };
 
   // Card style
-  const cardStyle: ViewStyle = {
-    backgroundColor: backgroundColor || theme.colors.card,
-    borderRadius: borderRadius ?? theme.borderRadius.lg,
-    padding: getPaddingValue(),
-    ...createShadow(elevation),
-    ...(fullWidth && { alignSelf: 'stretch' }),
-    ...style,
-  };
+  const cardStyle: StyleProp<ViewStyle> = [
+    {
+      backgroundColor: backgroundColor || theme.colors.card,
+      borderRadius: borderRadius ?? theme.borderRadius.lg,
+      padding: getPaddingValue(),
+      ...createShadow(elevation),
+      ...(fullWidth && { alignSelf: 'stretch' }),
+    },
+    style,
+  ];
 
   // If onPress is provided, use Pressable
   if (onPress) {

@@ -72,7 +72,7 @@ export class CryptoUtils {
       const encryptedBuffer = await crypto.subtle.encrypt(
         {
           name: 'AES-GCM',
-          iv: iv,
+          iv: iv as BufferSource,
           tagLength: this.TAG_LENGTH * 8, // in bits
         },
         cryptoKey,
@@ -125,7 +125,7 @@ export class CryptoUtils {
       const decryptedBuffer = await crypto.subtle.decrypt(
         {
           name: 'AES-GCM',
-          iv: iv,
+          iv: iv as BufferSource,
           tagLength: this.TAG_LENGTH * 8, // in bits
         },
         cryptoKey,

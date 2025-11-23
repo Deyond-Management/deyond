@@ -208,7 +208,7 @@ export class TransactionManager {
             : TransactionStatus.FAILED
           : TransactionStatus.PENDING,
         timestamp: Date.now(),
-        confirmations: receipt ? receipt.confirmations : 0,
+        confirmations: receipt ? await receipt.confirmations() : 0,
       };
     } catch (error) {
       throw new Error(

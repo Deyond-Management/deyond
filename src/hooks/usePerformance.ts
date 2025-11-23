@@ -57,7 +57,7 @@ export function useMemoizedCallback<T extends (...args: unknown[]) => unknown>(
  * Deep comparison memo
  */
 export function useDeepMemo<T>(factory: () => T, deps: React.DependencyList): T {
-  const ref = useRef<{ deps: React.DependencyList; value: T }>();
+  const ref = useRef<{ deps: React.DependencyList; value: T } | undefined>(undefined);
 
   if (!ref.current || !deepEqual(deps, ref.current.deps)) {
     ref.current = { deps, value: factory() };
@@ -70,7 +70,7 @@ export function useDeepMemo<T>(factory: () => T, deps: React.DependencyList): T 
  * Previous value hook
  */
 export function usePrevious<T>(value: T): T | undefined {
-  const ref = useRef<T>();
+  const ref = useRef<T | undefined>(undefined);
 
   useEffect(() => {
     ref.current = value;

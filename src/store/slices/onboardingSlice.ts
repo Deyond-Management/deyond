@@ -49,7 +49,8 @@ export const createWallet = createAsyncThunk(
       const mnemonicString = mnemonic.join(' ');
 
       // Create wallet from mnemonic
-      await walletManager.createWallet(mnemonicString, password);
+      const walletData = await walletManager.importFromMnemonic(mnemonicString, password);
+      await walletManager.saveWallet(walletData, password);
 
       return { success: true };
     } catch (error) {
@@ -68,16 +69,20 @@ export const importWallet = createAsyncThunk(
     try {
       const walletManager = WalletManager.getInstance();
 
+      let walletData: any;
+
       if (importData.method === 'mnemonic') {
         // Validate and import from mnemonic
         if (!walletManager.validateMnemonic(importData.value)) {
           return rejectWithValue('Invalid mnemonic phrase');
         }
-        await walletManager.createWallet(importData.value, password);
+        walletData = await walletManager.importFromMnemonic(importData.value, password);
       } else {
         // Import from private key
-        await walletManager.importFromPrivateKey(importData.value, password);
+        walletData = await walletManager.importFromPrivateKey(importData.value, password);
       }
+
+      await walletManager.saveWallet(walletData, password);
 
       return { success: true };
     } catch (error) {
