@@ -91,7 +91,9 @@ export class CryptoUtils {
         tag: this.bytesToHex(tag),
       };
     } catch (error) {
-      throw new Error(`Encryption failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Encryption failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 
@@ -134,7 +136,9 @@ export class CryptoUtils {
 
       return new TextDecoder().decode(decryptedBuffer);
     } catch (error) {
-      throw new Error(`Decryption failed: ${error instanceof Error ? error.message : 'Invalid password or corrupted data'}`);
+      throw new Error(
+        `Decryption failed: ${error instanceof Error ? error.message : 'Invalid password or corrupted data'}`
+      );
     }
   }
 

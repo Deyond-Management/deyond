@@ -138,9 +138,7 @@ export class PushNotificationService {
    * Notify transaction confirmed
    */
   async notifyTransactionConfirmed(data: TransactionConfirmedData): Promise<string> {
-    const title = data.status === 'success'
-      ? 'Transaction Confirmed'
-      : 'Transaction Failed';
+    const title = data.status === 'success' ? 'Transaction Confirmed' : 'Transaction Failed';
 
     return this.scheduleNotification({
       title,

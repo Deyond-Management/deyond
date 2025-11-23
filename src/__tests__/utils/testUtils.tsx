@@ -29,11 +29,7 @@ export const createTestStore = (preloadedState = {}) => {
 // Render with all providers
 export const renderWithProviders = (
   component: React.ReactElement,
-  {
-    preloadedState = {},
-    store = createTestStore(preloadedState),
-    ...renderOptions
-  } = {}
+  { preloadedState = {}, store = createTestStore(preloadedState), ...renderOptions } = {}
 ) => {
   const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Provider store={store}>

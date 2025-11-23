@@ -239,9 +239,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({
         {/* Transaction Info */}
         <View style={infoContainerStyle}>
           <Text style={typeTextStyle}>{getTypeDisplay()}</Text>
-          {getAddressDisplay() && (
-            <Text style={addressTextStyle}>{getAddressDisplay()}</Text>
-          )}
+          {getAddressDisplay() && <Text style={addressTextStyle}>{getAddressDisplay()}</Text>}
           <Text style={timestampTextStyle} testID="tx-timestamp">
             {formatTimestamp()}
           </Text>

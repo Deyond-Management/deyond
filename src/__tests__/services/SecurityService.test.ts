@@ -34,9 +34,7 @@ describe('SecurityService', () => {
     });
 
     it('should validate PIN length', async () => {
-      await expect(securityService.setPIN('123')).rejects.toThrow(
-        'PIN must be 6 digits'
-      );
+      await expect(securityService.setPIN('123')).rejects.toThrow('PIN must be 6 digits');
     });
 
     it('should validate PIN is numeric', async () => {
@@ -66,9 +64,9 @@ describe('SecurityService', () => {
     it('should reject change PIN with wrong current PIN', async () => {
       await securityService.setPIN('123456');
 
-      await expect(
-        securityService.changePIN('000000', '654321')
-      ).rejects.toThrow('Current PIN is incorrect');
+      await expect(securityService.changePIN('000000', '654321')).rejects.toThrow(
+        'Current PIN is incorrect'
+      );
     });
 
     it('should remove PIN', async () => {
@@ -100,9 +98,7 @@ describe('SecurityService', () => {
     });
 
     it('should require PIN to enable biometrics', async () => {
-      await expect(securityService.enableBiometrics()).rejects.toThrow(
-        'PIN must be set first'
-      );
+      await expect(securityService.enableBiometrics()).rejects.toThrow('PIN must be set first');
     });
 
     it('should disable biometrics', async () => {

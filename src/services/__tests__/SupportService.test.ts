@@ -60,7 +60,7 @@ describe('SupportService', () => {
         expect.objectContaining({
           method: 'POST',
           headers: expect.objectContaining({
-            'Authorization': 'Bearer test-api-key',
+            Authorization: 'Bearer test-api-key',
           }),
         })
       );
@@ -139,15 +139,16 @@ describe('SupportService', () => {
     it('should get ticket by id', async () => {
       (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve({
-          ticket: {
-            id: '12345',
-            subject: 'Test',
-            description: 'Description',
-            priority: 'normal',
-            status: 'open',
-          },
-        }),
+        json: () =>
+          Promise.resolve({
+            ticket: {
+              id: '12345',
+              subject: 'Test',
+              description: 'Description',
+              priority: 'normal',
+              status: 'open',
+            },
+          }),
       });
 
       const ticket = await service.getTicket('12345');
@@ -181,9 +182,7 @@ describe('SupportService', () => {
         { id: '1', subject: 'Ticket 1' },
         { id: '2', subject: 'Ticket 2' },
       ];
-      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(
-        JSON.stringify(cachedTickets)
-      );
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(JSON.stringify(cachedTickets));
 
       const tickets = await service.getUserTickets();
       expect(tickets).toHaveLength(2);
@@ -249,9 +248,7 @@ describe('SupportService', () => {
       const cachedArticles = [
         { id: '1', title: 'Custom FAQ', content: 'Content', category: 'custom', views: 100 },
       ];
-      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(
-        JSON.stringify(cachedArticles)
-      );
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(JSON.stringify(cachedArticles));
 
       const articles = await service.getFAQArticles();
       expect(articles).toHaveLength(1);

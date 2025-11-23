@@ -4,14 +4,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
-  StyleProp,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ViewStyle, StyleProp } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 
 type IconType = 'wallet' | 'transaction' | 'search' | 'generic';
@@ -48,14 +41,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   const { colors } = theme;
 
   return (
-    <View
-      testID={testID}
-      style={[
-        styles.container,
-        compact && styles.compact,
-        style,
-      ]}
-    >
+    <View testID={testID} style={[styles.container, compact && styles.compact, style]}>
       {/* Icon */}
       <View
         testID={testID ? `${testID}-icon` : 'empty-icon'}
@@ -65,19 +51,11 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           compact && styles.iconCompact,
         ]}
       >
-        <Text style={[styles.icon, compact && styles.iconTextCompact]}>
-          {IconSymbol[icon]}
-        </Text>
+        <Text style={[styles.icon, compact && styles.iconTextCompact]}>{IconSymbol[icon]}</Text>
       </View>
 
       {/* Content */}
-      <Text
-        style={[
-          styles.title,
-          { color: colors.text.primary },
-          compact && styles.titleCompact,
-        ]}
-      >
+      <Text style={[styles.title, { color: colors.text.primary }, compact && styles.titleCompact]}>
         {title}
       </Text>
 
@@ -113,61 +91,12 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    paddingVertical: 40,
-    paddingHorizontal: 24,
-  },
-  compact: {
-    paddingVertical: 24,
-    paddingHorizontal: 16,
-  },
-  iconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  iconCompact: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    marginBottom: 12,
-  },
-  icon: {
-    fontSize: 36,
-  },
-  iconTextCompact: {
-    fontSize: 24,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  titleCompact: {
-    fontSize: 16,
-    marginBottom: 4,
-  },
-  message: {
-    fontSize: 14,
-    textAlign: 'center',
-    lineHeight: 20,
-    marginBottom: 20,
-  },
-  messageCompact: {
-    fontSize: 12,
-    marginBottom: 12,
-  },
   button: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
+    alignItems: 'center',
     borderRadius: 8,
     minWidth: 120,
-    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
   },
   buttonCompact: {
     paddingHorizontal: 16,
@@ -177,6 +106,55 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '600',
+  },
+  compact: {
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+  },
+  container: {
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 40,
+  },
+  icon: {
+    fontSize: 36,
+  },
+  iconCompact: {
+    borderRadius: 28,
+    height: 56,
+    marginBottom: 12,
+    width: 56,
+  },
+  iconContainer: {
+    alignItems: 'center',
+    borderRadius: 40,
+    height: 80,
+    justifyContent: 'center',
+    marginBottom: 16,
+    width: 80,
+  },
+  iconTextCompact: {
+    fontSize: 24,
+  },
+  message: {
+    fontSize: 14,
+    lineHeight: 20,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  messageCompact: {
+    fontSize: 12,
+    marginBottom: 12,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  titleCompact: {
+    fontSize: 16,
+    marginBottom: 4,
   },
 });
 

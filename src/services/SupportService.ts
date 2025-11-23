@@ -124,7 +124,8 @@ export class SupportService {
         headers['Intercom-Version'] = '2.9';
         break;
       case 'freshdesk':
-        headers['Authorization'] = `Basic ${Buffer.from(`${this.config.apiKey}:X`).toString('base64')}`;
+        headers['Authorization'] =
+          `Basic ${Buffer.from(`${this.config.apiKey}:X`).toString('base64')}`;
         break;
     }
 
@@ -144,9 +145,9 @@ export class SupportService {
             priority: ticket.priority,
             tags: [ticket.category],
             requester: ticket.userEmail ? { email: ticket.userEmail } : undefined,
-            custom_fields: ticket.deviceInfo ? [
-              { id: 'device_info', value: JSON.stringify(ticket.deviceInfo) },
-            ] : undefined,
+            custom_fields: ticket.deviceInfo
+              ? [{ id: 'device_info', value: JSON.stringify(ticket.deviceInfo) }]
+              : undefined,
           },
         };
       case 'intercom':
@@ -317,42 +318,48 @@ export class SupportService {
       {
         id: '1',
         title: 'How do I backup my wallet?',
-        content: 'Your recovery phrase is the backup for your wallet. Write down the 12/24 words in order and store them safely offline.',
+        content:
+          'Your recovery phrase is the backup for your wallet. Write down the 12/24 words in order and store them safely offline.',
         category: 'security',
         views: 1500,
       },
       {
         id: '2',
         title: 'What happens if I lose my recovery phrase?',
-        content: 'If you lose your recovery phrase, you will not be able to recover your wallet. There is no way to retrieve lost phrases.',
+        content:
+          'If you lose your recovery phrase, you will not be able to recover your wallet. There is no way to retrieve lost phrases.',
         category: 'security',
         views: 2200,
       },
       {
         id: '3',
         title: 'How do I send crypto?',
-        content: 'Go to the Send screen, enter the recipient address, amount, and confirm the transaction. Make sure to verify the address.',
+        content:
+          'Go to the Send screen, enter the recipient address, amount, and confirm the transaction. Make sure to verify the address.',
         category: 'transactions',
         views: 1800,
       },
       {
         id: '4',
         title: 'Why is my transaction pending?',
-        content: 'Transactions can be pending due to network congestion or low gas fees. You may need to wait or speed up the transaction.',
+        content:
+          'Transactions can be pending due to network congestion or low gas fees. You may need to wait or speed up the transaction.',
         category: 'transactions',
         views: 900,
       },
       {
         id: '5',
         title: 'How do I add a new token?',
-        content: 'Go to Settings > Manage Tokens > Add Custom Token and enter the contract address, symbol, and decimals.',
+        content:
+          'Go to Settings > Manage Tokens > Add Custom Token and enter the contract address, symbol, and decimals.',
         category: 'tokens',
         views: 750,
       },
       {
         id: '6',
         title: 'Is my wallet secure?',
-        content: 'Yes, your private keys are encrypted and stored locally on your device. We never have access to your funds.',
+        content:
+          'Yes, your private keys are encrypted and stored locally on your device. We never have access to your funds.',
         category: 'security',
         views: 2500,
       },
@@ -366,9 +373,10 @@ export class SupportService {
     const articles = await this.getFAQArticles();
     const lowerQuery = query.toLowerCase();
 
-    return articles.filter(article =>
-      article.title.toLowerCase().includes(lowerQuery) ||
-      article.content.toLowerCase().includes(lowerQuery)
+    return articles.filter(
+      article =>
+        article.title.toLowerCase().includes(lowerQuery) ||
+        article.content.toLowerCase().includes(lowerQuery)
     );
   }
 
@@ -408,11 +416,7 @@ export class SupportService {
   /**
    * Submit feedback
    */
-  async submitFeedback(
-    rating: number,
-    feedback: string,
-    category: string
-  ): Promise<boolean> {
+  async submitFeedback(rating: number, feedback: string, category: string): Promise<boolean> {
     return this.createTicket({
       subject: `User Feedback - ${category}`,
       description: `Rating: ${rating}/5\n\n${feedback}`,

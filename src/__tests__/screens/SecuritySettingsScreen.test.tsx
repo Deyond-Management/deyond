@@ -53,10 +53,7 @@ describe('SecuritySettingsScreen', () => {
 
     it('should have change PIN option', () => {
       const { getByTestId } = renderWithTheme(
-        <SecuritySettingsScreen
-          navigation={mockNavigation as any}
-          initialPinEnabled={true}
-        />
+        <SecuritySettingsScreen navigation={mockNavigation as any} initialPinEnabled={true} />
       );
 
       expect(getByTestId('change-pin')).toBeDefined();
@@ -64,10 +61,7 @@ describe('SecuritySettingsScreen', () => {
 
     it('should hide change PIN when PIN is disabled', () => {
       const { queryByTestId } = renderWithTheme(
-        <SecuritySettingsScreen
-          navigation={mockNavigation as any}
-          initialPinEnabled={false}
-        />
+        <SecuritySettingsScreen navigation={mockNavigation as any} initialPinEnabled={false} />
       );
 
       expect(queryByTestId('change-pin')).toBeNull();
@@ -85,10 +79,7 @@ describe('SecuritySettingsScreen', () => {
 
     it('should show biometrics type label', () => {
       const { getAllByText } = renderWithTheme(
-        <SecuritySettingsScreen
-          navigation={mockNavigation as any}
-          biometricsType="Face ID"
-        />
+        <SecuritySettingsScreen navigation={mockNavigation as any} biometricsType="Face ID" />
       );
 
       expect(getAllByText(/Face ID/i).length).toBeGreaterThan(0);
@@ -96,10 +87,7 @@ describe('SecuritySettingsScreen', () => {
 
     it('should disable biometrics toggle when PIN is disabled', () => {
       const { getByTestId } = renderWithTheme(
-        <SecuritySettingsScreen
-          navigation={mockNavigation as any}
-          initialPinEnabled={false}
-        />
+        <SecuritySettingsScreen navigation={mockNavigation as any} initialPinEnabled={false} />
       );
 
       const toggle = getByTestId('biometrics-toggle');
@@ -118,10 +106,7 @@ describe('SecuritySettingsScreen', () => {
 
     it('should display current auto-lock value', () => {
       const { getByText } = renderWithTheme(
-        <SecuritySettingsScreen
-          navigation={mockNavigation as any}
-          initialAutoLock="5 minutes"
-        />
+        <SecuritySettingsScreen navigation={mockNavigation as any} initialAutoLock="5 minutes" />
       );
 
       expect(getByText('5 minutes')).toBeDefined();

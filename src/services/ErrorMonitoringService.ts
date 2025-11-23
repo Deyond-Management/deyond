@@ -46,7 +46,7 @@ export class ErrorMonitoringService {
       tracesSampleRate: options?.tracesSampleRate || 0.2,
       enableAutoSessionTracking: true,
       attachStacktrace: true,
-      beforeSend: (event) => {
+      beforeSend: event => {
         // Scrub sensitive data
         if (event.extra) {
           delete event.extra.privateKey;
@@ -160,12 +160,7 @@ export class ErrorMonitoringService {
   /**
    * Log network request
    */
-  logNetworkRequest(
-    method: string,
-    url: string,
-    status: number,
-    duration: number
-  ): void {
+  logNetworkRequest(method: string, url: string, status: number, duration: number): void {
     this.addBreadcrumb({
       category: 'http',
       message: `${method} ${url}`,

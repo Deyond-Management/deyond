@@ -5,14 +5,7 @@
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -66,7 +59,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
   // Initialize on mount
   useEffect(() => {
     // Create positions array
-    const positions: WordPosition[] = positionsToVerify.map((index) => ({
+    const positions: WordPosition[] = positionsToVerify.map(index => ({
       index,
       correctWord: route.params.mnemonic[index],
       selectedWord: null,
@@ -74,7 +67,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
     setSelectedPositions(positions);
 
     // Create word bank with correct words + decoys
-    const correctWords = positionsToVerify.map((i) => route.params.mnemonic[i]);
+    const correctWords = positionsToVerify.map(i => route.params.mnemonic[i]);
     const allWords = route.params.mnemonic;
 
     // Add 3-6 decoy words
@@ -118,7 +111,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
   };
 
   // Check if all positions are filled
-  const allFilled = selectedPositions.every((pos) => pos.selectedWord !== null);
+  const allFilled = selectedPositions.every(pos => pos.selectedWord !== null);
 
   // Handle verification
   const handleVerify = async () => {
@@ -127,16 +120,12 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
     }
 
     // Check if all selected words are correct
-    const allCorrect = selectedPositions.every(
-      (pos) => pos.selectedWord === pos.correctWord
-    );
+    const allCorrect = selectedPositions.every(pos => pos.selectedWord === pos.correctWord);
 
     if (!allCorrect) {
       setError('Incorrect words selected. Please try again.');
       // Reset selections
-      setSelectedPositions((prev) =>
-        prev.map((pos) => ({ ...pos, selectedWord: null }))
-      );
+      setSelectedPositions(prev => prev.map(pos => ({ ...pos, selectedWord: null })));
       setCurrentPositionIndex(0);
       return;
     }
@@ -175,8 +164,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text.primary }]}>Verify Recovery Phrase</Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Select the correct words in order to verify you've written down your recovery
-            phrase
+            Select the correct words in order to verify you've written down your recovery phrase
           </Text>
         </View>
 
@@ -193,8 +181,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
                   {
                     backgroundColor:
                       currentPositionIndex === index ? colors.primary + '15' : colors.surface,
-                    borderColor:
-                      currentPositionIndex === index ? colors.primary : colors.border,
+                    borderColor: currentPositionIndex === index ? colors.primary : colors.border,
                   },
                 ]}
                 onPress={() => handleClearPosition(index)}
@@ -221,16 +208,14 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
           </Text>
           <View style={styles.wordBank}>
             {wordBank.map((word, index) => {
-              const isUsed = selectedPositions.some((pos) => pos.selectedWord === word);
+              const isUsed = selectedPositions.some(pos => pos.selectedWord === word);
               return (
                 <TouchableOpacity
                   key={index}
                   style={[
                     styles.wordOption,
                     {
-                      backgroundColor: isUsed
-                        ? colors.textSecondary + '30'
-                        : colors.surface,
+                      backgroundColor: isUsed ? colors.textSecondary + '30' : colors.surface,
                       borderColor: colors.border,
                     },
                   ]}
@@ -278,26 +263,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollView: {
-    flex: 1,
-  },
   content: {
     flexGrow: 1,
   },
-  header: {
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  subtitle: {
+  errorText: {
     fontSize: 14,
-    lineHeight: 20,
+    marginBottom: 16,
+    textAlign: 'center',
   },
-  positionsCard: {
-    padding: 16,
+  header: {
     marginBottom: 24,
   },
   positionItem: {
@@ -309,47 +283,58 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   positionSlot: {
-    padding: 16,
     borderRadius: 8,
     borderWidth: 2,
-    minHeight: 56,
     justifyContent: 'center',
+    minHeight: 56,
+    padding: 16,
   },
   positionText: {
     fontSize: 16,
     fontWeight: '500',
   },
-  wordBankSection: {
+  positionsCard: {
     marginBottom: 24,
+    padding: 16,
+  },
+  scrollView: {
+    flex: 1,
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 16,
   },
+  subtitle: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  verifyButton: {
+    marginTop: 8,
+  },
   wordBank: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 12,
   },
+  wordBankSection: {
+    marginBottom: 24,
+  },
   wordOption: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
     borderRadius: 8,
     borderWidth: 1,
     minWidth: 100,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
   wordOptionText: {
     fontSize: 14,
     fontWeight: '500',
     textAlign: 'center',
-  },
-  errorText: {
-    fontSize: 14,
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  verifyButton: {
-    marginTop: 8,
   },
 });

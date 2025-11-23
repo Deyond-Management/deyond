@@ -52,8 +52,8 @@ interface TestReport {
 interface NetworkCondition {
   name: string;
   download: number; // Kbps
-  upload: number;   // Kbps
-  latency: number;  // ms
+  upload: number; // Kbps
+  latency: number; // ms
 }
 
 export class QATestService {
@@ -113,11 +113,7 @@ export class QATestService {
           description: 'App rejects invalid seed phrases',
           category: 'functional',
           priority: 'P1',
-          steps: [
-            'Go to import wallet',
-            'Enter invalid seed phrase',
-            'Tap "Import"',
-          ],
+          steps: ['Go to import wallet', 'Enter invalid seed phrase', 'Tap "Import"'],
           expectedResult: 'Show error message about invalid phrase',
           status: 'pending',
         },
@@ -154,11 +150,7 @@ export class QATestService {
           description: 'App prevents sending more than balance',
           category: 'functional',
           priority: 'P1',
-          steps: [
-            'Navigate to Send',
-            'Enter amount > balance',
-            'Tap "Continue"',
-          ],
+          steps: ['Navigate to Send', 'Enter amount > balance', 'Tap "Continue"'],
           expectedResult: 'Show insufficient balance error',
           status: 'pending',
         },
@@ -168,11 +160,7 @@ export class QATestService {
           description: 'User can view past transactions',
           category: 'functional',
           priority: 'P1',
-          steps: [
-            'Navigate to History tab',
-            'Scroll through transactions',
-            'Tap on transaction',
-          ],
+          steps: ['Navigate to History tab', 'Scroll through transactions', 'Tap on transaction'],
           expectedResult: 'Transaction list displays with correct details',
           status: 'pending',
         },
@@ -192,11 +180,7 @@ export class QATestService {
           description: 'App requires PIN to access wallet',
           category: 'security',
           priority: 'P0',
-          steps: [
-            'Lock app',
-            'Reopen app',
-            'Enter correct PIN',
-          ],
+          steps: ['Lock app', 'Reopen app', 'Enter correct PIN'],
           expectedResult: 'App unlocks with correct PIN',
           status: 'pending',
         },
@@ -206,10 +190,7 @@ export class QATestService {
           description: 'App locks after multiple failed attempts',
           category: 'security',
           priority: 'P0',
-          steps: [
-            'Lock app',
-            'Enter wrong PIN 5 times',
-          ],
+          steps: ['Lock app', 'Enter wrong PIN 5 times'],
           expectedResult: 'App locks with cooldown timer',
           status: 'pending',
         },
@@ -219,11 +200,7 @@ export class QATestService {
           description: 'User can use biometrics to unlock',
           category: 'security',
           priority: 'P1',
-          steps: [
-            'Enable biometrics in settings',
-            'Lock app',
-            'Use biometrics to unlock',
-          ],
+          steps: ['Enable biometrics in settings', 'Lock app', 'Use biometrics to unlock'],
           expectedResult: 'App unlocks with valid biometrics',
           status: 'pending',
         },
@@ -243,11 +220,7 @@ export class QATestService {
           description: 'App launches within acceptable time',
           category: 'performance',
           priority: 'P1',
-          steps: [
-            'Close app completely',
-            'Launch app',
-            'Measure time to interactive',
-          ],
+          steps: ['Close app completely', 'Launch app', 'Measure time to interactive'],
           expectedResult: 'App launches in < 3 seconds',
           status: 'pending',
         },
@@ -257,10 +230,7 @@ export class QATestService {
           description: 'Balance refreshes quickly',
           category: 'performance',
           priority: 'P1',
-          steps: [
-            'Pull to refresh on dashboard',
-            'Measure refresh time',
-          ],
+          steps: ['Pull to refresh on dashboard', 'Measure refresh time'],
           expectedResult: 'Balance updates in < 2 seconds',
           status: 'pending',
         },

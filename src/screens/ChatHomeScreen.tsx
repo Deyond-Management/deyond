@@ -4,14 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { EmptyState } from '../components/atoms/EmptyState';
@@ -86,10 +79,7 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
       {/* Content */}
       <View style={styles.sessionContent}>
         <View style={styles.sessionHeader}>
-          <Text
-            style={[styles.peerName, { color: theme.colors.text.primary }]}
-            numberOfLines={1}
-          >
+          <Text style={[styles.peerName, { color: theme.colors.text.primary }]} numberOfLines={1}>
             {item.peerName}
           </Text>
           <Text style={[styles.time, { color: theme.colors.text.secondary }]}>
@@ -101,9 +91,8 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
             style={[
               styles.lastMessage,
               {
-                color: item.unreadCount > 0
-                  ? theme.colors.text.primary
-                  : theme.colors.text.secondary,
+                color:
+                  item.unreadCount > 0 ? theme.colors.text.primary : theme.colors.text.secondary,
                 fontWeight: item.unreadCount > 0 ? '600' : '400',
               },
             ]}
@@ -125,14 +114,10 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
   );
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-          Messages
-        </Text>
+        <Text style={[styles.title, { color: theme.colors.text.primary }]}>Messages</Text>
         <TouchableOpacity
           testID="new-chat-button"
           style={[styles.newChatButton, { backgroundColor: theme.colors.primary }]}
@@ -149,7 +134,7 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
           testID="session-list"
           data={sessions}
           renderItem={renderSession}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           contentContainerStyle={styles.listContent}
         />
       ) : (
@@ -168,101 +153,37 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-  newChatButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  newChatText: {
-    color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  listContent: {
-    padding: 16,
-    paddingTop: 0,
-  },
-  sessionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-    marginBottom: 12,
+  activeIndicator: {
+    borderColor: '#FFFFFF',
+    borderRadius: 6,
+    borderWidth: 2,
+    bottom: 2,
+    height: 12,
+    position: 'absolute',
+    right: 2,
+    width: 12,
   },
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 25,
+    height: 50,
+    justifyContent: 'center',
     marginRight: 12,
     position: 'relative',
+    width: 50,
   },
   avatarText: {
     fontSize: 20,
     fontWeight: '600',
   },
-  activeIndicator: {
-    position: 'absolute',
-    bottom: 2,
-    right: 2,
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: '#FFFFFF',
-  },
-  sessionContent: {
-    flex: 1,
-  },
-  sessionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  peerName: {
-    fontSize: 16,
-    fontWeight: '600',
-    flex: 1,
-  },
-  time: {
-    fontSize: 12,
-    marginLeft: 8,
-  },
-  sessionFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  lastMessage: {
-    fontSize: 14,
-    flex: 1,
-  },
   badge: {
-    minWidth: 20,
-    height: 20,
-    borderRadius: 10,
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 6,
+    borderRadius: 10,
+    height: 20,
+    justifyContent: 'center',
     marginLeft: 8,
+    minWidth: 20,
+    paddingHorizontal: 6,
   },
   badgeText: {
     color: '#FFFFFF',
@@ -272,6 +193,70 @@ const styles = StyleSheet.create({
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
+  },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  lastMessage: {
+    flex: 1,
+    fontSize: 14,
+  },
+  listContent: {
+    padding: 16,
+    paddingTop: 0,
+  },
+  newChatButton: {
+    alignItems: 'center',
+    borderRadius: 20,
+    height: 40,
+    justifyContent: 'center',
+    width: 40,
+  },
+  newChatText: {
+    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  peerName: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  safeArea: {
+    flex: 1,
+  },
+  sessionContent: {
+    flex: 1,
+  },
+  sessionFooter: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  sessionHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  sessionItem: {
+    alignItems: 'center',
+    borderRadius: 12,
+    borderWidth: 1,
+    flexDirection: 'row',
+    marginBottom: 12,
+    padding: 12,
+  },
+  time: {
+    fontSize: 12,
+    marginLeft: 8,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
   },
 });
 

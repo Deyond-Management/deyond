@@ -145,11 +145,7 @@ export const Input: React.FC<InputProps> = ({
   const helperTextStyles: TextStyle = {
     fontSize: 12,
     marginTop: theme.spacing.xs,
-    color: error
-      ? theme.isDark
-        ? '#EF5350'
-        : '#D32F2F'
-      : theme.colors.text.secondary,
+    color: error ? (theme.isDark ? '#EF5350' : '#D32F2F') : theme.colors.text.secondary,
   };
 
   // Handle focus
@@ -196,9 +192,7 @@ export const Input: React.FC<InputProps> = ({
           <TouchableOpacity
             onPress={togglePasswordVisibility}
             testID="password-toggle"
-            accessibilityLabel={
-              isPasswordVisible ? 'Hide password' : 'Show password'
-            }
+            accessibilityLabel={isPasswordVisible ? 'Hide password' : 'Show password'}
             accessibilityRole="button"
             style={{ padding: theme.spacing.xs }}
           >
@@ -210,9 +204,7 @@ export const Input: React.FC<InputProps> = ({
       </View>
 
       {/* Helper Text or Error */}
-      {(error || helperText) && (
-        <Text style={helperTextStyles}>{error || helperText}</Text>
-      )}
+      {(error || helperText) && <Text style={helperTextStyles}>{error || helperText}</Text>}
     </View>
   );
 };

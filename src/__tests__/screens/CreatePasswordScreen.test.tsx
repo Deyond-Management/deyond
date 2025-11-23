@@ -98,7 +98,9 @@ describe('CreatePasswordScreen', () => {
       const createButton = getByTestId('create-password-button');
       fireEvent.press(createButton);
 
-      expect(queryByText(/at least 8 characters/i) || queryByText(/Password must meet all requirements/i)).toBeDefined();
+      expect(
+        queryByText(/at least 8 characters/i) || queryByText(/Password must meet all requirements/i)
+      ).toBeDefined();
     });
 
     it('should show error when password lacks uppercase', () => {

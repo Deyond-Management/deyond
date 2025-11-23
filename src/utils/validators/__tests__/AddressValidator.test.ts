@@ -172,17 +172,15 @@ describe('AddressValidator', () => {
     });
 
     it('should return true for same addresses different case', () => {
-      expect(areAddressesEqual(
-        validAddress.toLowerCase(),
-        validAddress.toUpperCase().replace('X', 'x')
-      )).toBe(true);
+      expect(
+        areAddressesEqual(validAddress.toLowerCase(), validAddress.toUpperCase().replace('X', 'x'))
+      ).toBe(true);
     });
 
     it('should return false for different addresses', () => {
-      expect(areAddressesEqual(
-        validAddress,
-        '0x1234567890123456789012345678901234567890'
-      )).toBe(false);
+      expect(areAddressesEqual(validAddress, '0x1234567890123456789012345678901234567890')).toBe(
+        false
+      );
     });
 
     it('should return false for invalid addresses', () => {

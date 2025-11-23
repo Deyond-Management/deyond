@@ -5,13 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -135,9 +129,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
 
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>
-            Enable Biometric Login
-          </Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>Enable Biometric Login</Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
             Use Face ID or Touch ID to unlock your wallet quickly and securely
           </Text>
@@ -164,9 +156,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
           <View style={styles.benefitItem}>
             <Text style={[styles.benefitIcon, { color: colors.primary }]}>🔒</Text>
             <View style={styles.benefitContent}>
-              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>
-                More Secure
-              </Text>
+              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>More Secure</Text>
               <Text style={[styles.benefitText, { color: colors.textSecondary }]}>
                 Your biometric data never leaves your device
               </Text>
@@ -176,9 +166,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
           <View style={styles.benefitItem}>
             <Text style={[styles.benefitIcon, { color: colors.primary }]}>✨</Text>
             <View style={styles.benefitContent}>
-              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>
-                Convenient
-              </Text>
+              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>Convenient</Text>
               <Text style={[styles.benefitText, { color: colors.textSecondary }]}>
                 No need to remember or type your password each time
               </Text>
@@ -210,12 +198,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
         </Button>
 
         {/* Skip Button */}
-        <Button
-          onPress={handleSkip}
-          variant="text"
-          style={styles.skipButton}
-          testID="skip-button"
-        >
+        <Button onPress={handleSkip} variant="text" style={styles.skipButton} testID="skip-button">
           Skip for Now
         </Button>
       </ScrollView>
@@ -224,57 +207,17 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
+  benefitContent: {
     flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    flexGrow: 1,
-  },
-  iconContainer: {
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  iconText: {
-    fontSize: 64,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  benefitsCard: {
-    padding: 20,
-    marginBottom: 16,
-  },
-  benefitsTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  benefitItem: {
-    flexDirection: 'row',
-    marginBottom: 16,
   },
   benefitIcon: {
     fontSize: 24,
     marginRight: 12,
     marginTop: 2,
   },
-  benefitContent: {
-    flex: 1,
+  benefitItem: {
+    flexDirection: 'row',
+    marginBottom: 16,
   },
   benefitLabel: {
     fontSize: 14,
@@ -285,12 +228,46 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
-  infoCard: {
-    padding: 16,
-    marginBottom: 24,
-    flexDirection: 'row',
+  benefitsCard: {
+    marginBottom: 16,
+    padding: 20,
+  },
+  benefitsTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  container: {
+    flex: 1,
+  },
+  content: {
+    flexGrow: 1,
+  },
+  enableButton: {
+    marginBottom: 12,
+  },
+  errorText: {
+    fontSize: 14,
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  header: {
     alignItems: 'center',
+    marginBottom: 32,
+  },
+  iconContainer: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  iconText: {
+    fontSize: 64,
+  },
+  infoCard: {
+    alignItems: 'center',
+    flexDirection: 'row',
     gap: 12,
+    marginBottom: 24,
+    padding: 16,
   },
   infoIcon: {
     fontSize: 20,
@@ -300,15 +277,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
-  errorText: {
-    fontSize: 14,
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  enableButton: {
-    marginBottom: 12,
+  scrollView: {
+    flex: 1,
   },
   skipButton: {
     marginBottom: 16,
+  },
+  subtitle: {
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    textAlign: 'center',
   },
 });

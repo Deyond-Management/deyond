@@ -48,10 +48,7 @@ export class GasService {
    */
   async getGasPrices(): Promise<GasPrices> {
     // Check cache
-    if (
-      this.cache &&
-      Date.now() - this.cache.timestamp < this.cacheTimeout
-    ) {
+    if (this.cache && Date.now() - this.cache.timestamp < this.cacheTimeout) {
       return this.cache.data;
     }
 

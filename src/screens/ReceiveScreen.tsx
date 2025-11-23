@@ -5,14 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Clipboard,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Clipboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -43,18 +36,11 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-      >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Instructions */}
         <View style={styles.instructionsContainer}>
-          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-            Receive Crypto
-          </Text>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>Receive Crypto</Text>
           <Text style={[styles.instructions, { color: theme.colors.text.secondary }]}>
             Share this address to receive cryptocurrency
           </Text>
@@ -71,9 +57,7 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
               ]}
               testID="qr-code"
             >
-              <Text style={[styles.qrText, { color: theme.colors.text.primary }]}>
-                QR Code
-              </Text>
+              <Text style={[styles.qrText, { color: theme.colors.text.primary }]}>QR Code</Text>
               <Text style={[styles.qrSubtext, { color: theme.colors.text.secondary }]}>
                 Scan to receive
               </Text>
@@ -126,7 +110,8 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
             ⚠️ Important
           </Text>
           <Text style={[styles.warningText, { color: theme.isDark ? '#FFE0B2' : '#EF6C00' }]}>
-            Only send ETH and ERC-20 tokens to this address. Sending other assets may result in permanent loss.
+            Only send ETH and ERC-20 tokens to this address. Sending other assets may result in
+            permanent loss.
           </Text>
         </Card>
       </ScrollView>
@@ -135,78 +120,78 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
+  address: {
+    fontFamily: 'monospace',
+    fontSize: 14,
+    lineHeight: 20,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 32,
-  },
-  instructionsContainer: {
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  addressLabel: {
+    fontSize: 14,
+    fontWeight: '600',
     marginBottom: 8,
+  },
+  button: {
+    marginBottom: 12,
+  },
+  buttonsContainer: {
+    marginTop: 8,
+  },
+  card: {
+    marginBottom: 16,
   },
   instructions: {
     fontSize: 14,
     textAlign: 'center',
   },
-  card: {
-    marginBottom: 16,
+  instructionsContainer: {
+    alignItems: 'center',
+    marginBottom: 24,
   },
   qrContainer: {
     alignItems: 'center',
     paddingVertical: 24,
   },
   qrPlaceholder: {
-    width: 200,
-    height: 200,
-    borderRadius: 12,
     alignItems: 'center',
+    borderRadius: 12,
+    height: 200,
     justifyContent: 'center',
+    width: 200,
+  },
+  qrSubtext: {
+    fontSize: 14,
   },
   qrText: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
   },
-  qrSubtext: {
-    fontSize: 14,
+  safeArea: {
+    flex: 1,
   },
-  addressLabel: {
-    fontSize: 14,
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 32,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 8,
-    fontWeight: '600',
-  },
-  address: {
-    fontSize: 14,
-    fontFamily: 'monospace',
-    lineHeight: 20,
-  },
-  buttonsContainer: {
-    marginTop: 8,
-  },
-  button: {
-    marginBottom: 12,
   },
   warningCard: {
     marginTop: 8,
+  },
+  warningText: {
+    fontSize: 12,
+    lineHeight: 18,
   },
   warningTitle: {
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 8,
-  },
-  warningText: {
-    fontSize: 12,
-    lineHeight: 18,
   },
 });
 

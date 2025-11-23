@@ -59,9 +59,7 @@ export function OptimizedList<T>({
   // Refresh control
   const refreshControl = useMemo(
     () =>
-      onRefresh ? (
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      ) : undefined,
+      onRefresh ? <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> : undefined,
     [onRefresh, refreshing]
   );
 
@@ -106,32 +104,26 @@ interface MemoizedListItemProps<T> {
   renderContent: (item: T) => React.ReactElement;
 }
 
-function MemoizedListItemComponent<T>({
-  item,
-  renderContent,
-}: MemoizedListItemProps<T>) {
+function MemoizedListItemComponent<T>({ item, renderContent }: MemoizedListItemProps<T>) {
   return renderContent(item);
 }
 
 // Use memo with custom comparison
-export const MemoizedListItem = memo(
-  MemoizedListItemComponent,
-  (prevProps, nextProps) => {
-    // Only re-render if item reference changes
-    return prevProps.item === nextProps.item;
-  }
-) as typeof MemoizedListItemComponent;
+export const MemoizedListItem = memo(MemoizedListItemComponent, (prevProps, nextProps) => {
+  // Only re-render if item reference changes
+  return prevProps.item === nextProps.item;
+}) as typeof MemoizedListItemComponent;
 
 const styles = StyleSheet.create({
   emptyContainer: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
     paddingVertical: 40,
   },
   emptyText: {
-    fontSize: 16,
     color: '#666',
+    fontSize: 16,
   },
 });
 

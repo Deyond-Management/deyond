@@ -16,9 +16,7 @@ const renderWithTheme = (component: React.ReactElement) => {
 describe('NetworkStatus', () => {
   describe('Online State', () => {
     it('should not show banner when online', () => {
-      const { queryByTestId } = renderWithTheme(
-        <NetworkStatus isConnected={true} />
-      );
+      const { queryByTestId } = renderWithTheme(<NetworkStatus isConnected={true} />);
 
       expect(queryByTestId('network-banner')).toBeNull();
     });
@@ -26,25 +24,19 @@ describe('NetworkStatus', () => {
 
   describe('Offline State', () => {
     it('should show banner when offline', () => {
-      const { getByTestId } = renderWithTheme(
-        <NetworkStatus isConnected={false} />
-      );
+      const { getByTestId } = renderWithTheme(<NetworkStatus isConnected={false} />);
 
       expect(getByTestId('network-banner')).toBeDefined();
     });
 
     it('should display offline message', () => {
-      const { getByText } = renderWithTheme(
-        <NetworkStatus isConnected={false} />
-      );
+      const { getByText } = renderWithTheme(<NetworkStatus isConnected={false} />);
 
       expect(getByText(/offline/i)).toBeDefined();
     });
 
     it('should show warning icon', () => {
-      const { getByTestId } = renderWithTheme(
-        <NetworkStatus isConnected={false} />
-      );
+      const { getByTestId } = renderWithTheme(<NetworkStatus isConnected={false} />);
 
       expect(getByTestId('offline-icon')).toBeDefined();
     });
@@ -71,10 +63,7 @@ describe('NetworkStatus', () => {
   describe('Custom Message', () => {
     it('should display custom offline message', () => {
       const { getByText } = renderWithTheme(
-        <NetworkStatus
-          isConnected={false}
-          offlineMessage="Custom offline message"
-        />
+        <NetworkStatus isConnected={false} offlineMessage="Custom offline message" />
       );
 
       expect(getByText('Custom offline message')).toBeDefined();
@@ -83,9 +72,7 @@ describe('NetworkStatus', () => {
 
   describe('Accessibility', () => {
     it('should have accessible offline banner', () => {
-      const { getByLabelText } = renderWithTheme(
-        <NetworkStatus isConnected={false} />
-      );
+      const { getByLabelText } = renderWithTheme(<NetworkStatus isConnected={false} />);
 
       expect(getByLabelText(/network status/i)).toBeDefined();
     });

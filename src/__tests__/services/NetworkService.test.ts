@@ -77,10 +77,9 @@ describe('NetworkService', () => {
         json: () => Promise.resolve({ success: true }),
       });
 
-      const result = await networkService.securePost(
-        'https://api.example.com/data',
-        { key: 'value' }
-      );
+      const result = await networkService.securePost('https://api.example.com/data', {
+        key: 'value',
+      });
 
       expect(result).toEqual({ success: true });
       expect(global.fetch).toHaveBeenCalledWith(
@@ -93,9 +92,9 @@ describe('NetworkService', () => {
     });
 
     it('should reject non-HTTPS requests', async () => {
-      await expect(
-        networkService.secureGet('http://api.example.com/data')
-      ).rejects.toThrow('HTTPS required');
+      await expect(networkService.secureGet('http://api.example.com/data')).rejects.toThrow(
+        'HTTPS required'
+      );
     });
   });
 
@@ -103,10 +102,7 @@ describe('NetworkService', () => {
     it('should validate certificate against pins', () => {
       networkService.addPin('api.example.com', 'sha256/validpin...');
 
-      const isValid = networkService.validateCertificate(
-        'api.example.com',
-        'sha256/validpin...'
-      );
+      const isValid = networkService.validateCertificate('api.example.com', 'sha256/validpin...');
 
       expect(isValid).toBe(true);
     });
@@ -114,10 +110,7 @@ describe('NetworkService', () => {
     it('should reject invalid certificate', () => {
       networkService.addPin('api.example.com', 'sha256/validpin...');
 
-      const isValid = networkService.validateCertificate(
-        'api.example.com',
-        'sha256/invalidpin...'
-      );
+      const isValid = networkService.validateCertificate('api.example.com', 'sha256/invalidpin...');
 
       expect(isValid).toBe(false);
     });
@@ -176,15 +169,13 @@ describe('NetworkService', () => {
     // Skip: AbortController doesn't work properly with jest fake timers
     // In production, timeout works correctly with real AbortController
     it.skip('should timeout long requests', async () => {
-      (global.fetch as jest.Mock).mockImplementation(() =>
-        new Promise((resolve) => setTimeout(resolve, 10000))
+      (global.fetch as jest.Mock).mockImplementation(
+        () => new Promise(resolve => setTimeout(resolve, 10000))
       );
 
       const shortTimeoutService = new NetworkService({ timeout: 100 });
 
-      await expect(
-        shortTimeoutService.secureGet('https://api.example.com/data')
-      ).rejects.toThrow();
+      await expect(shortTimeoutService.secureGet('https://api.example.com/data')).rejects.toThrow();
     });
 
     it('should retry on failure', async () => {
@@ -198,10 +189,7 @@ describe('NetworkService', () => {
         });
 
       const retryService = new NetworkService({ timeout: 30000 });
-      const result = await retryService.secureGet(
-        'https://api.example.com/data',
-        { retries: 1 }
-      );
+      const result = await retryService.secureGet('https://api.example.com/data', { retries: 1 });
 
       expect(result).toEqual({ data: 'success' });
       expect(global.fetch).toHaveBeenCalledTimes(2);
@@ -219,17 +207,17 @@ describe('NetworkService', () => {
       });
 
       const errorService = new NetworkService();
-      await expect(
-        errorService.secureGet('https://api.example.com/data')
-      ).rejects.toThrow('Internal Server Error');
+      await expect(errorService.secureGet('https://api.example.com/data')).rejects.toThrow(
+        'Internal Server Error'
+      );
     });
 
     it('should throw on network error', async () => {
       (global.fetch as jest.Mock).mockRejectedValue(new Error('Network error'));
 
-      await expect(
-        networkService.secureGet('https://api.example.com/data')
-      ).rejects.toThrow('Network error');
+      await expect(networkService.secureGet('https://api.example.com/data')).rejects.toThrow(
+        'Network error'
+      );
     });
   });
 

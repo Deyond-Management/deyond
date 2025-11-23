@@ -70,7 +70,20 @@ describe('Onboarding Slice', () => {
 
     it('should set mnemonic', () => {
       const store = createTestStore();
-      const mnemonic = ['word1', 'word2', 'word3', 'word4', 'word5', 'word6', 'word7', 'word8', 'word9', 'word10', 'word11', 'word12'];
+      const mnemonic = [
+        'word1',
+        'word2',
+        'word3',
+        'word4',
+        'word5',
+        'word6',
+        'word7',
+        'word8',
+        'word9',
+        'word10',
+        'word11',
+        'word12',
+      ];
       store.dispatch(setMnemonic(mnemonic));
 
       const state = store.getState().onboarding;
@@ -82,7 +95,8 @@ describe('Onboarding Slice', () => {
       const store = createTestStore();
       const importData = {
         method: 'mnemonic' as const,
-        value: 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+        value:
+          'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
       };
       store.dispatch(setImportData(importData));
 
@@ -233,7 +247,20 @@ describe('Onboarding Slice', () => {
       expect(store.getState().onboarding.step).toBe('mnemonic');
 
       // Step 3: Verify
-      const mnemonic = ['word1', 'word2', 'word3', 'word4', 'word5', 'word6', 'word7', 'word8', 'word9', 'word10', 'word11', 'word12'];
+      const mnemonic = [
+        'word1',
+        'word2',
+        'word3',
+        'word4',
+        'word5',
+        'word6',
+        'word7',
+        'word8',
+        'word9',
+        'word10',
+        'word11',
+        'word12',
+      ];
       store.dispatch(setMnemonic(mnemonic));
       expect(store.getState().onboarding.step).toBe('verify');
 

@@ -17,10 +17,7 @@ export class CryptoService {
    * Generate SHA-256 hash
    */
   async sha256(data: string): Promise<string> {
-    const hash = await Crypto.digestStringAsync(
-      Crypto.CryptoDigestAlgorithm.SHA256,
-      data
-    );
+    const hash = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, data);
     return hash;
   }
 
@@ -132,7 +129,7 @@ export class CryptoService {
   // Helper functions
   private bytesToHex(bytes: Uint8Array): string {
     return Array.from(bytes)
-      .map((b) => b.toString(16).padStart(2, '0'))
+      .map(b => b.toString(16).padStart(2, '0'))
       .join('');
   }
 

@@ -81,7 +81,6 @@ const networkSlice = createSlice({
   },
 });
 
-export const { setCurrentNetwork, addNetwork, updateNetwork, removeNetwork } =
-  networkSlice.actions;
+export const { setCurrentNetwork, addNetwork, updateNetwork, removeNetwork } = networkSlice.actions;
 
 export default networkSlice.reducer;

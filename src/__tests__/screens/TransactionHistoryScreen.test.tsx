@@ -99,10 +99,7 @@ describe('TransactionHistoryScreen', () => {
       const txItems = getAllByTestId(/tx-item-/);
       fireEvent.press(txItems[0]);
 
-      expect(mockNavigation.navigate).toHaveBeenCalledWith(
-        'TransactionDetail',
-        expect.any(Object)
-      );
+      expect(mockNavigation.navigate).toHaveBeenCalledWith('TransactionDetail', expect.any(Object));
     });
 
     it('should support pull to refresh', async () => {
@@ -120,10 +117,7 @@ describe('TransactionHistoryScreen', () => {
   describe('Empty State', () => {
     it('should show empty state when no transactions', () => {
       const { getByTestId } = renderWithTheme(
-        <TransactionHistoryScreen
-          navigation={mockNavigation as any}
-          initialTransactions={[]}
-        />
+        <TransactionHistoryScreen navigation={mockNavigation as any} initialTransactions={[]} />
       );
 
       expect(getByTestId('empty-state')).toBeDefined();
@@ -131,10 +125,7 @@ describe('TransactionHistoryScreen', () => {
 
     it('should show appropriate message for empty state', () => {
       const { getByText } = renderWithTheme(
-        <TransactionHistoryScreen
-          navigation={mockNavigation as any}
-          initialTransactions={[]}
-        />
+        <TransactionHistoryScreen navigation={mockNavigation as any} initialTransactions={[]} />
       );
 
       expect(getByText(/No transactions/i)).toBeDefined();
@@ -144,10 +135,7 @@ describe('TransactionHistoryScreen', () => {
   describe('Loading State', () => {
     it('should show loading indicator when loading', () => {
       const { getByTestId } = renderWithTheme(
-        <TransactionHistoryScreen
-          navigation={mockNavigation as any}
-          initialLoading={true}
-        />
+        <TransactionHistoryScreen navigation={mockNavigation as any} initialLoading={true} />
       );
 
       expect(getByTestId('loading-indicator')).toBeDefined();

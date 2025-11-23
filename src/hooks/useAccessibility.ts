@@ -12,10 +12,7 @@ export function useScreenReader() {
   useEffect(() => {
     AccessibilityInfo.isScreenReaderEnabled().then(setIsEnabled);
 
-    const subscription = AccessibilityInfo.addEventListener(
-      'screenReaderChanged',
-      setIsEnabled
-    );
+    const subscription = AccessibilityInfo.addEventListener('screenReaderChanged', setIsEnabled);
 
     return () => subscription.remove();
   }, []);
@@ -29,10 +26,7 @@ export function useReduceMotion() {
   useEffect(() => {
     AccessibilityInfo.isReduceMotionEnabled().then(setIsEnabled);
 
-    const subscription = AccessibilityInfo.addEventListener(
-      'reduceMotionChanged',
-      setIsEnabled
-    );
+    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setIsEnabled);
 
     return () => subscription.remove();
   }, []);
@@ -46,10 +40,7 @@ export function useBoldText() {
   useEffect(() => {
     AccessibilityInfo.isBoldTextEnabled().then(setIsEnabled);
 
-    const subscription = AccessibilityInfo.addEventListener(
-      'boldTextChanged',
-      setIsEnabled
-    );
+    const subscription = AccessibilityInfo.addEventListener('boldTextChanged', setIsEnabled);
 
     return () => subscription.remove();
   }, []);

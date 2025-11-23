@@ -4,15 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Switch,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -71,15 +63,9 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
       </Text>
       <View style={styles.settingRight}>
         {value && (
-          <Text style={[styles.settingValue, { color: theme.colors.text.secondary }]}>
-            {value}
-          </Text>
+          <Text style={[styles.settingValue, { color: theme.colors.text.secondary }]}>{value}</Text>
         )}
-        {showArrow && (
-          <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>
-            ›
-          </Text>
-        )}
+        {showArrow && <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>›</Text>}
       </View>
     </TouchableOpacity>
   );
@@ -92,13 +78,8 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
     onValueChange,
     accessibilityLabel,
   }) => (
-    <View
-      testID={testID}
-      style={[styles.settingItem, { borderBottomColor: theme.colors.divider }]}
-    >
-      <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>
-        {label}
-      </Text>
+    <View testID={testID} style={[styles.settingItem, { borderBottomColor: theme.colors.divider }]}>
+      <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>{label}</Text>
       <Switch
         value={value}
         onValueChange={onValueChange}
@@ -111,21 +92,15 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
 
   // Section header component
   const SectionHeader: React.FC<{ title: string }> = ({ title }) => (
-    <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>
-      {title}
-    </Text>
+    <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>{title}</Text>
   );
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       <ScrollView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-            Settings
-          </Text>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>Settings</Text>
         </View>
 
         {/* Security Section */}
@@ -188,22 +163,9 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
         {/* About Section */}
         <SectionHeader title="About" />
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-          <SettingItem
-            testID="app-version"
-            label="Version"
-            value="1.0.0"
-            showArrow={false}
-          />
-          <SettingItem
-            testID="terms-of-service"
-            label="Terms of Service"
-            onPress={() => {}}
-          />
-          <SettingItem
-            testID="privacy-policy"
-            label="Privacy Policy"
-            onPress={() => {}}
-          />
+          <SettingItem testID="app-version" label="Version" value="1.0.0" showArrow={false} />
+          <SettingItem testID="terms-of-service" label="Terms of Service" onPress={() => {}} />
+          <SettingItem testID="privacy-policy" label="Privacy Policy" onPress={() => {}} />
         </View>
 
         {/* Danger Zone */}
@@ -225,8 +187,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
+  arrow: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  bottomPadding: {
+    height: 32,
   },
   container: {
     flex: 1,
@@ -234,48 +200,44 @@ const styles = StyleSheet.create({
   header: {
     padding: 16,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+  safeArea: {
+    flex: 1,
+  },
+  section: {
+    borderRadius: 12,
+    marginHorizontal: 16,
+    overflow: 'hidden',
   },
   sectionHeader: {
     fontSize: 13,
     fontWeight: '600',
-    textTransform: 'uppercase',
+    marginBottom: 8,
     marginLeft: 16,
     marginTop: 24,
-    marginBottom: 8,
-  },
-  section: {
-    marginHorizontal: 16,
-    borderRadius: 12,
-    overflow: 'hidden',
+    textTransform: 'uppercase',
   },
   settingItem: {
+    alignItems: 'center',
+    borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 14,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
+    paddingVertical: 14,
   },
   settingLabel: {
     fontSize: 16,
   },
   settingRight: {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   settingValue: {
     fontSize: 16,
     marginRight: 8,
   },
-  arrow: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  bottomPadding: {
-    height: 32,
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
   },
 });
 

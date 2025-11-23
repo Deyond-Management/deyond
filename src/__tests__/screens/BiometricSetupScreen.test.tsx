@@ -20,7 +20,20 @@ const mockNavigation = {
 const mockRoute = {
   params: {
     password: 'Test123!@#',
-    mnemonic: ['word1', 'word2', 'word3', 'word4', 'word5', 'word6', 'word7', 'word8', 'word9', 'word10', 'word11', 'word12'],
+    mnemonic: [
+      'word1',
+      'word2',
+      'word3',
+      'word4',
+      'word5',
+      'word6',
+      'word7',
+      'word8',
+      'word9',
+      'word10',
+      'word11',
+      'word12',
+    ],
   },
 };
 
@@ -68,9 +81,7 @@ describe('BiometricSetupScreen', () => {
         <BiometricSetupScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
-      expect(
-        getByTestId('skip-button') || getByText(/Skip/i) || getByText(/Later/i)
-      ).toBeDefined();
+      expect(getByTestId('skip-button') || getByText(/Skip/i) || getByText(/Later/i)).toBeDefined();
     });
 
     it('should render description text', () => {

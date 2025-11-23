@@ -4,13 +4,7 @@
  */
 
 import React, { useEffect, useRef } from 'react';
-import {
-  View,
-  StyleSheet,
-  Animated,
-  ViewStyle,
-  StyleProp,
-} from 'react-native';
+import { View, StyleSheet, Animated, ViewStyle, StyleProp } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 
 interface SkeletonLoaderProps {
@@ -71,17 +65,7 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
     baseStyle.width = width as any;
   }
 
-  return (
-    <Animated.View
-      testID={testID}
-      style={[
-        styles.skeleton,
-        baseStyle,
-        { opacity },
-        style,
-      ]}
-    />
-  );
+  return <Animated.View testID={testID} style={[styles.skeleton, baseStyle, { opacity }, style]} />;
 };
 
 interface SkeletonTextProps {
@@ -100,14 +84,7 @@ export const SkeletonText: React.FC<SkeletonTextProps> = ({
   style,
 }) => {
   if (lines === 1) {
-    return (
-      <SkeletonLoader
-        width={width}
-        height={height}
-        testID={testID}
-        style={style}
-      />
-    );
+    return <SkeletonLoader width={width} height={height} testID={testID} style={style} />;
   }
 
   return (
@@ -131,11 +108,7 @@ interface SkeletonCardProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const SkeletonCard: React.FC<SkeletonCardProps> = ({
-  height = 80,
-  testID,
-  style,
-}) => {
+export const SkeletonCard: React.FC<SkeletonCardProps> = ({ height = 80, testID, style }) => {
   const { theme } = useTheme();
 
   return (
@@ -161,10 +134,7 @@ interface TokenCardSkeletonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const TokenCardSkeleton: React.FC<TokenCardSkeletonProps> = ({
-  testID,
-  style,
-}) => {
+export const TokenCardSkeleton: React.FC<TokenCardSkeletonProps> = ({ testID, style }) => {
   const { theme } = useTheme();
 
   return (
@@ -181,20 +151,11 @@ export const TokenCardSkeleton: React.FC<TokenCardSkeletonProps> = ({
     >
       <View style={styles.tokenContent}>
         {/* Icon placeholder */}
-        <SkeletonLoader
-          width={40}
-          height={40}
-          borderRadius={20}
-          testID={`${testID}-icon`}
-        />
+        <SkeletonLoader width={40} height={40} borderRadius={20} testID={`${testID}-icon`} />
 
         {/* Text content */}
         <View style={styles.tokenTextContent}>
-          <SkeletonLoader
-            width={100}
-            height={16}
-            testID={`${testID}-name`}
-          />
+          <SkeletonLoader width={100} height={16} testID={`${testID}-name`} />
           <SkeletonLoader
             width={60}
             height={14}
@@ -206,11 +167,7 @@ export const TokenCardSkeleton: React.FC<TokenCardSkeletonProps> = ({
         {/* Value */}
         <View style={styles.tokenValue}>
           <SkeletonLoader width={80} height={16} />
-          <SkeletonLoader
-            width={50}
-            height={12}
-            style={{ marginTop: 4 }}
-          />
+          <SkeletonLoader width={50} height={12} style={{ marginTop: 4 }} />
         </View>
       </View>
     </View>
@@ -242,20 +199,11 @@ export const TransactionCardSkeleton: React.FC<TransactionCardSkeletonProps> = (
     >
       <View style={styles.txContent}>
         {/* Icon placeholder */}
-        <SkeletonLoader
-          width={36}
-          height={36}
-          borderRadius={18}
-          testID={`${testID}-icon`}
-        />
+        <SkeletonLoader width={36} height={36} borderRadius={18} testID={`${testID}-icon`} />
 
         {/* Text content */}
         <View style={styles.txTextContent}>
-          <SkeletonLoader
-            width={80}
-            height={14}
-            testID={`${testID}-type`}
-          />
+          <SkeletonLoader width={80} height={14} testID={`${testID}-type`} />
           <SkeletonLoader
             width={120}
             height={12}
@@ -276,10 +224,7 @@ interface BalanceSkeletonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const BalanceSkeleton: React.FC<BalanceSkeletonProps> = ({
-  testID,
-  style,
-}) => {
+export const BalanceSkeleton: React.FC<BalanceSkeletonProps> = ({ testID, style }) => {
   return (
     <View testID={testID} style={[styles.balanceContainer, style]}>
       <SkeletonLoader
@@ -288,33 +233,31 @@ export const BalanceSkeleton: React.FC<BalanceSkeletonProps> = ({
         testID={`${testID}-label`}
         style={{ marginBottom: 8 }}
       />
-      <SkeletonLoader
-        width={180}
-        height={36}
-        borderRadius={8}
-        testID={`${testID}-amount`}
-      />
+      <SkeletonLoader width={180} height={36} borderRadius={8} testID={`${testID}-amount`} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  skeleton: {
-    overflow: 'hidden',
+  balanceContainer: {
+    alignItems: 'center',
   },
   card: {
     borderRadius: 12,
-    padding: 16,
     borderWidth: 1,
+    padding: 16,
+  },
+  skeleton: {
+    overflow: 'hidden',
   },
   tokenCard: {
     borderRadius: 12,
-    padding: 16,
     borderWidth: 1,
+    padding: 16,
   },
   tokenContent: {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   tokenTextContent: {
     flex: 1,
@@ -325,19 +268,16 @@ const styles = StyleSheet.create({
   },
   txCard: {
     borderRadius: 12,
-    padding: 12,
     borderWidth: 1,
+    padding: 12,
   },
   txContent: {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   txTextContent: {
     flex: 1,
     marginLeft: 12,
-  },
-  balanceContainer: {
-    alignItems: 'center',
   },
 });
 

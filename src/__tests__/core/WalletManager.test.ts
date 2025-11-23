@@ -50,9 +50,7 @@ describe('WalletManager', () => {
       const password = 'password';
       const invalidMnemonic = 'invalid mnemonic phrase that is not valid';
 
-      await expect(
-        walletManager.importFromMnemonic(invalidMnemonic, password)
-      ).rejects.toThrow();
+      await expect(walletManager.importFromMnemonic(invalidMnemonic, password)).rejects.toThrow();
     });
   });
 
@@ -166,11 +164,7 @@ describe('WalletManager', () => {
       const wrongMessage = 'Wrong message';
 
       const signature = await walletManager.signMessage(wallet.privateKey, message);
-      const isValid = await walletManager.verifySignature(
-        wrongMessage,
-        signature,
-        wallet.address
-      );
+      const isValid = await walletManager.verifySignature(wrongMessage, signature, wallet.address);
 
       expect(isValid).toBe(false);
     });

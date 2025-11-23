@@ -144,10 +144,7 @@ export class ChatService {
   /**
    * Receive a message
    */
-  async receiveMessage(
-    sessionId: string,
-    params: ReceiveMessageParams
-  ): Promise<ChatMessage> {
+  async receiveMessage(sessionId: string, params: ReceiveMessageParams): Promise<ChatMessage> {
     const session = this.sessions.get(sessionId);
     if (!session) {
       throw new Error('Session not found');
@@ -187,12 +184,9 @@ export class ChatService {
   /**
    * Update message status
    */
-  async updateMessageStatus(
-    messageId: string,
-    status: ChatMessage['status']
-  ): Promise<void> {
+  async updateMessageStatus(messageId: string, status: ChatMessage['status']): Promise<void> {
     for (const [sessionId, messages] of this.messages) {
-      const messageIndex = messages.findIndex((m) => m.id === messageId);
+      const messageIndex = messages.findIndex(m => m.id === messageId);
       if (messageIndex !== -1) {
         messages[messageIndex].status = status;
         this.messages.set(sessionId, messages);
@@ -212,7 +206,7 @@ export class ChatService {
     }
 
     const messages = this.messages.get(sessionId) || [];
-    messages.forEach((msg) => {
+    messages.forEach(msg => {
       if (!msg.isOwn && msg.status !== 'read') {
         msg.status = 'read';
       }

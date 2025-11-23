@@ -20,18 +20,13 @@ const MockIcon = ({ name }: { name: string }) => <Text>{name}</Text>;
 describe('IconButton', () => {
   describe('Rendering', () => {
     it('should render with icon', () => {
-      const { getByText } = renderWithTheme(
-        <IconButton icon={<MockIcon name="close" />} />
-      );
+      const { getByText } = renderWithTheme(<IconButton icon={<MockIcon name="close" />} />);
       expect(getByText('close')).toBeDefined();
     });
 
     it('should render with testID', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="menu" />}
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="menu" />} testID="icon-button" />
       );
       expect(getByTestId('icon-button')).toBeDefined();
     });
@@ -40,10 +35,7 @@ describe('IconButton', () => {
   describe('Sizes', () => {
     it('should render medium size by default', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button).toBeDefined();
@@ -51,11 +43,7 @@ describe('IconButton', () => {
 
     it('should render small size', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          size="small"
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} size="small" testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button.props.style).toMatchObject(
@@ -65,11 +53,7 @@ describe('IconButton', () => {
 
     it('should render large size', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          size="large"
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} size="large" testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button.props.style).toMatchObject(
@@ -81,10 +65,7 @@ describe('IconButton', () => {
   describe('Variants', () => {
     it('should render default variant', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button).toBeDefined();
@@ -92,11 +73,7 @@ describe('IconButton', () => {
 
     it('should render primary variant', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          variant="primary"
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} variant="primary" testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button).toBeDefined();
@@ -104,11 +81,7 @@ describe('IconButton', () => {
 
     it('should render text variant (no background)', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          variant="text"
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} variant="text" testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button).toBeDefined();
@@ -116,11 +89,7 @@ describe('IconButton', () => {
 
     it('should render outlined variant', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          variant="outlined"
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} variant="outlined" testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button.props.style).toMatchObject(
@@ -132,11 +101,7 @@ describe('IconButton', () => {
   describe('States', () => {
     it('should be disabled when disabled prop is true', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          disabled
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} disabled testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button.props.accessibilityState).toMatchObject({ disabled: true });
@@ -144,11 +109,7 @@ describe('IconButton', () => {
 
     it('should show loading state', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          loading
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} loading testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button).toBeDefined();
@@ -193,11 +154,7 @@ describe('IconButton', () => {
     it('should call onPress when pressed', () => {
       const onPress = jest.fn();
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          onPress={onPress}
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} onPress={onPress} testID="icon-button" />
       );
 
       const button = getByTestId('icon-button');
@@ -210,11 +167,7 @@ describe('IconButton', () => {
   describe('Colors', () => {
     it('should support custom color', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          color="#FF0000"
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} color="#FF0000" testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button).toBeDefined();
@@ -236,10 +189,7 @@ describe('IconButton', () => {
   describe('Circular Shape', () => {
     it('should be circular by default', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       // Check if borderRadius equals half of width (circular)
@@ -254,10 +204,7 @@ describe('IconButton', () => {
   describe('Accessibility', () => {
     it('should have button role', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button.props.accessibilityRole).toBe('button');
@@ -265,21 +212,14 @@ describe('IconButton', () => {
 
     it('should have accessibility label', () => {
       const { getByLabelText } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          accessibilityLabel="Close button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} accessibilityLabel="Close button" />
       );
       expect(getByLabelText('Close button')).toBeDefined();
     });
 
     it('should indicate disabled state', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          disabled
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} disabled testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button.props.accessibilityState).toMatchObject({ disabled: true });
@@ -287,11 +227,7 @@ describe('IconButton', () => {
 
     it('should indicate loading state', () => {
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          loading
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} loading testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button.props.accessibilityState).toMatchObject(
@@ -304,11 +240,7 @@ describe('IconButton', () => {
     it('should support custom styles', () => {
       const customStyle = { margin: 10 };
       const { getByTestId } = renderWithTheme(
-        <IconButton
-          icon={<MockIcon name="icon" />}
-          style={customStyle}
-          testID="icon-button"
-        />
+        <IconButton icon={<MockIcon name="icon" />} style={customStyle} testID="icon-button" />
       );
       const button = getByTestId('icon-button');
       expect(button.props.style).toMatchObject(customStyle);

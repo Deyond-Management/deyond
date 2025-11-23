@@ -10,12 +10,12 @@ jest.mock('expo-crypto', () => ({
     let hash = 0;
     for (let i = 0; i < data.length; i++) {
       const char = data.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash;
     }
     return Math.abs(hash).toString(16).padStart(64, '0');
   }),
-  getRandomBytesAsync: jest.fn().mockImplementation(async (length) => {
+  getRandomBytesAsync: jest.fn().mockImplementation(async length => {
     const bytes = new Uint8Array(length);
     for (let i = 0; i < length; i++) {
       bytes[i] = Math.floor(Math.random() * 256);
@@ -119,7 +119,9 @@ describe('CryptoService', () => {
 
       const encrypted = await cryptoService.encrypt(plaintext, key1);
 
-      await expect(cryptoService.decrypt(encrypted, key2)).rejects.toThrow('Invalid authentication tag');
+      await expect(cryptoService.decrypt(encrypted, key2)).rejects.toThrow(
+        'Invalid authentication tag'
+      );
     });
   });
 

@@ -46,7 +46,9 @@ export class PriceService {
    */
   async getPrice(tokenId: string): Promise<PriceResult> {
     const cacheKey = `price:${tokenId}`;
-    const cached = this.getFromCache<{ [key: string]: { usd: number; usd_24h_change?: number } }>(cacheKey);
+    const cached = this.getFromCache<{ [key: string]: { usd: number; usd_24h_change?: number } }>(
+      cacheKey
+    );
 
     if (cached) {
       const tokenData = cached[tokenId];
@@ -182,7 +184,7 @@ export class PriceService {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
     });
 

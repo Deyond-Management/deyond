@@ -13,7 +13,6 @@ import {
   TouchableOpacity,
   Linking,
   ActivityIndicator,
-  
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
@@ -144,9 +143,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       {/* Header */}
       <View
         style={[
@@ -157,9 +154,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       >
         <View style={styles.headerTop}>
           <View>
-            <Text style={[styles.headerTitle, { color: theme.colors.text.primary }]}>
-              Wallet
-            </Text>
+            <Text style={[styles.headerTitle, { color: theme.colors.text.primary }]}>Wallet</Text>
             <Text style={[styles.headerAddress, { color: theme.colors.text.secondary }]}>
               {truncatedAddress}
             </Text>
@@ -169,7 +164,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             onPress={handleNetworkSelect}
             testID="network-selector"
           >
-            <View style={[styles.networkDot, { backgroundColor: currentNetwork?.isTestnet ? '#FF9800' : '#4CAF50' }]} />
+            <View
+              style={[
+                styles.networkDot,
+                { backgroundColor: currentNetwork?.isTestnet ? '#FF9800' : '#4CAF50' },
+              ]}
+            />
             <Text style={[styles.networkName, { color: theme.colors.text.primary }]}>
               {currentNetwork?.name ?? 'Select Network'}
             </Text>
@@ -233,9 +233,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
         {/* Tokens Section */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
-            My Tokens
-          </Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>My Tokens</Text>
           {isLoading && tokens.length === 0 ? (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -300,98 +298,98 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  actionButton: {
     flex: 1,
   },
-  header: {
-    padding: 16,
-    borderBottomWidth: 1,
-  },
-  headerTop: {
+  actionsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  headerAddress: {
-    fontSize: 14,
-  },
-  networkSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    gap: 6,
-  },
-  networkDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  networkName: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  networkArrow: {
-    fontSize: 8,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingBottom: 32,
-  },
-  balanceSection: {
-    padding: 24,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  balanceLabel: {
-    fontSize: 14,
-    marginBottom: 8,
+    gap: 12,
+    marginBottom: 24,
+    paddingHorizontal: 16,
   },
   balanceAmount: {
     fontSize: 36,
     fontWeight: 'bold',
   },
-  actionsContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    marginBottom: 24,
-    gap: 12,
+  balanceLabel: {
+    fontSize: 14,
+    marginBottom: 8,
   },
-  actionButton: {
-    flex: 1,
-  },
-  section: {
-    paddingHorizontal: 16,
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
+  balanceSection: {
+    alignItems: 'center',
+    marginBottom: 16,
+    padding: 24,
   },
   card: {
     marginBottom: 12,
   },
   emptyText: {
     fontSize: 14,
-    textAlign: 'center',
     paddingVertical: 32,
+    textAlign: 'center',
+  },
+  header: {
+    borderBottomWidth: 1,
+    padding: 16,
+  },
+  headerAddress: {
+    fontSize: 14,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  headerTop: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   loadingContainer: {
     alignItems: 'center',
     paddingVertical: 32,
   },
   loadingText: {
-    marginTop: 12,
     fontSize: 14,
+    marginTop: 12,
+  },
+  networkArrow: {
+    fontSize: 8,
+  },
+  networkDot: {
+    borderRadius: 4,
+    height: 8,
+    width: 8,
+  },
+  networkName: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  networkSelector: {
+    alignItems: 'center',
+    borderRadius: 20,
+    flexDirection: 'row',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 32,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  section: {
+    marginBottom: 24,
+    paddingHorizontal: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 12,
   },
 });
 

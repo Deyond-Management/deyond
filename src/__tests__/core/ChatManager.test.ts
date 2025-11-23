@@ -64,8 +64,18 @@ describe('ChatManager', () => {
         testSession.sharedSecret = 'test-shared-secret';
       }
 
-      const message1 = await chatManager.sendMessage(session.id, mockWalletAddress, '0x09...', 'Message 1');
-      const message2 = await chatManager.sendMessage(session.id, mockWalletAddress, '0x09...', 'Message 2');
+      const message1 = await chatManager.sendMessage(
+        session.id,
+        mockWalletAddress,
+        '0x09...',
+        'Message 1'
+      );
+      const message2 = await chatManager.sendMessage(
+        session.id,
+        mockWalletAddress,
+        '0x09...',
+        'Message 2'
+      );
 
       expect(message1.id).not.toEqual(message2.id);
     });
@@ -152,7 +162,12 @@ describe('ChatManager', () => {
         testSession.sharedSecret = 'test-shared-secret';
       }
 
-      const message = await chatManager.sendMessage(session.id, mockWalletAddress, '0x09...', 'Test');
+      const message = await chatManager.sendMessage(
+        session.id,
+        mockWalletAddress,
+        '0x09...',
+        'Test'
+      );
 
       chatManager.markMessageAsDelivered(message.id);
 
@@ -172,7 +187,12 @@ describe('ChatManager', () => {
         testSession.sharedSecret = 'test-shared-secret';
       }
 
-      const message = await chatManager.sendMessage(session.id, mockWalletAddress, '0x09...', 'Test');
+      const message = await chatManager.sendMessage(
+        session.id,
+        mockWalletAddress,
+        '0x09...',
+        'Test'
+      );
 
       chatManager.deleteMessage(message.id);
 

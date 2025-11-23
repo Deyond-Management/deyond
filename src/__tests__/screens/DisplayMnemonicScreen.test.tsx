@@ -115,9 +115,7 @@ describe('DisplayMnemonicScreen', () => {
       );
 
       expect(
-        getByText(/Never share/i) ||
-          getByText(/Do not share/i) ||
-          getByText(/Keep it safe/i)
+        getByText(/Never share/i) || getByText(/Do not share/i) || getByText(/Keep it safe/i)
       ).toBeDefined();
     });
 
@@ -127,9 +125,7 @@ describe('DisplayMnemonicScreen', () => {
       );
 
       expect(
-        getByText(/Write it down/i) ||
-          getByText(/Store safely/i) ||
-          getByText(/backup/i)
+        getByText(/Write it down/i) || getByText(/Store safely/i) || getByText(/backup/i)
       ).toBeDefined();
     });
   });

@@ -13,11 +13,7 @@ export class AppError extends Error {
   public readonly timestamp: number;
   public readonly context?: Record<string, unknown>;
 
-  constructor(
-    code: ErrorCode,
-    message?: string,
-    context?: Record<string, unknown>
-  ) {
+  constructor(code: ErrorCode, message?: string, context?: Record<string, unknown>) {
     super(message || getErrorMessage(code));
     this.name = 'AppError';
     this.code = code;

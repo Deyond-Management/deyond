@@ -21,18 +21,14 @@ describe('Button', () => {
     });
 
     it('should render with testID', () => {
-      const { getByTestId } = renderWithTheme(
-        <Button testID="test-button">Click Me</Button>
-      );
+      const { getByTestId } = renderWithTheme(<Button testID="test-button">Click Me</Button>);
       expect(getByTestId('test-button')).toBeDefined();
     });
   });
 
   describe('Variants', () => {
     it('should render primary variant by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Button testID="btn">Primary</Button>
-      );
+      const { getByTestId } = renderWithTheme(<Button testID="btn">Primary</Button>);
       const button = getByTestId('btn');
       expect(button).toBeDefined();
     });
@@ -67,9 +63,7 @@ describe('Button', () => {
 
   describe('Sizes', () => {
     it('should render medium size by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Button testID="btn">Medium</Button>
-      );
+      const { getByTestId } = renderWithTheme(<Button testID="btn">Medium</Button>);
       expect(getByTestId('btn')).toBeDefined();
     });
 

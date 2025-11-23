@@ -4,11 +4,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 
 type NetworkType = 'wifi' | 'cellular' | 'unknown';
@@ -72,26 +68,26 @@ export const NetworkStatus: React.FC<NetworkStatusProps> = ({
 
 const styles = StyleSheet.create({
   banner: {
-    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    flexDirection: 'row',
     paddingHorizontal: 16,
-  },
-  offlineIcon: {
-    fontSize: 14,
-    marginRight: 8,
-  },
-  offlineText: {
-    flex: 1,
-    fontSize: 12,
-    color: '#FFFFFF',
-    fontWeight: '500',
+    paddingVertical: 8,
   },
   indicator: {
     padding: 4,
   },
   indicatorIcon: {
     fontSize: 12,
+  },
+  offlineIcon: {
+    fontSize: 14,
+    marginRight: 8,
+  },
+  offlineText: {
+    color: '#FFFFFF',
+    flex: 1,
+    fontSize: 12,
+    fontWeight: '500',
   },
 });
 

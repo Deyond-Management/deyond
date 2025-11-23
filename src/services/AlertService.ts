@@ -66,28 +66,28 @@ export class AlertService {
     this.rules = [
       {
         name: 'high_error_rate',
-        condition: (metrics) => (metrics.error_rate || 0) > 10,
+        condition: metrics => (metrics.error_rate || 0) > 10,
         severity: 'critical',
         channels: ['pagerduty', 'slack'],
         cooldown: 300000, // 5 minutes
       },
       {
         name: 'high_latency',
-        condition: (metrics) => (metrics.api_latency_p95 || 0) > 2000,
+        condition: metrics => (metrics.api_latency_p95 || 0) > 2000,
         severity: 'warning',
         channels: ['slack'],
         cooldown: 600000, // 10 minutes
       },
       {
         name: 'transaction_failures',
-        condition: (metrics) => (metrics.tx_failure_rate || 0) > 5,
+        condition: metrics => (metrics.tx_failure_rate || 0) > 5,
         severity: 'error',
         channels: ['pagerduty', 'slack'],
         cooldown: 300000,
       },
       {
         name: 'rpc_provider_down',
-        condition: (metrics) => (metrics.rpc_success_rate || 100) < 90,
+        condition: metrics => (metrics.rpc_success_rate || 100) < 90,
         severity: 'critical',
         channels: ['pagerduty', 'slack'],
         cooldown: 60000, // 1 minute
@@ -110,15 +110,18 @@ export class AlertService {
       if (rule.condition(metrics)) {
         const lastTime = this.lastAlertTime.get(rule.name) || 0;
         if (Date.now() - lastTime > rule.cooldown) {
-          await this.sendAlert({
-            id: `${rule.name}_${Date.now()}`,
-            title: `Alert: ${rule.name.replace(/_/g, ' ')}`,
-            message: `Rule "${rule.name}" triggered`,
-            severity: rule.severity,
-            source: 'alert_service',
-            timestamp: Date.now(),
-            metadata: metrics,
-          }, rule.channels);
+          await this.sendAlert(
+            {
+              id: `${rule.name}_${Date.now()}`,
+              title: `Alert: ${rule.name.replace(/_/g, ' ')}`,
+              message: `Rule "${rule.name}" triggered`,
+              severity: rule.severity,
+              source: 'alert_service',
+              timestamp: Date.now(),
+              metadata: metrics,
+            },
+            rule.channels
+          );
 
           this.lastAlertTime.set(rule.name, Date.now());
         }

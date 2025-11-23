@@ -180,7 +180,7 @@ export function ThemeProvider({ children, initialMode = 'light' }: ThemeProvider
   };
 
   const toggleMode = () => {
-    setMode((current) => {
+    setMode(current => {
       if (current === 'light') return 'dark';
       if (current === 'dark') return 'light';
       return 'light';
@@ -194,11 +194,7 @@ export function ThemeProvider({ children, initialMode = 'light' }: ThemeProvider
     toggleMode,
   };
 
-  return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 // Hooks

@@ -112,14 +112,15 @@ export class EthereumProvider {
    */
   async getFeeData(): Promise<FeeData> {
     // Get latest block for baseFeePerGas
-    const block = await this.call<{ baseFeePerGas?: string }>('eth_getBlockByNumber', ['latest', false]);
+    const block = await this.call<{ baseFeePerGas?: string }>('eth_getBlockByNumber', [
+      'latest',
+      false,
+    ]);
 
     // Get max priority fee
     const maxPriorityFeePerGas = await this.call<string>('eth_maxPriorityFeePerGas', []);
 
-    const baseFeePerGas = block.baseFeePerGas
-      ? BigInt(block.baseFeePerGas).toString()
-      : null;
+    const baseFeePerGas = block.baseFeePerGas ? BigInt(block.baseFeePerGas).toString() : null;
 
     const priorityFee = BigInt(maxPriorityFeePerGas);
     const baseFee = baseFeePerGas ? BigInt(baseFeePerGas) : BigInt(0);
@@ -149,7 +150,9 @@ export class EthereumProvider {
    * Get transaction receipt
    */
   async getTransactionReceipt(txHash: string): Promise<TransactionReceipt | null> {
-    const result = await this.call<TransactionReceipt | null>('eth_getTransactionReceipt', [txHash]);
+    const result = await this.call<TransactionReceipt | null>('eth_getTransactionReceipt', [
+      txHash,
+    ]);
 
     if (!result) {
       return null;
@@ -157,13 +160,12 @@ export class EthereumProvider {
 
     return {
       transactionHash: result.transactionHash,
-      blockNumber: typeof result.blockNumber === 'string'
-        ? parseInt(result.blockNumber, 16)
-        : result.blockNumber,
+      blockNumber:
+        typeof result.blockNumber === 'string'
+          ? parseInt(result.blockNumber, 16)
+          : result.blockNumber,
       blockHash: result.blockHash,
-      status: typeof result.status === 'string'
-        ? parseInt(result.status, 16)
-        : result.status,
+      status: typeof result.status === 'string' ? parseInt(result.status, 16) : result.status,
       gasUsed: result.gasUsed,
       from: result.from,
       to: result.to,

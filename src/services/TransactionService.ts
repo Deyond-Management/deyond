@@ -82,10 +82,7 @@ export class TransactionService {
   /**
    * Sign a transaction with private key
    */
-  async signTransaction(
-    tx: Transaction,
-    privateKey: string
-  ): Promise<SignedTransaction> {
+  async signTransaction(tx: Transaction, privateKey: string): Promise<SignedTransaction> {
     // In real app, this would use ethers.js or web3.js to sign
     // For now, return mock signed transaction
     const rawTransaction = '0xf86c' + Math.random().toString(16).slice(2);
@@ -100,9 +97,7 @@ export class TransactionService {
   /**
    * Broadcast signed transaction to network
    */
-  async broadcastTransaction(
-    signedTx: SignedTransaction
-  ): Promise<BroadcastResult> {
+  async broadcastTransaction(signedTx: SignedTransaction): Promise<BroadcastResult> {
     // In real app, this would call eth_sendRawTransaction
     // For now, return mock result
     return {
@@ -114,9 +109,7 @@ export class TransactionService {
   /**
    * Get transaction receipt
    */
-  async getTransactionReceipt(
-    txHash: string
-  ): Promise<TransactionReceipt | null> {
+  async getTransactionReceipt(txHash: string): Promise<TransactionReceipt | null> {
     // Mock: pending transaction returns null
     if (txHash.endsWith('0001')) {
       return null;
@@ -152,20 +145,13 @@ export class TransactionService {
       await this.sleep(1000);
     }
 
-    throw new TransactionError(
-      'Transaction confirmation timeout',
-      'TIMEOUT'
-    );
+    throw new TransactionError('Transaction confirmation timeout', 'TIMEOUT');
   }
 
   /**
    * Validate that balance is sufficient for transaction
    */
-  validateBalance(
-    balance: string,
-    value: string,
-    gasCost: string
-  ): boolean {
+  validateBalance(balance: string, value: string, gasCost: string): boolean {
     const balanceBN = BigInt(balance);
     const valueBN = BigInt(value);
     const gasCostBN = BigInt(gasCost);
@@ -179,10 +165,7 @@ export class TransactionService {
   validateGasLimit(gasLimit: string): void {
     const limit = parseInt(gasLimit);
     if (isNaN(limit) || limit < 21000) {
-      throw new TransactionError(
-        'Gas limit must be at least 21000',
-        'INVALID_GAS_LIMIT'
-      );
+      throw new TransactionError('Gas limit must be at least 21000', 'INVALID_GAS_LIMIT');
     }
   }
 

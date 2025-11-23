@@ -61,10 +61,7 @@ describe('ChatConversationScreen', () => {
   describe('Rendering', () => {
     it('should render peer name in header', () => {
       const { getByText } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByText('Alice')).toBeDefined();
@@ -84,10 +81,7 @@ describe('ChatConversationScreen', () => {
 
     it('should render text input', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByTestId('message-input')).toBeDefined();
@@ -95,10 +89,7 @@ describe('ChatConversationScreen', () => {
 
     it('should render send button', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByTestId('send-button')).toBeDefined();
@@ -161,10 +152,7 @@ describe('ChatConversationScreen', () => {
   describe('Input', () => {
     it('should allow typing message', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       const input = getByTestId('message-input');
@@ -175,10 +163,7 @@ describe('ChatConversationScreen', () => {
 
     it('should disable send button when input is empty', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       const sendButton = getByTestId('send-button');
@@ -187,10 +172,7 @@ describe('ChatConversationScreen', () => {
 
     it('should enable send button when input has text', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       const input = getByTestId('message-input');
@@ -202,10 +184,7 @@ describe('ChatConversationScreen', () => {
 
     it('should clear input after sending', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       const input = getByTestId('message-input');
@@ -247,10 +226,7 @@ describe('ChatConversationScreen', () => {
   describe('Header Actions', () => {
     it('should have info button in header', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByTestId('info-button')).toBeDefined();
@@ -260,10 +236,7 @@ describe('ChatConversationScreen', () => {
   describe('Accessibility', () => {
     it('should have accessible send button', () => {
       const { getByLabelText } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByLabelText(/send/i)).toBeDefined();
@@ -271,10 +244,7 @@ describe('ChatConversationScreen', () => {
 
     it('should have accessible message input', () => {
       const { getAllByLabelText } = renderWithTheme(
-        <ChatConversationScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <ChatConversationScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       const messageInputs = getAllByLabelText(/message/i);

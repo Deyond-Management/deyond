@@ -33,17 +33,23 @@ describe('HapticService', () => {
   describe('notification feedback', () => {
     it('should trigger success notification', async () => {
       await hapticService.notification('success');
-      expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Success);
+      expect(Haptics.notificationAsync).toHaveBeenCalledWith(
+        Haptics.NotificationFeedbackType.Success
+      );
     });
 
     it('should trigger warning notification', async () => {
       await hapticService.notification('warning');
-      expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Warning);
+      expect(Haptics.notificationAsync).toHaveBeenCalledWith(
+        Haptics.NotificationFeedbackType.Warning
+      );
     });
 
     it('should trigger error notification', async () => {
       await hapticService.notification('error');
-      expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Error);
+      expect(Haptics.notificationAsync).toHaveBeenCalledWith(
+        Haptics.NotificationFeedbackType.Error
+      );
     });
   });
 
@@ -81,12 +87,16 @@ describe('HapticService', () => {
 
     it('should trigger success haptic', async () => {
       await hapticService.success();
-      expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Success);
+      expect(Haptics.notificationAsync).toHaveBeenCalledWith(
+        Haptics.NotificationFeedbackType.Success
+      );
     });
 
     it('should trigger error haptic', async () => {
       await hapticService.error();
-      expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Error);
+      expect(Haptics.notificationAsync).toHaveBeenCalledWith(
+        Haptics.NotificationFeedbackType.Error
+      );
     });
   });
 });

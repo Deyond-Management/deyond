@@ -66,9 +66,7 @@ describe('CacheManager', () => {
         ttl: 60000,
       };
 
-      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(
-        JSON.stringify(storedEntry)
-      );
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(JSON.stringify(storedEntry));
 
       const newCache = new CacheManager<string>({
         prefix: '@test_cache_',
@@ -86,9 +84,7 @@ describe('CacheManager', () => {
         ttl: 1000,
       };
 
-      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(
-        JSON.stringify(expiredEntry)
-      );
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(JSON.stringify(expiredEntry));
 
       const value = await cache.get('key');
       expect(value).toBeNull();

@@ -48,9 +48,7 @@ describe('ChatHomeScreen', () => {
 
   describe('Rendering', () => {
     it('should render chat home title', () => {
-      const { getByText } = renderWithTheme(
-        <ChatHomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<ChatHomeScreen navigation={mockNavigation as any} />);
 
       expect(getByText('Messages')).toBeDefined();
     });
@@ -65,10 +63,7 @@ describe('ChatHomeScreen', () => {
 
     it('should render session list', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={mockSessions}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={mockSessions} />
       );
 
       expect(getByTestId('session-list')).toBeDefined();
@@ -78,10 +73,7 @@ describe('ChatHomeScreen', () => {
   describe('Session Items', () => {
     it('should display session peer name', () => {
       const { getByText } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={mockSessions}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={mockSessions} />
       );
 
       expect(getByText('Alice')).toBeDefined();
@@ -90,10 +82,7 @@ describe('ChatHomeScreen', () => {
 
     it('should display last message preview', () => {
       const { getByText } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={mockSessions}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={mockSessions} />
       );
 
       expect(getByText('Hello there!')).toBeDefined();
@@ -101,10 +90,7 @@ describe('ChatHomeScreen', () => {
 
     it('should display unread count badge', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={mockSessions}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={mockSessions} />
       );
 
       expect(getByTestId('unread-badge-session-1')).toBeDefined();
@@ -112,10 +98,7 @@ describe('ChatHomeScreen', () => {
 
     it('should not display badge for zero unread', () => {
       const { queryByTestId } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={mockSessions}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={mockSessions} />
       );
 
       expect(queryByTestId('unread-badge-session-2')).toBeNull();
@@ -135,10 +118,7 @@ describe('ChatHomeScreen', () => {
 
     it('should navigate to chat when session is pressed', () => {
       const { getAllByTestId } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={mockSessions}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={mockSessions} />
       );
 
       const sessionItems = getAllByTestId(/session-item-/);
@@ -154,10 +134,7 @@ describe('ChatHomeScreen', () => {
   describe('Empty State', () => {
     it('should show empty state when no sessions', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={[]}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={[]} />
       );
 
       expect(getByTestId('empty-state')).toBeDefined();
@@ -165,10 +142,7 @@ describe('ChatHomeScreen', () => {
 
     it('should show appropriate message for empty state', () => {
       const { getByText } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={[]}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={[]} />
       );
 
       expect(getByText(/No conversations/i)).toBeDefined();
@@ -178,10 +152,7 @@ describe('ChatHomeScreen', () => {
   describe('Session Status', () => {
     it('should show active indicator for active sessions', () => {
       const { getByTestId } = renderWithTheme(
-        <ChatHomeScreen
-          navigation={mockNavigation as any}
-          initialSessions={mockSessions}
-        />
+        <ChatHomeScreen navigation={mockNavigation as any} initialSessions={mockSessions} />
       );
 
       expect(getByTestId('active-indicator-session-1')).toBeDefined();

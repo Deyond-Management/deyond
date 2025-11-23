@@ -63,7 +63,7 @@ const tokenSlice = createSlice({
   name: 'token',
   initialState,
   reducers: {
-    clearTokens: (state) => {
+    clearTokens: state => {
       state.tokens = [];
       state.totalBalance = '0.00';
       state.error = null;
@@ -72,14 +72,14 @@ const tokenSlice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
-    clearError: (state) => {
+    clearError: state => {
       state.error = null;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     // fetchTokenBalances
     builder
-      .addCase(fetchTokenBalances.pending, (state) => {
+      .addCase(fetchTokenBalances.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
@@ -97,7 +97,7 @@ const tokenSlice = createSlice({
 
     // refreshTokenBalances
     builder
-      .addCase(refreshTokenBalances.pending, (state) => {
+      .addCase(refreshTokenBalances.pending, state => {
         state.isLoading = true;
         state.error = null;
       })

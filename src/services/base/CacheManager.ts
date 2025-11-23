@@ -18,11 +18,7 @@ export class CacheManager<T = unknown> {
   private defaultTtl: number;
   private useStorage: boolean;
 
-  constructor(options: {
-    prefix: string;
-    defaultTtl?: number;
-    useStorage?: boolean;
-  }) {
+  constructor(options: { prefix: string; defaultTtl?: number; useStorage?: boolean }) {
     this.storagePrefix = options.prefix;
     this.defaultTtl = options.defaultTtl || CACHE_TTL.MEDIUM;
     this.useStorage = options.useStorage ?? false;
@@ -115,11 +111,7 @@ export class CacheManager<T = unknown> {
   /**
    * Get or set with factory function
    */
-  async getOrSet(
-    key: string,
-    factory: () => Promise<T>,
-    ttl?: number
-  ): Promise<T> {
+  async getOrSet(key: string, factory: () => Promise<T>, ttl?: number): Promise<T> {
     const cached = await this.get(key);
     if (cached !== null) {
       return cached;

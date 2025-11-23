@@ -4,15 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Switch,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -55,9 +47,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
   };
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       <ScrollView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
@@ -67,13 +57,9 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
             onPress={handleBack}
             accessibilityLabel="Go back"
           >
-            <Text style={[styles.backIcon, { color: theme.colors.primary }]}>
-              ←
-            </Text>
+            <Text style={[styles.backIcon, { color: theme.colors.primary }]}>←</Text>
           </TouchableOpacity>
-          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-            Security
-          </Text>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>Security</Text>
           <View style={styles.placeholder} />
         </View>
 
@@ -88,9 +74,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
         </View>
 
         {/* PIN Section */}
-        <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>
-          PIN
-        </Text>
+        <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>PIN</Text>
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <View
             testID="pin-toggle"
@@ -117,9 +101,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
               <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>
                 Change PIN
               </Text>
-              <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>
-                ›
-              </Text>
+              <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>›</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -169,9 +151,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
               <Text style={[styles.settingValue, { color: theme.colors.text.secondary }]}>
                 {autoLock}
               </Text>
-              <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>
-                ›
-              </Text>
+              <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>›</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -203,9 +183,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
         </View>
 
         {/* Sessions */}
-        <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>
-          Sessions
-        </Text>
+        <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>Sessions</Text>
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <TouchableOpacity
             testID="active-sessions"
@@ -215,9 +193,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
             <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>
               Active Sessions
             </Text>
-            <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>
-              ›
-            </Text>
+            <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>›</Text>
           </TouchableOpacity>
         </View>
 
@@ -228,17 +204,9 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
+  arrow: {
+    fontSize: 20,
+    fontWeight: '600',
   },
   backButton: {
     padding: 8,
@@ -246,67 +214,75 @@ const styles = StyleSheet.create({
   backIcon: {
     fontSize: 24,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
+  bottomPadding: {
+    height: 32,
   },
-  placeholder: {
-    width: 40,
+  container: {
+    flex: 1,
+  },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
   },
   infoCard: {
+    borderRadius: 12,
     margin: 16,
     padding: 16,
-    borderRadius: 12,
   },
   infoText: {
     fontSize: 14,
     lineHeight: 20,
   },
+  placeholder: {
+    width: 40,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  section: {
+    borderRadius: 12,
+    marginHorizontal: 16,
+    overflow: 'hidden',
+  },
   sectionHeader: {
     fontSize: 13,
     fontWeight: '600',
-    textTransform: 'uppercase',
+    marginBottom: 8,
     marginLeft: 16,
     marginTop: 24,
-    marginBottom: 8,
-  },
-  section: {
-    marginHorizontal: 16,
-    borderRadius: 12,
-    overflow: 'hidden',
+    textTransform: 'uppercase',
   },
   settingItem: {
+    alignItems: 'center',
+    borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 14,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
+    paddingVertical: 14,
+  },
+  settingLabel: {
+    fontSize: 16,
   },
   settingLabelContainer: {
     flex: 1,
   },
-  settingLabel: {
-    fontSize: 16,
+  settingRight: {
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   settingSubLabel: {
     fontSize: 12,
     marginTop: 2,
   },
-  settingRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   settingValue: {
     fontSize: 16,
     marginRight: 8,
   },
-  arrow: {
-    fontSize: 20,
+  title: {
+    fontSize: 18,
     fontWeight: '600',
-  },
-  bottomPadding: {
-    height: 32,
   },
 });
 

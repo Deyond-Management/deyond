@@ -28,23 +28,17 @@ describe('ReceiveScreen', () => {
 
   describe('Rendering', () => {
     it('should render wallet address', () => {
-      const { getByText } = renderWithTheme(
-        <ReceiveScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<ReceiveScreen navigation={mockNavigation as any} />);
       expect(getByText(/0x/i)).toBeDefined();
     });
 
     it('should render QR code placeholder', () => {
-      const { getByTestId } = renderWithTheme(
-        <ReceiveScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<ReceiveScreen navigation={mockNavigation as any} />);
       expect(getByTestId('qr-code')).toBeDefined();
     });
 
     it('should render copy address button', () => {
-      const { getByText } = renderWithTheme(
-        <ReceiveScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<ReceiveScreen navigation={mockNavigation as any} />);
       expect(getByText(/Copy Address/i)).toBeDefined();
     });
 
@@ -59,9 +53,7 @@ describe('ReceiveScreen', () => {
 
   describe('Address Display', () => {
     it('should display full wallet address', () => {
-      const { getByTestId } = renderWithTheme(
-        <ReceiveScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<ReceiveScreen navigation={mockNavigation as any} />);
       const address = getByTestId('wallet-address');
       expect(address).toBeDefined();
       expect(address.props.children).toContain('0x');
@@ -70,9 +62,7 @@ describe('ReceiveScreen', () => {
 
   describe('Copy Address', () => {
     it('should show copied confirmation when copy button is pressed', () => {
-      const { getByText } = renderWithTheme(
-        <ReceiveScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<ReceiveScreen navigation={mockNavigation as any} />);
 
       const copyButton = getByText(/Copy Address/i);
       fireEvent.press(copyButton);
@@ -103,12 +93,8 @@ describe('ReceiveScreen', () => {
 
   describe('Instructions', () => {
     it('should display receive instructions', () => {
-      const { getByText } = renderWithTheme(
-        <ReceiveScreen navigation={mockNavigation as any} />
-      );
-      expect(
-        getByText(/Share this address/i) || getByText(/Scan QR code/i)
-      ).toBeDefined();
+      const { getByText } = renderWithTheme(<ReceiveScreen navigation={mockNavigation as any} />);
+      expect(getByText(/Share this address/i) || getByText(/Scan QR code/i)).toBeDefined();
     });
   });
 

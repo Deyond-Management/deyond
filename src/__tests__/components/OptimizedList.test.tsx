@@ -14,17 +14,13 @@ describe('OptimizedList', () => {
     { id: '3', title: 'Item 3' },
   ];
 
-  const renderItem = ({ item }: { item: typeof mockData[0] }) => (
+  const renderItem = ({ item }: { item: (typeof mockData)[0] }) => (
     <Text testID={`item-${item.id}`}>{item.title}</Text>
   );
 
   it('should render list items', () => {
     const { getByTestId } = render(
-      <OptimizedList
-        data={mockData}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
+      <OptimizedList data={mockData} renderItem={renderItem} keyExtractor={item => item.id} />
     );
 
     expect(getByTestId('item-1')).toBeTruthy();
@@ -37,7 +33,7 @@ describe('OptimizedList', () => {
       <OptimizedList
         data={[]}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         emptyText="No items"
       />
     );
@@ -52,7 +48,7 @@ describe('OptimizedList', () => {
       <OptimizedList
         data={[]}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         ListEmptyComponent={EmptyComponent}
       />
     );
@@ -67,7 +63,7 @@ describe('OptimizedList', () => {
       <OptimizedList
         data={mockData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         ListHeaderComponent={Header}
       />
     );
@@ -82,7 +78,7 @@ describe('OptimizedList', () => {
       <OptimizedList
         data={mockData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         ListFooterComponent={Footer}
       />
     );
@@ -98,7 +94,7 @@ describe('OptimizedList', () => {
         testID="list"
         data={mockData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.5}
       />
@@ -118,7 +114,7 @@ describe('OptimizedList', () => {
         testID="list"
         data={mockData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         onRefresh={onRefresh}
         refreshing={false}
       />
@@ -134,7 +130,7 @@ describe('OptimizedList', () => {
         testID="list"
         data={mockData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         onRefresh={jest.fn()}
         refreshing={true}
       />
@@ -163,41 +159,29 @@ describe('MemoizedListItem', () => {
   });
 
   it('should not re-render when item is the same', () => {
-    const renderContent = jest.fn((item: typeof mockItem) => (
-      <Text>{item.title}</Text>
-    ));
+    const renderContent = jest.fn((item: typeof mockItem) => <Text>{item.title}</Text>);
 
-    const { rerender } = render(
-      <MemoizedListItem item={mockItem} renderContent={renderContent} />
-    );
+    const { rerender } = render(<MemoizedListItem item={mockItem} renderContent={renderContent} />);
 
     expect(renderContent).toHaveBeenCalledTimes(1);
 
     // Rerender with same item
-    rerender(
-      <MemoizedListItem item={mockItem} renderContent={renderContent} />
-    );
+    rerender(<MemoizedListItem item={mockItem} renderContent={renderContent} />);
 
     // Should still be 1 due to memoization
     expect(renderContent).toHaveBeenCalledTimes(1);
   });
 
   it('should re-render when item changes', () => {
-    const renderContent = jest.fn((item: typeof mockItem) => (
-      <Text>{item.title}</Text>
-    ));
+    const renderContent = jest.fn((item: typeof mockItem) => <Text>{item.title}</Text>);
 
-    const { rerender } = render(
-      <MemoizedListItem item={mockItem} renderContent={renderContent} />
-    );
+    const { rerender } = render(<MemoizedListItem item={mockItem} renderContent={renderContent} />);
 
     expect(renderContent).toHaveBeenCalledTimes(1);
 
     // Rerender with different item
     const newItem = { id: '2', title: 'New Item' };
-    rerender(
-      <MemoizedListItem item={newItem} renderContent={renderContent} />
-    );
+    rerender(<MemoizedListItem item={newItem} renderContent={renderContent} />);
 
     expect(renderContent).toHaveBeenCalledTimes(2);
   });

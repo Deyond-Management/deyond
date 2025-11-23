@@ -5,14 +5,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Clipboard,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Clipboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -98,9 +91,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>
-            Secret Recovery Phrase
-          </Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>Secret Recovery Phrase</Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
             Write down these 12 words in order and store them safely
           </Text>
@@ -109,12 +100,10 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
         {/* Warning Card */}
         <Card style={[styles.warningCard, { backgroundColor: colors.warning + '15' }]}>
           <Text style={[styles.warningIcon, { color: colors.warning }]}>⚠️</Text>
-          <Text style={[styles.warningTitle, { color: colors.warning }]}>
-            Security Warning
-          </Text>
+          <Text style={[styles.warningTitle, { color: colors.warning }]}>Security Warning</Text>
           <Text style={[styles.warningText, { color: colors.text.primary }]}>
-            Never share your recovery phrase with anyone. Anyone with these words can access
-            your funds.
+            Never share your recovery phrase with anyone. Anyone with these words can access your
+            funds.
           </Text>
         </Card>
 
@@ -176,11 +165,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
         </Card>
 
         {/* Continue Button */}
-        <Button
-          onPress={handleContinue}
-          style={styles.continueButton}
-          testID="continue-button"
-        >
+        <Button onPress={handleContinue} style={styles.continueButton} testID="continue-button">
           I've Written It Down
         </Button>
       </ScrollView>
@@ -192,59 +177,88 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollView: {
-    flex: 1,
-  },
   content: {
     flexGrow: 1,
+  },
+  continueButton: {
+    marginTop: 8,
+  },
+  copyButton: {
+    marginBottom: 16,
   },
   header: {
     marginBottom: 24,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  warningCard: {
-    padding: 16,
-    marginBottom: 24,
-    alignItems: 'center',
-  },
-  warningIcon: {
-    fontSize: 32,
-    marginBottom: 8,
-  },
-  warningTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  warningText: {
-    fontSize: 14,
-    textAlign: 'center',
-    lineHeight: 20,
-  },
   mnemonicCard: {
-    padding: 16,
     marginBottom: 16,
+    padding: 16,
   },
   mnemonicGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 12,
   },
-  wordItem: {
-    width: '30%',
+  scrollView: {
+    flex: 1,
+  },
+  subtitle: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  tipBullet: {
+    fontSize: 16,
+    marginRight: 8,
+    marginTop: 2,
+  },
+  tipItem: {
     flexDirection: 'row',
+    marginBottom: 8,
+  },
+  tipText: {
+    flex: 1,
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  tipsCard: {
+    marginBottom: 24,
+    padding: 16,
+  },
+  tipsTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 12,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  warningCard: {
     alignItems: 'center',
-    padding: 12,
+    marginBottom: 24,
+    padding: 16,
+  },
+  warningIcon: {
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  warningText: {
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  warningTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  wordItem: {
+    alignItems: 'center',
     borderRadius: 8,
     borderWidth: 1,
+    flexDirection: 'row',
+    padding: 12,
+    width: '30%',
   },
   wordNumber: {
     fontSize: 12,
@@ -255,34 +269,5 @@ const styles = StyleSheet.create({
   wordText: {
     fontSize: 14,
     fontWeight: '500',
-  },
-  copyButton: {
-    marginBottom: 16,
-  },
-  tipsCard: {
-    padding: 16,
-    marginBottom: 24,
-  },
-  tipsTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 12,
-  },
-  tipItem: {
-    flexDirection: 'row',
-    marginBottom: 8,
-  },
-  tipBullet: {
-    fontSize: 16,
-    marginRight: 8,
-    marginTop: 2,
-  },
-  tipText: {
-    flex: 1,
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  continueButton: {
-    marginTop: 8,
   },
 });

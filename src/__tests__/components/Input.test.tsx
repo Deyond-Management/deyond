@@ -16,32 +16,23 @@ const renderWithTheme = (component: React.ReactElement) => {
 describe('Input', () => {
   describe('Rendering', () => {
     it('should render with placeholder', () => {
-      const { getByPlaceholderText } = renderWithTheme(
-        <Input placeholder="Enter text" />
-      );
+      const { getByPlaceholderText } = renderWithTheme(<Input placeholder="Enter text" />);
       expect(getByPlaceholderText('Enter text')).toBeDefined();
     });
 
     it('should render with testID', () => {
-      const { getByTestId } = renderWithTheme(
-        <Input testID="test-input" placeholder="Test" />
-      );
+      const { getByTestId } = renderWithTheme(<Input testID="test-input" placeholder="Test" />);
       expect(getByTestId('test-input')).toBeDefined();
     });
 
     it('should render with label', () => {
-      const { getByText } = renderWithTheme(
-        <Input label="Email" placeholder="Enter email" />
-      );
+      const { getByText } = renderWithTheme(<Input label="Email" placeholder="Enter email" />);
       expect(getByText('Email')).toBeDefined();
     });
 
     it('should render with helper text', () => {
       const { getByText } = renderWithTheme(
-        <Input
-          placeholder="Enter text"
-          helperText="This is a helper text"
-        />
+        <Input placeholder="Enter text" helperText="This is a helper text" />
       );
       expect(getByText('This is a helper text')).toBeDefined();
     });
@@ -49,9 +40,7 @@ describe('Input', () => {
 
   describe('Input Types', () => {
     it('should render text input by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Input testID="input" placeholder="Text" />
-      );
+      const { getByTestId } = renderWithTheme(<Input testID="input" placeholder="Text" />);
       const input = getByTestId('input');
       expect(input.props.secureTextEntry).toBeFalsy();
       expect(input.props.keyboardType).toBe('default');
@@ -133,11 +122,7 @@ describe('Input', () => {
 
     it('should show error state with error message', () => {
       const { getByText, getByTestId } = renderWithTheme(
-        <Input
-          testID="input"
-          placeholder="Email"
-          error="Invalid email address"
-        />
+        <Input testID="input" placeholder="Email" error="Invalid email address" />
       );
 
       expect(getByText('Invalid email address')).toBeDefined();
@@ -149,11 +134,7 @@ describe('Input', () => {
 
     it('should not show helper text when error is present', () => {
       const { queryByText, getByText } = renderWithTheme(
-        <Input
-          placeholder="Email"
-          helperText="Enter your email"
-          error="Invalid email"
-        />
+        <Input placeholder="Email" helperText="Enter your email" error="Invalid email" />
       );
 
       expect(getByText('Invalid email')).toBeDefined();
@@ -162,11 +143,7 @@ describe('Input', () => {
 
     it('should apply error styling when error prop is provided', () => {
       const { getByTestId } = renderWithTheme(
-        <Input
-          testID="input-container"
-          placeholder="Email"
-          error="Invalid email"
-        />
+        <Input testID="input-container" placeholder="Email" error="Invalid email" />
       );
 
       const container = getByTestId('input-container');
@@ -178,11 +155,7 @@ describe('Input', () => {
     it('should call onChangeText when text changes', () => {
       const onChangeText = jest.fn();
       const { getByTestId } = renderWithTheme(
-        <Input
-          testID="input"
-          placeholder="Text"
-          onChangeText={onChangeText}
-        />
+        <Input testID="input" placeholder="Text" onChangeText={onChangeText} />
       );
 
       const input = getByTestId('input');
@@ -218,12 +191,7 @@ describe('Input', () => {
     it('should not trigger onChangeText when disabled', () => {
       const onChangeText = jest.fn();
       const { getByTestId } = renderWithTheme(
-        <Input
-          disabled
-          testID="input"
-          placeholder="Text"
-          onChangeText={onChangeText}
-        />
+        <Input disabled testID="input" placeholder="Text" onChangeText={onChangeText} />
       );
 
       const input = getByTestId('input');
@@ -233,9 +201,7 @@ describe('Input', () => {
 
   describe('Value Control', () => {
     it('should render with initial value', () => {
-      const { getByDisplayValue } = renderWithTheme(
-        <Input placeholder="Name" value="John Doe" />
-      );
+      const { getByDisplayValue } = renderWithTheme(<Input placeholder="Name" value="John Doe" />);
       expect(getByDisplayValue('John Doe')).toBeDefined();
     });
 
@@ -266,27 +232,18 @@ describe('Input', () => {
 
     it('should have accessibility label from accessibilityLabel prop', () => {
       const { getByLabelText } = renderWithTheme(
-        <Input
-          accessibilityLabel="Custom Label"
-          placeholder="Text"
-        />
+        <Input accessibilityLabel="Custom Label" placeholder="Text" />
       );
       expect(getByLabelText('Custom Label')).toBeDefined();
     });
 
     it('should indicate error state to screen readers', () => {
       const { getByTestId } = renderWithTheme(
-        <Input
-          testID="input"
-          placeholder="Email"
-          error="Invalid email"
-        />
+        <Input testID="input" placeholder="Email" error="Invalid email" />
       );
 
       const input = getByTestId('input');
-      expect(input.props.accessibilityState).toEqual(
-        expect.objectContaining({ disabled: false })
-      );
+      expect(input.props.accessibilityState).toEqual(expect.objectContaining({ disabled: false }));
     });
 
     it('should indicate disabled state to screen readers', () => {
@@ -295,9 +252,7 @@ describe('Input', () => {
       );
 
       const input = getByTestId('input');
-      expect(input.props.accessibilityState).toEqual(
-        expect.objectContaining({ disabled: true })
-      );
+      expect(input.props.accessibilityState).toEqual(expect.objectContaining({ disabled: true }));
     });
   });
 
@@ -315,12 +270,7 @@ describe('Input', () => {
   describe('Multiline', () => {
     it('should support multiline input', () => {
       const { getByTestId } = renderWithTheme(
-        <Input
-          testID="input"
-          placeholder="Description"
-          multiline
-          numberOfLines={4}
-        />
+        <Input testID="input" placeholder="Description" multiline numberOfLines={4} />
       );
 
       const input = getByTestId('input');

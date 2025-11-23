@@ -41,23 +41,17 @@ describe('SendScreen', () => {
     });
 
     it('should render token selector', () => {
-      const { getByText } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
       expect(getByText('ETH')).toBeDefined();
     });
 
     it('should render send button', () => {
-      const { getByText } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
       expect(getByText('Send')).toBeDefined();
     });
 
     it('should render balance display', () => {
-      const { getByText } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
       expect(getByText(/Balance:/i)).toBeDefined();
     });
   });
@@ -105,16 +99,12 @@ describe('SendScreen', () => {
 
   describe('Token Selection', () => {
     it('should display current token', () => {
-      const { getByTestId } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
       expect(getByTestId('selected-token')).toBeDefined();
     });
 
     it('should show token balance', () => {
-      const { getByTestId } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
       expect(getByTestId('token-balance')).toBeDefined();
     });
   });
@@ -143,9 +133,7 @@ describe('SendScreen', () => {
     });
 
     it('should have max button', () => {
-      const { getByText } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
       expect(getByText('MAX')).toBeDefined();
     });
 
@@ -164,9 +152,7 @@ describe('SendScreen', () => {
 
   describe('Gas Fee Display', () => {
     it('should display estimated gas fee', () => {
-      const { getByText } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
       expect(getByText(/Network fee/i)).toBeDefined();
     });
   });
@@ -193,9 +179,7 @@ describe('SendScreen', () => {
     });
 
     it('should not navigate when form is invalid', () => {
-      const { getByText } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
 
       const sendButton = getByText('Send');
       fireEvent.press(sendButton);
@@ -207,9 +191,7 @@ describe('SendScreen', () => {
 
   describe('Accessibility', () => {
     it('should have accessible form inputs', () => {
-      const { getByLabelText } = renderWithTheme(
-        <SendScreen navigation={mockNavigation as any} />
-      );
+      const { getByLabelText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
       expect(getByLabelText(/Recipient address/i)).toBeDefined();
       expect(getByLabelText(/Amount/i)).toBeDefined();
     });

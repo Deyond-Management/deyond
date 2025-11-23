@@ -26,17 +26,13 @@ describe('SettingsScreen', () => {
 
   describe('Rendering', () => {
     it('should render settings title', () => {
-      const { getByText } = renderWithTheme(
-        <SettingsScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SettingsScreen navigation={mockNavigation as any} />);
 
       expect(getByText('Settings')).toBeDefined();
     });
 
     it('should render settings sections', () => {
-      const { getByText } = renderWithTheme(
-        <SettingsScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SettingsScreen navigation={mockNavigation as any} />);
 
       expect(getByText('Security')).toBeDefined();
       expect(getByText('Preferences')).toBeDefined();
@@ -108,9 +104,7 @@ describe('SettingsScreen', () => {
 
   describe('About Section', () => {
     it('should display app version', () => {
-      const { getByText } = renderWithTheme(
-        <SettingsScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SettingsScreen navigation={mockNavigation as any} />);
 
       expect(getByText(/Version/i)).toBeDefined();
     });
@@ -153,9 +147,7 @@ describe('SettingsScreen', () => {
     });
 
     it('should display current network', () => {
-      const { getByText } = renderWithTheme(
-        <SettingsScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<SettingsScreen navigation={mockNavigation as any} />);
 
       expect(getByText(/Ethereum|Mainnet/i)).toBeDefined();
     });

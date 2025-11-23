@@ -27,32 +27,23 @@ describe('TransactionCard', () => {
 
   describe('Rendering', () => {
     it('should render transaction type', () => {
-      const { getByText } = renderWithTheme(
-        <TransactionCard {...mockTransaction} />
-      );
+      const { getByText } = renderWithTheme(<TransactionCard {...mockTransaction} />);
       expect(getByText('Sent')).toBeDefined();
     });
 
     it('should render transaction amount with sign', () => {
-      const { getByText } = renderWithTheme(
-        <TransactionCard {...mockTransaction} />
-      );
+      const { getByText } = renderWithTheme(<TransactionCard {...mockTransaction} />);
       expect(getByText('-0.5 ETH')).toBeDefined();
     });
 
     it('should render address for sent transaction', () => {
-      const { getByText } = renderWithTheme(
-        <TransactionCard {...mockTransaction} type="sent" />
-      );
+      const { getByText } = renderWithTheme(<TransactionCard {...mockTransaction} type="sent" />);
       expect(getByText('To: 0x1234...5678')).toBeDefined();
     });
 
     it('should render address for received transaction', () => {
       const { getByText } = renderWithTheme(
-        <TransactionCard
-          {...mockTransaction}
-          type="received"
-        />
+        <TransactionCard {...mockTransaction} type="received" />
       );
       expect(getByText('From: 0xabcd...efgh')).toBeDefined();
     });
@@ -67,9 +58,7 @@ describe('TransactionCard', () => {
 
   describe('Transaction Types', () => {
     it('should display "Sent" for sent transactions', () => {
-      const { getByText } = renderWithTheme(
-        <TransactionCard {...mockTransaction} type="sent" />
-      );
+      const { getByText } = renderWithTheme(<TransactionCard {...mockTransaction} type="sent" />);
       expect(getByText('Sent')).toBeDefined();
     });
 
@@ -88,9 +77,7 @@ describe('TransactionCard', () => {
     });
 
     it('should use red color for sent transactions', () => {
-      const { getByText } = renderWithTheme(
-        <TransactionCard {...mockTransaction} type="sent" />
-      );
+      const { getByText } = renderWithTheme(<TransactionCard {...mockTransaction} type="sent" />);
       const amountElement = getByText('-0.5 ETH');
       expect(amountElement).toBeDefined();
     });
@@ -143,9 +130,7 @@ describe('TransactionCard', () => {
 
   describe('Timestamp Display', () => {
     it('should format timestamp', () => {
-      const { getByTestId } = renderWithTheme(
-        <TransactionCard {...mockTransaction} />
-      );
+      const { getByTestId } = renderWithTheme(<TransactionCard {...mockTransaction} />);
       expect(getByTestId('tx-timestamp')).toBeDefined();
     });
 
@@ -162,11 +147,7 @@ describe('TransactionCard', () => {
     it('should call onPress when pressed', () => {
       const onPress = jest.fn();
       const { getByTestId } = renderWithTheme(
-        <TransactionCard
-          {...mockTransaction}
-          onPress={onPress}
-          testID="tx-card"
-        />
+        <TransactionCard {...mockTransaction} onPress={onPress} testID="tx-card" />
       );
 
       const card = getByTestId('tx-card');
@@ -187,9 +168,7 @@ describe('TransactionCard', () => {
 
   describe('Icon Display', () => {
     it('should show sent icon for sent transactions', () => {
-      const { getByTestId } = renderWithTheme(
-        <TransactionCard {...mockTransaction} type="sent" />
-      );
+      const { getByTestId } = renderWithTheme(<TransactionCard {...mockTransaction} type="sent" />);
       expect(getByTestId('tx-icon')).toBeDefined();
     });
 
@@ -212,11 +191,7 @@ describe('TransactionCard', () => {
     it('should have button role when pressable', () => {
       const onPress = jest.fn();
       const { getByTestId } = renderWithTheme(
-        <TransactionCard
-          {...mockTransaction}
-          onPress={onPress}
-          testID="tx-card"
-        />
+        <TransactionCard {...mockTransaction} onPress={onPress} testID="tx-card" />
       );
       const card = getByTestId('tx-card');
       expect(card.props.accessibilityRole).toBe('button');
@@ -224,10 +199,7 @@ describe('TransactionCard', () => {
 
     it('should have accessibility label', () => {
       const { getByLabelText } = renderWithTheme(
-        <TransactionCard
-          {...mockTransaction}
-          accessibilityLabel="Transaction details"
-        />
+        <TransactionCard {...mockTransaction} accessibilityLabel="Transaction details" />
       );
       expect(getByLabelText('Transaction details')).toBeDefined();
     });
@@ -246,11 +218,7 @@ describe('TransactionCard', () => {
     it('should support custom container styles', () => {
       const customStyle = { margin: 10 };
       const { getByTestId } = renderWithTheme(
-        <TransactionCard
-          {...mockTransaction}
-          style={customStyle}
-          testID="tx-card"
-        />
+        <TransactionCard {...mockTransaction} style={customStyle} testID="tx-card" />
       );
       const card = getByTestId('tx-card');
       expect(card.props.style).toEqual(

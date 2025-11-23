@@ -24,17 +24,13 @@ describe('Toast', () => {
 
   describe('Rendering', () => {
     it('should render toast message', () => {
-      const { getByText } = renderWithTheme(
-        <Toast message="Test message" visible={true} />
-      );
+      const { getByText } = renderWithTheme(<Toast message="Test message" visible={true} />);
 
       expect(getByText('Test message')).toBeDefined();
     });
 
     it('should not render when not visible', () => {
-      const { queryByText } = renderWithTheme(
-        <Toast message="Test message" visible={false} />
-      );
+      const { queryByText } = renderWithTheme(<Toast message="Test message" visible={false} />);
 
       expect(queryByText('Test message')).toBeNull();
     });
@@ -66,9 +62,7 @@ describe('Toast', () => {
     });
 
     it('should render info toast by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Toast message="Info" visible={true} />
-      );
+      const { getByTestId } = renderWithTheme(<Toast message="Info" visible={true} />);
 
       expect(getByTestId('toast-info')).toBeDefined();
     });
@@ -79,12 +73,7 @@ describe('Toast', () => {
       const onDismiss = jest.fn();
 
       renderWithTheme(
-        <Toast
-          message="Test"
-          visible={true}
-          duration={3000}
-          onDismiss={onDismiss}
-        />
+        <Toast message="Test" visible={true} duration={3000} onDismiss={onDismiss} />
       );
 
       act(() => {
@@ -97,14 +86,7 @@ describe('Toast', () => {
     it('should not auto-dismiss if duration is 0', () => {
       const onDismiss = jest.fn();
 
-      renderWithTheme(
-        <Toast
-          message="Test"
-          visible={true}
-          duration={0}
-          onDismiss={onDismiss}
-        />
-      );
+      renderWithTheme(<Toast message="Test" visible={true} duration={0} onDismiss={onDismiss} />);
 
       act(() => {
         jest.advanceTimersByTime(10000);
@@ -117,11 +99,7 @@ describe('Toast', () => {
   describe('Actions', () => {
     it('should render action button when provided', () => {
       const { getByTestId } = renderWithTheme(
-        <Toast
-          message="Test"
-          visible={true}
-          action={{ label: 'Undo', onPress: jest.fn() }}
-        />
+        <Toast message="Test" visible={true} action={{ label: 'Undo', onPress: jest.fn() }} />
       );
 
       expect(getByTestId('toast-action')).toBeDefined();
@@ -131,11 +109,7 @@ describe('Toast', () => {
       const onPress = jest.fn();
 
       const { getByTestId } = renderWithTheme(
-        <Toast
-          message="Test"
-          visible={true}
-          action={{ label: 'Undo', onPress }}
-        />
+        <Toast message="Test" visible={true} action={{ label: 'Undo', onPress }} />
       );
 
       fireEvent.press(getByTestId('toast-action'));
@@ -159,9 +133,7 @@ describe('Toast', () => {
 
   describe('Accessibility', () => {
     it('should have accessible container', () => {
-      const { getByTestId } = renderWithTheme(
-        <Toast message="Test" visible={true} />
-      );
+      const { getByTestId } = renderWithTheme(<Toast message="Test" visible={true} />);
 
       expect(getByTestId('toast-container')).toBeDefined();
     });

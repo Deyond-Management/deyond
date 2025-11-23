@@ -5,11 +5,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet
-} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -30,9 +26,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       <View style={styles.container} testID="welcome-container">
         {/* Logo Section */}
         <View style={styles.logoContainer}>
@@ -49,23 +43,14 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
 
         {/* Title Section */}
         <View style={styles.titleContainer}>
-          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-            Welcome to
-          </Text>
-          <Text
-            style={[styles.appName, { color: theme.colors.text.primary }]}
-          >
-            Crypto Wallet
-          </Text>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>Welcome to</Text>
+          <Text style={[styles.appName, { color: theme.colors.text.primary }]}>Crypto Wallet</Text>
         </View>
 
         {/* Description Section */}
         <View style={styles.descriptionContainer}>
-          <Text
-            style={[styles.description, { color: theme.colors.text.secondary }]}
-          >
-            Secure, decentralized, and easy to use wallet for managing your
-            cryptocurrency assets
+          <Text style={[styles.description, { color: theme.colors.text.secondary }]}>
+            Secure, decentralized, and easy to use wallet for managing your cryptocurrency assets
           </Text>
         </View>
 
@@ -106,66 +91,66 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    paddingHorizontal: 24,
-    justifyContent: 'space-between',
-    paddingVertical: 32,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginTop: 60,
-  },
-  logoPlaceholder: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoText: {
-    fontSize: 48,
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-  },
-  titleContainer: {
-    alignItems: 'center',
-    marginTop: 32,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '400',
-    marginBottom: 8,
-  },
   appName: {
     fontSize: 32,
     fontWeight: 'bold',
   },
-  descriptionContainer: {
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    marginTop: 16,
+  button: {
+    marginBottom: 16,
+  },
+  buttonsContainer: {
+    marginBottom: 32,
+    marginTop: 'auto',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 32,
   },
   description: {
     fontSize: 16,
-    textAlign: 'center',
     lineHeight: 24,
+    textAlign: 'center',
   },
-  buttonsContainer: {
-    marginTop: 'auto',
-    marginBottom: 32,
-  },
-  button: {
-    marginBottom: 16,
+  descriptionContainer: {
+    alignItems: 'center',
+    marginTop: 16,
+    paddingHorizontal: 16,
   },
   footerContainer: {
     alignItems: 'center',
   },
   footerText: {
     fontSize: 14,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginTop: 60,
+  },
+  logoPlaceholder: {
+    alignItems: 'center',
+    borderRadius: 50,
+    height: 100,
+    justifyContent: 'center',
+    width: 100,
+  },
+  logoText: {
+    color: '#FFFFFF',
+    fontSize: 48,
+    fontWeight: 'bold',
+  },
+  safeArea: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '400',
+    marginBottom: 8,
+  },
+  titleContainer: {
+    alignItems: 'center',
+    marginTop: 32,
   },
 });
 

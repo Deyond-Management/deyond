@@ -57,13 +57,7 @@ export const Divider: React.FC<DividerProps> = ({
     ...style,
   };
 
-  return (
-    <View
-      style={dividerStyle}
-      testID={testID}
-      accessibilityRole="none"
-    />
-  );
+  return <View style={dividerStyle} testID={testID} accessibilityRole="none" />;
 };
 
 export default Divider;

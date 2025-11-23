@@ -95,15 +95,19 @@ export class BaseHttpClient {
 
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {
-        const response = await this.fetchWithTimeout(url, {
-          method,
-          headers: {
-            'Content-Type': 'application/json',
-            ...this.config.headers,
-            ...config?.headers,
+        const response = await this.fetchWithTimeout(
+          url,
+          {
+            method,
+            headers: {
+              'Content-Type': 'application/json',
+              ...this.config.headers,
+              ...config?.headers,
+            },
+            body: body ? JSON.stringify(body) : undefined,
           },
-          body: body ? JSON.stringify(body) : undefined,
-        }, timeout);
+          timeout
+        );
 
         if (!response.ok) {
           const errorCode = mapHttpError(response.status);
@@ -170,15 +174,9 @@ export class BaseHttpClient {
       return response;
     } catch (error) {
       if ((error as Error).name === 'AbortError') {
-        throw new HttpError(
-          ERROR_CODES.TIMEOUT,
-          getErrorMessage(ERROR_CODES.TIMEOUT)
-        );
+        throw new HttpError(ERROR_CODES.TIMEOUT, getErrorMessage(ERROR_CODES.TIMEOUT));
       }
-      throw new HttpError(
-        ERROR_CODES.NETWORK_ERROR,
-        (error as Error).message
-      );
+      throw new HttpError(ERROR_CODES.NETWORK_ERROR, (error as Error).message);
     } finally {
       clearTimeout(timeoutId);
     }

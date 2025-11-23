@@ -160,7 +160,7 @@ describe('ChatService', () => {
       await chatService.updateMessageStatus(message.id, 'delivered');
 
       const messages = await chatService.getMessages(sessionId);
-      const updated = messages.find((m) => m.id === message.id);
+      const updated = messages.find(m => m.id === message.id);
       expect(updated?.status).toBe('delivered');
     });
 
@@ -227,9 +227,9 @@ describe('ChatService', () => {
     });
 
     it('should throw error for non-existent session when sending', async () => {
-      await expect(
-        chatService.sendMessage('non-existent', 'Hello')
-      ).rejects.toThrow('Session not found');
+      await expect(chatService.sendMessage('non-existent', 'Hello')).rejects.toThrow(
+        'Session not found'
+      );
     });
   });
 

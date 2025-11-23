@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   RefreshControl,
   ActivityIndicator,
-  
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
@@ -92,15 +91,13 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   initialLoading = false,
 }) => {
   const { theme } = useTheme();
-  const [transactions] = useState<Transaction[]>(
-    initialTransactions ?? mockTransactions
-  );
+  const [transactions] = useState<Transaction[]>(initialTransactions ?? mockTransactions);
   const [filter, setFilter] = useState<FilterType>('all');
   const [refreshing, setRefreshing] = useState(false);
   const [loading] = useState(initialLoading);
 
   // Filter transactions
-  const filteredTransactions = transactions.filter((tx) => {
+  const filteredTransactions = transactions.filter(tx => {
     if (filter === 'all') return true;
     return tx.type === filter;
   });
@@ -138,7 +135,7 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
     // In real app, fetch new transactions
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     setRefreshing(false);
   }, []);
 
@@ -169,9 +166,7 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
             styles.txIcon,
             {
               backgroundColor:
-                item.type === 'sent'
-                  ? theme.colors.error + '20'
-                  : theme.colors.success + '20',
+                item.type === 'sent' ? theme.colors.error + '20' : theme.colors.success + '20',
             },
           ]}
         >
@@ -202,10 +197,7 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
           style={[
             styles.txAmount,
             {
-              color:
-                item.type === 'sent'
-                  ? theme.colors.error
-                  : theme.colors.success,
+              color: item.type === 'sent' ? theme.colors.error : theme.colors.success,
             },
           ]}
         >
@@ -249,10 +241,7 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
         style={[
           styles.filterText,
           {
-            color:
-              filter === filterType
-                ? '#FFFFFF'
-                : theme.colors.text.primary,
+            color: filter === filterType ? '#FFFFFF' : theme.colors.text.primary,
           },
         ]}
       >
@@ -263,24 +252,16 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
 
   if (loading) {
     return (
-      <SafeAreaView
-        style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-      >
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
         <View style={styles.loadingContainer}>
-          <ActivityIndicator
-            testID="loading-indicator"
-            size="large"
-            color={theme.colors.primary}
-          />
+          <ActivityIndicator testID="loading-indicator" size="large" color={theme.colors.primary} />
         </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.colors.text.primary }]}>
@@ -301,7 +282,7 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
           testID="transaction-list"
           data={filteredTransactions}
           renderItem={renderTransaction}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           contentContainerStyle={styles.listContent}
           refreshControl={
             <RefreshControl
@@ -327,80 +308,84 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  emptyContainer: {
     flex: 1,
-  },
-  header: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  filters: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    gap: 8,
+    justifyContent: 'center',
   },
   filterButton: {
+    borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderRadius: 20,
   },
   filterText: {
     fontSize: 14,
     fontWeight: '600',
   },
+  filters: {
+    flexDirection: 'row',
+    gap: 8,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+  },
+  header: {
+    padding: 16,
+  },
   listContent: {
     padding: 16,
     paddingTop: 0,
   },
-  txItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    marginBottom: 12,
-  },
-  txLeft: {
-    flexDirection: 'row',
+  loadingContainer: {
     alignItems: 'center',
     flex: 1,
-  },
-  txIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
   },
-  txInfo: {
+  safeArea: {
     flex: 1,
   },
-  txType: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 2,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   txAddress: {
     fontSize: 12,
-  },
-  txRight: {
-    alignItems: 'flex-end',
   },
   txAmount: {
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 2,
   },
-  txMeta: {
-    flexDirection: 'row',
+  txIcon: {
     alignItems: 'center',
+    borderRadius: 20,
+    height: 40,
+    justifyContent: 'center',
+    marginRight: 12,
+    width: 40,
+  },
+  txInfo: {
+    flex: 1,
+  },
+  txItem: {
+    alignItems: 'center',
+    borderRadius: 12,
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+    padding: 16,
+  },
+  txLeft: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+  },
+  txMeta: {
+    alignItems: 'center',
+    flexDirection: 'row',
     gap: 8,
+  },
+  txRight: {
+    alignItems: 'flex-end',
   },
   txStatus: {
     fontSize: 12,
@@ -409,14 +394,10 @@ const styles = StyleSheet.create({
   txTime: {
     fontSize: 12,
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
+  txType: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 2,
   },
 });
 

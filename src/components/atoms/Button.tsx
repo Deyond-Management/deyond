@@ -177,15 +177,14 @@ export const Button: React.FC<ButtonProps> = ({
       activeOpacity={0.7}
       testID={testID}
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel || (typeof children === 'string' ? children : undefined)}
+      accessibilityLabel={
+        accessibilityLabel || (typeof children === 'string' ? children : undefined)
+      }
       accessibilityState={{ disabled: disabled || loading }}
       {...props}
     >
       {loading ? (
-        <ActivityIndicator
-          color={getTextColor()}
-          size={size === 'small' ? 'small' : 'small'}
-        />
+        <ActivityIndicator color={getTextColor()} size={size === 'small' ? 'small' : 'small'} />
       ) : (
         <Text style={buttonTextStyle}>{children}</Text>
       )}

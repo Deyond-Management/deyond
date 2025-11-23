@@ -20,12 +20,13 @@ describe('PriceService', () => {
     it('should get current price for token', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          ethereum: {
-            usd: 2000,
-            usd_24h_change: 5.5,
-          },
-        }),
+        json: () =>
+          Promise.resolve({
+            ethereum: {
+              usd: 2000,
+              usd_24h_change: 5.5,
+            },
+          }),
       });
 
       const price = await priceService.getPrice('ethereum');
@@ -37,13 +38,14 @@ describe('PriceService', () => {
     it('should get price for multiple currencies', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          ethereum: {
-            usd: 2000,
-            eur: 1800,
-            krw: 2600000,
-          },
-        }),
+        json: () =>
+          Promise.resolve({
+            ethereum: {
+              usd: 2000,
+              eur: 1800,
+              krw: 2600000,
+            },
+          }),
       });
 
       const prices = await priceService.getPriceMultiCurrency('ethereum', ['usd', 'eur', 'krw']);
@@ -58,10 +60,11 @@ describe('PriceService', () => {
     it('should get prices for multiple tokens', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          ethereum: { usd: 2000 },
-          bitcoin: { usd: 40000 },
-        }),
+        json: () =>
+          Promise.resolve({
+            ethereum: { usd: 2000 },
+            bitcoin: { usd: 40000 },
+          }),
       });
 
       const prices = await priceService.getMultiplePrices(['ethereum', 'bitcoin']);
@@ -75,11 +78,12 @@ describe('PriceService', () => {
     it('should get ERC-20 token price by contract address', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': {
-            usd: 1.0,
-          },
-        }),
+        json: () =>
+          Promise.resolve({
+            '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': {
+              usd: 1.0,
+            },
+          }),
       });
 
       const price = await priceService.getTokenPrice(
@@ -101,9 +105,10 @@ describe('PriceService', () => {
 
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          prices: mockPrices,
-        }),
+        json: () =>
+          Promise.resolve({
+            prices: mockPrices,
+          }),
       });
 
       const history = await priceService.getPriceHistory('ethereum', 7);
@@ -116,9 +121,10 @@ describe('PriceService', () => {
     it('should support different time ranges', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          prices: [[1700000000000, 2000]],
-        }),
+        json: () =>
+          Promise.resolve({
+            prices: [[1700000000000, 2000]],
+          }),
       });
 
       await priceService.getPriceHistory('ethereum', 30);
@@ -134,15 +140,16 @@ describe('PriceService', () => {
     it('should get market data for token', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          market_data: {
-            current_price: { usd: 2000 },
-            market_cap: { usd: 240000000000 },
-            total_volume: { usd: 15000000000 },
-            price_change_percentage_24h: 5.5,
-            circulating_supply: 120000000,
-          },
-        }),
+        json: () =>
+          Promise.resolve({
+            market_data: {
+              current_price: { usd: 2000 },
+              market_cap: { usd: 240000000000 },
+              total_volume: { usd: 15000000000 },
+              price_change_percentage_24h: 5.5,
+              circulating_supply: 120000000,
+            },
+          }),
       });
 
       const marketData = await priceService.getMarketData('ethereum');
@@ -159,9 +166,10 @@ describe('PriceService', () => {
     it('should cache price results', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          ethereum: { usd: 2000 },
-        }),
+        json: () =>
+          Promise.resolve({
+            ethereum: { usd: 2000 },
+          }),
       });
 
       await priceService.getPrice('ethereum');
@@ -176,9 +184,10 @@ describe('PriceService', () => {
 
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          ethereum: { usd: 2000 },
-        }),
+        json: () =>
+          Promise.resolve({
+            ethereum: { usd: 2000 },
+          }),
       });
 
       await priceService.getPrice('ethereum');
@@ -196,9 +205,10 @@ describe('PriceService', () => {
     it('should clear cache manually', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          ethereum: { usd: 2000 },
-        }),
+        json: () =>
+          Promise.resolve({
+            ethereum: { usd: 2000 },
+          }),
       });
 
       await priceService.getPrice('ethereum');
@@ -240,9 +250,10 @@ describe('PriceService', () => {
     it('should use cache for rapid repeated requests', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          ethereum: { usd: 2000 },
-        }),
+        json: () =>
+          Promise.resolve({
+            ethereum: { usd: 2000 },
+          }),
       });
 
       // First request populates cache

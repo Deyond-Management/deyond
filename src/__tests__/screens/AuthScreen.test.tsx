@@ -26,33 +26,25 @@ describe('AuthScreen', () => {
 
   describe('Rendering', () => {
     it('should render lock icon', () => {
-      const { getByTestId } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       expect(getByTestId('lock-icon')).toBeDefined();
     });
 
     it('should render unlock message', () => {
-      const { getByText } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       expect(getByText(/Unlock/i)).toBeDefined();
     });
 
     it('should render PIN input', () => {
-      const { getByTestId } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       expect(getByTestId('pin-input')).toBeDefined();
     });
 
     it('should render number pad', () => {
-      const { getByTestId } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       expect(getByTestId('number-pad')).toBeDefined();
     });
@@ -60,9 +52,7 @@ describe('AuthScreen', () => {
 
   describe('PIN Input', () => {
     it('should update PIN dots when numbers are pressed', () => {
-      const { getByTestId } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       fireEvent.press(getByTestId('key-1'));
       fireEvent.press(getByTestId('key-2'));
@@ -73,17 +63,13 @@ describe('AuthScreen', () => {
     });
 
     it('should have delete button', () => {
-      const { getByTestId } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       expect(getByTestId('key-delete')).toBeDefined();
     });
 
     it('should delete last digit when delete is pressed', () => {
-      const { getByTestId } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       fireEvent.press(getByTestId('key-1'));
       fireEvent.press(getByTestId('key-2'));
@@ -95,9 +81,7 @@ describe('AuthScreen', () => {
     });
 
     it('should limit PIN to 6 digits', () => {
-      const { getByTestId } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       // Press 7 times
       for (let i = 0; i < 7; i++) {
@@ -113,10 +97,7 @@ describe('AuthScreen', () => {
   describe('Biometrics', () => {
     it('should show biometrics button when available', () => {
       const { getByTestId } = renderWithTheme(
-        <AuthScreen
-          navigation={mockNavigation as any}
-          biometricsAvailable={true}
-        />
+        <AuthScreen navigation={mockNavigation as any} biometricsAvailable={true} />
       );
 
       expect(getByTestId('biometrics-button')).toBeDefined();
@@ -124,10 +105,7 @@ describe('AuthScreen', () => {
 
     it('should hide biometrics button when not available', () => {
       const { queryByTestId } = renderWithTheme(
-        <AuthScreen
-          navigation={mockNavigation as any}
-          biometricsAvailable={false}
-        />
+        <AuthScreen navigation={mockNavigation as any} biometricsAvailable={false} />
       );
 
       expect(queryByTestId('biometrics-button')).toBeNull();
@@ -137,10 +115,7 @@ describe('AuthScreen', () => {
   describe('Error Handling', () => {
     it('should show error message on wrong PIN', () => {
       const { getByTestId, getByText } = renderWithTheme(
-        <AuthScreen
-          navigation={mockNavigation as any}
-          initialError="Incorrect PIN"
-        />
+        <AuthScreen navigation={mockNavigation as any} initialError="Incorrect PIN" />
       );
 
       expect(getByText('Incorrect PIN')).toBeDefined();
@@ -148,10 +123,7 @@ describe('AuthScreen', () => {
 
     it('should show attempts remaining', () => {
       const { getByText } = renderWithTheme(
-        <AuthScreen
-          navigation={mockNavigation as any}
-          attemptsRemaining={3}
-        />
+        <AuthScreen navigation={mockNavigation as any} attemptsRemaining={3} />
       );
 
       expect(getByText(/3 attempts/i)).toBeDefined();
@@ -161,11 +133,7 @@ describe('AuthScreen', () => {
   describe('Lockout', () => {
     it('should show lockout message when locked', () => {
       const { getByText } = renderWithTheme(
-        <AuthScreen
-          navigation={mockNavigation as any}
-          isLocked={true}
-          lockoutTime={300}
-        />
+        <AuthScreen navigation={mockNavigation as any} isLocked={true} lockoutTime={300} />
       );
 
       expect(getByText(/locked/i)).toBeDefined();
@@ -173,11 +141,7 @@ describe('AuthScreen', () => {
 
     it('should disable input when locked', () => {
       const { getByTestId } = renderWithTheme(
-        <AuthScreen
-          navigation={mockNavigation as any}
-          isLocked={true}
-          lockoutTime={300}
-        />
+        <AuthScreen navigation={mockNavigation as any} isLocked={true} lockoutTime={300} />
       );
 
       const key = getByTestId('key-1');
@@ -187,9 +151,7 @@ describe('AuthScreen', () => {
 
   describe('Number Pad', () => {
     it('should have all number keys 0-9', () => {
-      const { getByTestId } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       for (let i = 0; i <= 9; i++) {
         expect(getByTestId(`key-${i}`)).toBeDefined();
@@ -199,17 +161,13 @@ describe('AuthScreen', () => {
 
   describe('Accessibility', () => {
     it('should have accessible number keys', () => {
-      const { getByLabelText } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByLabelText } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       expect(getByLabelText(/1/)).toBeDefined();
     });
 
     it('should have accessible delete button', () => {
-      const { getByLabelText } = renderWithTheme(
-        <AuthScreen navigation={mockNavigation as any} />
-      );
+      const { getByLabelText } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       expect(getByLabelText(/delete/i)).toBeDefined();
     });

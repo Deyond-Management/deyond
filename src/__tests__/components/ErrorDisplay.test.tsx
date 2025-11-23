@@ -16,17 +16,13 @@ const renderWithTheme = (component: React.ReactElement) => {
 describe('ErrorDisplay', () => {
   describe('Rendering', () => {
     it('should render error message', () => {
-      const { getByText } = renderWithTheme(
-        <ErrorDisplay message="Something went wrong" />
-      );
+      const { getByText } = renderWithTheme(<ErrorDisplay message="Something went wrong" />);
 
       expect(getByText('Something went wrong')).toBeDefined();
     });
 
     it('should render with default title', () => {
-      const { getByText } = renderWithTheme(
-        <ErrorDisplay message="Error occurred" />
-      );
+      const { getByText } = renderWithTheme(<ErrorDisplay message="Error occurred" />);
 
       expect(getByText('Error')).toBeDefined();
     });
@@ -51,26 +47,20 @@ describe('ErrorDisplay', () => {
   describe('Retry Button', () => {
     it('should show retry button when onRetry is provided', () => {
       const mockRetry = jest.fn();
-      const { getByText } = renderWithTheme(
-        <ErrorDisplay message="Error" onRetry={mockRetry} />
-      );
+      const { getByText } = renderWithTheme(<ErrorDisplay message="Error" onRetry={mockRetry} />);
 
       expect(getByText('Retry')).toBeDefined();
     });
 
     it('should not show retry button when onRetry is not provided', () => {
-      const { queryByText } = renderWithTheme(
-        <ErrorDisplay message="Error" />
-      );
+      const { queryByText } = renderWithTheme(<ErrorDisplay message="Error" />);
 
       expect(queryByText('Retry')).toBeNull();
     });
 
     it('should call onRetry when retry button is pressed', () => {
       const mockRetry = jest.fn();
-      const { getByText } = renderWithTheme(
-        <ErrorDisplay message="Error" onRetry={mockRetry} />
-      );
+      const { getByText } = renderWithTheme(<ErrorDisplay message="Error" onRetry={mockRetry} />);
 
       fireEvent.press(getByText('Retry'));
 

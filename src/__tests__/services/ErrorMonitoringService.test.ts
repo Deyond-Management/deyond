@@ -76,19 +76,13 @@ describe('ErrorMonitoringService', () => {
     it('should capture message with Sentry', () => {
       errorMonitoring.captureMessage('Test message');
 
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        'Test message',
-        expect.any(String)
-      );
+      expect(Sentry.captureMessage).toHaveBeenCalledWith('Test message', expect.any(String));
     });
 
     it('should capture with severity level', () => {
       errorMonitoring.captureMessage('Warning message', 'warning');
 
-      expect(Sentry.captureMessage).toHaveBeenCalledWith(
-        'Warning message',
-        'warning'
-      );
+      expect(Sentry.captureMessage).toHaveBeenCalledWith('Warning message', 'warning');
     });
   });
 

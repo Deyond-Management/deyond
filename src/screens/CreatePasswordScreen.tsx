@@ -5,14 +5,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Input } from '../components/atoms/Input';
@@ -44,16 +37,16 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
 
   // Password validation rules
   const validationRules: ValidationRule[] = [
-    { label: 'At least 8 characters', test: (pwd) => pwd.length >= 8 },
-    { label: 'One uppercase letter', test: (pwd) => /[A-Z]/.test(pwd) },
-    { label: 'One lowercase letter', test: (pwd) => /[a-z]/.test(pwd) },
-    { label: 'One number', test: (pwd) => /\d/.test(pwd) },
-    { label: 'One special character', test: (pwd) => /[!@#$%^&*(),.?":{}|<>]/.test(pwd) },
+    { label: 'At least 8 characters', test: pwd => pwd.length >= 8 },
+    { label: 'One uppercase letter', test: pwd => /[A-Z]/.test(pwd) },
+    { label: 'One lowercase letter', test: pwd => /[a-z]/.test(pwd) },
+    { label: 'One number', test: pwd => /\d/.test(pwd) },
+    { label: 'One special character', test: pwd => /[!@#$%^&*(),.?":{}|<>]/.test(pwd) },
   ];
 
   // Calculate password strength
   const passwordStrength: PasswordStrength = useMemo(() => {
-    const passedRules = validationRules.filter((rule) => rule.test(password)).length;
+    const passedRules = validationRules.filter(rule => rule.test(password)).length;
 
     if (passedRules <= 2) return 'Weak';
     if (passedRules <= 4) return 'Medium';
@@ -74,7 +67,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
 
   // Validate password meets all rules
   const isPasswordValid = (): boolean => {
-    return validationRules.every((rule) => rule.test(password));
+    return validationRules.every(rule => rule.test(password));
   };
 
   // Handle password creation
@@ -127,9 +120,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
             onPress={() => setShowPassword(!showPassword)}
             testID="toggle-password-visibility"
           >
-            <Text style={{ color: colors.primary }}>
-              {showPassword ? 'Hide' : 'Show'}
-            </Text>
+            <Text style={{ color: colors.primary }}>{showPassword ? 'Hide' : 'Show'}</Text>
           </TouchableOpacity>
         </View>
 
@@ -148,8 +139,8 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
                       passwordStrength === 'Weak'
                         ? '33%'
                         : passwordStrength === 'Medium'
-                        ? '66%'
-                        : '100%',
+                          ? '66%'
+                          : '100%',
                     backgroundColor: getStrengthColor(passwordStrength),
                   },
                 ]}
@@ -175,9 +166,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
             onPress={() => setShowConfirmPassword(!showConfirmPassword)}
             testID="toggle-confirm-password-visibility"
           >
-            <Text style={{ color: colors.primary }}>
-              {showConfirmPassword ? 'Hide' : 'Show'}
-            </Text>
+            <Text style={{ color: colors.primary }}>{showConfirmPassword ? 'Hide' : 'Show'}</Text>
           </TouchableOpacity>
         </View>
 
@@ -234,86 +223,86 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollView: {
-    flex: 1,
-  },
   content: {
     flexGrow: 1,
   },
-  header: {
-    marginBottom: 24,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  inputContainer: {
-    position: 'relative',
-    marginBottom: 16,
-  },
-  toggleButton: {
-    position: 'absolute',
-    right: 12,
-    top: 12,
-    padding: 8,
-  },
-  strengthCard: {
-    padding: 16,
-    marginBottom: 16,
-  },
-  strengthLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  strengthMeterContainer: {
-    height: 8,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginBottom: 8,
-  },
-  strengthMeter: {
-    height: '100%',
-    borderRadius: 4,
-  },
-  strengthText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  rulesCard: {
-    padding: 16,
-    marginBottom: 16,
-  },
-  rulesTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 12,
-  },
-  ruleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  ruleIcon: {
-    fontSize: 16,
-    marginRight: 8,
-    width: 20,
-  },
-  ruleText: {
-    fontSize: 14,
+  createButton: {
+    marginTop: 8,
   },
   errorText: {
     fontSize: 14,
     marginBottom: 16,
     textAlign: 'center',
   },
-  createButton: {
-    marginTop: 8,
+  header: {
+    marginBottom: 24,
+  },
+  inputContainer: {
+    marginBottom: 16,
+    position: 'relative',
+  },
+  ruleIcon: {
+    fontSize: 16,
+    marginRight: 8,
+    width: 20,
+  },
+  ruleRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: 8,
+  },
+  ruleText: {
+    fontSize: 14,
+  },
+  rulesCard: {
+    marginBottom: 16,
+    padding: 16,
+  },
+  rulesTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  strengthCard: {
+    marginBottom: 16,
+    padding: 16,
+  },
+  strengthLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  strengthMeter: {
+    borderRadius: 4,
+    height: '100%',
+  },
+  strengthMeterContainer: {
+    backgroundColor: '#E0E0E0',
+    borderRadius: 4,
+    height: 8,
+    marginBottom: 8,
+    overflow: 'hidden',
+  },
+  strengthText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  toggleButton: {
+    padding: 8,
+    position: 'absolute',
+    right: 12,
+    top: 12,
   },
 });

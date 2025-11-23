@@ -127,7 +127,9 @@ describe('Formatters', () => {
     });
 
     it('should truncate address with custom length', () => {
-      expect(formatAddress('0x1234567890123456789012345678901234567890', 8, 6)).toBe('0x123456...567890');
+      expect(formatAddress('0x1234567890123456789012345678901234567890', 8, 6)).toBe(
+        '0x123456...567890'
+      );
     });
 
     it('should return original if address is short', () => {

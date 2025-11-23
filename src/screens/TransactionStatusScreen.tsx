@@ -13,7 +13,6 @@ import {
   TouchableOpacity,
   Linking,
   Clipboard,
-  
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
@@ -102,25 +101,15 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
   };
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-      >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Status Indicator */}
         <View style={styles.statusSection}>
           <View
             testID="status-indicator"
-            style={[
-              styles.statusIcon,
-              { backgroundColor: getStatusColor() + '20' },
-            ]}
+            style={[styles.statusIcon, { backgroundColor: getStatusColor() + '20' }]}
           >
-            {status === 'pending' && (
-              <ActivityIndicator size="large" color={getStatusColor()} />
-            )}
+            {status === 'pending' && <ActivityIndicator size="large" color={getStatusColor()} />}
             {status === 'confirmed' && (
               <Text testID="success-icon" style={[styles.icon, { color: getStatusColor() }]}>
                 ✓
@@ -133,15 +122,9 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
             )}
           </View>
 
-          <Text style={[styles.statusText, { color: getStatusColor() }]}>
-            {getStatusText()}
-          </Text>
+          <Text style={[styles.statusText, { color: getStatusColor() }]}>{getStatusText()}</Text>
 
-          {error && (
-            <Text style={[styles.errorText, { color: theme.colors.error }]}>
-              {error}
-            </Text>
-          )}
+          {error && <Text style={[styles.errorText, { color: theme.colors.error }]}>{error}</Text>}
         </View>
 
         {/* Transaction Amount */}
@@ -159,15 +142,23 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
         {/* Transaction Details */}
         <Card style={styles.card} elevation={1}>
           <View style={styles.detailRow}>
-            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>
-              To
-            </Text>
+            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>To</Text>
             <Text style={[styles.detailValue, { color: theme.colors.text.primary }]}>
               {formatAddress(to)}
             </Text>
           </View>
 
-          <View style={[styles.detailRow, { borderTopWidth: 1, borderTopColor: theme.colors.divider, paddingTop: 12, marginTop: 12 }]}>
+          <View
+            style={[
+              styles.detailRow,
+              {
+                borderTopWidth: 1,
+                borderTopColor: theme.colors.divider,
+                paddingTop: 12,
+                marginTop: 12,
+              },
+            ]}
+          >
             <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>
               Transaction Hash
             </Text>
@@ -180,19 +171,14 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
                 testID="copy-hash-button"
                 style={styles.copyButton}
               >
-                <Text style={[styles.copyText, { color: theme.colors.primary }]}>
-                  Copy
-                </Text>
+                <Text style={[styles.copyText, { color: theme.colors.primary }]}>Copy</Text>
               </TouchableOpacity>
             </View>
           </View>
         </Card>
 
         {/* View on Explorer */}
-        <TouchableOpacity
-          style={styles.explorerButton}
-          onPress={handleViewExplorer}
-        >
+        <TouchableOpacity style={styles.explorerButton} onPress={handleViewExplorer}>
           <Text style={[styles.explorerText, { color: theme.colors.primary }]}>
             View on Explorer
           </Text>
@@ -226,74 +212,27 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 32,
-    alignItems: 'center',
-  },
-  statusSection: {
-    alignItems: 'center',
-    marginVertical: 32,
-  },
-  statusIcon: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  icon: {
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-  statusText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  errorText: {
-    fontSize: 14,
-    marginTop: 8,
-    textAlign: 'center',
-  },
-  card: {
+  actions: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
     width: '100%',
-    marginBottom: 16,
-  },
-  amountSection: {
-    alignItems: 'center',
-    paddingVertical: 8,
   },
   amountLabel: {
     fontSize: 14,
     marginBottom: 8,
   },
+  amountSection: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
   amountValue: {
     fontSize: 28,
     fontWeight: 'bold',
   },
-  detailRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  detailLabel: {
-    fontSize: 14,
-  },
-  detailValue: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  hashRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  card: {
+    marginBottom: 16,
+    width: '100%',
   },
   copyButton: {
     padding: 4,
@@ -302,6 +241,29 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
+  detailLabel: {
+    fontSize: 14,
+  },
+  detailRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  detailValue: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  doneButton: {
+    flex: 1,
+  },
+  doneButtonHalf: {
+    flex: 1,
+  },
+  errorText: {
+    fontSize: 14,
+    marginTop: 8,
+    textAlign: 'center',
+  },
   explorerButton: {
     marginVertical: 16,
   },
@@ -309,20 +271,44 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
-  actions: {
+  hashRow: {
+    alignItems: 'center',
     flexDirection: 'row',
-    width: '100%',
-    marginTop: 16,
-    gap: 12,
+    gap: 8,
+  },
+  icon: {
+    fontSize: 40,
+    fontWeight: 'bold',
   },
   retryButton: {
     flex: 1,
   },
-  doneButton: {
+  safeArea: {
     flex: 1,
   },
-  doneButtonHalf: {
+  scrollContent: {
+    alignItems: 'center',
+    padding: 16,
+    paddingBottom: 32,
+  },
+  scrollView: {
     flex: 1,
+  },
+  statusIcon: {
+    alignItems: 'center',
+    borderRadius: 40,
+    height: 80,
+    justifyContent: 'center',
+    marginBottom: 16,
+    width: 80,
+  },
+  statusSection: {
+    alignItems: 'center',
+    marginVertical: 32,
+  },
+  statusText: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 });
 

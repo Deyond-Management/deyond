@@ -16,9 +16,7 @@ const renderWithTheme = (component: React.ReactElement) => {
 describe('EmptyState', () => {
   describe('Rendering', () => {
     it('should render with title', () => {
-      const { getByText } = renderWithTheme(
-        <EmptyState title="No Tokens" />
-      );
+      const { getByText } = renderWithTheme(<EmptyState title="No Tokens" />);
 
       expect(getByText('No Tokens')).toBeDefined();
     });
@@ -44,11 +42,7 @@ describe('EmptyState', () => {
     it('should show action button when provided', () => {
       const mockAction = jest.fn();
       const { getByText } = renderWithTheme(
-        <EmptyState
-          title="No Tokens"
-          actionLabel="Add Token"
-          onAction={mockAction}
-        />
+        <EmptyState title="No Tokens" actionLabel="Add Token" onAction={mockAction} />
       );
 
       expect(getByText('Add Token')).toBeDefined();
@@ -57,11 +51,7 @@ describe('EmptyState', () => {
     it('should call onAction when button is pressed', () => {
       const mockAction = jest.fn();
       const { getByText } = renderWithTheme(
-        <EmptyState
-          title="No Tokens"
-          actionLabel="Add Token"
-          onAction={mockAction}
-        />
+        <EmptyState title="No Tokens" actionLabel="Add Token" onAction={mockAction} />
       );
 
       fireEvent.press(getByText('Add Token'));
@@ -70,9 +60,7 @@ describe('EmptyState', () => {
     });
 
     it('should not show action button when not provided', () => {
-      const { queryByText } = renderWithTheme(
-        <EmptyState title="No Data" />
-      );
+      const { queryByText } = renderWithTheme(<EmptyState title="No Data" />);
 
       expect(queryByText('Add Token')).toBeNull();
     });
@@ -104,9 +92,7 @@ describe('EmptyState', () => {
     });
 
     it('should render generic icon by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <EmptyState title="Empty" testID="empty" />
-      );
+      const { getByTestId } = renderWithTheme(<EmptyState title="Empty" testID="empty" />);
 
       expect(getByTestId('empty-icon')).toBeDefined();
     });
@@ -115,11 +101,7 @@ describe('EmptyState', () => {
   describe('Styling', () => {
     it('should apply custom styles', () => {
       const { getByTestId } = renderWithTheme(
-        <EmptyState
-          title="Empty"
-          testID="empty-state"
-          style={{ marginTop: 20 }}
-        />
+        <EmptyState title="Empty" testID="empty-state" style={{ marginTop: 20 }} />
       );
 
       expect(getByTestId('empty-state')).toBeDefined();

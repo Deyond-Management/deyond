@@ -98,9 +98,7 @@ export const config = {
 
   // API
   api: {
-    baseUrl: ENV === 'production'
-      ? 'https://api.deyond.io'
-      : 'https://api-dev.deyond.io',
+    baseUrl: ENV === 'production' ? 'https://api.deyond.io' : 'https://api-dev.deyond.io',
     timeout: 30000,
   },
 

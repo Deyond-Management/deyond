@@ -23,11 +23,12 @@ describe('EthereumProvider', () => {
     it('should get current block number', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: '0x10d4f1e', // block number in hex
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: '0x10d4f1e', // block number in hex
+          }),
       });
 
       const blockNumber = await provider.getBlockNumber();
@@ -45,11 +46,12 @@ describe('EthereumProvider', () => {
     it('should get balance', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: '0xde0b6b3a7640000', // 1 ETH in wei
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: '0xde0b6b3a7640000', // 1 ETH in wei
+          }),
       });
 
       const balance = await provider.getBalance('0x1234567890123456789012345678901234567890');
@@ -60,14 +62,17 @@ describe('EthereumProvider', () => {
     it('should get transaction count', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: '0x5',
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: '0x5',
+          }),
       });
 
-      const nonce = await provider.getTransactionCount('0x1234567890123456789012345678901234567890');
+      const nonce = await provider.getTransactionCount(
+        '0x1234567890123456789012345678901234567890'
+      );
 
       expect(nonce).toBe(5);
     });
@@ -75,11 +80,12 @@ describe('EthereumProvider', () => {
     it('should estimate gas', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: '0x5208', // 21000 in hex
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: '0x5208', // 21000 in hex
+          }),
       });
 
       const gas = await provider.estimateGas({
@@ -93,11 +99,12 @@ describe('EthereumProvider', () => {
     it('should get gas price', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: '0x3b9aca00', // 1 gwei in wei
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: '0x3b9aca00', // 1 gwei in wei
+          }),
       });
 
       const gasPrice = await provider.getGasPrice();
@@ -109,21 +116,23 @@ describe('EthereumProvider', () => {
       (global.fetch as jest.Mock)
         .mockResolvedValueOnce({
           ok: true,
-          json: () => Promise.resolve({
-            jsonrpc: '2.0',
-            id: 1,
-            result: {
-              baseFeePerGas: '0x3b9aca00',
-            },
-          }),
+          json: () =>
+            Promise.resolve({
+              jsonrpc: '2.0',
+              id: 1,
+              result: {
+                baseFeePerGas: '0x3b9aca00',
+              },
+            }),
         })
         .mockResolvedValueOnce({
           ok: true,
-          json: () => Promise.resolve({
-            jsonrpc: '2.0',
-            id: 1,
-            result: '0x77359400', // 2 gwei
-          }),
+          json: () =>
+            Promise.resolve({
+              jsonrpc: '2.0',
+              id: 1,
+              result: '0x77359400', // 2 gwei
+            }),
         });
 
       const feeData = await provider.getFeeData();
@@ -139,11 +148,12 @@ describe('EthereumProvider', () => {
 
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: txHash,
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: txHash,
+          }),
       });
 
       const hash = await provider.sendRawTransaction('0xsignedtx');
@@ -154,15 +164,16 @@ describe('EthereumProvider', () => {
     it('should get transaction receipt', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: {
-            transactionHash: '0xabc',
-            blockNumber: '0x100',
-            status: '0x1',
-          },
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: {
+              transactionHash: '0xabc',
+              blockNumber: '0x100',
+              status: '0x1',
+            },
+          }),
       });
 
       const receipt = await provider.getTransactionReceipt('0xabc');
@@ -174,11 +185,12 @@ describe('EthereumProvider', () => {
     it('should return null for pending transaction', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: null,
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: null,
+          }),
       });
 
       const receipt = await provider.getTransactionReceipt('0xpending');
@@ -191,14 +203,15 @@ describe('EthereumProvider', () => {
     it('should throw on RPC error', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          error: {
-            code: -32000,
-            message: 'Insufficient funds',
-          },
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            error: {
+              code: -32000,
+              message: 'Insufficient funds',
+            },
+          }),
       });
 
       await expect(provider.getBalance('0x123')).rejects.toThrow('Insufficient funds');
@@ -221,11 +234,12 @@ describe('EthereumProvider', () => {
     it('should call contract method', async () => {
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({
-          jsonrpc: '2.0',
-          id: 1,
-          result: '0x0000000000000000000000000000000000000000000000000de0b6b3a7640000',
-        }),
+        json: () =>
+          Promise.resolve({
+            jsonrpc: '2.0',
+            id: 1,
+            result: '0x0000000000000000000000000000000000000000000000000de0b6b3a7640000',
+          }),
       });
 
       const result = await provider.call({

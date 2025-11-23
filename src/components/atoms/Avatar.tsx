@@ -5,14 +5,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  ViewStyle,
-  TextStyle,
-  ImageSourcePropType,
-} from 'react-native';
+import { View, Text, Image, ViewStyle, TextStyle, ImageSourcePropType } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export type AvatarSize = 'small' | 'medium' | 'large' | 'xlarge';
@@ -127,9 +120,18 @@ export const Avatar: React.FC<AvatarProps> = ({
     // Generate color based on name
     if (name) {
       const colors = [
-        '#E91E63', '#9C27B0', '#673AB7', '#3F51B5',
-        '#2196F3', '#00BCD4', '#009688', '#4CAF50',
-        '#FF9800', '#FF5722', '#795548', '#607D8B',
+        '#E91E63',
+        '#9C27B0',
+        '#673AB7',
+        '#3F51B5',
+        '#2196F3',
+        '#00BCD4',
+        '#009688',
+        '#4CAF50',
+        '#FF9800',
+        '#FF5722',
+        '#795548',
+        '#607D8B',
       ];
       const charCode = name.charCodeAt(0) + name.charCodeAt(name.length - 1);
       return colors[charCode % colors.length];
@@ -203,11 +205,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         accessibilityLabel={accessibilityLabel || name || 'Avatar'}
       >
         {source ? (
-          <Image
-            source={source}
-            style={{ width: '100%', height: '100%' }}
-            resizeMode="cover"
-          />
+          <Image source={source} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
         ) : (
           <Text style={textStyle}>{getInitials()}</Text>
         )}

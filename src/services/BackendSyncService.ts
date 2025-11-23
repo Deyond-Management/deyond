@@ -104,10 +104,7 @@ export class BackendSyncService {
    */
   private async updateSyncState(state: Partial<SyncState>): Promise<void> {
     const current = await this.getSyncState();
-    await AsyncStorage.setItem(
-      SYNC_STATE_KEY,
-      JSON.stringify({ ...current, ...state })
-    );
+    await AsyncStorage.setItem(SYNC_STATE_KEY, JSON.stringify({ ...current, ...state }));
   }
 
   /**
@@ -150,12 +147,14 @@ export class BackendSyncService {
   /**
    * Get pending sync items
    */
-  private async getPendingSync(): Promise<Array<{
-    type: string;
-    data: unknown;
-    timestamp: number;
-    id: string;
-  }>> {
+  private async getPendingSync(): Promise<
+    Array<{
+      type: string;
+      data: unknown;
+      timestamp: number;
+      id: string;
+    }>
+  > {
     const data = await AsyncStorage.getItem(PENDING_SYNC_KEY);
     return data ? JSON.parse(data) : [];
   }
@@ -197,7 +196,7 @@ export class BackendSyncService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
         },
         body: JSON.stringify({ items: pending }),
       });
@@ -240,7 +239,7 @@ export class BackendSyncService {
       const response = await fetch(`${this.config.baseUrl}/api/sync/restore`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
         },
       });
 
@@ -283,7 +282,7 @@ export class BackendSyncService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
         },
         body: JSON.stringify({
           addresses,
@@ -328,11 +327,7 @@ export class BackendSyncService {
    * Clear all synced data
    */
   async clearSyncData(): Promise<void> {
-    await AsyncStorage.multiRemove([
-      SYNC_STATE_KEY,
-      USER_SETTINGS_KEY,
-      PENDING_SYNC_KEY,
-    ]);
+    await AsyncStorage.multiRemove([SYNC_STATE_KEY, USER_SETTINGS_KEY, PENDING_SYNC_KEY]);
   }
 }
 

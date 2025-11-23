@@ -104,10 +104,7 @@ export function useRenderCount(): number {
 /**
  * Update effect (skip initial render)
  */
-export function useUpdateEffect(
-  effect: React.EffectCallback,
-  deps?: React.DependencyList
-): void {
+export function useUpdateEffect(effect: React.EffectCallback, deps?: React.DependencyList): void {
   const isFirst = useRef(true);
 
   useEffect(() => {
@@ -124,31 +121,21 @@ export function useUpdateEffect(
 /**
  * Stable callback that always uses latest version
  */
-export function useEventCallback<T extends (...args: unknown[]) => unknown>(
-  callback: T
-): T {
+export function useEventCallback<T extends (...args: unknown[]) => unknown>(callback: T): T {
   const ref = useRef<T>(callback);
 
   useEffect(() => {
     ref.current = callback;
   }, [callback]);
 
-  return useCallback(
-    ((...args) => ref.current(...args)) as T,
-    []
-  );
+  return useCallback(((...args) => ref.current(...args)) as T, []);
 }
 
 // Helper function for deep equality check
 function deepEqual(a: unknown, b: unknown): boolean {
   if (a === b) return true;
 
-  if (
-    typeof a !== 'object' ||
-    typeof b !== 'object' ||
-    a === null ||
-    b === null
-  ) {
+  if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) {
     return false;
   }
 
@@ -160,10 +147,7 @@ function deepEqual(a: unknown, b: unknown): boolean {
   for (const key of keysA) {
     if (
       !keysB.includes(key) ||
-      !deepEqual(
-        (a as Record<string, unknown>)[key],
-        (b as Record<string, unknown>)[key]
-      )
+      !deepEqual((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key])
     ) {
       return false;
     }

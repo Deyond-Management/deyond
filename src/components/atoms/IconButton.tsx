@@ -136,9 +136,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
     if (variant === 'outlined') {
       return {
         borderWidth: 1,
-        borderColor: disabled
-          ? theme.colors.text.disabled
-          : color || theme.colors.text.primary,
+        borderColor: disabled ? theme.colors.text.disabled : color || theme.colors.text.primary,
       };
     }
     return {};
@@ -160,10 +158,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
   const renderIcon = () => {
     if (loading) {
       return (
-        <ActivityIndicator
-          size={size === 'small' ? 'small' : 'small'}
-          color={getIconColor()}
-        />
+        <ActivityIndicator size={size === 'small' ? 'small' : 'small'} color={getIconColor()} />
       );
     }
 

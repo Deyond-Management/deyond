@@ -5,15 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -121,8 +113,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
             style={[
               styles.tab,
               {
-                backgroundColor:
-                  importMethod === 'mnemonic' ? colors.primary : 'transparent',
+                backgroundColor: importMethod === 'mnemonic' ? colors.primary : 'transparent',
                 borderColor: colors.border,
               },
             ]}
@@ -149,8 +140,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
             style={[
               styles.tab,
               {
-                backgroundColor:
-                  importMethod === 'privateKey' ? colors.primary : 'transparent',
+                backgroundColor: importMethod === 'privateKey' ? colors.primary : 'transparent',
                 borderColor: colors.border,
               },
             ]}
@@ -193,7 +183,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                 placeholder="Enter your 12 or 24 word recovery phrase"
                 placeholderTextColor={colors.textSecondary}
                 value={inputValue}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   setInputValue(text);
                   setError('');
                 }}
@@ -209,9 +199,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
             </>
           ) : (
             <>
-              <Text style={[styles.inputLabel, { color: colors.text.primary }]}>
-                Private Key
-              </Text>
+              <Text style={[styles.inputLabel, { color: colors.text.primary }]}>Private Key</Text>
               <TextInput
                 style={[
                   styles.textInput,
@@ -224,7 +212,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                 placeholder="Enter your private key (with or without 0x)"
                 placeholderTextColor={colors.textSecondary}
                 value={inputValue}
-                onChangeText={(text) => {
+                onChangeText={text => {
                   setInputValue(text);
                   setError('');
                 }}
@@ -243,8 +231,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
         <Card style={[styles.warningCard, { backgroundColor: colors.warning + '15' }]}>
           <Text style={[styles.warningIcon, { color: colors.warning }]}>⚠️</Text>
           <Text style={[styles.warningText, { color: colors.text.primary }]}>
-            Never share your recovery phrase or private key with anyone. We will never ask
-            for it.
+            Never share your recovery phrase or private key with anyone. We will never ask for it.
           </Text>
         </Card>
 
@@ -254,11 +241,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
         )}
 
         {/* Import Button */}
-        <Button
-          onPress={handleImport}
-          style={styles.importButton}
-          testID="import-button"
-        >
+        <Button onPress={handleImport} style={styles.importButton} testID="import-button">
           Import Wallet
         </Button>
       </ScrollView>
@@ -270,67 +253,75 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollView: {
-    flex: 1,
-  },
   content: {
     flexGrow: 1,
+  },
+  errorText: {
+    fontSize: 14,
+    marginBottom: 16,
+    textAlign: 'center',
   },
   header: {
     marginBottom: 24,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 8,
+  helperText: {
+    fontSize: 12,
+    marginTop: 8,
   },
-  subtitle: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    marginBottom: 24,
-    gap: 12,
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    alignItems: 'center',
-  },
-  tabText: {
-    fontSize: 14,
-    fontWeight: '600',
+  importButton: {
+    marginTop: 8,
   },
   inputCard: {
-    padding: 16,
     marginBottom: 16,
+    padding: 16,
   },
   inputLabel: {
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
   },
-  textInput: {
-    borderWidth: 1,
+  scrollView: {
+    flex: 1,
+  },
+  subtitle: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  tab: {
+    alignItems: 'center',
     borderRadius: 8,
-    padding: 12,
+    borderWidth: 1,
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 24,
+  },
+  tabText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  textInput: {
+    borderRadius: 8,
+    borderWidth: 1,
     fontSize: 14,
     minHeight: 100,
+    padding: 12,
   },
-  helperText: {
-    fontSize: 12,
-    marginTop: 8,
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 8,
   },
   warningCard: {
-    padding: 16,
-    marginBottom: 16,
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     gap: 12,
+    marginBottom: 16,
+    padding: 16,
   },
   warningIcon: {
     fontSize: 24,
@@ -339,13 +330,5 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     lineHeight: 20,
-  },
-  errorText: {
-    fontSize: 14,
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  importButton: {
-    marginTop: 8,
   },
 });

@@ -74,9 +74,7 @@ describe('TransactionService', () => {
         maxPriorityFeePerGas: '2000000000',
       };
 
-      await expect(transactionService.buildTransaction(params)).rejects.toThrow(
-        TransactionError
-      );
+      await expect(transactionService.buildTransaction(params)).rejects.toThrow(TransactionError);
     });
   });
 
@@ -193,9 +191,9 @@ describe('TransactionService', () => {
     it('should timeout if transaction not confirmed', async () => {
       const txHash = '0x0000000000000000000000000000000000000000000000000000000000000001';
 
-      await expect(
-        transactionService.waitForTransaction(txHash, 1, 100)
-      ).rejects.toThrow('Transaction confirmation timeout');
+      await expect(transactionService.waitForTransaction(txHash, 1, 100)).rejects.toThrow(
+        'Transaction confirmation timeout'
+      );
     });
   });
 

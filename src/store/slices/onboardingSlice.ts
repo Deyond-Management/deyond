@@ -40,10 +40,7 @@ const initialState: OnboardingState = {
 // Async Thunks
 export const createWallet = createAsyncThunk(
   'onboarding/createWallet',
-  async (
-    { password, mnemonic }: { password: string; mnemonic: string[] },
-    { rejectWithValue }
-  ) => {
+  async ({ password, mnemonic }: { password: string; mnemonic: string[] }, { rejectWithValue }) => {
     try {
       const walletManager = WalletManager.getInstance();
       const mnemonicString = mnemonic.join(' ');
@@ -118,13 +115,13 @@ const onboardingSlice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
-    clearError: (state) => {
+    clearError: state => {
       state.error = null;
     },
     setStep: (state, action: PayloadAction<OnboardingStep>) => {
       state.step = action.payload;
     },
-    resetOnboarding: (state) => {
+    resetOnboarding: state => {
       state.password = null;
       state.mnemonic = null;
       state.importData = null;
@@ -135,14 +132,14 @@ const onboardingSlice = createSlice({
       state.step = 'password';
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     // createWallet
     builder
-      .addCase(createWallet.pending, (state) => {
+      .addCase(createWallet.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(createWallet.fulfilled, (state) => {
+      .addCase(createWallet.fulfilled, state => {
         state.isLoading = false;
         state.error = null;
       })
@@ -153,11 +150,11 @@ const onboardingSlice = createSlice({
 
     // importWallet
     builder
-      .addCase(importWallet.pending, (state) => {
+      .addCase(importWallet.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(importWallet.fulfilled, (state) => {
+      .addCase(importWallet.fulfilled, state => {
         state.isLoading = false;
         state.error = null;
       })
@@ -183,9 +180,13 @@ export const {
 
 // Selectors
 export const selectOnboarding = (state: { onboarding: OnboardingState }) => state.onboarding;
-export const selectOnboardingStep = (state: { onboarding: OnboardingState }) => state.onboarding.step;
-export const selectIsOnboardingComplete = (state: { onboarding: OnboardingState }) => state.onboarding.isComplete;
-export const selectOnboardingError = (state: { onboarding: OnboardingState }) => state.onboarding.error;
-export const selectOnboardingLoading = (state: { onboarding: OnboardingState }) => state.onboarding.isLoading;
+export const selectOnboardingStep = (state: { onboarding: OnboardingState }) =>
+  state.onboarding.step;
+export const selectIsOnboardingComplete = (state: { onboarding: OnboardingState }) =>
+  state.onboarding.isComplete;
+export const selectOnboardingError = (state: { onboarding: OnboardingState }) =>
+  state.onboarding.error;
+export const selectOnboardingLoading = (state: { onboarding: OnboardingState }) =>
+  state.onboarding.isLoading;
 
 export default onboardingSlice.reducer;

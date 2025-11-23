@@ -57,8 +57,7 @@ describe('VerifyMnemonicScreen', () => {
 
       // Check for title or subtitle
       expect(
-        getByText(/Verify Recovery Phrase/i) ||
-          getByText(/Select the correct words/i)
+        getByText(/Verify Recovery Phrase/i) || getByText(/Select the correct words/i)
       ).toBeDefined();
     });
 
@@ -137,8 +136,11 @@ describe('VerifyMnemonicScreen', () => {
       fireEvent.press(verifyButton);
 
       // Should show error or not navigate (we'll check both)
-      const hasError = queryByText(/incorrect/i) || queryByText(/wrong/i) || queryByText(/try again/i);
-      const didNotNavigate = mockNavigation.navigate.mock.calls.length === 0 && mockNavigation.reset.mock.calls.length === 0;
+      const hasError =
+        queryByText(/incorrect/i) || queryByText(/wrong/i) || queryByText(/try again/i);
+      const didNotNavigate =
+        mockNavigation.navigate.mock.calls.length === 0 &&
+        mockNavigation.reset.mock.calls.length === 0;
 
       expect(hasError || didNotNavigate).toBeTruthy();
     });
@@ -181,7 +183,8 @@ describe('VerifyMnemonicScreen', () => {
       fireEvent.press(verifyButton);
 
       // Should either navigate or reset navigation (depending on implementation)
-      const navigatedOrReset = mockNavigation.navigate.mock.calls.length > 0 || mockNavigation.reset.mock.calls.length > 0;
+      const navigatedOrReset =
+        mockNavigation.navigate.mock.calls.length > 0 || mockNavigation.reset.mock.calls.length > 0;
 
       // We'll make this test more lenient since we don't know which words are correct
       expect(verifyButton).toBeDefined();

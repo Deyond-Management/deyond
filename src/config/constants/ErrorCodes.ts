@@ -96,17 +96,17 @@ export const ERROR_MESSAGES: Record<string, string> = {
 
 // RPC error code mapping (Ethereum JSON-RPC)
 export const RPC_ERROR_MAP: Record<number, string> = {
-  [-32700]: ERROR_CODES.INVALID_RESPONSE,   // Parse error
-  [-32600]: ERROR_CODES.VALIDATION_ERROR,   // Invalid Request
-  [-32601]: ERROR_CODES.RPC_ERROR,          // Method not found
-  [-32602]: ERROR_CODES.VALIDATION_ERROR,   // Invalid params
-  [-32603]: ERROR_CODES.RPC_ERROR,          // Internal error
+  [-32700]: ERROR_CODES.INVALID_RESPONSE, // Parse error
+  [-32600]: ERROR_CODES.VALIDATION_ERROR, // Invalid Request
+  [-32601]: ERROR_CODES.RPC_ERROR, // Method not found
+  [-32602]: ERROR_CODES.VALIDATION_ERROR, // Invalid params
+  [-32603]: ERROR_CODES.RPC_ERROR, // Internal error
   [-32000]: ERROR_CODES.INSUFFICIENT_FUNDS, // Server error (often insufficient funds)
-  [-32001]: ERROR_CODES.NOT_FOUND,          // Resource not found
-  [-32002]: ERROR_CODES.RPC_UNAVAILABLE,    // Resource unavailable
-  [-32003]: ERROR_CODES.TX_REJECTED,        // Transaction rejected
-  [-32004]: ERROR_CODES.RPC_ERROR,          // Method not supported
-  [-32005]: ERROR_CODES.RPC_RATE_LIMITED,   // Limit exceeded
+  [-32001]: ERROR_CODES.NOT_FOUND, // Resource not found
+  [-32002]: ERROR_CODES.RPC_UNAVAILABLE, // Resource unavailable
+  [-32003]: ERROR_CODES.TX_REJECTED, // Transaction rejected
+  [-32004]: ERROR_CODES.RPC_ERROR, // Method not supported
+  [-32005]: ERROR_CODES.RPC_RATE_LIMITED, // Limit exceeded
 };
 
 // HTTP status code mapping
@@ -124,7 +124,7 @@ export const HTTP_ERROR_MAP: Record<number, string> = {
 };
 
 // Type exports
-export type ErrorCode = typeof ERROR_CODES[keyof typeof ERROR_CODES];
+export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
 // Helper functions
 export const getErrorMessage = (code: string): string => {

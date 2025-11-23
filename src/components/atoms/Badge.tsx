@@ -8,13 +8,7 @@ import React from 'react';
 import { View, Text, ViewStyle, TextStyle } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 
-export type BadgeVariant =
-  | 'primary'
-  | 'success'
-  | 'error'
-  | 'warning'
-  | 'info'
-  | 'neutral';
+export type BadgeVariant = 'primary' | 'success' | 'error' | 'warning' | 'info' | 'neutral';
 
 export type BadgeSize = 'small' | 'medium' | 'large';
 
@@ -162,8 +156,7 @@ export const Badge: React.FC<BadgeProps> = ({
     if (dot) return '';
 
     // Check if children is a number or string representation of a number
-    const numericValue =
-      typeof children === 'number' ? children : Number(children);
+    const numericValue = typeof children === 'number' ? children : Number(children);
 
     if (!isNaN(numericValue) && max && numericValue > max) {
       return `${max}+`;
@@ -176,9 +169,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   // Container style
   const containerStyle: ViewStyle = {
-    backgroundColor: outlined
-      ? 'transparent'
-      : backgroundColor || colors.bg,
+    backgroundColor: outlined ? 'transparent' : backgroundColor || colors.bg,
     borderRadius: dot ? (dimensions.width as number) / 2 : 999,
     alignItems: 'center',
     justifyContent: 'center',
@@ -202,9 +193,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   // Text style
   const textStyles: TextStyle = {
-    color: outlined
-      ? backgroundColor || colors.border
-      : textColor || colors.text,
+    color: outlined ? backgroundColor || colors.border : textColor || colors.text,
     fontSize: dimensions.fontSize,
     fontWeight: '600',
     lineHeight: dimensions.fontSize ? dimensions.fontSize * 1.2 : undefined,

@@ -35,9 +35,9 @@ describe('BalanceService', () => {
     });
 
     it('should handle invalid address', async () => {
-      await expect(
-        balanceService.getNativeBalance('invalid-address')
-      ).rejects.toThrow(BalanceError);
+      await expect(balanceService.getNativeBalance('invalid-address')).rejects.toThrow(
+        BalanceError
+      );
     });
   });
 

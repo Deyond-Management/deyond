@@ -4,14 +4,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
-  StyleProp,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ViewStyle, StyleProp } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 
 interface ErrorDisplayProps {
@@ -64,12 +57,8 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 
       {/* Error Content */}
       <View style={styles.content}>
-        <Text style={[styles.title, { color: colors.error }]}>
-          {title}
-        </Text>
-        <Text style={[styles.message, { color: colors.text.secondary }]}>
-          {message}
-        </Text>
+        <Text style={[styles.title, { color: colors.error }]}>{title}</Text>
+        <Text style={[styles.message, { color: colors.text.secondary }]}>{message}</Text>
       </View>
 
       {/* Action Buttons */}
@@ -87,18 +76,12 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
           )}
           {onDismiss && (
             <TouchableOpacity
-              style={[
-                styles.button,
-                styles.dismissButton,
-                { borderColor: colors.error },
-              ]}
+              style={[styles.button, styles.dismissButton, { borderColor: colors.error }]}
               onPress={onDismiss}
               accessibilityLabel="Dismiss"
               accessibilityRole="button"
             >
-              <Text style={[styles.dismissText, { color: colors.error }]}>
-                Dismiss
-              </Text>
+              <Text style={[styles.dismissText, { color: colors.error }]}>Dismiss</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -108,65 +91,34 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  inline: {
-    marginHorizontal: 16,
+  actions: {
+    flexDirection: 'row',
+    gap: 12,
   },
   banner: {
     borderRadius: 0,
     marginHorizontal: 0,
   },
-  fullscreen: {
-    flex: 1,
-    justifyContent: 'center',
-    margin: 0,
-    borderRadius: 0,
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  icon: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  content: {
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  message: {
-    fontSize: 14,
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-  actions: {
-    flexDirection: 'row',
-    gap: 12,
-  },
   button: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    alignItems: 'center',
     borderRadius: 8,
     minWidth: 80,
-    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '600',
+  },
+  container: {
+    alignItems: 'center',
+    borderRadius: 12,
+    padding: 16,
+  },
+  content: {
+    alignItems: 'center',
+    marginBottom: 16,
   },
   dismissButton: {
     backgroundColor: 'transparent',
@@ -175,6 +127,37 @@ const styles = StyleSheet.create({
   dismissText: {
     fontSize: 14,
     fontWeight: '600',
+  },
+  fullscreen: {
+    borderRadius: 0,
+    flex: 1,
+    justifyContent: 'center',
+    margin: 0,
+  },
+  icon: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  iconContainer: {
+    alignItems: 'center',
+    borderRadius: 24,
+    height: 48,
+    justifyContent: 'center',
+    marginBottom: 12,
+    width: 48,
+  },
+  inline: {
+    marginHorizontal: 16,
+  },
+  message: {
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
   },
 });
 

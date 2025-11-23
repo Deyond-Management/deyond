@@ -32,8 +32,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   );
 
   // Determine actual theme based on preference
-  const actualScheme: ColorScheme =
-    colorScheme === 'auto' ? systemColorScheme : colorScheme;
+  const actualScheme: ColorScheme = colorScheme === 'auto' ? systemColorScheme : colorScheme;
 
   const theme = createTheme(actualScheme);
 

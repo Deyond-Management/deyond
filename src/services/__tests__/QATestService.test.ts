@@ -89,12 +89,9 @@ describe('QATestService', () => {
 
   describe('updateTestStatus', () => {
     it('should update test status', () => {
-      const result = service.updateTestStatus(
-        'wallet-management',
-        'wm-001',
-        'passed',
-        { duration: 1000 }
-      );
+      const result = service.updateTestStatus('wallet-management', 'wm-001', 'passed', {
+        duration: 1000,
+      });
 
       expect(result).toBe(true);
 
@@ -105,12 +102,7 @@ describe('QATestService', () => {
     });
 
     it('should update with error', () => {
-      service.updateTestStatus(
-        'wallet-management',
-        'wm-001',
-        'failed',
-        { error: 'Test failed' }
-      );
+      service.updateTestStatus('wallet-management', 'wm-001', 'failed', { error: 'Test failed' });
 
       const suite = service.getSuite('wallet-management');
       const testCase = suite?.testCases.find(tc => tc.id === 'wm-001');
@@ -119,11 +111,7 @@ describe('QATestService', () => {
     });
 
     it('should return false for non-existent test', () => {
-      const result = service.updateTestStatus(
-        'wallet-management',
-        'non-existent',
-        'passed'
-      );
+      const result = service.updateTestStatus('wallet-management', 'non-existent', 'passed');
       expect(result).toBe(false);
     });
   });
@@ -181,9 +169,9 @@ describe('QATestService', () => {
     });
 
     it('should throw for non-existent suite', async () => {
-      await expect(
-        service.runSuite('non-existent', jest.fn())
-      ).rejects.toThrow('Suite non-existent not found');
+      await expect(service.runSuite('non-existent', jest.fn())).rejects.toThrow(
+        'Suite non-existent not found'
+      );
     });
   });
 
@@ -344,7 +332,8 @@ describe('QATestService', () => {
     });
 
     it('should include test results in table', async () => {
-      const executor = jest.fn()
+      const executor = jest
+        .fn()
         .mockResolvedValueOnce({ passed: true, duration: 100 })
         .mockResolvedValueOnce({ passed: false, duration: 50, error: 'Test error' })
         .mockResolvedValue({ passed: true, duration: 100 });

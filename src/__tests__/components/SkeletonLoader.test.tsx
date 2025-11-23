@@ -17,17 +17,13 @@ import { ThemeProvider } from '../../contexts/ThemeContext';
 
 // Helper to render with theme
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider>{component}</ThemeProvider>
-  );
+  return render(<ThemeProvider>{component}</ThemeProvider>);
 };
 
 describe('SkeletonLoader', () => {
   describe('Base SkeletonLoader', () => {
     it('should render with default dimensions', () => {
-      const { getByTestId } = renderWithTheme(
-        <SkeletonLoader testID="skeleton-base" />
-      );
+      const { getByTestId } = renderWithTheme(<SkeletonLoader testID="skeleton-base" />);
 
       expect(getByTestId('skeleton-base')).toBeDefined();
     });
@@ -38,9 +34,7 @@ describe('SkeletonLoader', () => {
       );
 
       const skeleton = getByTestId('skeleton-custom');
-      expect(skeleton.props.style).toEqual(
-        expect.objectContaining({ width: 200, height: 50 })
-      );
+      expect(skeleton.props.style).toEqual(expect.objectContaining({ width: 200, height: 50 }));
     });
 
     it('should render with custom border radius', () => {
@@ -49,9 +43,7 @@ describe('SkeletonLoader', () => {
       );
 
       const skeleton = getByTestId('skeleton-radius');
-      expect(skeleton.props.style).toEqual(
-        expect.objectContaining({ borderRadius: 16 })
-      );
+      expect(skeleton.props.style).toEqual(expect.objectContaining({ borderRadius: 16 }));
     });
 
     it('should apply custom styles', () => {
@@ -60,17 +52,13 @@ describe('SkeletonLoader', () => {
       );
 
       const skeleton = getByTestId('skeleton-style');
-      expect(skeleton.props.style).toEqual(
-        expect.objectContaining({ marginTop: 10 })
-      );
+      expect(skeleton.props.style).toEqual(expect.objectContaining({ marginTop: 10 }));
     });
   });
 
   describe('SkeletonText', () => {
     it('should render text skeleton', () => {
-      const { getByTestId } = renderWithTheme(
-        <SkeletonText testID="skeleton-text" />
-      );
+      const { getByTestId } = renderWithTheme(<SkeletonText testID="skeleton-text" />);
 
       expect(getByTestId('skeleton-text')).toBeDefined();
     });
@@ -81,15 +69,11 @@ describe('SkeletonLoader', () => {
       );
 
       const skeleton = getByTestId('skeleton-text-width');
-      expect(skeleton.props.style).toEqual(
-        expect.objectContaining({ width: 150 })
-      );
+      expect(skeleton.props.style).toEqual(expect.objectContaining({ width: 150 }));
     });
 
     it('should render multiple lines', () => {
-      const { getAllByTestId } = renderWithTheme(
-        <SkeletonText lines={3} testID="skeleton-line" />
-      );
+      const { getAllByTestId } = renderWithTheme(<SkeletonText lines={3} testID="skeleton-line" />);
 
       expect(getAllByTestId(/skeleton-line/).length).toBe(3);
     });
@@ -97,9 +81,7 @@ describe('SkeletonLoader', () => {
 
   describe('SkeletonCard', () => {
     it('should render card skeleton', () => {
-      const { getByTestId } = renderWithTheme(
-        <SkeletonCard testID="skeleton-card" />
-      );
+      const { getByTestId } = renderWithTheme(<SkeletonCard testID="skeleton-card" />);
 
       expect(getByTestId('skeleton-card')).toBeDefined();
     });
@@ -110,33 +92,25 @@ describe('SkeletonLoader', () => {
       );
 
       const skeleton = getByTestId('skeleton-card-height');
-      expect(skeleton.props.style).toContainEqual(
-        expect.objectContaining({ height: 120 })
-      );
+      expect(skeleton.props.style).toContainEqual(expect.objectContaining({ height: 120 }));
     });
   });
 
   describe('TokenCardSkeleton', () => {
     it('should render token card skeleton', () => {
-      const { getByTestId } = renderWithTheme(
-        <TokenCardSkeleton testID="token-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<TokenCardSkeleton testID="token-skeleton" />);
 
       expect(getByTestId('token-skeleton')).toBeDefined();
     });
 
     it('should contain icon placeholder', () => {
-      const { getByTestId } = renderWithTheme(
-        <TokenCardSkeleton testID="token-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<TokenCardSkeleton testID="token-skeleton" />);
 
       expect(getByTestId('token-skeleton-icon')).toBeDefined();
     });
 
     it('should contain text placeholders', () => {
-      const { getByTestId } = renderWithTheme(
-        <TokenCardSkeleton testID="token-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<TokenCardSkeleton testID="token-skeleton" />);
 
       expect(getByTestId('token-skeleton-name')).toBeDefined();
       expect(getByTestId('token-skeleton-balance')).toBeDefined();
@@ -145,25 +119,19 @@ describe('SkeletonLoader', () => {
 
   describe('TransactionCardSkeleton', () => {
     it('should render transaction card skeleton', () => {
-      const { getByTestId } = renderWithTheme(
-        <TransactionCardSkeleton testID="tx-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<TransactionCardSkeleton testID="tx-skeleton" />);
 
       expect(getByTestId('tx-skeleton')).toBeDefined();
     });
 
     it('should contain icon placeholder', () => {
-      const { getByTestId } = renderWithTheme(
-        <TransactionCardSkeleton testID="tx-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<TransactionCardSkeleton testID="tx-skeleton" />);
 
       expect(getByTestId('tx-skeleton-icon')).toBeDefined();
     });
 
     it('should contain text placeholders', () => {
-      const { getByTestId } = renderWithTheme(
-        <TransactionCardSkeleton testID="tx-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<TransactionCardSkeleton testID="tx-skeleton" />);
 
       expect(getByTestId('tx-skeleton-type')).toBeDefined();
       expect(getByTestId('tx-skeleton-amount')).toBeDefined();
@@ -172,25 +140,19 @@ describe('SkeletonLoader', () => {
 
   describe('BalanceSkeleton', () => {
     it('should render balance skeleton', () => {
-      const { getByTestId } = renderWithTheme(
-        <BalanceSkeleton testID="balance-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<BalanceSkeleton testID="balance-skeleton" />);
 
       expect(getByTestId('balance-skeleton')).toBeDefined();
     });
 
     it('should contain label placeholder', () => {
-      const { getByTestId } = renderWithTheme(
-        <BalanceSkeleton testID="balance-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<BalanceSkeleton testID="balance-skeleton" />);
 
       expect(getByTestId('balance-skeleton-label')).toBeDefined();
     });
 
     it('should contain amount placeholder', () => {
-      const { getByTestId } = renderWithTheme(
-        <BalanceSkeleton testID="balance-skeleton" />
-      );
+      const { getByTestId } = renderWithTheme(<BalanceSkeleton testID="balance-skeleton" />);
 
       expect(getByTestId('balance-skeleton-amount')).toBeDefined();
     });

@@ -39,10 +39,7 @@ describe('DeviceConnectionScreen', () => {
   describe('Rendering', () => {
     it('should render device name', () => {
       const { getByText } = renderWithTheme(
-        <DeviceConnectionScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <DeviceConnectionScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByText('iPhone 14')).toBeDefined();
@@ -50,10 +47,7 @@ describe('DeviceConnectionScreen', () => {
 
     it('should render connection status', () => {
       const { getByTestId } = renderWithTheme(
-        <DeviceConnectionScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <DeviceConnectionScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByTestId('connection-status')).toBeDefined();
@@ -61,10 +55,7 @@ describe('DeviceConnectionScreen', () => {
 
     it('should render cancel button', () => {
       const { getByTestId } = renderWithTheme(
-        <DeviceConnectionScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <DeviceConnectionScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByTestId('cancel-button')).toBeDefined();
@@ -177,10 +168,7 @@ describe('DeviceConnectionScreen', () => {
   describe('Actions', () => {
     it('should go back when cancel is pressed', () => {
       const { getByTestId } = renderWithTheme(
-        <DeviceConnectionScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <DeviceConnectionScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       fireEvent.press(getByTestId('cancel-button'));
@@ -250,10 +238,7 @@ describe('DeviceConnectionScreen', () => {
   describe('Device Info', () => {
     it('should display truncated device address', () => {
       const { getByText } = renderWithTheme(
-        <DeviceConnectionScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <DeviceConnectionScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByText(/0x1234...7890/)).toBeDefined();
@@ -261,10 +246,7 @@ describe('DeviceConnectionScreen', () => {
 
     it('should display signal strength', () => {
       const { getByTestId } = renderWithTheme(
-        <DeviceConnectionScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <DeviceConnectionScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByTestId('signal-strength')).toBeDefined();
@@ -274,10 +256,7 @@ describe('DeviceConnectionScreen', () => {
   describe('Accessibility', () => {
     it('should have accessible cancel button', () => {
       const { getByLabelText } = renderWithTheme(
-        <DeviceConnectionScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <DeviceConnectionScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByLabelText(/cancel/i)).toBeDefined();

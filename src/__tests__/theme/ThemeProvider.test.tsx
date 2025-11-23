@@ -105,7 +105,7 @@ describe('Theme Colors', () => {
       'border',
     ];
 
-    requiredColors.forEach((color) => {
+    requiredColors.forEach(color => {
       expect(lightTheme.colors).toHaveProperty(color);
       expect(darkTheme.colors).toHaveProperty(color);
     });

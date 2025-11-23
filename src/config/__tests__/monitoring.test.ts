@@ -4,28 +4,26 @@ import {
   datadogConfig,
   alertThresholds,
   MetricsCollector,
-  metricsCollector
+  metricsCollector,
 } from '../monitoring';
 
 describe('Monitoring Configuration', () => {
   describe('appMetrics', () => {
     it('should define performance metrics', () => {
-      const perfMetrics = appMetrics.filter(m =>
-        m.name.includes('time') || m.name.includes('duration')
+      const perfMetrics = appMetrics.filter(
+        m => m.name.includes('time') || m.name.includes('duration')
       );
       expect(perfMetrics.length).toBeGreaterThan(0);
     });
 
     it('should define transaction metrics', () => {
-      const txMetrics = appMetrics.filter(m =>
-        m.name.includes('transaction')
-      );
+      const txMetrics = appMetrics.filter(m => m.name.includes('transaction'));
       expect(txMetrics.length).toBeGreaterThan(0);
     });
 
     it('should define error metrics', () => {
-      const errorMetrics = appMetrics.filter(m =>
-        m.name.includes('error') || m.name.includes('crash')
+      const errorMetrics = appMetrics.filter(
+        m => m.name.includes('error') || m.name.includes('crash')
       );
       expect(errorMetrics.length).toBeGreaterThan(0);
     });

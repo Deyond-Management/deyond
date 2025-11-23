@@ -56,9 +56,7 @@ describe('BLESessionManager', () => {
     });
 
     it('should fail for non-existent session', async () => {
-      await expect(
-        sessionManager.createHandshakeRequest('invalid-session-id')
-      ).rejects.toThrow();
+      await expect(sessionManager.createHandshakeRequest('invalid-session-id')).rejects.toThrow();
     });
   });
 
@@ -72,7 +70,11 @@ describe('BLESessionManager', () => {
       const peerPrivateKey = '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d';
       const peerAddress = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb';
       const peerManager = new BLESessionManager(peerAddress, peerPrivateKey);
-      const peerSession = await peerManager.initiateSession('initiator-dev', 'initiator-addr', 'Initiator');
+      const peerSession = await peerManager.initiateSession(
+        'initiator-dev',
+        'initiator-addr',
+        'Initiator'
+      );
 
       const handshakeResponse = await peerManager.createHandshakeRequest(peerSession.id);
 
@@ -114,12 +116,19 @@ describe('BLESessionManager', () => {
       const peerAddress = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb';
       const peerManager = new BLESessionManager(peerAddress, peerPrivateKey);
 
-      const peerSession = await peerManager.initiateSession('initiator-dev', 'initiator-addr', 'Initiator');
+      const peerSession = await peerManager.initiateSession(
+        'initiator-dev',
+        'initiator-addr',
+        'Initiator'
+      );
       const peerHandshake = await peerManager.createHandshakeRequest(peerSession.id);
 
       // Both sides should derive the same shared secret
       const secret1 = await sessionManager.deriveSharedSecret(session.id, peerHandshake.publicKey);
-      const secret2 = await peerManager.deriveSharedSecret(peerSession.id, handshakeRequest.publicKey);
+      const secret2 = await peerManager.deriveSharedSecret(
+        peerSession.id,
+        handshakeRequest.publicKey
+      );
 
       // Note: Due to ECDH, both should compute compatible secrets (may not be identical in representation)
       expect(secret1).toBeDefined();

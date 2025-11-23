@@ -88,7 +88,7 @@ export class SecureStorageService {
    * Clear multiple keys
    */
   async clear(keys: string[]): Promise<void> {
-    await Promise.all(keys.map((key) => this.deleteItem(key)));
+    await Promise.all(keys.map(key => this.deleteItem(key)));
   }
 
   /**

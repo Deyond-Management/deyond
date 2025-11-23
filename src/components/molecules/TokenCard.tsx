@@ -161,12 +161,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({
   // Loading state
   if (loading) {
     return (
-      <Card
-        style={style}
-        testID={testID}
-        elevation={1}
-        padding="md"
-      >
+      <Card style={style} testID={testID} elevation={1} padding="md">
         <View style={{ alignItems: 'center', paddingVertical: theme.spacing.lg }}>
           <ActivityIndicator
             size="large"
@@ -231,9 +226,7 @@ export const TokenCard: React.FC<TokenCardProps> = ({
             {balance} {symbol}
           </Text>
           <Text style={usdValueStyle}>{formatUSD(usdValue)}</Text>
-          <Text style={priceChangeStyle}>
-            {formatPriceChange(priceChange24h)}
-          </Text>
+          <Text style={priceChangeStyle}>{formatPriceChange(priceChange24h)}</Text>
         </View>
       </View>
     </Card>

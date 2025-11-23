@@ -25,7 +25,7 @@ const AppContent: React.FC = () => {
         // Check for stored wallet
         // Check authentication state
         // Load user preferences
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 500));
       } finally {
         setIsLoading(false);
       }
@@ -36,12 +36,7 @@ const AppContent: React.FC = () => {
 
   if (isLoading) {
     return (
-      <View
-        style={[
-          styles.loadingContainer,
-          { backgroundColor: theme.colors.background },
-        ]}
-      >
+      <View style={[styles.loadingContainer, { backgroundColor: theme.colors.background }]}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
@@ -72,9 +67,7 @@ const AppContent: React.FC = () => {
           },
         }}
       >
-        <AppNavigator
-          initialRouteName={isAuthenticated ? 'Home' : 'Welcome'}
-        />
+        <AppNavigator initialRouteName={isAuthenticated ? 'Home' : 'Welcome'} />
       </NavigationContainer>
     </>
   );
@@ -95,9 +88,9 @@ const App: React.FC = () => {
 
 const styles = StyleSheet.create({
   loadingContainer: {
+    alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 

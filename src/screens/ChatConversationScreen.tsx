@@ -13,7 +13,6 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
-  
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
@@ -108,10 +107,7 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
       ]}
     >
       <Text
-        style={[
-          styles.messageText,
-          { color: item.isOwn ? '#FFFFFF' : theme.colors.text.primary },
-        ]}
+        style={[styles.messageText, { color: item.isOwn ? '#FFFFFF' : theme.colors.text.primary }]}
       >
         {item.content}
       </Text>
@@ -131,9 +127,7 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
             style={[
               styles.messageStatus,
               {
-                color: item.status === 'read'
-                  ? theme.colors.primary
-                  : 'rgba(255,255,255,0.7)',
+                color: item.status === 'read' ? theme.colors.primary : 'rgba(255,255,255,0.7)',
               },
             ]}
           >
@@ -147,9 +141,7 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
   // Render empty state
   const renderEmpty = () => (
     <View testID="empty-chat" style={styles.emptyContainer}>
-      <Text style={[styles.emptyIcon, { color: theme.colors.text.secondary }]}>
-        💬
-      </Text>
+      <Text style={[styles.emptyIcon, { color: theme.colors.text.secondary }]}>💬</Text>
       <Text style={[styles.emptyText, { color: theme.colors.text.secondary }]}>
         Start a conversation with {peerName}
       </Text>
@@ -159,9 +151,7 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
   const isSendDisabled = !inputText.trim();
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -169,27 +159,18 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
       >
         {/* Header */}
         <View style={[styles.header, { borderBottomColor: theme.colors.divider }]}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={[styles.backIcon, { color: theme.colors.primary }]}>
-              ←
-            </Text>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Text style={[styles.backIcon, { color: theme.colors.primary }]}>←</Text>
           </TouchableOpacity>
           <View style={styles.headerInfo}>
-            <Text style={[styles.peerName, { color: theme.colors.text.primary }]}>
-              {peerName}
-            </Text>
+            <Text style={[styles.peerName, { color: theme.colors.text.primary }]}>{peerName}</Text>
           </View>
           <TouchableOpacity
             testID="info-button"
             style={styles.infoButton}
             onPress={handleInfoPress}
           >
-            <Text style={[styles.infoIcon, { color: theme.colors.primary }]}>
-              ⓘ
-            </Text>
+            <Text style={[styles.infoIcon, { color: theme.colors.primary }]}>ⓘ</Text>
           </TouchableOpacity>
         </View>
 
@@ -198,11 +179,8 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
           testID="message-list"
           data={messages}
           renderItem={renderMessage}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={[
-            styles.messageList,
-            messages.length === 0 && styles.emptyList,
-          ]}
+          keyExtractor={item => item.id}
+          contentContainerStyle={[styles.messageList, messages.length === 0 && styles.emptyList]}
           ListEmptyComponent={renderEmpty}
           inverted={messages.length > 0}
         />
@@ -251,75 +229,14 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    borderBottomWidth: 1,
-  },
   backButton: {
     padding: 8,
   },
   backIcon: {
     fontSize: 24,
   },
-  headerInfo: {
+  container: {
     flex: 1,
-    marginLeft: 8,
-  },
-  peerName: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  infoButton: {
-    padding: 8,
-  },
-  infoIcon: {
-    fontSize: 20,
-  },
-  messageList: {
-    padding: 16,
-  },
-  emptyList: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  messageBubble: {
-    maxWidth: '80%',
-    padding: 12,
-    borderRadius: 16,
-    marginBottom: 8,
-  },
-  ownMessage: {
-    alignSelf: 'flex-end',
-    borderBottomRightRadius: 4,
-  },
-  otherMessage: {
-    alignSelf: 'flex-start',
-    borderBottomLeftRadius: 4,
-  },
-  messageText: {
-    fontSize: 16,
-    lineHeight: 22,
-  },
-  messageFooter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginTop: 4,
-  },
-  messageTime: {
-    fontSize: 11,
-  },
-  messageStatus: {
-    fontSize: 11,
-    marginLeft: 4,
   },
   emptyContainer: {
     alignItems: 'center',
@@ -329,32 +246,93 @@ const styles = StyleSheet.create({
     fontSize: 48,
     marginBottom: 16,
   },
+  emptyList: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   emptyText: {
     fontSize: 16,
     textAlign: 'center',
   },
-  inputArea: {
+  header: {
+    alignItems: 'center',
+    borderBottomWidth: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
     padding: 12,
-    borderTopWidth: 1,
+  },
+  headerInfo: {
+    flex: 1,
+    marginLeft: 8,
+  },
+  infoButton: {
+    padding: 8,
+  },
+  infoIcon: {
+    fontSize: 20,
   },
   input: {
-    flex: 1,
     borderRadius: 20,
+    borderWidth: 1,
+    flex: 1,
+    fontSize: 16,
+    maxHeight: 100,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    maxHeight: 100,
-    borderWidth: 1,
+  },
+  inputArea: {
+    alignItems: 'flex-end',
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    padding: 12,
+  },
+  messageBubble: {
+    borderRadius: 16,
+    marginBottom: 8,
+    maxWidth: '80%',
+    padding: 12,
+  },
+  messageFooter: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 4,
+  },
+  messageList: {
+    padding: 16,
+  },
+  messageStatus: {
+    fontSize: 11,
+    marginLeft: 4,
+  },
+  messageText: {
     fontSize: 16,
+    lineHeight: 22,
+  },
+  messageTime: {
+    fontSize: 11,
+  },
+  otherMessage: {
+    alignSelf: 'flex-start',
+    borderBottomLeftRadius: 4,
+  },
+  ownMessage: {
+    alignSelf: 'flex-end',
+    borderBottomRightRadius: 4,
+  },
+  peerName: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  safeArea: {
+    flex: 1,
   },
   sendButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 22,
+    height: 44,
+    justifyContent: 'center',
     marginLeft: 8,
+    width: 44,
   },
   sendIcon: {
     color: '#FFFFFF',

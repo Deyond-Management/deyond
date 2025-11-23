@@ -22,10 +22,12 @@ const renderWithTheme = (component: React.ReactElement) => {
 };
 
 // Valid test mnemonic (12 words)
-const validMnemonic12 = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
+const validMnemonic12 =
+  'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
 
 // Valid test mnemonic (24 words)
-const validMnemonic24 = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art';
+const validMnemonic24 =
+  'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art';
 
 describe('ImportWalletScreen', () => {
   beforeEach(() => {
@@ -72,9 +74,7 @@ describe('ImportWalletScreen', () => {
       const privateKeyTab = getByTestId('private-key-tab');
       fireEvent.press(privateKeyTab);
 
-      expect(
-        getByPlaceholderText(/Enter your private key/i)
-      ).toBeDefined();
+      expect(getByPlaceholderText(/Enter your private key/i)).toBeDefined();
     });
 
     it('should switch back to mnemonic input when mnemonic tab is selected', () => {
@@ -90,9 +90,7 @@ describe('ImportWalletScreen', () => {
       const mnemonicTab = getByTestId('mnemonic-tab');
       fireEvent.press(mnemonicTab);
 
-      expect(
-        getByPlaceholderText(/Enter your 12 or 24 word/i)
-      ).toBeDefined();
+      expect(getByPlaceholderText(/Enter your 12 or 24 word/i)).toBeDefined();
     });
   });
 
@@ -102,7 +100,8 @@ describe('ImportWalletScreen', () => {
         <ImportWalletScreen navigation={mockNavigation as any} />
       );
 
-      const input = getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
+      const input =
+        getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
       fireEvent.changeText(input, 'invalid mnemonic words');
 
       const importButton = getByTestId('import-button');
@@ -120,9 +119,13 @@ describe('ImportWalletScreen', () => {
         <ImportWalletScreen navigation={mockNavigation as any} />
       );
 
-      const input = getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
+      const input =
+        getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
       // 12 words but invalid
-      fireEvent.changeText(input, 'invalid invalid invalid invalid invalid invalid invalid invalid invalid invalid invalid invalid');
+      fireEvent.changeText(
+        input,
+        'invalid invalid invalid invalid invalid invalid invalid invalid invalid invalid invalid invalid'
+      );
 
       const importButton = getByTestId('import-button');
       fireEvent.press(importButton);
@@ -139,7 +142,8 @@ describe('ImportWalletScreen', () => {
         <ImportWalletScreen navigation={mockNavigation as any} />
       );
 
-      const input = getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
+      const input =
+        getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
       fireEvent.changeText(input, validMnemonic12);
 
       const importButton = getByTestId('import-button');
@@ -154,7 +158,8 @@ describe('ImportWalletScreen', () => {
         <ImportWalletScreen navigation={mockNavigation as any} />
       );
 
-      const input = getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
+      const input =
+        getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
       fireEvent.changeText(input, validMnemonic24);
 
       const importButton = getByTestId('import-button');
@@ -180,10 +185,7 @@ describe('ImportWalletScreen', () => {
       const importButton = getByTestId('import-button');
       fireEvent.press(importButton);
 
-      expect(
-        queryByText(/Invalid private key/i) ||
-          queryByText(/64 hexadecimal/i)
-      ).toBeDefined();
+      expect(queryByText(/Invalid private key/i) || queryByText(/64 hexadecimal/i)).toBeDefined();
     });
 
     it('should show error for private key with invalid length', () => {
@@ -201,10 +203,7 @@ describe('ImportWalletScreen', () => {
       const importButton = getByTestId('import-button');
       fireEvent.press(importButton);
 
-      expect(
-        queryByText(/Invalid private key/i) ||
-          queryByText(/64 characters/i)
-      ).toBeDefined();
+      expect(queryByText(/Invalid private key/i) || queryByText(/64 characters/i)).toBeDefined();
     });
   });
 
@@ -234,8 +233,7 @@ describe('ImportWalletScreen', () => {
 
       // Should either navigate or show validation error (depending on WalletManager implementation)
       const navigated =
-        mockNavigation.navigate.mock.calls.length > 0 ||
-        mockNavigation.reset.mock.calls.length > 0;
+        mockNavigation.navigate.mock.calls.length > 0 || mockNavigation.reset.mock.calls.length > 0;
       const hasError = queryByText(/Invalid mnemonic/i) !== null;
 
       // Either we navigate successfully or we see a validation error
@@ -249,7 +247,8 @@ describe('ImportWalletScreen', () => {
         <ImportWalletScreen navigation={mockNavigation as any} />
       );
 
-      const input = getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
+      const input =
+        getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
       fireEvent.changeText(input, '  ' + validMnemonic12 + '  ');
 
       const importButton = getByTestId('import-button');
@@ -264,17 +263,15 @@ describe('ImportWalletScreen', () => {
         <ImportWalletScreen navigation={mockNavigation as any} />
       );
 
-      const input = getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
+      const input =
+        getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
       fireEvent.changeText(input, 'test');
 
       const importButton = getByTestId('import-button');
       fireEvent.press(importButton);
 
       // Should show helpful error
-      expect(
-        queryByText(/12 or 24 words/i) ||
-          queryByText(/Invalid/i)
-      ).toBeDefined();
+      expect(queryByText(/12 or 24 words/i) || queryByText(/Invalid/i)).toBeDefined();
     });
   });
 
@@ -284,7 +281,8 @@ describe('ImportWalletScreen', () => {
         <ImportWalletScreen navigation={mockNavigation as any} />
       );
 
-      const input = getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
+      const input =
+        getByPlaceholderText(/Enter your 12 or 24 word/i) || getByPlaceholderText(/mnemonic/i);
       expect(input).toBeDefined();
     });
 

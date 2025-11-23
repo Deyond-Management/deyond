@@ -87,18 +87,11 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
   };
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onClose}
-    >
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay}>
           <TouchableWithoutFeedback>
-            <View
-              style={[styles.modalContent, { backgroundColor: colors.background }]}
-            >
+            <View style={[styles.modalContent, { backgroundColor: colors.background }]}>
               {/* Header */}
               <View style={[styles.header, { borderBottomColor: colors.divider }]}>
                 <Text style={[styles.title, { color: colors.text.primary }]}>
@@ -110,9 +103,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                   style={styles.closeButton}
                   accessibilityLabel="Close"
                 >
-                  <Text style={[styles.closeText, { color: colors.text.secondary }]}>
-                    ✕
-                  </Text>
+                  <Text style={[styles.closeText, { color: colors.text.secondary }]}>✕</Text>
                 </TouchableOpacity>
               </View>
 
@@ -126,10 +117,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                     style={[
                       styles.amountText,
                       {
-                        color:
-                          transaction.type === 'sent'
-                            ? colors.error
-                            : colors.success,
+                        color: transaction.type === 'sent' ? colors.error : colors.success,
                       },
                     ]}
                   >
@@ -140,12 +128,9 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
 
                 {/* Status */}
                 <View style={[styles.row, { borderBottomColor: colors.divider }]}>
-                  <Text style={[styles.label, { color: colors.text.secondary }]}>
-                    Status
-                  </Text>
+                  <Text style={[styles.label, { color: colors.text.secondary }]}>Status</Text>
                   <Text style={[styles.value, { color: getStatusColor() }]}>
-                    {transaction.status.charAt(0).toUpperCase() +
-                      transaction.status.slice(1)}
+                    {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
                   </Text>
                 </View>
 
@@ -173,22 +158,15 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                       onPress={handleCopyHash}
                       style={styles.copyButton}
                     >
-                      <Text style={[styles.copyText, { color: colors.primary }]}>
-                        Copy
-                      </Text>
+                      <Text style={[styles.copyText, { color: colors.primary }]}>Copy</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
 
                 {/* Timestamp */}
                 <View style={[styles.row, { borderBottomColor: colors.divider }]}>
-                  <Text style={[styles.label, { color: colors.text.secondary }]}>
-                    Time
-                  </Text>
-                  <Text
-                    testID="timestamp"
-                    style={[styles.value, { color: colors.text.primary }]}
-                  >
+                  <Text style={[styles.label, { color: colors.text.secondary }]}>Time</Text>
+                  <Text testID="timestamp" style={[styles.value, { color: colors.text.primary }]}>
                     {formatTimestamp(transaction.timestamp)}
                   </Text>
                 </View>
@@ -208,9 +186,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                 {/* Block Number */}
                 {transaction.blockNumber && (
                   <View style={[styles.row, { borderBottomColor: colors.divider }]}>
-                    <Text style={[styles.label, { color: colors.text.secondary }]}>
-                      Block
-                    </Text>
+                    <Text style={[styles.label, { color: colors.text.secondary }]}>Block</Text>
                     <Text style={[styles.value, { color: colors.text.primary }]}>
                       {transaction.blockNumber}
                     </Text>
@@ -220,9 +196,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                 {/* Nonce */}
                 {transaction.nonce !== undefined && (
                   <View style={[styles.row, { borderBottomColor: colors.divider }]}>
-                    <Text style={[styles.label, { color: colors.text.secondary }]}>
-                      Nonce
-                    </Text>
+                    <Text style={[styles.label, { color: colors.text.secondary }]}>Nonce</Text>
                     <Text style={[styles.value, { color: colors.text.primary }]}>
                       {transaction.nonce}
                     </Text>
@@ -246,26 +220,14 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
 };
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  modalContent: {
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: '80%',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  amountSection: {
     alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
+    marginBottom: 16,
+    paddingVertical: 16,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
+  amountText: {
+    fontSize: 28,
+    fontWeight: 'bold',
   },
   closeButton: {
     padding: 8,
@@ -276,38 +238,6 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
   },
-  amountSection: {
-    alignItems: 'center',
-    paddingVertical: 16,
-    marginBottom: 16,
-  },
-  typeText: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  amountText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-  },
-  label: {
-    fontSize: 14,
-  },
-  value: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  hashRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
   copyButton: {
     padding: 4,
   },
@@ -316,16 +246,60 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   explorerButton: {
-    marginTop: 24,
-    marginBottom: 16,
-    padding: 16,
-    borderRadius: 8,
     alignItems: 'center',
+    borderRadius: 8,
+    marginBottom: 16,
+    marginTop: 24,
+    padding: 16,
   },
   explorerText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+  },
+  hashRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
+  header: {
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  label: {
+    fontSize: 14,
+  },
+  modalContent: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    maxHeight: '80%',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  row: {
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  typeText: {
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  value: {
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
 

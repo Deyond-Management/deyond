@@ -21,10 +21,9 @@ describe('useDebounce', () => {
   });
 
   it('should debounce value changes', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useDebounce(value, 500),
-      { initialProps: { value: 'initial' } }
-    );
+    const { result, rerender } = renderHook(({ value }) => useDebounce(value, 500), {
+      initialProps: { value: 'initial' },
+    });
 
     expect(result.current).toBe('initial');
 
@@ -39,10 +38,9 @@ describe('useDebounce', () => {
   });
 
   it('should cancel previous timeout on new value', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useDebounce(value, 500),
-      { initialProps: { value: 'initial' } }
-    );
+    const { result, rerender } = renderHook(({ value }) => useDebounce(value, 500), {
+      initialProps: { value: 'initial' },
+    });
 
     rerender({ value: 'first' });
     act(() => {
@@ -74,10 +72,9 @@ describe('useThrottle', () => {
   });
 
   it('should throttle value changes', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useThrottle(value, 500),
-      { initialProps: { value: 'initial' } }
-    );
+    const { result, rerender } = renderHook(({ value }) => useThrottle(value, 500), {
+      initialProps: { value: 'initial' },
+    });
 
     expect(result.current).toBe('initial');
 
@@ -122,10 +119,9 @@ describe('useDeepMemo', () => {
   it('should memoize based on deep equality', () => {
     const factory = jest.fn(() => ({ result: 'computed' }));
 
-    const { result, rerender } = renderHook(
-      ({ deps }) => useDeepMemo(factory, deps),
-      { initialProps: { deps: [{ a: 1 }] } }
-    );
+    const { result, rerender } = renderHook(({ deps }) => useDeepMemo(factory, deps), {
+      initialProps: { deps: [{ a: 1 }] },
+    });
 
     const firstResult = result.current;
     expect(factory).toHaveBeenCalledTimes(1);

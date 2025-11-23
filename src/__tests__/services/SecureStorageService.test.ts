@@ -54,13 +54,11 @@ describe('SecureStorageService', () => {
     });
 
     it('should throw error on failure', async () => {
-      (SecureStore.setItemAsync as jest.Mock).mockRejectedValue(
-        new Error('Storage error')
-      );
+      (SecureStore.setItemAsync as jest.Mock).mockRejectedValue(new Error('Storage error'));
 
-      await expect(
-        secureStorage.setItem('key', 'value')
-      ).rejects.toThrow('Failed to store secure data');
+      await expect(secureStorage.setItem('key', 'value')).rejects.toThrow(
+        'Failed to store secure data'
+      );
     });
   });
 
@@ -83,13 +81,9 @@ describe('SecureStorageService', () => {
     });
 
     it('should throw error on failure', async () => {
-      (SecureStore.getItemAsync as jest.Mock).mockRejectedValue(
-        new Error('Retrieval error')
-      );
+      (SecureStore.getItemAsync as jest.Mock).mockRejectedValue(new Error('Retrieval error'));
 
-      await expect(secureStorage.getItem('key')).rejects.toThrow(
-        'Failed to retrieve secure data'
-      );
+      await expect(secureStorage.getItem('key')).rejects.toThrow('Failed to retrieve secure data');
     });
   });
 
@@ -103,13 +97,9 @@ describe('SecureStorageService', () => {
     });
 
     it('should throw error on failure', async () => {
-      (SecureStore.deleteItemAsync as jest.Mock).mockRejectedValue(
-        new Error('Delete error')
-      );
+      (SecureStore.deleteItemAsync as jest.Mock).mockRejectedValue(new Error('Delete error'));
 
-      await expect(secureStorage.deleteItem('key')).rejects.toThrow(
-        'Failed to delete secure data'
-      );
+      await expect(secureStorage.deleteItem('key')).rejects.toThrow('Failed to delete secure data');
     });
   });
 
@@ -131,9 +121,7 @@ describe('SecureStorageService', () => {
   describe('getObject', () => {
     it('should retrieve and parse a stored object', async () => {
       const obj = { name: 'test', value: 123 };
-      (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(
-        JSON.stringify(obj)
-      );
+      (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(JSON.stringify(obj));
 
       const result = await secureStorage.getObject('key');
 
@@ -151,9 +139,7 @@ describe('SecureStorageService', () => {
     it('should throw error for invalid JSON', async () => {
       (SecureStore.getItemAsync as jest.Mock).mockResolvedValue('invalid-json');
 
-      await expect(secureStorage.getObject('key')).rejects.toThrow(
-        'Failed to parse secure data'
-      );
+      await expect(secureStorage.getObject('key')).rejects.toThrow('Failed to parse secure data');
     });
   });
 

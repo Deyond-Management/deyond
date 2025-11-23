@@ -20,7 +20,11 @@ export * from './validators';
 /**
  * Truncate string in the middle
  */
-export const truncateMiddle = (str: string, startChars: number = 6, endChars: number = 4): string => {
+export const truncateMiddle = (
+  str: string,
+  startChars: number = 6,
+  endChars: number = 4
+): string => {
   if (str.length <= startChars + endChars) return str;
   return `${str.slice(0, startChars)}...${str.slice(-endChars)}`;
 };

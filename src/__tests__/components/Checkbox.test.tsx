@@ -16,41 +16,31 @@ const renderWithTheme = (component: React.ReactElement) => {
 describe('Checkbox', () => {
   describe('Rendering', () => {
     it('should render unchecked by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox).toBeDefined();
     });
 
     it('should render checked when value is true', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox value={true} testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox value={true} testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox).toBeDefined();
     });
 
     it('should render with label', () => {
-      const { getByText } = renderWithTheme(
-        <Checkbox label="Accept terms" />
-      );
+      const { getByText } = renderWithTheme(<Checkbox label="Accept terms" />);
       expect(getByText('Accept terms')).toBeDefined();
     });
 
     it('should render with testID', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox testID="test-checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox testID="test-checkbox" />);
       expect(getByTestId('test-checkbox')).toBeDefined();
     });
   });
 
   describe('States', () => {
     it('should be enabled by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox.props.accessibilityState).not.toMatchObject({
         disabled: true,
@@ -58,9 +48,7 @@ describe('Checkbox', () => {
     });
 
     it('should be disabled when disabled prop is true', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox disabled testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox disabled testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox.props.accessibilityState).toMatchObject({
         disabled: true,
@@ -70,11 +58,7 @@ describe('Checkbox', () => {
     it('should not toggle when disabled', () => {
       const onValueChange = jest.fn();
       const { getByTestId } = renderWithTheme(
-        <Checkbox
-          disabled
-          onValueChange={onValueChange}
-          testID="checkbox"
-        />
+        <Checkbox disabled onValueChange={onValueChange} testID="checkbox" />
       );
 
       const checkbox = getByTestId('checkbox');
@@ -100,11 +84,7 @@ describe('Checkbox', () => {
     it('should toggle from checked to unchecked', () => {
       const onValueChange = jest.fn();
       const { getByTestId } = renderWithTheme(
-        <Checkbox
-          value={true}
-          onValueChange={onValueChange}
-          testID="checkbox"
-        />
+        <Checkbox value={true} onValueChange={onValueChange} testID="checkbox" />
       );
 
       const checkbox = getByTestId('checkbox');
@@ -116,11 +96,7 @@ describe('Checkbox', () => {
     it('should toggle from unchecked to checked', () => {
       const onValueChange = jest.fn();
       const { getByTestId } = renderWithTheme(
-        <Checkbox
-          value={false}
-          onValueChange={onValueChange}
-          testID="checkbox"
-        />
+        <Checkbox value={false} onValueChange={onValueChange} testID="checkbox" />
       );
 
       const checkbox = getByTestId('checkbox');
@@ -146,11 +122,7 @@ describe('Checkbox', () => {
     it('should not toggle label when labelDisabled is true', () => {
       const onValueChange = jest.fn();
       const { getByText } = renderWithTheme(
-        <Checkbox
-          label="Click me"
-          labelDisabled
-          onValueChange={onValueChange}
-        />
+        <Checkbox label="Click me" labelDisabled onValueChange={onValueChange} />
       );
 
       const label = getByText('Click me');
@@ -161,9 +133,7 @@ describe('Checkbox', () => {
 
   describe('Sizes', () => {
     it('should render medium size by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox.props.style).toMatchObject(
         expect.objectContaining({ width: expect.any(Number) })
@@ -171,31 +141,21 @@ describe('Checkbox', () => {
     });
 
     it('should render small size', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox size="small" testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox size="small" testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
-      expect(checkbox.props.style).toMatchObject(
-        expect.objectContaining({ width: 20 })
-      );
+      expect(checkbox.props.style).toMatchObject(expect.objectContaining({ width: 20 }));
     });
 
     it('should render large size', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox size="large" testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox size="large" testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
-      expect(checkbox.props.style).toMatchObject(
-        expect.objectContaining({ width: 28 })
-      );
+      expect(checkbox.props.style).toMatchObject(expect.objectContaining({ width: 28 }));
     });
   });
 
   describe('Colors', () => {
     it('should use theme color by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox value={true} testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox value={true} testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox.props.style).toMatchObject(
         expect.objectContaining({ backgroundColor: expect.any(String) })
@@ -213,9 +173,7 @@ describe('Checkbox', () => {
 
   describe('Error State', () => {
     it('should display error styling when error prop is true', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox error testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox error testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox).toBeDefined();
     });
@@ -230,17 +188,13 @@ describe('Checkbox', () => {
 
   describe('Accessibility', () => {
     it('should have checkbox role', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox.props.accessibilityRole).toBe('checkbox');
     });
 
     it('should indicate checked state', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox value={true} testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox value={true} testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox.props.accessibilityState).toMatchObject({
         checked: true,
@@ -248,9 +202,7 @@ describe('Checkbox', () => {
     });
 
     it('should indicate unchecked state', () => {
-      const { getByTestId } = renderWithTheme(
-        <Checkbox value={false} testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox value={false} testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox.props.accessibilityState).toMatchObject({
         checked: false,
@@ -258,16 +210,12 @@ describe('Checkbox', () => {
     });
 
     it('should have accessibility label from label prop', () => {
-      const { getByLabelText } = renderWithTheme(
-        <Checkbox label="Remember me" />
-      );
+      const { getByLabelText } = renderWithTheme(<Checkbox label="Remember me" />);
       expect(getByLabelText('Remember me')).toBeDefined();
     });
 
     it('should have custom accessibility label', () => {
-      const { getByLabelText } = renderWithTheme(
-        <Checkbox accessibilityLabel="Custom label" />
-      );
+      const { getByLabelText } = renderWithTheme(<Checkbox accessibilityLabel="Custom label" />);
       expect(getByLabelText('Custom label')).toBeDefined();
     });
   });
@@ -275,9 +223,7 @@ describe('Checkbox', () => {
   describe('Custom Styles', () => {
     it('should support custom container styles', () => {
       const customStyle = { margin: 10 };
-      const { getByTestId } = renderWithTheme(
-        <Checkbox style={customStyle} testID="checkbox" />
-      );
+      const { getByTestId } = renderWithTheme(<Checkbox style={customStyle} testID="checkbox" />);
       const checkbox = getByTestId('checkbox');
       expect(checkbox.props.style).toMatchObject(customStyle);
     });

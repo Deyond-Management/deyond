@@ -4,13 +4,7 @@
  */
 
 import React, { useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 
 type ToastType = 'success' | 'error' | 'warning' | 'info';
@@ -90,10 +84,7 @@ export const Toast: React.FC<ToastProps> = ({
       accessibilityRole="alert"
       accessibilityLabel={message}
     >
-      <View
-        testID={`toast-${type}`}
-        style={[styles.toast, { backgroundColor: colors.background }]}
-      >
+      <View testID={`toast-${type}`} style={[styles.toast, { backgroundColor: colors.background }]}>
         <Text style={styles.icon}>{colors.icon}</Text>
         <Text style={styles.message}>{message}</Text>
         {action && (
@@ -111,45 +102,45 @@ export const Toast: React.FC<ToastProps> = ({
 };
 
 const styles = StyleSheet.create({
+  actionButton: {
+    marginLeft: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  actionText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+  },
   container: {
-    position: 'absolute',
     bottom: 100,
     left: 16,
+    position: 'absolute',
     right: 16,
     zIndex: 1000,
   },
+  icon: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    marginRight: 12,
+  },
+  message: {
+    color: '#FFFFFF',
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '500',
+  },
   toast: {
-    flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
     borderRadius: 12,
+    elevation: 5,
+    flexDirection: 'row',
+    padding: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
-  },
-  icon: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    marginRight: 12,
-  },
-  message: {
-    flex: 1,
-    fontSize: 14,
-    color: '#FFFFFF',
-    fontWeight: '500',
-  },
-  actionButton: {
-    marginLeft: 12,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-  },
-  actionText: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    fontWeight: '600',
-    textDecorationLine: 'underline',
   },
 });
 

@@ -40,9 +40,7 @@ describe('BackendSyncService', () => {
         pendingChanges: 5,
         syncInProgress: false,
       };
-      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(
-        JSON.stringify(storedState)
-      );
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(JSON.stringify(storedState));
 
       const state = await service.getSyncState();
       expect(state).toEqual(storedState);
@@ -62,10 +60,7 @@ describe('BackendSyncService', () => {
 
       await service.saveUserSettings(settings);
 
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
-        '@user_settings',
-        JSON.stringify(settings)
-      );
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith('@user_settings', JSON.stringify(settings));
     });
   });
 
@@ -84,9 +79,7 @@ describe('BackendSyncService', () => {
         biometrics: false,
         autoLock: 10,
       };
-      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(
-        JSON.stringify(storedSettings)
-      );
+      (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(JSON.stringify(storedSettings));
 
       const settings = await service.getUserSettings();
       expect(settings).toEqual(storedSettings);
@@ -108,7 +101,9 @@ describe('BackendSyncService', () => {
 
     it('should return success when no pending changes', async () => {
       (AsyncStorage.getItem as jest.Mock)
-        .mockResolvedValueOnce(JSON.stringify({ syncInProgress: false, lastSync: 0, pendingChanges: 0 }))
+        .mockResolvedValueOnce(
+          JSON.stringify({ syncInProgress: false, lastSync: 0, pendingChanges: 0 })
+        )
         .mockResolvedValueOnce(JSON.stringify([]));
 
       const result = await service.syncToCloud();
@@ -142,7 +137,7 @@ describe('BackendSyncService', () => {
         expect.objectContaining({
           method: 'POST',
           headers: expect.objectContaining({
-            'Authorization': 'Bearer test-api-key',
+            Authorization: 'Bearer test-api-key',
           }),
         })
       );
@@ -151,9 +146,7 @@ describe('BackendSyncService', () => {
     });
 
     it('should handle sync failure', async () => {
-      const pendingItems = [
-        { type: 'settings', data: {}, timestamp: 1000, id: 'settings_1000' },
-      ];
+      const pendingItems = [{ type: 'settings', data: {}, timestamp: 1000, id: 'settings_1000' }];
 
       const syncState = { syncInProgress: false, lastSync: 0, pendingChanges: 1 };
 

@@ -38,10 +38,7 @@ describe('TransactionStatusScreen', () => {
   describe('Pending State', () => {
     it('should render pending status', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByText(/Pending/i)).toBeDefined();
@@ -49,10 +46,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should show loading indicator for pending', () => {
       const { getByTestId } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByTestId('status-indicator')).toBeDefined();
@@ -60,10 +54,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should display transaction hash', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       // Show truncated hash
@@ -81,10 +72,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should render confirmed status', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={confirmedRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={confirmedRoute as any} />
       );
 
       expect(getByText(/Confirmed/i)).toBeDefined();
@@ -92,10 +80,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should show success icon for confirmed', () => {
       const { getByTestId } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={confirmedRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={confirmedRoute as any} />
       );
 
       expect(getByTestId('success-icon')).toBeDefined();
@@ -113,10 +98,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should render failed status', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={failedRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={failedRoute as any} />
       );
 
       expect(getByText(/Failed/i)).toBeDefined();
@@ -124,10 +106,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should show error icon for failed', () => {
       const { getByTestId } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={failedRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={failedRoute as any} />
       );
 
       expect(getByTestId('error-icon')).toBeDefined();
@@ -135,10 +114,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should display error message', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={failedRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={failedRoute as any} />
       );
 
       expect(getByText(/Transaction reverted/)).toBeDefined();
@@ -148,10 +124,7 @@ describe('TransactionStatusScreen', () => {
   describe('Transaction Details', () => {
     it('should display amount sent', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByText('0.5 ETH')).toBeDefined();
@@ -159,10 +132,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should display recipient address', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByText(/0x1234...7890/)).toBeDefined();
@@ -172,10 +142,7 @@ describe('TransactionStatusScreen', () => {
   describe('Actions', () => {
     it('should have view on explorer button', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByText(/View on Explorer/i)).toBeDefined();
@@ -183,10 +150,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should have done button', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByText('Done')).toBeDefined();
@@ -194,10 +158,7 @@ describe('TransactionStatusScreen', () => {
 
     it('should navigate to home when done is pressed', () => {
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       fireEvent.press(getByText('Done'));
@@ -217,10 +178,7 @@ describe('TransactionStatusScreen', () => {
       };
 
       const { getByText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={failedRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={failedRoute as any} />
       );
 
       expect(getByText('Retry')).toBeDefined();
@@ -230,10 +188,7 @@ describe('TransactionStatusScreen', () => {
   describe('Copy Hash', () => {
     it('should have copy hash button', () => {
       const { getByTestId } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByTestId('copy-hash-button')).toBeDefined();
@@ -243,10 +198,7 @@ describe('TransactionStatusScreen', () => {
   describe('Accessibility', () => {
     it('should have accessible done button', () => {
       const { getByLabelText } = renderWithTheme(
-        <TransactionStatusScreen
-          navigation={mockNavigation as any}
-          route={mockRoute as any}
-        />
+        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
       expect(getByLabelText('Done')).toBeDefined();

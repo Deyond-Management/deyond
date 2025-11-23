@@ -48,45 +48,26 @@ export const NetworkSelectorModal: React.FC<NetworkSelectorModalProps> = ({
   }
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onClose}
-    >
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay} testID="modal-backdrop">
           <TouchableWithoutFeedback>
-            <View
-              style={[
-                styles.modalContent,
-                { backgroundColor: colors.background },
-              ]}
-            >
+            <View style={[styles.modalContent, { backgroundColor: colors.background }]}>
               {/* Header */}
-              <View
-                style={[
-                  styles.header,
-                  { borderBottomColor: colors.divider },
-                ]}
-              >
-                <Text style={[styles.title, { color: colors.text.primary }]}>
-                  Select Network
-                </Text>
+              <View style={[styles.header, { borderBottomColor: colors.divider }]}>
+                <Text style={[styles.title, { color: colors.text.primary }]}>Select Network</Text>
                 <TouchableOpacity
                   onPress={onClose}
                   style={styles.closeButton}
                   testID="close-button"
                 >
-                  <Text style={[styles.closeText, { color: colors.textSecondary }]}>
-                    ✕
-                  </Text>
+                  <Text style={[styles.closeText, { color: colors.textSecondary }]}>✕</Text>
                 </TouchableOpacity>
               </View>
 
               {/* Network List */}
               <ScrollView style={styles.networkList}>
-                {networks.map((network) => {
+                {networks.map(network => {
                   const isSelected = network.id === selectedNetworkId;
 
                   return (
@@ -107,18 +88,14 @@ export const NetworkSelectorModal: React.FC<NetworkSelectorModalProps> = ({
                           style={[
                             styles.networkDot,
                             {
-                              backgroundColor: network.isTestnet
-                                ? colors.warning
-                                : colors.success,
+                              backgroundColor: network.isTestnet ? colors.warning : colors.success,
                             },
                           ]}
                         />
 
                         <View style={styles.networkDetails}>
                           <View style={styles.networkNameRow}>
-                            <Text
-                              style={[styles.networkName, { color: colors.text.primary }]}
-                            >
+                            <Text style={[styles.networkName, { color: colors.text.primary }]}>
                               {network.name}
                             </Text>
                             {network.isTestnet && (
@@ -128,23 +105,13 @@ export const NetworkSelectorModal: React.FC<NetworkSelectorModalProps> = ({
                                   { backgroundColor: colors.warning + '20' },
                                 ]}
                               >
-                                <Text
-                                  style={[
-                                    styles.testnetText,
-                                    { color: colors.warning },
-                                  ]}
-                                >
+                                <Text style={[styles.testnetText, { color: colors.warning }]}>
                                   Testnet
                                 </Text>
                               </View>
                             )}
                           </View>
-                          <Text
-                            style={[
-                              styles.networkSymbol,
-                              { color: colors.textSecondary },
-                            ]}
-                          >
+                          <Text style={[styles.networkSymbol, { color: colors.textSecondary }]}>
                             {network.symbol}
                           </Text>
                         </View>
@@ -154,10 +121,7 @@ export const NetworkSelectorModal: React.FC<NetworkSelectorModalProps> = ({
                       {isSelected && (
                         <View
                           testID={`network-selected-${network.id}`}
-                          style={[
-                            styles.selectedIndicator,
-                            { backgroundColor: colors.primary },
-                          ]}
+                          style={[styles.selectedIndicator, { backgroundColor: colors.primary }]}
                         >
                           <Text style={styles.checkmark}>✓</Text>
                         </View>
@@ -175,26 +139,10 @@ export const NetworkSelectorModal: React.FC<NetworkSelectorModalProps> = ({
 };
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  modalContent: {
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: '70%',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
+  checkmark: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   closeButton: {
     padding: 8,
@@ -202,63 +150,79 @@ const styles = StyleSheet.create({
   closeText: {
     fontSize: 20,
   },
-  networkList: {
-    paddingBottom: 32,
-  },
-  networkItem: {
+  header: {
+    alignItems: 'center',
+    borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
     padding: 16,
-    borderBottomWidth: 1,
   },
-  networkInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  networkDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginRight: 12,
+  modalContent: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    maxHeight: '70%',
   },
   networkDetails: {
     flex: 1,
   },
-  networkNameRow: {
-    flexDirection: 'row',
+  networkDot: {
+    borderRadius: 6,
+    height: 12,
+    marginRight: 12,
+    width: 12,
+  },
+  networkInfo: {
     alignItems: 'center',
-    gap: 8,
+    flexDirection: 'row',
+    flex: 1,
+  },
+  networkItem: {
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  networkList: {
+    paddingBottom: 32,
   },
   networkName: {
     fontSize: 16,
     fontWeight: '500',
   },
+  networkNameRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
   networkSymbol: {
     fontSize: 14,
     marginTop: 2,
   },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  selectedIndicator: {
+    alignItems: 'center',
+    borderRadius: 12,
+    height: 24,
+    justifyContent: 'center',
+    width: 24,
+  },
   testnetBadge: {
+    borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 2,
-    borderRadius: 4,
   },
   testnetText: {
     fontSize: 10,
     fontWeight: '600',
   },
-  selectedIndicator: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checkmark: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: 'bold',
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 

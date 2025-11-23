@@ -27,48 +27,34 @@ describe('WelcomeScreen', () => {
 
   describe('Rendering', () => {
     it('should render welcome title', () => {
-      const { getByText } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
       expect(getByText(/Welcome/i)).toBeDefined();
     });
 
     it('should render app name or logo', () => {
-      const { getByText } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
       expect(getByText(/Crypto Wallet/i)).toBeDefined();
     });
 
     it('should render description text', () => {
-      const { getByText } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
-      expect(
-        getByText(/Secure, decentralized, and easy to use/i)
-      ).toBeDefined();
+      const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
+      expect(getByText(/Secure, decentralized, and easy to use/i)).toBeDefined();
     });
 
     it('should render create wallet button', () => {
-      const { getByText } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
       expect(getByText('Create New Wallet')).toBeDefined();
     });
 
     it('should render import wallet button', () => {
-      const { getByText } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
       expect(getByText('Import Existing Wallet')).toBeDefined();
     });
   });
 
   describe('Navigation', () => {
     it('should navigate to CreateWallet when create button is pressed', () => {
-      const { getByText } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
 
       const createButton = getByText('Create New Wallet');
       fireEvent.press(createButton);
@@ -77,9 +63,7 @@ describe('WelcomeScreen', () => {
     });
 
     it('should navigate to ImportWallet when import button is pressed', () => {
-      const { getByText } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
 
       const importButton = getByText('Import Existing Wallet');
       fireEvent.press(importButton);
@@ -90,9 +74,7 @@ describe('WelcomeScreen', () => {
 
   describe('Layout', () => {
     it('should have centered content', () => {
-      const { getByTestId } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
       const container = getByTestId('welcome-container');
       expect(container.props.style).toMatchObject(
         expect.objectContaining({ justifyContent: expect.any(String) })
@@ -120,9 +102,7 @@ describe('WelcomeScreen', () => {
 
   describe('Visual Elements', () => {
     it('should render logo or icon placeholder', () => {
-      const { getByTestId } = renderWithTheme(
-        <WelcomeScreen navigation={mockNavigation as any} />
-      );
+      const { getByTestId } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
       expect(getByTestId('app-logo')).toBeDefined();
     });
   });

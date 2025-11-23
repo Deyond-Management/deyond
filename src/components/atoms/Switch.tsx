@@ -5,13 +5,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  Switch as RNSwitch,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
+import { View, Text, Switch as RNSwitch, ViewStyle, TextStyle } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export type LabelPosition = 'left' | 'right';
@@ -86,9 +80,7 @@ export const Switch: React.FC<SwitchProps> = ({
   return (
     <View style={containerStyle} testID={testID ? `${testID}-container` : undefined}>
       {/* Label on left */}
-      {label && labelPosition === 'left' && (
-        <Text style={labelStyle}>{label}</Text>
-      )}
+      {label && labelPosition === 'left' && <Text style={labelStyle}>{label}</Text>}
 
       {/* Switch */}
       <RNSwitch
@@ -103,9 +95,7 @@ export const Switch: React.FC<SwitchProps> = ({
       />
 
       {/* Label on right */}
-      {label && labelPosition === 'right' && (
-        <Text style={labelStyle}>{label}</Text>
-      )}
+      {label && labelPosition === 'right' && <Text style={labelStyle}>{label}</Text>}
     </View>
   );
 };

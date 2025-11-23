@@ -30,14 +30,14 @@ export const WEI_DECIMALS = {
 
 // Cache TTLs (in milliseconds)
 export const CACHE_TTL = {
-  SHORT: 15_000,        // 15 seconds
-  MEDIUM: 60_000,       // 1 minute
-  LONG: 300_000,        // 5 minutes
-  EXTENDED: 900_000,    // 15 minutes
-  PRICE: 30_000,        // 30 seconds
-  BALANCE: 60_000,      // 1 minute
-  GAS: 15_000,          // 15 seconds
-  ENS: 86_400_000,      // 24 hours
+  SHORT: 15_000, // 15 seconds
+  MEDIUM: 60_000, // 1 minute
+  LONG: 300_000, // 5 minutes
+  EXTENDED: 900_000, // 15 minutes
+  PRICE: 30_000, // 30 seconds
+  BALANCE: 60_000, // 1 minute
+  GAS: 15_000, // 15 seconds
+  ENS: 86_400_000, // 24 hours
 } as const;
 
 // API timeouts (in milliseconds)
@@ -59,7 +59,7 @@ export const RETRY_CONFIG = {
 // Transaction constants
 export const TRANSACTION = {
   CONFIRMATION_BLOCKS: 1,
-  MAX_PENDING_TIME: 3_600_000,  // 1 hour
+  MAX_PENDING_TIME: 3_600_000, // 1 hour
   SPEED_UP_PERCENTAGE: 10,
   MIN_GAS_PRICE_GWEI: 1,
 } as const;
@@ -67,9 +67,9 @@ export const TRANSACTION = {
 // Security constants
 export const SECURITY = {
   MAX_PIN_ATTEMPTS: 5,
-  LOCKOUT_DURATION: 300_000,    // 5 minutes
-  SESSION_TIMEOUT: 900_000,     // 15 minutes
-  AUTO_LOCK_DEFAULT: 300_000,   // 5 minutes
+  LOCKOUT_DURATION: 300_000, // 5 minutes
+  SESSION_TIMEOUT: 900_000, // 15 minutes
+  AUTO_LOCK_DEFAULT: 300_000, // 5 minutes
   MNEMONIC_WORDS: 12,
   MNEMONIC_WORDS_EXTENDED: 24,
   MIN_PASSWORD_LENGTH: 8,
@@ -115,4 +115,4 @@ export const PERFORMANCE = {
 // Type exports
 export type GasLimitKey = keyof typeof GAS_LIMITS;
 export type CacheTTLKey = keyof typeof CACHE_TTL;
-export type ChainId = typeof CHAIN_IDS[keyof typeof CHAIN_IDS];
+export type ChainId = (typeof CHAIN_IDS)[keyof typeof CHAIN_IDS];

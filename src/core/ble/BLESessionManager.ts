@@ -102,7 +102,11 @@ export class BLESessionManager {
 
     // Verify signature
     const message = `${handshake.sessionId}:${handshake.publicKey}:${handshake.address}:${handshake.timestamp}`;
-    const isValid = await this.verifyHandshakeSignature(message, handshake.signature, handshake.address);
+    const isValid = await this.verifyHandshakeSignature(
+      message,
+      handshake.signature,
+      handshake.address
+    );
 
     if (!isValid) {
       session.status = SessionStatus.ERROR;
@@ -140,7 +144,9 @@ export class BLESessionManager {
 
       return this.bytesToHex(sharedSecret);
     } catch (error) {
-      throw new Error(`Failed to derive shared secret: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to derive shared secret: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
   }
 
@@ -187,8 +193,8 @@ export class BLESessionManager {
    * Get all active sessions
    */
   getActiveSessions(): BLESession[] {
-    return Array.from(this.sessions.values()).filter(session =>
-      session.status === SessionStatus.ESTABLISHED && !this.isSessionExpired(session)
+    return Array.from(this.sessions.values()).filter(
+      session => session.status === SessionStatus.ESTABLISHED && !this.isSessionExpired(session)
     );
   }
 

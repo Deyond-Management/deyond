@@ -4,14 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -125,18 +118,11 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-      >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Token Selection Card */}
         <Card style={styles.card} elevation={1}>
-          <Text style={[styles.label, { color: theme.colors.text.secondary }]}>
-            Token
-          </Text>
+          <Text style={[styles.label, { color: theme.colors.text.secondary }]}>Token</Text>
           <View style={styles.tokenRow} testID="selected-token">
             <Text style={[styles.tokenSymbol, { color: theme.colors.text.primary }]}>
               {selectedToken.symbol}
@@ -175,10 +161,7 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
               accessibilityLabel="Amount"
             />
             <TouchableOpacity
-              style={[
-                styles.maxButton,
-                { backgroundColor: theme.isDark ? '#2196F3' : '#1976D2' },
-              ]}
+              style={[styles.maxButton, { backgroundColor: theme.isDark ? '#2196F3' : '#1976D2' }]}
               onPress={handleMaxPress}
             >
               <Text style={styles.maxButtonText}>MAX</Text>
@@ -230,77 +213,77 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
+  amountContainer: {
+    position: 'relative',
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 32,
+  balanceText: {
+    fontSize: 14,
   },
   card: {
     marginBottom: 16,
+  },
+  feeAmount: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  feeLabel: {
+    fontSize: 14,
+  },
+  feeRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  feeUSD: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  feeValue: {
+    alignItems: 'flex-end',
   },
   label: {
     fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
   },
-  tokenRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  tokenSymbol: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  balanceText: {
-    fontSize: 14,
-  },
-  amountContainer: {
-    position: 'relative',
-  },
   maxButton: {
+    borderRadius: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     position: 'absolute',
     right: 12,
     top: 38,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 4,
   },
   maxButtonText: {
     color: '#FFFFFF',
     fontSize: 12,
     fontWeight: 'bold',
   },
-  usdEquivalent: {
-    fontSize: 14,
-    marginTop: 8,
+  safeArea: {
+    flex: 1,
   },
-  feeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 32,
   },
-  feeLabel: {
-    fontSize: 14,
-  },
-  feeValue: {
-    alignItems: 'flex-end',
-  },
-  feeAmount: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  feeUSD: {
-    fontSize: 12,
-    marginTop: 2,
+  scrollView: {
+    flex: 1,
   },
   sendButton: {
     marginTop: 16,
+  },
+  tokenRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: 8,
+  },
+  tokenSymbol: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  usdEquivalent: {
+    fontSize: 14,
+    marginTop: 8,
   },
 });
 

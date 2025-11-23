@@ -101,11 +101,7 @@ export const Card: React.FC<CardProps> = ({
 
   // Otherwise, use View
   return (
-    <View
-      style={cardStyle}
-      testID={testID}
-      accessibilityLabel={accessibilityLabel}
-    >
+    <View style={cardStyle} testID={testID} accessibilityLabel={accessibilityLabel}>
       {children}
     </View>
   );

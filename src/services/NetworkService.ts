@@ -48,7 +48,7 @@ export class NetworkService {
    */
   removePin(domain: string, pin: string): void {
     const existing = this.pins.get(domain) || [];
-    const filtered = existing.filter((p) => p !== pin);
+    const filtered = existing.filter(p => p !== pin);
     this.pins.set(domain, filtered);
   }
 
@@ -193,10 +193,7 @@ export class NetworkService {
   /**
    * Fetch with timeout
    */
-  private async fetchWithTimeout(
-    url: string,
-    options: RequestInit
-  ): Promise<Response> {
+  private async fetchWithTimeout(url: string, options: RequestInit): Promise<Response> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -215,7 +212,7 @@ export class NetworkService {
    * Delay helper
    */
   private delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
 

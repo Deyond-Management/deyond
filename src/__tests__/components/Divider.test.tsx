@@ -16,9 +16,7 @@ const renderWithTheme = (component: React.ReactElement) => {
 describe('Divider', () => {
   describe('Rendering', () => {
     it('should render horizontal divider by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider).toBeDefined();
       expect(divider.props.style).toMatchObject(
@@ -27,9 +25,7 @@ describe('Divider', () => {
     });
 
     it('should render vertical divider', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider orientation="vertical" testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider orientation="vertical" testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject(
         expect.objectContaining({ width: expect.any(Number) })
@@ -37,37 +33,27 @@ describe('Divider', () => {
     });
 
     it('should render with testID', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider testID="test-divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider testID="test-divider" />);
       expect(getByTestId('test-divider')).toBeDefined();
     });
   });
 
   describe('Thickness', () => {
     it('should have default thickness of 1', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject({ height: 1 });
     });
 
     it('should support custom thickness for horizontal divider', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider thickness={2} testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider thickness={2} testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject({ height: 2 });
     });
 
     it('should support custom thickness for vertical divider', () => {
       const { getByTestId } = renderWithTheme(
-        <Divider
-          orientation="vertical"
-          thickness={2}
-          testID="divider"
-        />
+        <Divider orientation="vertical" thickness={2} testID="divider" />
       );
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject({ width: 2 });
@@ -76,9 +62,7 @@ describe('Divider', () => {
 
   describe('Colors', () => {
     it('should use theme color by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject(
         expect.objectContaining({ backgroundColor: expect.any(String) })
@@ -86,9 +70,7 @@ describe('Divider', () => {
     });
 
     it('should support custom color', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider color="#FF0000" testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider color="#FF0000" testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject({
         backgroundColor: '#FF0000',
@@ -98,9 +80,7 @@ describe('Divider', () => {
 
   describe('Spacing', () => {
     it('should have no spacing by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider testID="divider" />);
       const divider = getByTestId('divider');
       const style = divider.props.style;
       expect(style.marginVertical).toBeUndefined();
@@ -108,20 +88,14 @@ describe('Divider', () => {
     });
 
     it('should support vertical spacing for horizontal divider', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider spacing={16} testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider spacing={16} testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject({ marginVertical: 16 });
     });
 
     it('should support horizontal spacing for vertical divider', () => {
       const { getByTestId } = renderWithTheme(
-        <Divider
-          orientation="vertical"
-          spacing={16}
-          testID="divider"
-        />
+        <Divider orientation="vertical" spacing={16} testID="divider" />
       );
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject({ marginHorizontal: 16 });
@@ -130,17 +104,13 @@ describe('Divider', () => {
 
   describe('Full Width/Height', () => {
     it('should be full width by default for horizontal divider', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject({ alignSelf: 'stretch' });
     });
 
     it('should be full height for vertical divider', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider orientation="vertical" testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider orientation="vertical" testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject({ alignSelf: 'stretch' });
     });
@@ -149,9 +119,7 @@ describe('Divider', () => {
   describe('Custom Styles', () => {
     it('should support custom styles', () => {
       const customStyle = { opacity: 0.5 };
-      const { getByTestId } = renderWithTheme(
-        <Divider style={customStyle} testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider style={customStyle} testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.style).toMatchObject(customStyle);
     });
@@ -159,9 +127,7 @@ describe('Divider', () => {
 
   describe('Accessibility', () => {
     it('should have none accessibility role', () => {
-      const { getByTestId } = renderWithTheme(
-        <Divider testID="divider" />
-      );
+      const { getByTestId } = renderWithTheme(<Divider testID="divider" />);
       const divider = getByTestId('divider');
       expect(divider.props.accessibilityRole).toBe('none');
     });

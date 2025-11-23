@@ -63,9 +63,7 @@ interface AppNavigatorProps {
   initialRouteName?: keyof RootStackParamList;
 }
 
-export const AppNavigator: React.FC<AppNavigatorProps> = ({
-  initialRouteName = 'Welcome',
-}) => {
+export const AppNavigator: React.FC<AppNavigatorProps> = ({ initialRouteName = 'Welcome' }) => {
   const { theme } = useTheme();
 
   return (

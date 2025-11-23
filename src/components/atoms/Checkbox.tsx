@@ -5,13 +5,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ViewStyle,
-  TextStyle,
-} from 'react-native';
+import { View, Text, TouchableOpacity, ViewStyle, TextStyle } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export type CheckboxSize = 'small' | 'medium' | 'large';
@@ -169,9 +163,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
                 height: checkmarkSize * 0.5,
                 borderLeftWidth: 2,
                 borderBottomWidth: 2,
-                borderColor: disabled
-                  ? theme.colors.text.hint
-                  : '#FFFFFF',
+                borderColor: disabled ? theme.colors.text.hint : '#FFFFFF',
                 transform: [{ rotate: '-45deg' }, { translateY: -2 }],
               }}
             />
@@ -179,25 +171,18 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         </TouchableOpacity>
 
         {/* Label */}
-        {label && (
-          labelDisabled ? (
+        {label &&
+          (labelDisabled ? (
             <Text style={labelStyle}>{label}</Text>
           ) : (
-            <TouchableOpacity
-              onPress={handlePress}
-              disabled={disabled}
-              activeOpacity={0.7}
-            >
+            <TouchableOpacity onPress={handlePress} disabled={disabled} activeOpacity={0.7}>
               <Text style={labelStyle}>{label}</Text>
             </TouchableOpacity>
-          )
-        )}
+          ))}
       </View>
 
       {/* Error message */}
-      {error && errorMessage && (
-        <Text style={errorStyle}>{errorMessage}</Text>
-      )}
+      {error && errorMessage && <Text style={errorStyle}>{errorMessage}</Text>}
     </View>
   );
 };

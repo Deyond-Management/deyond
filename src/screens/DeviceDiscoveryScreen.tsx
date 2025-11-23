@@ -11,7 +11,6 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
@@ -79,7 +78,7 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
 
     return (
       <View testID={`signal-indicator-${deviceId}`} style={styles.signalContainer}>
-        {[1, 2, 3].map((level) => (
+        {[1, 2, 3].map(level => (
           <View
             key={level}
             style={[
@@ -106,17 +105,11 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
       onPress={() => handleDevicePress(item)}
     >
       <View style={styles.deviceInfo}>
-        <View
-          style={[styles.deviceIcon, { backgroundColor: theme.colors.primary + '30' }]}
-        >
-          <Text style={[styles.deviceIconText, { color: theme.colors.primary }]}>
-            📱
-          </Text>
+        <View style={[styles.deviceIcon, { backgroundColor: theme.colors.primary + '30' }]}>
+          <Text style={[styles.deviceIconText, { color: theme.colors.primary }]}>📱</Text>
         </View>
         <View style={styles.deviceDetails}>
-          <Text style={[styles.deviceName, { color: theme.colors.text.primary }]}>
-            {item.name}
-          </Text>
+          <Text style={[styles.deviceName, { color: theme.colors.text.primary }]}>{item.name}</Text>
           <Text style={[styles.deviceAddress, { color: theme.colors.text.secondary }]}>
             {item.address.slice(0, 10)}...
           </Text>
@@ -129,22 +122,16 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
   // Render bluetooth warning
   if (!bluetoothEnabled) {
     return (
-      <SafeAreaView
-        style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-      >
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
         <View testID="bluetooth-warning" style={styles.warningContainer}>
-          <Text style={[styles.warningIcon]}>📵</Text>
+          <Text style={styles.warningIcon}>📵</Text>
           <Text style={[styles.warningTitle, { color: theme.colors.text.primary }]}>
             Bluetooth Disabled
           </Text>
           <Text style={[styles.warningText, { color: theme.colors.text.secondary }]}>
             Please enable Bluetooth to discover nearby devices
           </Text>
-          <Button
-            variant="primary"
-            onPress={() => {}}
-            style={styles.enableButton}
-          >
+          <Button variant="primary" onPress={() => {}} style={styles.enableButton}>
             Enable Bluetooth
           </Button>
         </View>
@@ -153,14 +140,10 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
   }
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-          Find Devices
-        </Text>
+        <Text style={[styles.title, { color: theme.colors.text.primary }]}>Find Devices</Text>
       </View>
 
       {/* Scan Button */}
@@ -170,9 +153,7 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
           style={[
             styles.scanButton,
             {
-              backgroundColor: scanning
-                ? theme.colors.surface
-                : theme.colors.primary,
+              backgroundColor: scanning ? theme.colors.surface : theme.colors.primary,
             },
           ]}
           onPress={handleScan}
@@ -188,10 +169,7 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
             />
           )}
           <Text
-            style={[
-              styles.scanButtonText,
-              { color: scanning ? theme.colors.primary : '#FFFFFF' },
-            ]}
+            style={[styles.scanButtonText, { color: scanning ? theme.colors.primary : '#FFFFFF' }]}
           >
             {scanning ? 'Scanning...' : 'Scan'}
           </Text>
@@ -204,7 +182,7 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
           testID="device-list"
           data={devices}
           renderItem={renderDevice}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           contentContainerStyle={styles.listContent}
         />
       ) : (
@@ -223,109 +201,109 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
+  deviceAddress: {
+    fontSize: 12,
   },
-  header: {
-    padding: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-  scanSection: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-  },
-  scanButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 12,
-  },
-  scanIndicator: {
-    marginRight: 8,
-  },
-  scanButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  listContent: {
-    padding: 16,
-    paddingTop: 0,
-  },
-  deviceItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    marginBottom: 12,
-  },
-  deviceInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  deviceDetails: {
     flex: 1,
   },
   deviceIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 22,
+    height: 44,
+    justifyContent: 'center',
     marginRight: 12,
+    width: 44,
   },
   deviceIconText: {
     fontSize: 20,
   },
-  deviceDetails: {
+  deviceInfo: {
+    alignItems: 'center',
+    flexDirection: 'row',
     flex: 1,
+  },
+  deviceItem: {
+    alignItems: 'center',
+    borderRadius: 12,
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+    padding: 16,
   },
   deviceName: {
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 2,
   },
-  deviceAddress: {
-    fontSize: 12,
-  },
-  signalContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    gap: 2,
-  },
-  signalBar: {
-    width: 4,
-    borderRadius: 2,
-  },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
   },
+  enableButton: {
+    minWidth: 200,
+  },
+  header: {
+    padding: 16,
+  },
+  listContent: {
+    padding: 16,
+    paddingTop: 0,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  scanButton: {
+    alignItems: 'center',
+    borderRadius: 12,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 16,
+  },
+  scanButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  scanIndicator: {
+    marginRight: 8,
+  },
+  scanSection: {
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+  },
+  signalBar: {
+    borderRadius: 2,
+    width: 4,
+  },
+  signalContainer: {
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+    gap: 2,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
   warningContainer: {
+    alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     padding: 32,
   },
   warningIcon: {
     fontSize: 48,
     marginBottom: 16,
   },
+  warningText: {
+    fontSize: 14,
+    marginBottom: 24,
+    textAlign: 'center',
+  },
   warningTitle: {
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 8,
-  },
-  warningText: {
-    fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  enableButton: {
-    minWidth: 200,
   },
 });
 

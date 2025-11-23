@@ -92,8 +92,8 @@ export const getKeysForPrefix = (prefix: string): string[] => {
 };
 
 // Type exports
-export type WalletKey = typeof WALLET_KEYS[keyof typeof WALLET_KEYS];
-export type SettingsKey = typeof SETTINGS_KEYS[keyof typeof SETTINGS_KEYS];
-export type CacheKey = typeof CACHE_KEYS[keyof typeof CACHE_KEYS];
-export type AuthKey = typeof AUTH_KEYS[keyof typeof AUTH_KEYS];
-export type StorageKey = typeof ALL_STORAGE_KEYS[keyof typeof ALL_STORAGE_KEYS];
+export type WalletKey = (typeof WALLET_KEYS)[keyof typeof WALLET_KEYS];
+export type SettingsKey = (typeof SETTINGS_KEYS)[keyof typeof SETTINGS_KEYS];
+export type CacheKey = (typeof CACHE_KEYS)[keyof typeof CACHE_KEYS];
+export type AuthKey = (typeof AUTH_KEYS)[keyof typeof AUTH_KEYS];
+export type StorageKey = (typeof ALL_STORAGE_KEYS)[keyof typeof ALL_STORAGE_KEYS];

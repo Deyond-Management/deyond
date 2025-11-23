@@ -4,13 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -88,10 +82,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           style={[
             styles.pinDot,
             {
-              backgroundColor:
-                i < pin.length
-                  ? theme.colors.primary
-                  : theme.colors.divider,
+              backgroundColor: i < pin.length ? theme.colors.primary : theme.colors.divider,
             },
           ]}
         />
@@ -110,22 +101,16 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       accessibilityLabel={label || value}
       accessibilityState={{ disabled: isLocked }}
     >
-      <Text style={[styles.keyText, { color: theme.colors.text.primary }]}>
-        {value}
-      </Text>
+      <Text style={[styles.keyText, { color: theme.colors.text.primary }]}>{value}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       <View style={styles.container}>
         {/* Lock Icon */}
         <View testID="lock-icon" style={styles.iconContainer}>
-          <Text style={[styles.lockIcon, { color: theme.colors.primary }]}>
-            🔒
-          </Text>
+          <Text style={[styles.lockIcon, { color: theme.colors.primary }]}>🔒</Text>
         </View>
 
         {/* Title */}
@@ -147,9 +132,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
         {/* Error Message */}
         {error && !isLocked && (
-          <Text style={[styles.errorText, { color: theme.colors.error }]}>
-            {error}
-          </Text>
+          <Text style={[styles.errorText, { color: theme.colors.error }]}>{error}</Text>
         )}
 
         {/* Attempts Remaining */}
@@ -184,9 +167,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 onPress={handleBiometrics}
                 disabled={isLocked}
               >
-                <Text style={[styles.keyText, { color: theme.colors.primary }]}>
-                  👆
-                </Text>
+                <Text style={[styles.keyText, { color: theme.colors.primary }]}>👆</Text>
               </TouchableOpacity>
             ) : (
               <View style={[styles.key, { backgroundColor: 'transparent' }]} />
@@ -200,9 +181,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               accessibilityLabel="Delete"
               accessibilityState={{ disabled: isLocked }}
             >
-              <Text style={[styles.keyText, { color: theme.colors.text.primary }]}>
-                ⌫
-              </Text>
+              <Text style={[styles.keyText, { color: theme.colors.text.primary }]}>⌫</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -212,67 +191,67 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
+  attemptsText: {
+    fontSize: 12,
+    marginBottom: 16,
   },
   container: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
     padding: 24,
+  },
+  errorText: {
+    fontSize: 14,
+    marginBottom: 8,
   },
   iconContainer: {
     marginBottom: 24,
   },
+  key: {
+    alignItems: 'center',
+    borderRadius: 36,
+    height: 72,
+    justifyContent: 'center',
+    margin: 8,
+    width: 72,
+  },
+  keyText: {
+    fontSize: 28,
+    fontWeight: '500',
+  },
   lockIcon: {
     fontSize: 48,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
   lockoutText: {
     fontSize: 14,
-    textAlign: 'center',
     marginBottom: 24,
+    textAlign: 'center',
+  },
+  numberPad: {
+    marginTop: 16,
   },
   pinContainer: {
     flexDirection: 'row',
     marginVertical: 32,
   },
   pinDot: {
-    width: 16,
-    height: 16,
     borderRadius: 8,
+    height: 16,
     marginHorizontal: 8,
-  },
-  errorText: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  attemptsText: {
-    fontSize: 12,
-    marginBottom: 16,
-  },
-  numberPad: {
-    marginTop: 16,
+    width: 16,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  key: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 8,
+  safeArea: {
+    flex: 1,
   },
-  keyText: {
-    fontSize: 28,
-    fontWeight: '500',
+  title: {
+    fontSize: 24,
+    fontWeight: '600',
+    marginBottom: 8,
   },
 });
 

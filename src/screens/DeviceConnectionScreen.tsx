@@ -4,14 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -116,9 +109,7 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
   };
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
@@ -128,20 +119,13 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
             onPress={handleCancel}
             accessibilityLabel="Cancel connection"
           >
-            <Text style={[styles.cancelText, { color: theme.colors.primary }]}>
-              Cancel
-            </Text>
+            <Text style={[styles.cancelText, { color: theme.colors.primary }]}>Cancel</Text>
           </TouchableOpacity>
         </View>
 
         {/* Device Info */}
         <View style={styles.deviceInfo}>
-          <View
-            style={[
-              styles.deviceIcon,
-              { backgroundColor: theme.colors.primary + '30' },
-            ]}
-          >
+          <View style={[styles.deviceIcon, { backgroundColor: theme.colors.primary + '30' }]}>
             <Text style={[styles.deviceIconText, { color: theme.colors.primary }]}>
               {device.name.charAt(0).toUpperCase()}
             </Text>
@@ -167,32 +151,23 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
         >
           {(connectionState === 'connecting' || connectionState === 'pairing') && (
             <View testID="connection-progress" style={styles.progressContainer}>
-              <ActivityIndicator
-                size="large"
-                color={theme.colors.primary}
-              />
+              <ActivityIndicator size="large" color={theme.colors.primary} />
             </View>
           )}
 
           {connectionState === 'connected' && (
             <View style={styles.statusIconContainer}>
-              <Text style={[styles.statusIcon, { color: theme.colors.success }]}>
-                ✓
-              </Text>
+              <Text style={[styles.statusIcon, { color: theme.colors.success }]}>✓</Text>
             </View>
           )}
 
           {connectionState === 'failed' && (
             <View style={styles.statusIconContainer}>
-              <Text style={[styles.statusIcon, { color: theme.colors.error }]}>
-                ✕
-              </Text>
+              <Text style={[styles.statusIcon, { color: theme.colors.error }]}>✕</Text>
             </View>
           )}
 
-          <Text style={[styles.statusText, { color: getStatusColor() }]}>
-            {getStatusText()}
-          </Text>
+          <Text style={[styles.statusText, { color: getStatusColor() }]}>{getStatusText()}</Text>
 
           {connectionState === 'failed' && (
             <Text style={[styles.errorText, { color: theme.colors.text.secondary }]}>
@@ -251,106 +226,12 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginBottom: 32,
-  },
-  cancelButton: {
-    padding: 8,
-  },
-  cancelText: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  deviceInfo: {
+  actionButton: {
     alignItems: 'center',
-    marginBottom: 32,
+    borderRadius: 12,
+    paddingVertical: 16,
   },
-  deviceIcon: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  deviceIconText: {
-    fontSize: 32,
-    fontWeight: '600',
-  },
-  deviceName: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  deviceAddress: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  signalContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  signalLabel: {
-    fontSize: 14,
-  },
-  statusContainer: {
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  progressContainer: {
-    marginBottom: 16,
-  },
-  statusIconContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  statusIcon: {
-    fontSize: 40,
-  },
-  statusText: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  errorText: {
-    fontSize: 14,
-    textAlign: 'center',
-    paddingHorizontal: 32,
-  },
-  pairingContainer: {
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  pairingLabel: {
-    fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  pairingCode: {
-    fontSize: 32,
-    fontWeight: '700',
-    letterSpacing: 8,
-    marginBottom: 24,
-  },
-  confirmButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 48,
-    borderRadius: 8,
-  },
-  confirmButtonText: {
+  actionButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
@@ -359,15 +240,109 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     paddingBottom: 16,
   },
-  actionButton: {
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
+  cancelButton: {
+    padding: 8,
   },
-  actionButtonText: {
+  cancelText: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  confirmButton: {
+    borderRadius: 8,
+    paddingHorizontal: 48,
+    paddingVertical: 12,
+  },
+  confirmButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+  },
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  deviceAddress: {
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  deviceIcon: {
+    alignItems: 'center',
+    borderRadius: 40,
+    height: 80,
+    justifyContent: 'center',
+    marginBottom: 16,
+    width: 80,
+  },
+  deviceIconText: {
+    fontSize: 32,
+    fontWeight: '600',
+  },
+  deviceInfo: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  deviceName: {
+    fontSize: 24,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  errorText: {
+    fontSize: 14,
+    paddingHorizontal: 32,
+    textAlign: 'center',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginBottom: 32,
+  },
+  pairingCode: {
+    fontSize: 32,
+    fontWeight: '700',
+    letterSpacing: 8,
+    marginBottom: 24,
+  },
+  pairingContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  pairingLabel: {
+    fontSize: 14,
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  progressContainer: {
+    marginBottom: 16,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  signalContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  signalLabel: {
+    fontSize: 14,
+  },
+  statusContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  statusIcon: {
+    fontSize: 40,
+  },
+  statusIconContainer: {
+    alignItems: 'center',
+    borderRadius: 30,
+    height: 60,
+    justifyContent: 'center',
+    marginBottom: 16,
+    width: 60,
+  },
+  statusText: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 8,
   },
 });
 

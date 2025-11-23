@@ -70,8 +70,10 @@ export class ContractSecurityService {
    * Analyze token approval request
    */
   analyzeApproval(spender: string, amount: string): TokenApproval {
-    const maxUint256 = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-    const isUnlimited = amount === maxUint256 || BigInt(amount) > BigInt('1000000000000000000000000');
+    const maxUint256 =
+      '115792089237316195423570985008687907853269984665640564039457584007913129639935';
+    const isUnlimited =
+      amount === maxUint256 || BigInt(amount) > BigInt('1000000000000000000000000');
 
     return {
       spender,
@@ -95,8 +97,16 @@ export class ContractSecurityService {
       '0xa9059cbb': { name: 'transfer', risky: false },
       '0x23b872dd': { name: 'transferFrom', risky: false },
       '0x095ea7b3': { name: 'approve', risky: true, warning: 'Token approval requested' },
-      '0x39509351': { name: 'increaseAllowance', risky: true, warning: 'Allowance increase requested' },
-      '0xa22cb465': { name: 'setApprovalForAll', risky: true, warning: 'Full NFT approval requested' },
+      '0x39509351': {
+        name: 'increaseAllowance',
+        risky: true,
+        warning: 'Allowance increase requested',
+      },
+      '0xa22cb465': {
+        name: 'setApprovalForAll',
+        risky: true,
+        warning: 'Full NFT approval requested',
+      },
       '0x42842e0e': { name: 'safeTransferFrom', risky: false },
     };
 
@@ -123,7 +133,10 @@ export class ContractSecurityService {
     const warnings: string[] = [];
 
     // Check for zero-value approval (common phishing)
-    if (data.startsWith('0x095ea7b3') && data.includes('0000000000000000000000000000000000000000000000000000000000000000')) {
+    if (
+      data.startsWith('0x095ea7b3') &&
+      data.includes('0000000000000000000000000000000000000000000000000000000000000000')
+    ) {
       // This might be setting approval to 0, which is actually safe
     }
 

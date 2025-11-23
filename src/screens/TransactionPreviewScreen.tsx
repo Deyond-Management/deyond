@@ -4,13 +4,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  
-} from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -67,13 +61,8 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
   };
 
   return (
-    <SafeAreaView
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-      >
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <Text style={[styles.title, { color: theme.colors.text.primary }]}>
           Confirm Transaction
@@ -82,9 +71,7 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
         {/* Amount Card */}
         <Card style={styles.card} elevation={1}>
           <View style={styles.amountSection}>
-            <Text style={[styles.amountLabel, { color: theme.colors.text.secondary }]}>
-              Amount
-            </Text>
+            <Text style={[styles.amountLabel, { color: theme.colors.text.secondary }]}>Amount</Text>
             <Text style={[styles.amountValue, { color: theme.colors.text.primary }]}>
               {amount} {token}
             </Text>
@@ -100,18 +87,20 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
         {/* Address Details Card */}
         <Card style={styles.card} elevation={1}>
           <View style={styles.detailRow}>
-            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>
-              From
-            </Text>
+            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>From</Text>
             <Text style={[styles.detailValue, { color: theme.colors.text.primary }]}>
               {formatAddress(fromAddress)}
             </Text>
           </View>
 
-          <View style={[styles.detailRow, styles.detailRowBorder, { borderTopColor: theme.colors.divider }]}>
-            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>
-              To
-            </Text>
+          <View
+            style={[
+              styles.detailRow,
+              styles.detailRowBorder,
+              { borderTopColor: theme.colors.divider },
+            ]}
+          >
+            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>To</Text>
             <Text style={[styles.detailValue, { color: theme.colors.text.primary }]}>
               {formatAddress(to)}
             </Text>
@@ -132,18 +121,12 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
           </Text>
 
           <View style={styles.gasRow}>
-            <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>
-              Gas Limit
-            </Text>
-            <Text style={[styles.gasValue, { color: theme.colors.text.primary }]}>
-              {gasLimit}
-            </Text>
+            <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>Gas Limit</Text>
+            <Text style={[styles.gasValue, { color: theme.colors.text.primary }]}>{gasLimit}</Text>
           </View>
 
           <View style={styles.gasRow}>
-            <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>
-              Max Fee
-            </Text>
+            <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>Max Fee</Text>
             <Text style={[styles.gasValue, { color: theme.colors.text.primary }]}>
               {maxFeePerGas} Gwei
             </Text>
@@ -167,9 +150,7 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
         {/* Total Card */}
         <Card style={styles.card} elevation={2}>
           <View style={styles.totalRow}>
-            <Text style={[styles.totalLabel, { color: theme.colors.text.secondary }]}>
-              Total
-            </Text>
+            <Text style={[styles.totalLabel, { color: theme.colors.text.secondary }]}>Total</Text>
             <View style={styles.totalValue}>
               <Text style={[styles.totalAmount, { color: theme.colors.text.primary }]}>
                 {totalAmount} {token}
@@ -183,12 +164,7 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
 
         {/* Action Buttons */}
         <View style={styles.actions}>
-          <Button
-            onPress={handleEdit}
-            variant="outlined"
-            size="large"
-            style={styles.editButton}
-          >
+          <Button onPress={handleEdit} variant="outlined" size="large" style={styles.editButton}>
             Edit
           </Button>
           <Button
@@ -207,45 +183,40 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
+  actions: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 32,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  card: {
-    marginBottom: 16,
+  amountLabel: {
+    fontSize: 14,
+    marginBottom: 8,
   },
   amountSection: {
     alignItems: 'center',
     paddingVertical: 8,
   },
-  amountLabel: {
-    fontSize: 14,
-    marginBottom: 8,
+  amountUSD: {
+    fontSize: 16,
   },
   amountValue: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  amountUSD: {
-    fontSize: 16,
+  card: {
+    marginBottom: 16,
+  },
+  confirmButton: {
+    flex: 2,
+  },
+  detailLabel: {
+    fontSize: 14,
   },
   detailRow: {
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
     paddingVertical: 12,
   },
   detailRowBorder: {
@@ -253,81 +224,86 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingTop: 20,
   },
-  detailLabel: {
-    fontSize: 14,
-  },
   detailValue: {
     fontSize: 14,
     fontWeight: '600',
   },
-  warningCard: {
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 16,
+  editButton: {
+    flex: 1,
   },
-  warningText: {
+  feeRow: {
+    marginTop: 8,
+    paddingTop: 8,
+  },
+  feeUSD: {
     fontSize: 12,
-    textAlign: 'center',
+    marginTop: 2,
+  },
+  feeValue: {
+    alignItems: 'flex-end',
+  },
+  gasLabel: {
+    fontSize: 14,
+  },
+  gasRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  gasValue: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  safeArea: {
+    flex: 1,
+  },
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 32,
+  },
+  scrollView: {
+    flex: 1,
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 12,
   },
-  gasRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  gasLabel: {
-    fontSize: 14,
-  },
-  gasValue: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  feeRow: {
-    marginTop: 8,
-    paddingTop: 8,
-  },
-  feeValue: {
-    alignItems: 'flex-end',
-  },
-  feeUSD: {
-    fontSize: 12,
-    marginTop: 2,
-  },
-  totalRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  totalLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  totalValue: {
-    alignItems: 'flex-end',
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 24,
+    textAlign: 'center',
   },
   totalAmount: {
     fontSize: 18,
     fontWeight: 'bold',
   },
+  totalLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  totalRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   totalUSD: {
     fontSize: 14,
     marginTop: 2,
   },
-  actions: {
-    flexDirection: 'row',
-    marginTop: 16,
-    gap: 12,
+  totalValue: {
+    alignItems: 'flex-end',
   },
-  editButton: {
-    flex: 1,
+  warningCard: {
+    borderRadius: 8,
+    marginBottom: 16,
+    padding: 12,
   },
-  confirmButton: {
-    flex: 2,
+  warningText: {
+    fontSize: 12,
+    textAlign: 'center',
   },
 });
 

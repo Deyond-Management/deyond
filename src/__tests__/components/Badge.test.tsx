@@ -26,18 +26,14 @@ describe('Badge', () => {
     });
 
     it('should render with testID', () => {
-      const { getByTestId } = renderWithTheme(
-        <Badge testID="test-badge">Badge</Badge>
-      );
+      const { getByTestId } = renderWithTheme(<Badge testID="test-badge">Badge</Badge>);
       expect(getByTestId('test-badge')).toBeDefined();
     });
   });
 
   describe('Variants', () => {
     it('should render primary variant by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Badge testID="badge">Primary</Badge>
-      );
+      const { getByTestId } = renderWithTheme(<Badge testID="badge">Primary</Badge>);
       const badge = getByTestId('badge');
       expect(badge).toBeDefined();
     });
@@ -95,9 +91,7 @@ describe('Badge', () => {
 
   describe('Sizes', () => {
     it('should render medium size by default', () => {
-      const { getByTestId } = renderWithTheme(
-        <Badge testID="badge">Medium</Badge>
-      );
+      const { getByTestId } = renderWithTheme(<Badge testID="badge">Medium</Badge>);
       const badge = getByTestId('badge');
       expect(badge).toBeDefined();
     });

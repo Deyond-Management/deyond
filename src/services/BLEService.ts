@@ -100,7 +100,7 @@ export class BLEService {
    * Add a discovered device (internal use)
    */
   addDiscoveredDevice(device: BLEDevice): void {
-    const existing = this.discoveredDevices.find((d) => d.id === device.id);
+    const existing = this.discoveredDevices.find(d => d.id === device.id);
     if (!existing) {
       this.discoveredDevices.push(device);
     } else {
@@ -155,10 +155,7 @@ export class BLEService {
   /**
    * Subscribe to data notifications from a device
    */
-  async subscribeToNotifications(
-    deviceId: string,
-    callback: NotificationCallback
-  ): Promise<void> {
+  async subscribeToNotifications(deviceId: string, callback: NotificationCallback): Promise<void> {
     const status = this.getConnectionStatus(deviceId);
     if (status !== 'connected') {
       throw new Error('Device not connected');
@@ -228,7 +225,7 @@ export class BLEService {
    * Simulate async delay
    */
   private simulateDelay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
 

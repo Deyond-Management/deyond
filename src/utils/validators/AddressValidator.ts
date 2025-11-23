@@ -90,9 +90,7 @@ export const getAddressType = (input: string): 'address' | 'ens' | 'invalid' => 
 /**
  * Validate multiple addresses
  */
-export const validateAddresses = (
-  addresses: string[]
-): { valid: string[]; invalid: string[] } => {
+export const validateAddresses = (addresses: string[]): { valid: string[]; invalid: string[] } => {
   const valid: string[] = [];
   const invalid: string[] = [];
 

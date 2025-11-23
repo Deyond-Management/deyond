@@ -14,9 +14,7 @@ describe('AlertService', () => {
       webhookUrl: 'https://hooks.slack.com/test',
       channel: '#alerts',
     },
-    webhooks: [
-      { url: 'https://webhook.test/alert' },
-    ],
+    webhooks: [{ url: 'https://webhook.test/alert' }],
   };
 
   beforeEach(() => {
@@ -33,12 +31,7 @@ describe('AlertService', () => {
 
   describe('triggerAlert', () => {
     it('should send alert to slack', async () => {
-      await service.triggerAlert(
-        'Test Alert',
-        'This is a test',
-        'warning',
-        ['slack']
-      );
+      await service.triggerAlert('Test Alert', 'This is a test', 'warning', ['slack']);
 
       expect(fetch).toHaveBeenCalledWith(
         'https://hooks.slack.com/test',
@@ -50,12 +43,7 @@ describe('AlertService', () => {
     });
 
     it('should send alert to pagerduty', async () => {
-      await service.triggerAlert(
-        'Critical Alert',
-        'System down',
-        'critical',
-        ['pagerduty']
-      );
+      await service.triggerAlert('Critical Alert', 'System down', 'critical', ['pagerduty']);
 
       expect(fetch).toHaveBeenCalledWith(
         'https://events.pagerduty.com/v2/enqueue',
@@ -67,12 +55,7 @@ describe('AlertService', () => {
     });
 
     it('should send alert to webhooks', async () => {
-      await service.triggerAlert(
-        'Webhook Alert',
-        'Test message',
-        'info',
-        ['webhook']
-      );
+      await service.triggerAlert('Webhook Alert', 'Test message', 'info', ['webhook']);
 
       expect(fetch).toHaveBeenCalledWith(
         'https://webhook.test/alert',
@@ -83,12 +66,7 @@ describe('AlertService', () => {
     });
 
     it('should send to multiple channels', async () => {
-      await service.triggerAlert(
-        'Multi Channel',
-        'Test',
-        'error',
-        ['slack', 'pagerduty']
-      );
+      await service.triggerAlert('Multi Channel', 'Test', 'error', ['slack', 'pagerduty']);
 
       expect(fetch).toHaveBeenCalledTimes(2);
     });
@@ -96,13 +74,7 @@ describe('AlertService', () => {
     it('should include metadata in alert', async () => {
       const metadata = { userId: '123', errorCode: 500 };
 
-      await service.triggerAlert(
-        'Alert with metadata',
-        'Test',
-        'error',
-        ['slack'],
-        metadata
-      );
+      await service.triggerAlert('Alert with metadata', 'Test', 'error', ['slack'], metadata);
 
       const callBody = JSON.parse((fetch as jest.Mock).mock.calls[0][1].body);
       expect(callBody.attachments[0].fields).toBeDefined();
@@ -150,7 +122,7 @@ describe('AlertService', () => {
     it('should add custom rule', async () => {
       service.addRule({
         name: 'custom_rule',
-        condition: (metrics) => metrics.custom_metric > 100,
+        condition: metrics => metrics.custom_metric > 100,
         severity: 'warning',
         channels: ['slack'],
         cooldown: 60000,
@@ -160,10 +132,7 @@ describe('AlertService', () => {
       await service.evaluateRules(metrics);
 
       // Should trigger custom rule
-      expect(fetch).toHaveBeenCalledWith(
-        'https://hooks.slack.com/test',
-        expect.anything()
-      );
+      expect(fetch).toHaveBeenCalledWith('https://hooks.slack.com/test', expect.anything());
     });
   });
 

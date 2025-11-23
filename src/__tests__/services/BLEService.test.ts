@@ -156,9 +156,9 @@ describe('BLEService', () => {
     it('should throw error when sending to disconnected device', async () => {
       await bleService.disconnect(mockDevice.id);
 
-      await expect(
-        bleService.sendData(mockDevice.id, 'Hello')
-      ).rejects.toThrow('Device not connected');
+      await expect(bleService.sendData(mockDevice.id, 'Hello')).rejects.toThrow(
+        'Device not connected'
+      );
     });
 
     it('should subscribe to data notifications', async () => {

@@ -65,10 +65,7 @@ describe('DeviceDiscoveryScreen', () => {
 
     it('should render device list', () => {
       const { getByTestId } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          initialDevices={mockDevices}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} initialDevices={mockDevices} />
       );
 
       expect(getByTestId('device-list')).toBeDefined();
@@ -78,10 +75,7 @@ describe('DeviceDiscoveryScreen', () => {
   describe('Scanning', () => {
     it('should show scanning indicator when scanning', () => {
       const { getByTestId } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          initialScanning={true}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} initialScanning={true} />
       );
 
       expect(getByTestId('scanning-indicator')).toBeDefined();
@@ -89,10 +83,7 @@ describe('DeviceDiscoveryScreen', () => {
 
     it('should show scan button text as "Scanning..." when scanning', () => {
       const { getByText } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          initialScanning={true}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} initialScanning={true} />
       );
 
       expect(getByText('Scanning...')).toBeDefined();
@@ -100,10 +91,7 @@ describe('DeviceDiscoveryScreen', () => {
 
     it('should show scan button text as "Scan" when not scanning', () => {
       const { getByText } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          initialScanning={false}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} initialScanning={false} />
       );
 
       expect(getByText('Scan')).toBeDefined();
@@ -113,10 +101,7 @@ describe('DeviceDiscoveryScreen', () => {
   describe('Device Items', () => {
     it('should display device name', () => {
       const { getByText } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          initialDevices={mockDevices}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} initialDevices={mockDevices} />
       );
 
       expect(getByText('iPhone 14')).toBeDefined();
@@ -125,10 +110,7 @@ describe('DeviceDiscoveryScreen', () => {
 
     it('should display signal strength indicator', () => {
       const { getAllByTestId } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          initialDevices={mockDevices}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} initialDevices={mockDevices} />
       );
 
       const signalIndicators = getAllByTestId(/signal-indicator-/);
@@ -137,10 +119,7 @@ describe('DeviceDiscoveryScreen', () => {
 
     it('should show strong signal for high RSSI', () => {
       const { getByTestId } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          initialDevices={mockDevices}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} initialDevices={mockDevices} />
       );
 
       // Device with RSSI -45 should have strong signal
@@ -151,10 +130,7 @@ describe('DeviceDiscoveryScreen', () => {
   describe('Interactions', () => {
     it('should navigate to connection screen when device is pressed', () => {
       const { getAllByTestId } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          initialDevices={mockDevices}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} initialDevices={mockDevices} />
       );
 
       const deviceItems = getAllByTestId(/device-item-/);
@@ -207,10 +183,7 @@ describe('DeviceDiscoveryScreen', () => {
   describe('Bluetooth Status', () => {
     it('should show bluetooth disabled warning', () => {
       const { getByTestId } = renderWithTheme(
-        <DeviceDiscoveryScreen
-          navigation={mockNavigation as any}
-          bluetoothEnabled={false}
-        />
+        <DeviceDiscoveryScreen navigation={mockNavigation as any} bluetoothEnabled={false} />
       );
 
       expect(getByTestId('bluetooth-warning')).toBeDefined();
