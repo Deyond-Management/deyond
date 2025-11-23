@@ -3,7 +3,7 @@
  * Core wallet functionality: create, import, derive accounts, sign messages
  */
 
-import { Wallet, HDNodeWallet } from 'ethers';
+import { Wallet, HDNodeWallet, verifyMessage } from 'ethers';
 import * as bip39 from 'bip39';
 import { CryptoUtils } from '../crypto/CryptoUtils';
 import { SecureVault, Account } from '../../types/wallet';
@@ -99,7 +99,7 @@ export class WalletManager {
       return {
         address: wallet.address,
         privateKey: wallet.privateKey,
-        publicKey: wallet.publicKey,
+        publicKey: wallet.signingKey.publicKey,
         mnemonic: '', // No mnemonic for private key import
       };
     } catch (error) {
@@ -160,7 +160,7 @@ export class WalletManager {
       return {
         address: wallet.address,
         privateKey: wallet.privateKey,
-        publicKey: wallet.publicKey,
+        publicKey: wallet.signingKey.publicKey,
         mnemonic,
       };
     } catch (error) {
@@ -217,10 +217,7 @@ export class WalletManager {
    */
   async verifySignature(message: string, signature: string, address: string): Promise<boolean> {
     try {
-      const recoveredAddress = Wallet.recoverAddress(
-        Wallet.hashMessage(message),
-        signature
-      );
+      const recoveredAddress = verifyMessage(message, signature);
       return recoveredAddress.toLowerCase() === address.toLowerCase();
     } catch (error) {
       return false;

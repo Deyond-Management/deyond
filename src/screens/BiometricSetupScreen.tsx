@@ -134,7 +134,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
 
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>
+          <Text style={[styles.title, { color: colors.text.primary }]}>
             Enable Biometric Login
           </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
@@ -144,14 +144,14 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
 
         {/* Benefits Card */}
         <Card style={[styles.benefitsCard, { backgroundColor: colors.surface }]}>
-          <Text style={[styles.benefitsTitle, { color: colors.text }]}>
+          <Text style={[styles.benefitsTitle, { color: colors.text.primary }]}>
             Why use biometric authentication?
           </Text>
 
           <View style={styles.benefitItem}>
             <Text style={[styles.benefitIcon, { color: colors.primary }]}>⚡</Text>
             <View style={styles.benefitContent}>
-              <Text style={[styles.benefitLabel, { color: colors.text }]}>
+              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>
                 Quick Access
               </Text>
               <Text style={[styles.benefitText, { color: colors.textSecondary }]}>
@@ -163,7 +163,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
           <View style={styles.benefitItem}>
             <Text style={[styles.benefitIcon, { color: colors.primary }]}>🔒</Text>
             <View style={styles.benefitContent}>
-              <Text style={[styles.benefitLabel, { color: colors.text }]}>
+              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>
                 More Secure
               </Text>
               <Text style={[styles.benefitText, { color: colors.textSecondary }]}>
@@ -175,7 +175,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
           <View style={styles.benefitItem}>
             <Text style={[styles.benefitIcon, { color: colors.primary }]}>✨</Text>
             <View style={styles.benefitContent}>
-              <Text style={[styles.benefitLabel, { color: colors.text }]}>
+              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>
                 Convenient
               </Text>
               <Text style={[styles.benefitText, { color: colors.textSecondary }]}>
@@ -188,7 +188,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
         {/* Password Fallback Info */}
         <Card style={[styles.infoCard, { backgroundColor: colors.info + '15' }]}>
           <Text style={[styles.infoIcon, { color: colors.info }]}>ℹ️</Text>
-          <Text style={[styles.infoText, { color: colors.text }]}>
+          <Text style={[styles.infoText, { color: colors.text.primary }]}>
             You can always use your password as a fallback if biometric authentication fails
           </Text>
         </Card>

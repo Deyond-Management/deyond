@@ -97,7 +97,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>
+          <Text style={[styles.title, { color: colors.text.primary }]}>
             Secret Recovery Phrase
           </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
@@ -111,7 +111,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
           <Text style={[styles.warningTitle, { color: colors.warning }]}>
             Security Warning
           </Text>
-          <Text style={[styles.warningText, { color: colors.text }]}>
+          <Text style={[styles.warningText, { color: colors.text.primary }]}>
             Never share your recovery phrase with anyone. Anyone with these words can access
             your funds.
           </Text>
@@ -135,7 +135,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
                 <Text style={[styles.wordNumber, { color: colors.textSecondary }]}>
                   {index + 1}.
                 </Text>
-                <Text style={[styles.wordText, { color: colors.text }]}>{word}</Text>
+                <Text style={[styles.wordText, { color: colors.text.primary }]}>{word}</Text>
               </View>
             ))}
           </View>
@@ -153,7 +153,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
 
         {/* Security Tips */}
         <Card style={[styles.tipsCard, { backgroundColor: colors.surface }]}>
-          <Text style={[styles.tipsTitle, { color: colors.text }]}>Security Tips</Text>
+          <Text style={[styles.tipsTitle, { color: colors.text.primary }]}>Security Tips</Text>
           <View style={styles.tipItem}>
             <Text style={[styles.tipBullet, { color: colors.primary }]}>•</Text>
             <Text style={[styles.tipText, { color: colors.textSecondary }]}>

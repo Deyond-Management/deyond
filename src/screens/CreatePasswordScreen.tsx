@@ -106,7 +106,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>Create Password</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>Create Password</Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
             This password will encrypt your wallet on this device
           </Text>
@@ -182,7 +182,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
 
         {/* Validation Rules */}
         <Card style={styles.rulesCard}>
-          <Text style={[styles.rulesTitle, { color: colors.text }]}>
+          <Text style={[styles.rulesTitle, { color: colors.text.primary }]}>
             Password Requirements
           </Text>
           {validationRules.map((rule, index) => {

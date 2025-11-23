@@ -108,7 +108,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>Import Wallet</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>Import Wallet</Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
             Import an existing wallet using your recovery phrase or private key
           </Text>
@@ -177,7 +177,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
         <Card style={styles.inputCard}>
           {importMethod === 'mnemonic' ? (
             <>
-              <Text style={[styles.inputLabel, { color: colors.text }]}>
+              <Text style={[styles.inputLabel, { color: colors.text.primary }]}>
                 Recovery Phrase
               </Text>
               <TextInput
@@ -208,7 +208,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
             </>
           ) : (
             <>
-              <Text style={[styles.inputLabel, { color: colors.text }]}>
+              <Text style={[styles.inputLabel, { color: colors.text.primary }]}>
                 Private Key
               </Text>
               <TextInput
@@ -241,7 +241,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
         {/* Warning Card */}
         <Card style={[styles.warningCard, { backgroundColor: colors.warning + '15' }]}>
           <Text style={[styles.warningIcon, { color: colors.warning }]}>⚠️</Text>
-          <Text style={[styles.warningText, { color: colors.text }]}>
+          <Text style={[styles.warningText, { color: colors.text.primary }]}>
             Never share your recovery phrase or private key with anyone. We will never ask
             for it.
           </Text>

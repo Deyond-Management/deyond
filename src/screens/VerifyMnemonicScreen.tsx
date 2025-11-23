@@ -172,7 +172,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>Verify Recovery Phrase</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>Verify Recovery Phrase</Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
             Select the correct words in order to verify you've written down your recovery
             phrase
@@ -215,7 +215,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
 
         {/* Word bank */}
         <View style={styles.wordBankSection}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
+          <Text style={[styles.sectionTitle, { color: colors.text.primary }]}>
             Select from these words:
           </Text>
           <View style={styles.wordBank}>
