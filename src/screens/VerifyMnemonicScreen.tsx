@@ -164,7 +164,8 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text.primary }]}>Verify Recovery Phrase</Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Select the correct words in order to verify you've written down your recovery phrase
+            Select the correct words in order to verify you&apos;ve written down your recovery
+            phrase
           </Text>
         </View>
 

@@ -166,7 +166,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
 
         {/* Continue Button */}
         <Button onPress={handleContinue} style={styles.continueButton} testID="continue-button">
-          I've Written It Down
+          I&apos;ve Written It Down
         </Button>
       </ScrollView>
     </SafeAreaView>

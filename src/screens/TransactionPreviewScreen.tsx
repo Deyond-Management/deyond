@@ -110,7 +110,7 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
         {/* Warning for new address */}
         <View style={[styles.warningCard, { backgroundColor: theme.colors.warning + '20' }]}>
           <Text style={[styles.warningText, { color: theme.colors.warning }]}>
-            First transaction to this address. Please verify it's correct.
+            First transaction to this address. Please verify it&apos;s correct.
           </Text>
         </View>
 

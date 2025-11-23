@@ -4,7 +4,8 @@
  */
 
 import React from 'react';
-import { render, waitFor } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
+import { ActivityIndicator } from 'react-native';
 import App from '../../App';
 
 // Mock react-native-safe-area-context
@@ -46,7 +47,6 @@ describe('App', () => {
   describe('Initial Screen', () => {
     it('should show loading indicator initially', () => {
       const { UNSAFE_getByType } = render(<App />);
-      const { ActivityIndicator } = require('react-native');
 
       expect(UNSAFE_getByType(ActivityIndicator)).toBeDefined();
     });
