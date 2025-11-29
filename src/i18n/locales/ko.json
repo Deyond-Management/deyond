@@ -229,13 +229,29 @@
     "filters": {
       "all": "전체",
       "sent": "보냄",
-      "received": "받음"
+      "received": "받음",
+      "today": "오늘",
+      "thisWeek": "이번 주",
+      "thisMonth": "이번 달",
+      "allTime": "전체 기간",
+      "allStatus": "모든 상태",
+      "pending": "대기 중",
+      "confirmed": "확인됨",
+      "failed": "실패",
+      "allTokens": "모든 토큰"
     },
+    "filterBy": "필터",
+    "dateRange": "기간",
+    "status": "상태",
+    "token": "토큰",
+    "search": "거래 검색...",
+    "searchPlaceholder": "주소 또는 해시로 검색",
+    "clearFilters": "필터 초기화",
     "sent": "보냄",
     "received": "받음",
     "to": "받는 주소: ",
     "from": "보낸 주소: ",
-    "status": {
+    "statusLabels": {
       "pending": "대기 중",
       "confirmed": "확인됨",
       "failed": "실패"

@@ -229,13 +229,29 @@
     "filters": {
       "all": "All",
       "sent": "Sent",
-      "received": "Received"
+      "received": "Received",
+      "today": "Today",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month",
+      "allTime": "All Time",
+      "allStatus": "All Status",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "failed": "Failed",
+      "allTokens": "All Tokens"
     },
+    "filterBy": "Filter by",
+    "dateRange": "Date Range",
+    "status": "Status",
+    "token": "Token",
+    "search": "Search transactions...",
+    "searchPlaceholder": "Search by address or hash",
+    "clearFilters": "Clear Filters",
     "sent": "Sent",
     "received": "Received",
     "to": "To: ",
     "from": "From: ",
-    "status": {
+    "statusLabels": {
       "pending": "Pending",
       "confirmed": "Confirmed",
       "failed": "Failed"

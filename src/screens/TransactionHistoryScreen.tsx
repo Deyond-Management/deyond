@@ -12,6 +12,8 @@ import {
   TouchableOpacity,
   RefreshControl,
   ActivityIndicator,
+  TextInput,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
@@ -21,6 +23,8 @@ import i18n from '../i18n';
 type TransactionType = 'sent' | 'received';
 type TransactionStatus = 'pending' | 'confirmed' | 'failed';
 type FilterType = 'all' | 'sent' | 'received';
+type DateRangeFilter = 'today' | 'thisWeek' | 'thisMonth' | 'allTime';
+type StatusFilter = 'allStatus' | 'pending' | 'confirmed' | 'failed';
 
 interface Transaction {
   id: string;
@@ -94,18 +98,74 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   const { theme } = useTheme();
   const [transactions] = useState<Transaction[]>(initialTransactions ?? mockTransactions);
   const [filter, setFilter] = useState<FilterType>('all');
+  const [dateRangeFilter, setDateRangeFilter] = useState<DateRangeFilter>('allTime');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('allStatus');
+  const [tokenFilter, setTokenFilter] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [loading] = useState(initialLoading);
 
+  // Get unique tokens from transactions
+  const availableTokens = useMemo(() => {
+    const tokens = new Set(transactions.map(tx => tx.token));
+    return ['all', ...Array.from(tokens)];
+  }, [transactions]);
+
+  // Helper: Check if transaction is within date range
+  const isInDateRange = useCallback((timestamp: number, range: DateRangeFilter): boolean => {
+    if (range === 'allTime') return true;
+
+    const now = Date.now();
+    const diff = now - timestamp;
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    switch (range) {
+      case 'today':
+        return diff < oneDay;
+      case 'thisWeek':
+        return diff < oneDay * 7;
+      case 'thisMonth':
+        return diff < oneDay * 30;
+      default:
+        return true;
+    }
+  }, []);
+
   // Filter transactions - memoized to prevent recalculation
-  const filteredTransactions = useMemo(
-    () =>
-      transactions.filter(tx => {
-        if (filter === 'all') return true;
-        return tx.type === filter;
-      }),
-    [transactions, filter]
-  );
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter(tx => {
+      // Type filter
+      if (filter !== 'all' && tx.type !== filter) return false;
+
+      // Date range filter
+      if (!isInDateRange(tx.timestamp, dateRangeFilter)) return false;
+
+      // Status filter
+      if (statusFilter !== 'allStatus' && tx.status !== statusFilter) return false;
+
+      // Token filter
+      if (tokenFilter !== 'all' && tx.token !== tokenFilter) return false;
+
+      // Search filter
+      if (searchQuery.length > 0) {
+        const query = searchQuery.toLowerCase();
+        const matchesAddress = tx.address.toLowerCase().includes(query);
+        const matchesHash = tx.hash.toLowerCase().includes(query);
+        if (!matchesAddress && !matchesHash) return false;
+      }
+
+      return true;
+    });
+  }, [
+    transactions,
+    filter,
+    dateRangeFilter,
+    statusFilter,
+    tokenFilter,
+    searchQuery,
+    isInDateRange,
+  ]);
 
   // Format address
   const formatAddress = useCallback((address: string) => {
@@ -151,6 +211,25 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   const handleLoadMore = useCallback(() => {
     // In real app, load more transactions
   }, []);
+
+  // Clear all filters
+  const handleClearFilters = useCallback(() => {
+    setFilter('all');
+    setDateRangeFilter('allTime');
+    setStatusFilter('allStatus');
+    setTokenFilter('all');
+    setSearchQuery('');
+  }, []);
+
+  // Check if any advanced filter is active
+  const hasActiveAdvancedFilters = useMemo(() => {
+    return (
+      dateRangeFilter !== 'allTime' ||
+      statusFilter !== 'allStatus' ||
+      tokenFilter !== 'all' ||
+      searchQuery.length > 0
+    );
+  }, [dateRangeFilter, statusFilter, tokenFilter, searchQuery]);
 
   // Handle transaction press
   const handleTransactionPress = useCallback(
@@ -293,12 +372,162 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
         </Text>
       </View>
 
-      {/* Filters */}
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <TextInput
+          testID="search-input"
+          style={[
+            styles.searchInput,
+            {
+              backgroundColor: theme.isDark ? '#424242' : '#F5F5F5',
+              color: theme.colors.text.primary,
+            },
+          ]}
+          placeholder={i18n.t('transactionHistory.searchPlaceholder')}
+          placeholderTextColor={theme.colors.text.secondary}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
+
+      {/* Basic Filters */}
       <View style={styles.filters}>
         {renderFilterButton('all', i18n.t('transactionHistory.filters.all'))}
         {renderFilterButton('sent', i18n.t('transactionHistory.filters.sent'))}
         {renderFilterButton('received', i18n.t('transactionHistory.filters.received'))}
       </View>
+
+      {/* Advanced Filters Toggle */}
+      <TouchableOpacity
+        testID="advanced-filters-toggle"
+        style={styles.advancedToggle}
+        onPress={() => setShowAdvancedFilters(!showAdvancedFilters)}
+      >
+        <Text style={[styles.advancedToggleText, { color: theme.colors.primary }]}>
+          {showAdvancedFilters ? '▼' : '▶'} {i18n.t('transactionHistory.filterBy')}
+          {hasActiveAdvancedFilters && ' (Active)'}
+        </Text>
+      </TouchableOpacity>
+
+      {/* Advanced Filters */}
+      {showAdvancedFilters && (
+        <View style={[styles.advancedFilters, { backgroundColor: theme.colors.surface }]}>
+          {/* Date Range */}
+          <Text style={[styles.filterLabel, { color: theme.colors.text.secondary }]}>
+            {i18n.t('transactionHistory.dateRange')}
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterRow}>
+            {(['allTime', 'today', 'thisWeek', 'thisMonth'] as DateRangeFilter[]).map(range => (
+              <TouchableOpacity
+                key={range}
+                testID={`date-filter-${range}`}
+                style={[
+                  styles.smallFilterButton,
+                  dateRangeFilter === range && {
+                    backgroundColor: theme.colors.primary,
+                  },
+                  dateRangeFilter !== range && {
+                    backgroundColor: theme.isDark ? '#424242' : '#E0E0E0',
+                  },
+                ]}
+                onPress={() => setDateRangeFilter(range)}
+              >
+                <Text
+                  style={[
+                    styles.smallFilterText,
+                    {
+                      color: dateRangeFilter === range ? '#FFFFFF' : theme.colors.text.primary,
+                    },
+                  ]}
+                >
+                  {i18n.t(`transactionHistory.filters.${range}`)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+          {/* Status Filter */}
+          <Text style={[styles.filterLabel, { color: theme.colors.text.secondary }]}>
+            {i18n.t('transactionHistory.status')}
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterRow}>
+            {(['allStatus', 'pending', 'confirmed', 'failed'] as StatusFilter[]).map(status => (
+              <TouchableOpacity
+                key={status}
+                testID={`status-filter-${status}`}
+                style={[
+                  styles.smallFilterButton,
+                  statusFilter === status && {
+                    backgroundColor: theme.colors.primary,
+                  },
+                  statusFilter !== status && {
+                    backgroundColor: theme.isDark ? '#424242' : '#E0E0E0',
+                  },
+                ]}
+                onPress={() => setStatusFilter(status)}
+              >
+                <Text
+                  style={[
+                    styles.smallFilterText,
+                    {
+                      color: statusFilter === status ? '#FFFFFF' : theme.colors.text.primary,
+                    },
+                  ]}
+                >
+                  {i18n.t(`transactionHistory.filters.${status}`)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+          {/* Token Filter */}
+          <Text style={[styles.filterLabel, { color: theme.colors.text.secondary }]}>
+            {i18n.t('transactionHistory.token')}
+          </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterRow}>
+            {availableTokens.map(token => (
+              <TouchableOpacity
+                key={token}
+                testID={`token-filter-${token}`}
+                style={[
+                  styles.smallFilterButton,
+                  tokenFilter === token && {
+                    backgroundColor: theme.colors.primary,
+                  },
+                  tokenFilter !== token && {
+                    backgroundColor: theme.isDark ? '#424242' : '#E0E0E0',
+                  },
+                ]}
+                onPress={() => setTokenFilter(token)}
+              >
+                <Text
+                  style={[
+                    styles.smallFilterText,
+                    {
+                      color: tokenFilter === token ? '#FFFFFF' : theme.colors.text.primary,
+                    },
+                  ]}
+                >
+                  {token === 'all' ? i18n.t('transactionHistory.filters.allTokens') : token}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+          {/* Clear Filters Button */}
+          {hasActiveAdvancedFilters && (
+            <TouchableOpacity
+              testID="clear-filters-button"
+              style={[styles.clearButton, { borderColor: theme.colors.primary }]}
+              onPress={handleClearFilters}
+            >
+              <Text style={[styles.clearButtonText, { color: theme.colors.primary }]}>
+                {i18n.t('transactionHistory.clearFilters')}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
 
       {/* Transaction List */}
       {filteredTransactions.length > 0 ? (
@@ -332,6 +561,31 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
 };
 
 const styles = StyleSheet.create({
+  advancedFilters: {
+    borderRadius: 8,
+    marginBottom: 16,
+    marginHorizontal: 16,
+    padding: 12,
+  },
+  advancedToggle: {
+    paddingBottom: 12,
+    paddingHorizontal: 16,
+  },
+  advancedToggleText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  clearButton: {
+    alignItems: 'center',
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 12,
+    paddingVertical: 8,
+  },
+  clearButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -340,6 +594,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,
+  },
+  filterLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginBottom: 8,
+    marginTop: 12,
+  },
+  filterRow: {
+    flexGrow: 0,
   },
   filterText: {
     fontSize: 14,
@@ -353,6 +616,26 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 16,
+  },
+  searchContainer: {
+    paddingBottom: 12,
+    paddingHorizontal: 16,
+  },
+  searchInput: {
+    borderRadius: 8,
+    fontSize: 14,
+    height: 44,
+    paddingHorizontal: 16,
+  },
+  smallFilterButton: {
+    borderRadius: 16,
+    marginRight: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  smallFilterText: {
+    fontSize: 12,
+    fontWeight: '600',
   },
   listContent: {
     padding: 16,
