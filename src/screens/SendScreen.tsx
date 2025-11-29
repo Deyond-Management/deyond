@@ -11,6 +11,8 @@ import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
 import { Card } from '../components/atoms/Card';
 import { QRScanner } from '../components/QRScanner';
+import { GasTrackerCard } from '../components/GasTrackerCard';
+import type { GasPreset } from '../services/GasService';
 import i18n from '../i18n';
 
 interface SendScreenProps {
@@ -31,6 +33,10 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation, route }) => 
   const [addressError, setAddressError] = useState('');
   const [amountError, setAmountError] = useState('');
   const [showQRScanner, setShowQRScanner] = useState(false);
+  const [selectedGasSpeed, setSelectedGasSpeed] = useState<'slow' | 'standard' | 'fast'>(
+    'standard'
+  );
+  const [selectedGasPreset, setSelectedGasPreset] = useState<GasPreset | null>(null);
 
   // Mock data - in real app, this would come from Redux
   const selectedToken = {
@@ -39,8 +45,22 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation, route }) => 
     usdPrice: 1500,
   };
 
-  const networkFee = '0.0021'; // Mock gas fee in ETH
-  const networkFeeUSD = '3.15';
+  // Gas limit for standard ETH transfer
+  const gasLimit = 21000;
+
+  // Calculate network fee based on selected gas preset
+  const networkFee = useMemo(() => {
+    if (!selectedGasPreset) return '0.0021'; // Default fallback
+    // Convert Gwei to ETH: (maxFeePerGas * gasLimit) / 1e9
+    const feeInEth = (selectedGasPreset.maxFeePerGas * gasLimit) / 1e9;
+    return feeInEth.toFixed(6);
+  }, [selectedGasPreset, gasLimit]);
+
+  const networkFeeUSD = useMemo(() => {
+    const feeInEth = parseFloat(networkFee);
+    const usdValue = feeInEth * selectedToken.usdPrice;
+    return usdValue.toFixed(2);
+  }, [networkFee, selectedToken.usdPrice]);
 
   // Validate Ethereum address format
   const validateAddress = useCallback((address: string): boolean => {
@@ -143,6 +163,15 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation, route }) => 
     navigation.navigate('AddressBook');
   }, [navigation]);
 
+  // Handle gas price selection
+  const handleSelectGasPrice = useCallback(
+    (speed: 'slow' | 'standard' | 'fast', preset: GasPreset) => {
+      setSelectedGasSpeed(speed);
+      setSelectedGasPreset(preset);
+    },
+    []
+  );
+
   // Handle send
   const handleSend = useCallback(() => {
     if (!isFormValid) return;
@@ -243,22 +272,12 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation, route }) => 
           )}
         </Card>
 
-        {/* Network Fee */}
-        <Card style={styles.card} elevation={1}>
-          <View style={styles.feeRow}>
-            <Text style={[styles.feeLabel, { color: theme.colors.text.secondary }]}>
-              {i18n.t('send.networkFee')}
-            </Text>
-            <View style={styles.feeValue}>
-              <Text style={[styles.feeAmount, { color: theme.colors.text.primary }]}>
-                {networkFee} {selectedToken.symbol}
-              </Text>
-              <Text style={[styles.feeUSD, { color: theme.colors.text.secondary }]}>
-                ≈ ${networkFeeUSD}
-              </Text>
-            </View>
-          </View>
-        </Card>
+        {/* Gas Tracker - Network Fee Selection */}
+        <GasTrackerCard
+          onSelectGasPrice={handleSelectGasPrice}
+          selectedSpeed={selectedGasSpeed}
+          showSelector={true}
+        />
 
         {/* Send Button */}
         <Button

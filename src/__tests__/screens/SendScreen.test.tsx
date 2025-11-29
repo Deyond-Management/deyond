@@ -151,9 +151,10 @@ describe('SendScreen', () => {
   });
 
   describe('Gas Fee Display', () => {
-    it('should display estimated gas fee', () => {
-      const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
-      expect(getByText(/Network fee/i)).toBeDefined();
+    it('should display gas tracker with speed selection', async () => {
+      const { findByTestId } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
+      const gasTrackerCard = await findByTestId('gas-tracker-card');
+      expect(gasTrackerCard).toBeDefined();
     });
   });
 

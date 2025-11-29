@@ -422,6 +422,24 @@
     "invalidAddress": "유효하지 않은 지갑 주소",
     "duplicateAddress": "이 주소는 이미 주소록에 존재합니다"
   },
+  "gasTracker": {
+    "title": "가스 트래커",
+    "currentGasPrices": "현재 가스 가격",
+    "slow": "느림",
+    "standard": "표준",
+    "fast": "빠름",
+    "baseFee": "기본 수수료",
+    "estimatedTime": "약 {{time}}",
+    "gwei": "Gwei",
+    "seconds": "{{count}}초",
+    "minutes": "{{count}}분",
+    "selectSpeed": "속도 선택",
+    "totalCost": "총 비용",
+    "gasLimit": "가스 한도",
+    "maxFee": "최대 수수료",
+    "priorityFee": "우선 수수료",
+    "updating": "업데이트 중..."
+  },
   "errors": {
     "generic": "문제가 발생했습니다. 다시 시도해주세요.",
     "network": "네트워크 오류. 연결을 확인해주세요.",

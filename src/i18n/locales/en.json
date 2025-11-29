@@ -422,6 +422,24 @@
     "invalidAddress": "Invalid wallet address",
     "duplicateAddress": "This address already exists in your address book"
   },
+  "gasTracker": {
+    "title": "Gas Tracker",
+    "currentGasPrices": "Current Gas Prices",
+    "slow": "Slow",
+    "standard": "Standard",
+    "fast": "Fast",
+    "baseFee": "Base Fee",
+    "estimatedTime": "~{{time}}",
+    "gwei": "Gwei",
+    "seconds": "{{count}}s",
+    "minutes": "{{count}}m",
+    "selectSpeed": "Select Speed",
+    "totalCost": "Total Cost",
+    "gasLimit": "Gas Limit",
+    "maxFee": "Max Fee",
+    "priorityFee": "Priority Fee",
+    "updating": "Updating..."
+  },
   "errors": {
     "generic": "Something went wrong. Please try again.",
     "network": "Network error. Please check your connection.",
