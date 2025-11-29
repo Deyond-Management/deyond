@@ -46,3 +46,22 @@ coverage/
 
 # Detox
 e2e/artifacts/
+
+# Build artifacts (if ios/android folders exist)
+ios/build/
+ios/Pods/
+ios/DerivedData/
+android/build/
+android/app/build/
+android/.gradle/
+
+# Caches
+.expo/
+dist/
+node_modules/.cache/
+.metro-health-check*
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store

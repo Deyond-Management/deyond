@@ -14,7 +14,15 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "type-check": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "clean": "npm run clean:ios && npm run clean:android && npm run clean:cache",
+    "clean:ios": "rm -rf ios/build ios/Pods ios/DerivedData",
+    "clean:android": "rm -rf android/build android/app/build android/.gradle",
+    "clean:cache": "rm -rf coverage .expo dist node_modules/.cache",
+    "clean:modules": "rm -rf node_modules",
+    "clean:all": "npm run clean && npm run clean:modules && npm cache clean --force",
+    "reinstall": "npm run clean:all && npm install --legacy-peer-deps",
+    "reset": "watchman watch-del-all 2>/dev/null || true && rm -rf $TMPDIR/metro-* $TMPDIR/haste-* && npm run clean:cache"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

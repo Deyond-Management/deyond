@@ -154,6 +154,36 @@ npm run test:coverage
 npm run test:e2e
 ```
 
+## Build and Clean
+
+The project includes comprehensive build and clean scripts for managing project size and artifacts.
+
+```bash
+# Clean all build artifacts (recommended weekly)
+npm run clean
+
+# Clean specific platforms
+npm run clean:ios        # Clean iOS build artifacts
+npm run clean:android    # Clean Android build artifacts
+npm run clean:cache      # Clean coverage, .expo, dist
+
+# Complete cleanup
+npm run clean:all        # Clean everything including node_modules
+npm run reinstall        # Clean all and reinstall dependencies
+npm run reset            # Reset Metro bundler cache
+
+# Check project size
+du -sh .                 # Total project size
+```
+
+**Project Size**:
+
+- Normal: ~5-6GB (with node_modules)
+- After builds: ~13GB (with build artifacts)
+- After `npm run clean`: ~5GB (7-8GB saved)
+
+See [Build and Clean Guide](docs/BUILD_AND_CLEAN_GUIDE.md) for detailed information.
+
 ### Test Statistics
 
 - **1,483 tests passing** (7 skipped)
