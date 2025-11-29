@@ -3,6 +3,8 @@
  * PIN, biometrics, and authentication management
  */
 
+import * as LocalAuthentication from 'expo-local-authentication';
+
 type BiometricsType = 'none' | 'fingerprint' | 'face' | 'iris';
 type SecurityLevel = 'low' | 'medium' | 'high';
 
@@ -94,16 +96,26 @@ export class SecurityService {
    * Check if biometrics is available
    */
   async isBiometricsAvailable(): Promise<boolean> {
-    // Mock: In real app, check platform API
-    return true;
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+    return hasHardware && isEnrolled;
   }
 
   /**
    * Get biometrics type
    */
   async getBiometricsType(): Promise<BiometricsType> {
-    // Mock: In real app, check platform API
-    return 'face';
+    const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
+
+    if (types.includes(LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION)) {
+      return 'face';
+    } else if (types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)) {
+      return 'fingerprint';
+    } else if (types.includes(LocalAuthentication.AuthenticationType.IRIS)) {
+      return 'iris';
+    }
+
+    return 'none';
   }
 
   /**
@@ -141,8 +153,21 @@ export class SecurityService {
       return { success: false, error: 'Biometrics not enabled' };
     }
 
-    // Mock: In real app, use platform biometrics API
-    return { success: true };
+    try {
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Authenticate to access your wallet',
+        fallbackLabel: 'Use password',
+        cancelLabel: 'Cancel',
+      });
+
+      if (result.success) {
+        return { success: true };
+      } else {
+        return { success: false, error: 'Biometric authentication failed' };
+      }
+    } catch (error) {
+      return { success: false, error: 'Biometric authentication error' };
+    }
   }
 
   /**

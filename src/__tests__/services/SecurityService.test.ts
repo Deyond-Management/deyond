@@ -3,6 +3,19 @@
  * TDD: Write tests first, then implement
  */
 
+// Mock expo-local-authentication
+jest.mock('expo-local-authentication', () => ({
+  hasHardwareAsync: jest.fn().mockResolvedValue(true),
+  isEnrolledAsync: jest.fn().mockResolvedValue(true),
+  supportedAuthenticationTypesAsync: jest.fn().mockResolvedValue([1]), // FINGERPRINT
+  authenticateAsync: jest.fn().mockResolvedValue({ success: true }),
+  AuthenticationType: {
+    FINGERPRINT: 1,
+    FACIAL_RECOGNITION: 2,
+    IRIS: 3,
+  },
+}));
+
 import { SecurityService } from '../../services/SecurityService';
 
 describe('SecurityService', () => {

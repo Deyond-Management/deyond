@@ -4,7 +4,7 @@
  * Features: enable biometric, skip option, password fallback info
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -21,6 +21,7 @@ import {
   selectOnboardingError,
 } from '../store/slices/onboardingSlice';
 import { setWallet, unlockWallet } from '../store/slices/walletSlice';
+import SecurityService from '../services/SecurityService';
 import i18n from '../i18n';
 
 type BiometricSetupScreenProps = NativeStackScreenProps<RootStackParamList, 'BiometricSetup'>;
@@ -36,19 +37,58 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
   const reduxError = useAppSelector(selectOnboardingError);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [securityService] = useState(() => new SecurityService());
+  const [biometricAvailable, setBiometricAvailable] = useState(false);
+  const [biometricType, setBiometricType] = useState<string>('biometric');
+
+  // Check biometric availability on mount
+  useEffect(() => {
+    const checkBiometrics = async () => {
+      const available = await securityService.isBiometricsAvailable();
+      setBiometricAvailable(available);
+
+      if (available) {
+        const type = await securityService.getBiometricsType();
+        if (type === 'face') {
+          setBiometricType('Face ID');
+        } else if (type === 'fingerprint') {
+          setBiometricType('Touch ID');
+        } else {
+          setBiometricType('biometric');
+        }
+      }
+    };
+
+    checkBiometrics();
+  }, [securityService]);
 
   // Handle enable biometric
   const handleEnableBiometric = async () => {
+    if (!biometricAvailable) {
+      setError('Biometric authentication is not available on this device');
+      return;
+    }
+
     setIsLoading(true);
     setError('');
 
     try {
+      // First, authenticate with biometrics to ensure it works
+      await securityService.enableBiometrics();
+      const authResult = await securityService.authenticateWithBiometrics();
+
+      if (!authResult.success) {
+        setError(authResult.error || 'Biometric authentication failed');
+        setIsLoading(false);
+        return;
+      }
+
       // Set biometric preference in Redux
       dispatch(setBiometricEnabled(true));
 
       // Create wallet if mnemonic is provided
       if (route.params.mnemonic && route.params.password) {
-        const result = await dispatch(
+        await dispatch(
           createWallet({
             password: route.params.password,
             mnemonic: route.params.mnemonic,
@@ -124,11 +164,9 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
 
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>
-            {i18n.t('biometricSetup.title')}
-          </Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>Enable {biometricType}</Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            {i18n.t('biometricSetup.subtitle')}
+            Use {biometricType} to unlock your wallet quickly and securely
           </Text>
         </View>
 
@@ -192,10 +230,11 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
         <Button
           onPress={handleEnableBiometric}
           loading={isLoading}
+          disabled={!biometricAvailable}
           style={styles.enableButton}
           testID="enable-biometric-button"
         >
-          {i18n.t('biometricSetup.enableButton')}
+          {biometricAvailable ? `Enable ${biometricType}` : 'Biometric not available'}
         </Button>
 
         {/* Skip Button */}

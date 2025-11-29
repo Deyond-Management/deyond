@@ -3,6 +3,19 @@
  * TDD: Write tests first, then implement
  */
 
+// Mock expo-local-authentication
+jest.mock('expo-local-authentication', () => ({
+  hasHardwareAsync: jest.fn().mockResolvedValue(true),
+  isEnrolledAsync: jest.fn().mockResolvedValue(true),
+  supportedAuthenticationTypesAsync: jest.fn().mockResolvedValue([1]), // FINGERPRINT
+  authenticateAsync: jest.fn().mockResolvedValue({ success: true }),
+  AuthenticationType: {
+    FINGERPRINT: 1,
+    FACIAL_RECOGNITION: 2,
+    IRIS: 3,
+  },
+}));
+
 import React from 'react';
 import { fireEvent, waitFor } from '@testing-library/react-native';
 import { BiometricSetupScreen } from '../../screens/BiometricSetupScreen';
@@ -48,13 +61,14 @@ describe('BiometricSetupScreen', () => {
   });
 
   describe('Rendering', () => {
-    it('should render biometric setup title', () => {
-      const { getAllByText } = renderWithTheme(
+    it('should render biometric setup title', async () => {
+      const { findByText } = renderWithTheme(
         <BiometricSetupScreen navigation={mockNavigation as any} route={mockRoute as any} />
       );
 
-      const biometricTexts = getAllByText(/Enable Biometric Login/i);
-      expect(biometricTexts.length).toBeGreaterThanOrEqual(1);
+      // Wait for async biometric check to complete and render title
+      const biometricText = await findByText(/Enable (Touch ID|Face ID|biometric)/i);
+      expect(biometricText).toBeDefined();
     });
 
     it('should render biometric icon or illustration', () => {
