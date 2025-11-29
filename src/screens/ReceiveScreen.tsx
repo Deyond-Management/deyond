@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Clipboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import QRCode from 'react-native-qrcode-svg';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
@@ -52,21 +53,16 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
         {/* QR Code Card */}
         <Card style={styles.card} elevation={2}>
           <View style={styles.qrContainer}>
-            {/* QR Code Placeholder - in real app, would use QR code library */}
-            <View
-              style={[
-                styles.qrPlaceholder,
-                { backgroundColor: theme.isDark ? '#424242' : '#E0E0E0' },
-              ]}
+            <QRCode
+              value={walletAddress}
+              size={200}
+              backgroundColor="white"
+              color="black"
               testID="qr-code"
-            >
-              <Text style={[styles.qrText, { color: theme.colors.text.primary }]}>
-                {i18n.t('receive.qrCode')}
-              </Text>
-              <Text style={[styles.qrSubtext, { color: theme.colors.text.secondary }]}>
-                {i18n.t('receive.scanToReceive')}
-              </Text>
-            </View>
+            />
+            <Text style={[styles.qrSubtext, { color: theme.colors.text.secondary }]}>
+              {i18n.t('receive.scanToReceive')}
+            </Text>
           </View>
         </Card>
 

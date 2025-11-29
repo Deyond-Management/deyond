@@ -10,6 +10,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
 import { Card } from '../components/atoms/Card';
+import { QRScanner } from '../components/QRScanner';
 import i18n from '../i18n';
 
 interface SendScreenProps {
@@ -24,6 +25,7 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
   const [amount, setAmount] = useState('');
   const [addressError, setAddressError] = useState('');
   const [amountError, setAmountError] = useState('');
+  const [showQRScanner, setShowQRScanner] = useState(false);
 
   // Mock data - in real app, this would come from Redux
   const selectedToken = {
@@ -115,6 +117,15 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
     })}`;
   }, [amount, selectedToken.usdPrice]);
 
+  // Handle QR scan
+  const handleQRScan = useCallback(
+    (data: string) => {
+      handleAddressChange(data);
+      setShowQRScanner(false);
+    },
+    [handleAddressChange]
+  );
+
   // Handle send
   const handleSend = useCallback(() => {
     if (!isFormValid) return;
@@ -162,6 +173,15 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
             error={addressError}
             accessibilityLabel={i18n.t('send.recipientAddress')}
           />
+          <Button
+            testID="scan-qr-button"
+            onPress={() => setShowQRScanner(true)}
+            variant="outlined"
+            size="medium"
+            style={{ marginTop: 12 }}
+          >
+            📷 Scan QR Code
+          </Button>
         </Card>
 
         {/* Amount Input */}
@@ -226,6 +246,13 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
           {i18n.t('send.continue')}
         </Button>
       </ScrollView>
+
+      {/* QR Scanner Modal */}
+      <QRScanner
+        visible={showQRScanner}
+        onClose={() => setShowQRScanner(false)}
+        onScan={handleQRScan}
+      />
     </SafeAreaView>
   );
 };
