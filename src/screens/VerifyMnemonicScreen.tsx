@@ -7,6 +7,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigation/AppNavigator';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
@@ -14,15 +16,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setStep } from '../store/slices/onboardingSlice';
 import i18n from '../i18n';
 
-interface VerifyMnemonicScreenProps {
-  navigation: any;
-  route: {
-    params: {
-      mnemonic: string[];
-      password: string;
-    };
-  };
-}
+type VerifyMnemonicScreenProps = NativeStackScreenProps<RootStackParamList, 'VerifyMnemonic'>;
 
 interface WordPosition {
   index: number;

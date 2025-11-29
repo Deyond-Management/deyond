@@ -1,27 +1,25 @@
 /**
  * Custom Navigation Transitions
- * Smooth screen transitions using React Navigation
+ * Smooth screen transitions using React Navigation Native Stack
  */
 
-import { StackNavigationOptions } from '@react-navigation/stack';
+import type { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
 
 /**
  * Default slide from right transition
  * Smooth, fast slide animation for most screens
  */
-export const slideFromRight: StackNavigationOptions = {
+export const slideFromRight: NativeStackNavigationOptions = {
   animation: 'slide_from_right',
-  animationDuration: 300,
 };
 
 /**
  * Slide from bottom transition
  * Used for modal-style screens (Transaction preview, etc.)
  */
-export const slideFromBottom: StackNavigationOptions = {
+export const slideFromBottom: NativeStackNavigationOptions = {
   animation: 'slide_from_bottom',
-  animationDuration: 350,
   presentation: 'modal',
 };
 
@@ -29,53 +27,47 @@ export const slideFromBottom: StackNavigationOptions = {
  * Fade transition
  * Subtle fade for quick transitions
  */
-export const fade: StackNavigationOptions = {
+export const fade: NativeStackNavigationOptions = {
   animation: 'fade',
-  animationDuration: 250,
 };
 
 /**
  * Fade with scale transition
  * Combined fade and slight scale for polished look
  */
-export const fadeFromCenter: StackNavigationOptions = {
+export const fadeFromCenter: NativeStackNavigationOptions = {
   animation: 'fade_from_bottom',
-  animationDuration: 300,
 };
 
 /**
  * Simple fade transition
  * Very fast fade for settings and auxiliary screens
  */
-export const simpleFade: StackNavigationOptions = {
-  animation: 'simple_push',
-  animationDuration: 200,
+export const simpleFade: NativeStackNavigationOptions = {
+  animation: 'default',
 };
 
 /**
  * No animation
  * Instant transition for auth checks and status screens
  */
-export const none: StackNavigationOptions = {
+export const none: NativeStackNavigationOptions = {
   animation: 'none',
-  animationDuration: 0,
 };
 
 /**
  * Get platform-specific default transition
  */
-export const getDefaultTransition = (): StackNavigationOptions => {
+export const getDefaultTransition = (): NativeStackNavigationOptions => {
   return Platform.select({
     ios: {
       animation: 'default',
-      animationDuration: 350,
     },
     android: {
       animation: 'slide_from_right',
-      animationDuration: 300,
     },
     default: slideFromRight,
-  });
+  }) as NativeStackNavigationOptions;
 };
 
 /**
@@ -84,17 +76,14 @@ export const getDefaultTransition = (): StackNavigationOptions => {
 export const transactionTransitions = {
   preview: {
     animation: 'slide_from_bottom' as const,
-    animationDuration: 350,
     presentation: 'modal' as const,
   },
   status: {
     animation: 'fade' as const,
-    animationDuration: 300,
     gestureEnabled: false,
   },
   confirm: {
     animation: 'slide_from_bottom' as const,
-    animationDuration: 300,
     presentation: 'modal' as const,
   },
 };
@@ -105,15 +94,12 @@ export const transactionTransitions = {
 export const authTransitions = {
   welcome: {
     animation: 'fade' as const,
-    animationDuration: 400,
   },
   login: {
     animation: 'slide_from_right' as const,
-    animationDuration: 300,
   },
   biometric: {
     animation: 'fade_from_bottom' as const,
-    animationDuration: 250,
   },
 };
 
@@ -123,10 +109,8 @@ export const authTransitions = {
 export const settingsTransitions = {
   main: {
     animation: 'slide_from_right' as const,
-    animationDuration: 300,
   },
   detail: {
-    animation: 'simple_push' as const,
-    animationDuration: 250,
+    animation: 'default' as const,
   },
 };

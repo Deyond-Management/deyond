@@ -15,8 +15,8 @@ interface ToastAction {
 }
 
 interface ToastProps {
-  message: string;
-  visible: boolean;
+  message?: string;
+  visible?: boolean;
   type?: ToastType;
   duration?: number;
   onDismiss?: () => void;

@@ -133,7 +133,7 @@ describe('App Configuration', () => {
 
     it('should have consistent default network', () => {
       expect(config.defaults.network).toBe('ethereum-mainnet');
-      expect(NETWORKS[config.defaults.network]).toBeDefined();
+      expect(NETWORKS[config.defaults.network as keyof typeof NETWORKS]).toBeDefined();
     });
   });
 });

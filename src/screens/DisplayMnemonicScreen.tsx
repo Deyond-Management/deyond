@@ -7,6 +7,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Clipboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigation/AppNavigator';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
@@ -15,14 +17,7 @@ import { useAppDispatch } from '../store/hooks';
 import { setMnemonic as setReduxMnemonic } from '../store/slices/onboardingSlice';
 import i18n from '../i18n';
 
-interface DisplayMnemonicScreenProps {
-  navigation: any;
-  route: {
-    params: {
-      password: string;
-    };
-  };
-}
+type DisplayMnemonicScreenProps = NativeStackScreenProps<RootStackParamList, 'DisplayMnemonic'>;
 
 export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
   navigation,

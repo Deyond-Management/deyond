@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigation/AppNavigator';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
@@ -21,15 +23,7 @@ import {
 import { setWallet, unlockWallet } from '../store/slices/walletSlice';
 import i18n from '../i18n';
 
-interface BiometricSetupScreenProps {
-  navigation: any;
-  route: {
-    params: {
-      password: string;
-      mnemonic?: string[];
-    };
-  };
-}
+type BiometricSetupScreenProps = NativeStackScreenProps<RootStackParamList, 'BiometricSetup'>;
 
 export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
   navigation,

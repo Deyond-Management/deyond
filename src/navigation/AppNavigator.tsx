@@ -41,11 +41,11 @@ import { ChatConversationScreen } from '../screens/ChatConversationScreen';
 export type RootStackParamList = {
   Welcome: undefined;
   CreatePassword: undefined;
-  DisplayMnemonic: { mnemonic: string };
-  VerifyMnemonic: { mnemonic: string };
+  DisplayMnemonic: { password: string };
+  VerifyMnemonic: { mnemonic: string[]; password: string };
   ImportWallet: undefined;
   Auth: undefined;
-  BiometricSetup: undefined;
+  BiometricSetup: { password: string; mnemonic?: string[] };
   Home: undefined;
   Send: { tokenAddress?: string };
   Receive: undefined;
