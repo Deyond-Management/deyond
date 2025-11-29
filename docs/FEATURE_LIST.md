@@ -1,12 +1,14 @@
 # Deyond Feature List
 
 ## Document Information
-- **Version**: 1.0.0
-- **Last Updated**: 2025-11-18
-- **Status**: Planning Phase
+
+- **Version**: 1.1.0
+- **Last Updated**: 2025-11-29
+- **Status**: Active Development - Phase 1 Complete, Phase 5 UX Enhancements Complete
 - **Project**: Deyond - Decentralized Social Crypto Wallet Platform
 
 ## Table of Contents
+
 1. [Core Features](#core-features)
 2. [Feature Categories](#feature-categories)
 3. [Feature Priority Matrix](#feature-priority-matrix)
@@ -19,6 +21,7 @@
 ### 1. Cryptocurrency Wallet (Reference: MetaMask Mobile)
 
 #### 1.1 Account Management
+
 - **Multi-account support** with HD wallet derivation
 - **Account import** via private key, mnemonic phrase (12/24 words)
 - **Account export** with security warnings and confirmations
@@ -27,16 +30,19 @@
 - **Hardware wallet support** (Ledger, Trezor via adapter pattern)
 
 #### 1.2 Key Management & Security
-- **Biometric authentication** (Face ID, Touch ID, Fingerprint)
-- **PIN code protection** with configurable length
-- **Encrypted vault storage** using native keychain (iOS Keychain, Android Keystore)
-- **Multi-layer encryption**: Native keychain + app-level AES-256
+
+- **Biometric authentication** (Face ID, Touch ID, Fingerprint) ✅
+- **Biometric setup flow** with benefits explanation and skip option ✅
+- **PIN code protection** with configurable length ✅
+- **Encrypted vault storage** using native keychain (iOS Keychain, Android Keystore) ✅
+- **Multi-layer encryption**: Native keychain + app-level AES-256 ✅
 - **Session-based key caching** with configurable timeout
 - **Automatic lock** on app background with configurable timeout
 - **Backup and recovery** with encrypted cloud backup (Google Drive)
-- **Secret recovery phrase backup** with verification flow
+- **Secret recovery phrase backup** with verification flow ✅
 
 #### 1.3 Multi-Blockchain Support (Adapter Pattern)
+
 - **Primary Support**: Ethereum (EVM), Solana
 - **Secondary Support**: Bitcoin, Binance Smart Chain, Polygon, Avalanche
 - **Adapter Architecture**: Pluggable blockchain adapters
@@ -52,18 +58,22 @@
 - **Custom RPC endpoint** configuration
 
 #### 1.4 Transaction Management
-- **Send tokens** with address validation and QR code scanning
-- **Receive tokens** with QR code generation and address sharing
-- **Transaction history** with filtering and search
+
+- **Send tokens** with address validation and QR code scanning ✅
+- **Receive tokens** with QR code generation and address sharing ✅
+- **Transaction history** with filtering and search ✅
+- **Advanced transaction filters** (date range, status, token type, search) ✅
+- **Real-time gas price tracker** with speed selection (slow/standard/fast) ✅
 - **Transaction details** with block explorer links
 - **Pending transaction tracking** with real-time status updates
 - **Transaction cancellation** (replace-by-fee for applicable chains)
-- **Transaction speed control** (gas price adjustment)
+- **Transaction speed control** (gas price adjustment) ✅
 - **Batch transactions** for efficiency
 - **Transaction simulation** before broadcasting
 - **Smart contract interaction** with ABI parsing
 
 #### 1.5 Token & Asset Management
+
 - **Native token support** (ETH, SOL, BTC, etc.)
 - **ERC-20/SPL token support** with auto-discovery
 - **Custom token import** via contract address
@@ -80,6 +90,7 @@
 ### 2. Chat & Messaging (Reference: Berty)
 
 #### 2.1 Direct Messaging
+
 - **End-to-end encrypted messaging** using Signal Protocol
 - **Offline-first architecture** with message queuing
 - **Message delivery status** (sent, delivered, read)
@@ -92,6 +103,7 @@
 - **Message backup** to encrypted cloud storage
 
 #### 2.2 Group Messaging
+
 - **Group creation** with up to 256 members
 - **Group roles**: Owner, Admin, Member
 - **Group permissions**: Who can add members, post, etc.
@@ -102,6 +114,7 @@
 - **Group message history sync** for new members (optional)
 
 #### 2.3 BLE Peer-to-Peer Messaging (Reference: Berty)
+
 - **BLE-based discovery** for nearby devices (10-100m range)
 - **Mesh network propagation** for extended range
 - **Offline messaging** via BLE when internet unavailable
@@ -115,6 +128,7 @@
 ### 3. Social & Networking Features
 
 #### 3.1 Profile Management (Business Card)
+
 - **Digital business card** with customizable fields:
   - Name, title, company
   - Contact info (email, phone, social handles)
@@ -129,9 +143,16 @@
 - **Profile backup** to encrypted storage
 
 #### 3.2 Contact Management
+
 - **Contact discovery** via BLE, QR code, username search
+- **Address Book** for saving frequently used wallet addresses ✅
+- **Add/Edit/Delete contacts** with name, address, and labels ✅
+- **QR code scanning** for easy address input ✅
+- **Contact search and filtering** ✅
+- **Address validation** (Ethereum format) ✅
+- **Duplicate address detection** ✅
+- **Quick address selection** for sending transactions ✅
 - **Contact requests** with accept/decline
-- **Contact list** with search and filtering
 - **Contact groups** for organization
 - **Contact notes** (private annotations)
 - **Contact sync** across devices
@@ -139,6 +160,7 @@
 - **Contact import** from phone contacts (permission-based)
 
 #### 3.3 Social Account Integration
+
 - **OAuth integration** for:
   - Twitter/X
   - LinkedIn
@@ -152,6 +174,7 @@
 - **Activity feed** from connected accounts
 
 #### 3.4 BLE-Based Proximity Discovery (Reference: Weshnet)
+
 - **Real-time nearby user scanning** using BLE advertising
 - **Discovery radius**: 10-100 meters
 - **Mesh network graph** showing connection paths
@@ -164,6 +187,7 @@
 - **Battery optimization** with periodic scanning
 
 #### 3.5 Location-Based Social (GPS Feed Flags)
+
 - **Feed flag posting** at current location
 - **Feed content types**: Text, image, video, audio, poll
 - **Feed visibility**:
@@ -188,6 +212,7 @@
 ### 4. Voice Calling (IP-Based)
 
 #### 4.1 Phone Number System
+
 - **Virtual phone number** with prefix 'a' + international format
   - Example: a+82-010-1234-5678 (Korea)
   - Example: a+1-555-123-4567 (USA)
@@ -199,6 +224,7 @@
 - **No number by default**: Optional feature activation
 
 #### 4.2 Voice Call Features
+
 - **Peer-to-peer VoIP** using WebRTC
 - **Call types**: Voice only, video call (future)
 - **Call quality indicators**: Network strength, latency, packet loss
@@ -211,6 +237,7 @@
 - **Call encryption**: End-to-end encrypted via SRTP
 
 #### 4.3 Call Integration
+
 - **Dialer UI**: Similar to native phone app
 - **Contact integration**: Call contacts directly
 - **Recent calls** with call-back button
@@ -225,6 +252,7 @@
 ### 5. LLM Integration & AI Features
 
 #### 5.1 Information Search
+
 - **Conversational AI assistant** powered by LLM
 - **Context-aware search**: Understands wallet context, transaction history
 - **Multi-modal queries**: Text, voice, image input
@@ -238,6 +266,7 @@
 - **Search history** with privacy controls
 
 #### 5.2 Creature - LLM Training Game
+
 - **Default mini-game** featuring virtual pet ("Creature")
 - **Training mechanics**:
   - Feed creature with data/knowledge
@@ -260,6 +289,7 @@
 - **Breeding system**: Combine creatures for new traits
 
 #### 5.3 AI Agent Marketplace
+
 - **Agent discovery**: Browse public AI agents
 - **Agent categories**:
   - Trading bots
@@ -278,6 +308,7 @@
 - **Agent testing**: Sandbox mode before full deployment
 
 #### 5.4 Train & Monetize Your Creature
+
 - **Export trained creature** as AI agent
 - **Agent marketplace listing**: Set pricing and terms
 - **Rental options**:
@@ -295,6 +326,7 @@
 ### 6. Mini-Game Platform
 
 #### 6.1 Game Marketplace
+
 - **Game discovery**: Browse, search, filter games
 - **Game categories**: Puzzle, strategy, casual, RPG, multiplayer
 - **Game details**: Screenshots, description, ratings, downloads
@@ -305,6 +337,7 @@
 - **Developer profiles**: Follow favorite developers
 
 #### 6.2 Game Integration
+
 - **SDK for developers**: Build games with Deyond integration
 - **Wallet integration**: In-game token transactions
 - **Social integration**: Multiplayer, leaderboards, friend invites
@@ -315,6 +348,7 @@
 - **Reward system**: Earn tokens by playing games
 
 #### 6.3 Game Developer Tools
+
 - **Game submission**: Upload game to marketplace
 - **Monetization options**:
   - Free with ads
@@ -330,6 +364,7 @@
 ### 7. Cloud Storage (Google Drive Integration)
 
 #### 7.1 Storage Features
+
 - **Encrypted backup**: All data encrypted before upload
 - **Zero-knowledge encryption**: Only user has decryption key
 - **Auto-backup**: Scheduled backups (daily, weekly)
@@ -346,6 +381,7 @@
 - **Backup integrity check**: Verify backup completeness
 
 #### 7.2 Storage Management
+
 - **Storage quota**: Monitor usage against Google Drive quota
 - **Selective backup**: Choose what to backup
 - **Backup schedule**: Configure frequency and time
@@ -358,6 +394,7 @@
 ### 8. Security Features
 
 #### 8.1 Transaction Security
+
 - **Transaction simulation**: Preview outcome before signing
 - **Phishing detection**: Warn about suspicious dApps
 - **Contract security scanning**: Analyze smart contracts
@@ -368,6 +405,7 @@
 - **Multi-signature support**: Require multiple approvals
 
 #### 8.2 App Security
+
 - **App lock**: Biometric or PIN on app open
 - **Auto-lock timer**: Configurable timeout
 - **Screen capture protection**: Prevent screenshots on sensitive screens
@@ -378,6 +416,7 @@
 - **Audit logging**: Track security events
 
 #### 8.3 Privacy Features
+
 - **Anonymous mode**: Hide wallet balances and activity
 - **Private browsing**: No activity logging
 - **VPN integration**: Route traffic through VPN
@@ -391,6 +430,7 @@
 ### 9. Network & Communication
 
 #### 9.1 Server Communication
+
 - **REST API**: Standard HTTP API for web services
 - **GraphQL API**: Efficient data querying
 - **WebSocket**: Real-time updates (prices, notifications)
@@ -406,6 +446,7 @@
   - Analytics server
 
 #### 9.2 Peer-to-Peer Communication
+
 - **Direct P2P**: Connect directly when possible
 - **Relay fallback**: Use relay servers when P2P fails
 - **NAT traversal**: STUN/TURN for firewall penetration
@@ -413,6 +454,7 @@
 - **Bandwidth optimization**: Compression, adaptive quality
 
 #### 9.3 Offline Support
+
 - **Offline mode**: Core features work without internet
 - **Message queue**: Store messages until online
 - **Transaction queue**: Queue transactions for broadcasting
@@ -424,6 +466,7 @@
 ### 10. User Experience & Accessibility
 
 #### 10.1 Onboarding
+
 - **Welcome tour**: Interactive feature introduction
 - **Setup wizard**: Step-by-step account creation
 - **Import flow**: Restore existing wallet
@@ -432,6 +475,7 @@
 - **Help center**: Searchable documentation
 
 #### 10.2 UI/UX
+
 - **Dark mode**: Light/dark/auto theme
 - **Customizable theme**: Color schemes
 - **Font size adjustment**: Accessibility
@@ -443,6 +487,7 @@
 - **Haptic feedback**: Touch response
 
 #### 10.3 Notifications
+
 - **Push notifications**: Remote notifications via FCM/APNs
 - **In-app notifications**: Activity feed
 - **Notification categories**:
@@ -462,6 +507,7 @@
 ## Feature Categories
 
 ### Category 1: Core Infrastructure (P0 - Must Have)
+
 - Account creation and management
 - Key management and encryption
 - Basic transaction sending/receiving
@@ -470,6 +516,7 @@
 - Local data persistence
 
 ### Category 2: Enhanced Wallet (P1 - High Priority)
+
 - Multi-blockchain support (adapter pattern)
 - Token and NFT management
 - Transaction history
@@ -478,6 +525,7 @@
 - Backup and recovery
 
 ### Category 3: Social Foundation (P1 - High Priority)
+
 - Direct messaging (encrypted)
 - Profile creation (business card)
 - Contact management
@@ -485,6 +533,7 @@
 - QR code sharing
 
 ### Category 4: Communication (P2 - Medium Priority)
+
 - Group messaging
 - BLE mesh networking
 - Voice calling (basic)
@@ -492,12 +541,14 @@
 - Social account integration
 
 ### Category 5: Location & Discovery (P2 - Medium Priority)
+
 - GPS-based feed flags
 - Location-based discovery
 - Map view of content
 - Feed monetization
 
 ### Category 6: AI & Gaming (P3 - Nice to Have)
+
 - LLM search assistant
 - Creature training game
 - AI agent marketplace
@@ -505,6 +556,7 @@
 - Game developer tools
 
 ### Category 7: Advanced Features (P3 - Nice to Have)
+
 - Video calling
 - Multi-signature wallets
 - DeFi integrations
@@ -515,38 +567,40 @@
 
 ## Feature Priority Matrix
 
-| Feature | Priority | Complexity | Dependencies | Phase |
-|---------|----------|------------|--------------|-------|
-| Wallet core (single chain) | P0 | High | None | 1 |
-| Account management | P0 | Medium | Wallet core | 1 |
-| Transaction send/receive | P0 | High | Wallet core | 1 |
-| Biometric auth | P0 | Medium | Account mgmt | 1 |
-| Multi-blockchain (adapter) | P1 | High | Wallet core | 2 |
-| Direct messaging | P1 | High | Account mgmt | 2 |
-| Profile management | P1 | Medium | Account mgmt | 2 |
-| BLE discovery (basic) | P1 | High | Profile | 2 |
-| Contact management | P1 | Medium | Profile | 2 |
-| Token/NFT management | P1 | Medium | Multi-chain | 2 |
-| Group messaging | P2 | High | Direct messaging | 3 |
-| BLE mesh networking | P2 | Very High | BLE discovery | 3 |
-| Voice calling | P2 | High | Contact mgmt | 3 |
-| GPS feed flags | P2 | Medium | Profile | 3 |
-| Social integration | P2 | Medium | Profile | 3 |
-| Cloud backup | P2 | Medium | None | 3 |
-| LLM assistant | P3 | High | None | 4 |
-| Creature game | P3 | High | LLM | 4 |
-| Agent marketplace | P3 | Very High | Creature | 4 |
-| Mini-game platform | P3 | Very High | None | 4 |
-| Video calling | P3 | High | Voice calling | 5 |
+| Feature                    | Priority | Complexity | Dependencies     | Phase |
+| -------------------------- | -------- | ---------- | ---------------- | ----- |
+| Wallet core (single chain) | P0       | High       | None             | 1     |
+| Account management         | P0       | Medium     | Wallet core      | 1     |
+| Transaction send/receive   | P0       | High       | Wallet core      | 1     |
+| Biometric auth             | P0       | Medium     | Account mgmt     | 1     |
+| Multi-blockchain (adapter) | P1       | High       | Wallet core      | 2     |
+| Direct messaging           | P1       | High       | Account mgmt     | 2     |
+| Profile management         | P1       | Medium     | Account mgmt     | 2     |
+| BLE discovery (basic)      | P1       | High       | Profile          | 2     |
+| Contact management         | P1       | Medium     | Profile          | 2     |
+| Token/NFT management       | P1       | Medium     | Multi-chain      | 2     |
+| Group messaging            | P2       | High       | Direct messaging | 3     |
+| BLE mesh networking        | P2       | Very High  | BLE discovery    | 3     |
+| Voice calling              | P2       | High       | Contact mgmt     | 3     |
+| GPS feed flags             | P2       | Medium     | Profile          | 3     |
+| Social integration         | P2       | Medium     | Profile          | 3     |
+| Cloud backup               | P2       | Medium     | None             | 3     |
+| LLM assistant              | P3       | High       | None             | 4     |
+| Creature game              | P3       | High       | LLM              | 4     |
+| Agent marketplace          | P3       | Very High  | Creature         | 4     |
+| Mini-game platform         | P3       | Very High  | None             | 4     |
+| Video calling              | P3       | High       | Voice calling    | 5     |
 
 ---
 
 ## Phase Rollout Plan
 
 ### Phase 1: MVP - Core Wallet (3-4 months)
+
 **Goal**: Functional cryptocurrency wallet with basic security
 
 **Features**:
+
 - Wallet creation and import
 - Ethereum support
 - Send/receive ETH and ERC-20 tokens
@@ -557,6 +611,7 @@
 - Basic UI/UX
 
 **Success Criteria**:
+
 - Can create/import wallet
 - Can send/receive transactions
 - Secure key storage
@@ -565,9 +620,11 @@
 ---
 
 ### Phase 2: Social Wallet (3-4 months)
+
 **Goal**: Add social and multi-chain features
 
 **Features**:
+
 - Multi-blockchain support (Solana, BSC)
 - Adapter pattern implementation
 - Direct encrypted messaging
@@ -578,6 +635,7 @@
 - Token and NFT display
 
 **Success Criteria**:
+
 - Support 3+ blockchains
 - P2P messaging works
 - Can discover nearby users via BLE
@@ -586,9 +644,11 @@
 ---
 
 ### Phase 3: Communication Hub (3-4 months)
+
 **Goal**: Full communication platform
 
 **Features**:
+
 - Group messaging
 - BLE mesh networking (extended range)
 - Voice calling (IP-based)
@@ -599,6 +659,7 @@
 - Notification system
 
 **Success Criteria**:
+
 - Stable group chats
 - Voice calls with good quality
 - Mesh network extends to 100m
@@ -607,9 +668,11 @@
 ---
 
 ### Phase 4: AI & Gaming Platform (4-5 months)
+
 **Goal**: AI-powered features and gaming
 
 **Features**:
+
 - LLM integration for search
 - Creature training game
 - AI agent marketplace
@@ -619,6 +682,7 @@
 - Advanced analytics
 
 **Success Criteria**:
+
 - AI assistant provides useful insights
 - Users can train creatures
 - Agent marketplace has 50+ agents
@@ -626,10 +690,69 @@
 
 ---
 
-### Phase 5: Enterprise & Advanced (Ongoing)
+### Phase 5: User Experience Enhancements (✅ COMPLETED - November 2025)
+
+**Goal**: Improve user experience with essential wallet features
+
+**Features** (All Completed):
+
+- ✅ **QR Code Support**: Scan and generate QR codes for wallet addresses
+- ✅ **Address Book**: Save and manage frequently used wallet addresses
+  - Add/Edit/Delete contacts with names and labels
+  - Search and filter contacts
+  - Ethereum address validation
+  - Duplicate detection
+  - Quick selection for transactions
+- ✅ **Advanced Transaction Filters**: Multi-dimensional filtering
+  - Date range filters (today/thisWeek/thisMonth/allTime)
+  - Status filters (pending/confirmed/failed)
+  - Token type filters
+  - Search by address or transaction hash
+  - Collapsible filter UI
+- ✅ **Real-time Gas Tracker**: Monitor and select gas prices
+  - Auto-refresh every 15 seconds
+  - Three speed options (slow/standard/fast)
+  - Time estimates for each speed
+  - Display-only and selector modes
+  - Integration with Send screen
+- ✅ **Biometric Authentication**: Face ID/Touch ID support
+  - Hardware and enrollment detection
+  - Dynamic biometric type display
+  - Setup flow with benefits explanation
+  - Skip option with password fallback
+  - Secure authentication flow
+- ✅ **Multi-language Support**: English and Korean localization
+
+**Component Documentation**:
+
+- GasTrackerCard component (docs/components/GasTrackerCard.md)
+- QRScanner component (docs/components/QRScanner.md)
+- AddressBook feature (docs/components/AddressBook.md)
+
+**Success Criteria**:
+
+- ✅ All tests passing (1,483 tests, 86 suites)
+- ✅ 80.71% code coverage maintained
+- ✅ QR scanning works on physical devices
+- ✅ Gas tracker updates in real-time
+- ✅ Biometric authentication integrated with expo-local-authentication
+- ✅ Address book persisted with Redux Persist
+- ✅ Transaction filters provide smooth UX
+
+**Test Statistics**:
+
+- 1,483 tests passing (7 skipped)
+- 86 test suites (100% passing)
+- 80.71% code coverage (Lines: 80.71%, Statements: 79.98%, Functions: 75.86%, Branches: 73.46%)
+
+---
+
+### Phase 6: Enterprise & Advanced (Future)
+
 **Goal**: Enterprise features and optimization
 
 **Features**:
+
 - Video calling
 - Multi-signature wallets
 - DAO governance integration
@@ -639,6 +762,7 @@
 - Custom blockchain support
 
 **Success Criteria**:
+
 - Enterprise clients onboarded
 - Advanced security certifications
 - Scalable to millions of users
@@ -648,6 +772,7 @@
 ## Extension Architecture (Future Features)
 
 ### Web-Based Feature Extensions
+
 To maintain agility for future features, the architecture supports web-based extensions:
 
 - **WebView framework**: Embedded browser for web-based features
@@ -658,6 +783,7 @@ To maintain agility for future features, the architecture supports web-based ext
 - **Permission model**: Granular access control
 
 **Potential Web Extensions**:
+
 - DeFi protocol interfaces
 - NFT marketplace
 - Governance voting
@@ -669,13 +795,15 @@ To maintain agility for future features, the architecture supports web-based ext
 
 ## Document History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0.0 | 2025-11-18 | Claude | Initial feature list creation |
+| Version | Date       | Author | Changes                                                                                             |
+| ------- | ---------- | ------ | --------------------------------------------------------------------------------------------------- |
+| 1.0.0   | 2025-11-18 | Claude | Initial feature list creation                                                                       |
+| 1.1.0   | 2025-11-29 | Claude | Added Phase 5: User Experience Enhancements (completed), updated completed features with checkmarks |
 
 ---
 
 ## Related Documents
+
 - [PRD - Product Requirements Document](./PRD.md)
 - [Architecture Design](./ARCHITECTURE.md)
 - [API Documentation](./API_ENDPOINTS.md)
