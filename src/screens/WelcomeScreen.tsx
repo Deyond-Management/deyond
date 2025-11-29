@@ -9,6 +9,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
+import i18n from '../i18n';
 
 interface WelcomeScreenProps {
   navigation: any;
@@ -43,39 +44,42 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
 
         {/* Title Section */}
         <View style={styles.titleContainer}>
-          <Text style={[styles.title, { color: theme.colors.text.primary }]}>Welcome to</Text>
-          <Text style={[styles.appName, { color: theme.colors.text.primary }]}>Crypto Wallet</Text>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+            {i18n.t('welcome.title')}
+          </Text>
         </View>
 
         {/* Description Section */}
         <View style={styles.descriptionContainer}>
           <Text style={[styles.description, { color: theme.colors.text.secondary }]}>
-            Secure, decentralized, and easy to use wallet for managing your cryptocurrency assets
+            {i18n.t('welcome.subtitle')}
           </Text>
         </View>
 
         {/* Buttons Section */}
         <View style={styles.buttonsContainer}>
           <Button
+            testID="create-wallet-button"
             onPress={handleCreateWallet}
             variant="primary"
             size="large"
             fullWidth
-            accessibilityLabel="Create New Wallet"
+            accessibilityLabel={i18n.t('welcome.createWallet')}
             style={styles.button}
           >
-            Create New Wallet
+            {i18n.t('welcome.createWallet')}
           </Button>
 
           <Button
+            testID="import-wallet-button"
             onPress={handleImportWallet}
             variant="outlined"
             size="large"
             fullWidth
-            accessibilityLabel="Import Existing Wallet"
+            accessibilityLabel={i18n.t('welcome.importWallet')}
             style={styles.button}
           >
-            Import Existing Wallet
+            {i18n.t('welcome.importWallet')}
           </Button>
         </View>
 

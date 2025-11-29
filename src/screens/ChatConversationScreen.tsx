@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
+import i18n from '../i18n';
 
 interface Message {
   id: string;
@@ -143,7 +144,7 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
     <View testID="empty-chat" style={styles.emptyContainer}>
       <Text style={[styles.emptyIcon, { color: theme.colors.text.secondary }]}>💬</Text>
       <Text style={[styles.emptyText, { color: theme.colors.text.secondary }]}>
-        Start a conversation with {peerName}
+        {i18n.t('chatConversation.emptyMessage', { name: peerName })}
       </Text>
     </View>
   );
@@ -197,13 +198,13 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
                 borderColor: theme.colors.divider,
               },
             ]}
-            placeholder="Type a message..."
+            placeholder={i18n.t('chatConversation.inputPlaceholder')}
             placeholderTextColor={theme.colors.text.secondary}
             value={inputText}
             onChangeText={setInputText}
             multiline
             maxLength={1000}
-            accessibilityLabel="Message input"
+            accessibilityLabel={i18n.t('chatConversation.inputAccessibility')}
           />
           <TouchableOpacity
             testID="send-button"
@@ -217,7 +218,7 @@ export const ChatConversationScreen: React.FC<ChatConversationScreenProps> = ({
             ]}
             onPress={handleSend}
             disabled={isSendDisabled}
-            accessibilityLabel="Send message"
+            accessibilityLabel={i18n.t('chatConversation.sendAccessibility')}
             accessibilityState={{ disabled: isSendDisabled }}
           >
             <Text style={styles.sendIcon}>→</Text>

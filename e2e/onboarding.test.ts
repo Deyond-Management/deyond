@@ -2,15 +2,25 @@
  * E2E Tests: Onboarding Flow
  */
 
-import { by, device, element, expect } from 'detox';
+import { by, device, element, expect, waitFor } from 'detox';
 
 describe('Onboarding Flow', () => {
   beforeAll(async () => {
-    await device.launchApp();
+    await device.launchApp({
+      newInstance: true,
+      permissions: { notifications: 'YES' },
+    });
   });
 
   beforeEach(async () => {
-    await device.reloadReactNative();
+    await device.launchApp({
+      newInstance: true,
+      delete: true, // Delete app data to start fresh
+    });
+    // Wait for app to initialize
+    await waitFor(element(by.id('welcome-container')))
+      .toBeVisible()
+      .withTimeout(5000);
   });
 
   describe('Welcome Screen', () => {

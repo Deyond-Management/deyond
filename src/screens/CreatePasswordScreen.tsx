@@ -13,6 +13,7 @@ import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
 import { useAppDispatch } from '../store/hooks';
 import { setPassword as setReduxPassword } from '../store/slices/onboardingSlice';
+import i18n from '../i18n';
 
 interface CreatePasswordScreenProps {
   navigation: any;
@@ -37,11 +38,14 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
 
   // Password validation rules
   const validationRules: ValidationRule[] = [
-    { label: 'At least 8 characters', test: pwd => pwd.length >= 8 },
-    { label: 'One uppercase letter', test: pwd => /[A-Z]/.test(pwd) },
-    { label: 'One lowercase letter', test: pwd => /[a-z]/.test(pwd) },
-    { label: 'One number', test: pwd => /\d/.test(pwd) },
-    { label: 'One special character', test: pwd => /[!@#$%^&*(),.?":{}|<>]/.test(pwd) },
+    { label: i18n.t('createWallet.validation.minLength'), test: pwd => pwd.length >= 8 },
+    { label: i18n.t('createWallet.validation.uppercase'), test: pwd => /[A-Z]/.test(pwd) },
+    { label: i18n.t('createWallet.validation.lowercase'), test: pwd => /[a-z]/.test(pwd) },
+    { label: i18n.t('createWallet.validation.number'), test: pwd => /\d/.test(pwd) },
+    {
+      label: i18n.t('createWallet.validation.special'),
+      test: pwd => /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
+    },
   ];
 
   // Calculate password strength
@@ -76,13 +80,13 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
 
     // Check if password meets all requirements
     if (!isPasswordValid()) {
-      setError('Password must meet all requirements');
+      setError(i18n.t('createWallet.errors.requirementsFailed'));
       return;
     }
 
     // Check if passwords match
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError(i18n.t('createWallet.errors.passwordsNotMatch'));
       return;
     }
 
@@ -100,27 +104,32 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>Create Password</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>
+            {i18n.t('createWallet.title')}
+          </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            This password will encrypt your wallet on this device
+            {i18n.t('createWallet.subtitle')}
           </Text>
         </View>
 
         {/* Password Input */}
         <View style={styles.inputContainer}>
           <Input
-            placeholder="Enter password"
+            testID="password-input"
+            placeholder={i18n.t('createWallet.passwordPlaceholder')}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
-            accessibilityLabel="Password input"
+            accessibilityLabel={i18n.t('createWallet.passwordLabel')}
           />
           <TouchableOpacity
             style={styles.toggleButton}
             onPress={() => setShowPassword(!showPassword)}
             testID="toggle-password-visibility"
           >
-            <Text style={{ color: colors.primary }}>{showPassword ? 'Hide' : 'Show'}</Text>
+            <Text style={{ color: colors.primary }}>
+              {showPassword ? i18n.t('common.hide') : i18n.t('common.show')}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -128,7 +137,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
         {password.length > 0 && (
           <Card style={styles.strengthCard}>
             <Text style={[styles.strengthLabel, { color: colors.textSecondary }]}>
-              Password Strength
+              {i18n.t('createWallet.passwordStrength')}
             </Text>
             <View style={styles.strengthMeterContainer}>
               <View
@@ -147,7 +156,7 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
               />
             </View>
             <Text style={[styles.strengthText, { color: getStrengthColor(passwordStrength) }]}>
-              {passwordStrength}
+              {i18n.t(`createWallet.strength.${passwordStrength.toLowerCase()}`)}
             </Text>
           </Card>
         )}
@@ -155,25 +164,28 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
         {/* Confirm Password Input */}
         <View style={[styles.inputContainer, { marginTop: spacing.md }]}>
           <Input
-            placeholder="Confirm password"
+            testID="confirm-password-input"
+            placeholder={i18n.t('createWallet.confirmPasswordPlaceholder')}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry={!showConfirmPassword}
-            accessibilityLabel="Confirm password input"
+            accessibilityLabel={i18n.t('createWallet.confirmPasswordLabel')}
           />
           <TouchableOpacity
             style={styles.toggleButton}
             onPress={() => setShowConfirmPassword(!showConfirmPassword)}
             testID="toggle-confirm-password-visibility"
           >
-            <Text style={{ color: colors.primary }}>{showConfirmPassword ? 'Hide' : 'Show'}</Text>
+            <Text style={{ color: colors.primary }}>
+              {showConfirmPassword ? i18n.t('common.hide') : i18n.t('common.show')}
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* Validation Rules */}
         <Card style={styles.rulesCard}>
           <Text style={[styles.rulesTitle, { color: colors.text.primary }]}>
-            Password Requirements
+            {i18n.t('createWallet.requirements')}
           </Text>
           {validationRules.map((rule, index) => {
             const isValid = rule.test(password);
@@ -200,6 +212,13 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
           })}
         </Card>
 
+        {/* Inline Validation Feedback */}
+        {password.length > 0 && password.length < 8 && (
+          <Text style={[styles.errorText, { color: colors.error }]}>
+            {i18n.t('createWallet.errors.minLength')}
+          </Text>
+        )}
+
         {/* Error Message */}
         {error.length > 0 && (
           <Text style={[styles.errorText, { color: colors.error }]}>{error}</Text>
@@ -209,10 +228,10 @@ export const CreatePasswordScreen: React.FC<CreatePasswordScreenProps> = ({ navi
         <Button
           onPress={handleCreate}
           style={styles.createButton}
-          accessibilityLabel="Create password button"
+          accessibilityLabel={i18n.t('createWallet.createButton')}
           testID="create-password-button"
         >
-          Create
+          {i18n.t('createWallet.createButton')}
         </Button>
       </ScrollView>
     </SafeAreaView>

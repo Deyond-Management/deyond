@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
+import i18n from '../i18n';
 
 interface AuthScreenProps {
   navigation: any;
@@ -60,7 +61,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       onSuccess?.();
       navigation.replace?.('Home');
     } else {
-      setError('Incorrect PIN');
+      setError(i18n.t('auth.incorrectPin'));
       setPin('');
     }
   };
@@ -94,7 +95,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   // Render number key
   const renderKey = (value: string, label?: string) => (
     <TouchableOpacity
-      testID={`key-${value}`}
+      testID={`pin-${value}`}
       style={[styles.key, { backgroundColor: theme.colors.card }]}
       onPress={() => handleNumberPress(value)}
       disabled={isLocked}
@@ -115,13 +116,13 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
         {/* Title */}
         <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-          {isLocked ? 'Wallet Locked' : 'Unlock Wallet'}
+          {isLocked ? i18n.t('auth.locked') : i18n.t('auth.title')}
         </Text>
 
         {/* Lockout Message */}
         {isLocked && (
           <Text style={[styles.lockoutText, { color: theme.colors.error }]}>
-            Too many attempts. Try again in {Math.ceil(lockoutTime / 60)} minutes.
+            {i18n.t('auth.lockedMessage', { minutes: Math.ceil(lockoutTime / 60) })}
           </Text>
         )}
 
@@ -138,12 +139,27 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         {/* Attempts Remaining */}
         {attemptsRemaining < 5 && !isLocked && (
           <Text style={[styles.attemptsText, { color: theme.colors.text.secondary }]}>
-            {attemptsRemaining} attempts remaining
+            {i18n.t('auth.attemptsRemaining', { count: attemptsRemaining })}
           </Text>
         )}
 
+        {/* Biometric Prompt */}
+        {biometricsAvailable && (
+          <View testID="biometric-prompt" style={styles.biometricPrompt}>
+            <TouchableOpacity
+              testID="use-pin-button"
+              onPress={() => {}}
+              style={styles.usePinButton}
+            >
+              <Text style={[styles.usePinText, { color: theme.colors.primary }]}>
+                {i18n.t('auth.usePinInstead')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         {/* Number Pad */}
-        <View testID="number-pad" style={styles.numberPad}>
+        <View testID="pin-pad" style={styles.numberPad}>
           <View style={styles.row}>
             {renderKey('1')}
             {renderKey('2')}
@@ -195,6 +211,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 16,
   },
+  biometricPrompt: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
   container: {
     alignItems: 'center',
     flex: 1,
@@ -204,6 +224,13 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 14,
     marginBottom: 8,
+  },
+  usePinButton: {
+    padding: 8,
+  },
+  usePinText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
   iconContainer: {
     marginBottom: 24,

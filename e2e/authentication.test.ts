@@ -2,15 +2,62 @@
  * E2E Tests: Authentication Flow
  */
 
-import { by, device, element, expect } from 'detox';
+import { by, device, element, expect, waitFor } from 'detox';
+
+// Helper function to complete onboarding
+async function completeOnboarding() {
+  // Wait for welcome screen
+  await waitFor(element(by.id('welcome-container')))
+    .toBeVisible()
+    .withTimeout(5000);
+
+  // Create wallet
+  await element(by.id('create-wallet-button')).tap();
+
+  // Create password
+  await waitFor(element(by.id('password-input')))
+    .toBeVisible()
+    .withTimeout(2000);
+  await element(by.id('password-input')).typeText('StrongP@ss123');
+  await element(by.id('confirm-password-input')).typeText('StrongP@ss123');
+  await element(by.id('create-password-button')).tap();
+
+  // Skip mnemonic screens
+  await waitFor(element(by.id('continue-button')))
+    .toBeVisible()
+    .withTimeout(2000);
+  await element(by.id('continue-button')).tap();
+
+  // Skip biometric setup
+  await waitFor(element(by.id('skip-button')))
+    .toBeVisible()
+    .withTimeout(2000);
+  await element(by.id('skip-button')).tap();
+
+  // Wait for home screen
+  await waitFor(element(by.id('home-screen')))
+    .toBeVisible()
+    .withTimeout(5000);
+}
 
 describe('Authentication Flow', () => {
   beforeAll(async () => {
-    await device.launchApp();
+    await device.launchApp({
+      newInstance: true,
+      delete: true,
+    });
+    await completeOnboarding();
   });
 
   beforeEach(async () => {
-    await device.reloadReactNative();
+    // Lock the app by sending it to background and bringing back
+    await device.sendToHome();
+    await device.launchApp({ newInstance: false });
+
+    // Wait for PIN screen
+    await waitFor(element(by.id('pin-pad')))
+      .toBeVisible()
+      .withTimeout(5000);
   });
 
   describe('PIN Authentication', () => {

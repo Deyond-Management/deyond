@@ -33,12 +33,12 @@ describe('WelcomeScreen', () => {
 
     it('should render app name or logo', () => {
       const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
-      expect(getByText(/Crypto Wallet/i)).toBeDefined();
+      expect(getByText(/Welcome to Deyond Wallet/i)).toBeDefined();
     });
 
     it('should render description text', () => {
       const { getByText } = renderWithTheme(<WelcomeScreen navigation={mockNavigation as any} />);
-      expect(getByText(/Secure, decentralized, and easy to use/i)).toBeDefined();
+      expect(getByText(/Your keys, your crypto/i)).toBeDefined();
     });
 
     it('should render create wallet button', () => {

@@ -3,7 +3,7 @@
  * Main dashboard showing wallet balance, tokens, and recent transactions
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { TokenCard } from '../components/molecules/TokenCard';
 import { TransactionCard } from '../components/molecules/TransactionCard';
+import { TokenCardSkeleton, TransactionCardSkeleton } from '../components/atoms/SkeletonLoader';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import {
   fetchTokenBalances,
@@ -29,6 +30,7 @@ import {
 } from '../store/slices/tokenSlice';
 import { setCurrentNetwork } from '../store/slices/networkSlice';
 import { NetworkSelectorModal, Network } from '../components/organisms/NetworkSelectorModal';
+import i18n from '../i18n';
 
 interface HomeScreenProps {
   navigation: any;
@@ -53,16 +55,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const networks = useAppSelector(state => state.network?.networks ?? []);
   const currentNetwork = useAppSelector(state => state.network?.currentNetwork);
 
-  // Map networks to modal format
-  const modalNetworks: Network[] = networks.map(n => ({
-    id: n.id,
-    name: n.name,
-    chainId: n.chainId,
-    rpcUrl: n.rpcUrl,
-    symbol: n.currencySymbol,
-    blockExplorer: n.blockExplorerUrl || '',
-    isTestnet: n.isTestnet,
-  }));
+  // Map networks to modal format - memoized to prevent recalculation
+  const modalNetworks: Network[] = useMemo(
+    () =>
+      networks.map(n => ({
+        id: n.id,
+        name: n.name,
+        chainId: n.chainId,
+        rpcUrl: n.rpcUrl,
+        symbol: n.currencySymbol,
+        blockExplorer: n.blockExplorerUrl || '',
+        isTestnet: n.isTestnet,
+      })),
+    [networks]
+  );
 
   // Fetch balances on mount
   useEffect(() => {
@@ -76,11 +82,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     setRefreshing(false);
   }, [dispatch, walletAddress]);
 
-  // Format total balance for display
-  const formattedTotalBalance = parseFloat(totalBalance).toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  // Format total balance for display - memoized to prevent recalculation
+  const formattedTotalBalance = useMemo(
+    () =>
+      parseFloat(totalBalance).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+    [totalBalance]
+  );
 
   const mockTransactions = [
     {
@@ -105,45 +115,60 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     },
   ];
 
-  // Truncate address for display
-  const truncatedAddress = `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`;
+  // Truncate address for display - memoized
+  const truncatedAddress = useMemo(
+    () => `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`,
+    [walletAddress]
+  );
 
-  const handleSend = () => {
+  const handleSend = useCallback(() => {
     navigation.navigate('Send');
-  };
+  }, [navigation]);
 
-  const handleReceive = () => {
+  const handleReceive = useCallback(() => {
     navigation.navigate('Receive');
-  };
+  }, [navigation]);
 
-  const handleBuy = () => {
+  const handleBuy = useCallback(() => {
     // Open external buy crypto link (placeholder)
     Linking.openURL('https://buy.crypto.example.com');
-  };
+  }, []);
 
-  const handleNetworkSelect = () => {
+  const handleNetworkSelect = useCallback(() => {
     setNetworkModalVisible(true);
-  };
+  }, []);
 
-  const handleNetworkChange = (network: Network) => {
-    // Find the original network from Redux state
-    const originalNetwork = networks.find(n => n.id === network.id);
-    if (originalNetwork) {
-      dispatch(setCurrentNetwork(originalNetwork));
-    }
-    setNetworkModalVisible(false);
-  };
+  const handleNetworkChange = useCallback(
+    (network: Network) => {
+      // Find the original network from Redux state
+      const originalNetwork = networks.find(n => n.id === network.id);
+      if (originalNetwork) {
+        dispatch(setCurrentNetwork(originalNetwork));
+      }
+      setNetworkModalVisible(false);
+    },
+    [networks, dispatch]
+  );
 
-  const handleTokenPress = (symbol: string) => {
-    navigation.navigate('TokenDetails', { symbol });
-  };
+  const handleTokenPress = useCallback(
+    (symbol: string) => {
+      navigation.navigate('TokenDetails', { symbol });
+    },
+    [navigation]
+  );
 
-  const handleTransactionPress = (hash: string) => {
-    navigation.navigate('TransactionDetails', { hash });
-  };
+  const handleTransactionPress = useCallback(
+    (hash: string) => {
+      navigation.navigate('TransactionDetails', { hash });
+    },
+    [navigation]
+  );
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
+    <SafeAreaView
+      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
+      testID="home-screen"
+    >
       {/* Header */}
       <View
         style={[
@@ -154,7 +179,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       >
         <View style={styles.headerTop}>
           <View>
-            <Text style={[styles.headerTitle, { color: theme.colors.text.primary }]}>Wallet</Text>
+            <Text style={[styles.headerTitle, { color: theme.colors.text.primary }]}>
+              {i18n.t('home.title')}
+            </Text>
             <Text style={[styles.headerAddress, { color: theme.colors.text.secondary }]}>
               {truncatedAddress}
             </Text>
@@ -171,7 +198,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               ]}
             />
             <Text style={[styles.networkName, { color: theme.colors.text.primary }]}>
-              {currentNetwork?.name ?? 'Select Network'}
+              {currentNetwork?.name ?? i18n.t('home.selectNetwork')}
             </Text>
             <Text style={[styles.networkArrow, { color: theme.colors.text.secondary }]}>▼</Text>
           </TouchableOpacity>
@@ -193,7 +220,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         {/* Total Balance Section */}
         <View style={styles.balanceSection}>
           <Text style={[styles.balanceLabel, { color: theme.colors.text.secondary }]}>
-            Total Balance
+            {i18n.t('home.totalBalance')}
           </Text>
           <Text
             style={[styles.balanceAmount, { color: theme.colors.text.primary }]}
@@ -206,41 +233,45 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         {/* Action Buttons */}
         <View style={styles.actionsContainer}>
           <Button
+            testID="send-button"
             onPress={handleSend}
             variant="primary"
             style={styles.actionButton}
-            accessibilityLabel="Send"
+            accessibilityLabel={i18n.t('home.send')}
           >
-            Send
+            {i18n.t('home.send')}
           </Button>
           <Button
+            testID="receive-button"
             onPress={handleReceive}
             variant="outlined"
             style={styles.actionButton}
-            accessibilityLabel="Receive"
+            accessibilityLabel={i18n.t('home.receive')}
           >
-            Receive
+            {i18n.t('home.receive')}
           </Button>
           <Button
+            testID="buy-button"
             onPress={handleBuy}
             variant="outlined"
             style={styles.actionButton}
-            accessibilityLabel="Buy"
+            accessibilityLabel={i18n.t('home.buy')}
           >
-            Buy
+            {i18n.t('home.buy')}
           </Button>
         </View>
 
         {/* Tokens Section */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>My Tokens</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
+            {i18n.t('home.myTokens')}
+          </Text>
           {isLoading && tokens.length === 0 ? (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color={theme.colors.primary} />
-              <Text style={[styles.loadingText, { color: theme.colors.text.secondary }]}>
-                Loading balances...
-              </Text>
-            </View>
+            <>
+              <TokenCardSkeleton testID="token-skeleton-0" style={styles.card} />
+              <TokenCardSkeleton testID="token-skeleton-1" style={styles.card} />
+              <TokenCardSkeleton testID="token-skeleton-2" style={styles.card} />
+            </>
           ) : tokens.length > 0 ? (
             tokens.map((token, index) => (
               <TokenCard
@@ -257,16 +288,26 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             ))
           ) : (
             <Text style={[styles.emptyText, { color: theme.colors.text.secondary }]}>
-              No tokens found
+              {i18n.t('home.noTokens')}
             </Text>
           )}
         </View>
 
         {/* Transactions Section */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
-            Recent Transactions
-          </Text>
+          <View style={styles.sectionHeader}>
+            <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
+              {i18n.t('home.recentTransactions')}
+            </Text>
+            <TouchableOpacity
+              testID="history-tab"
+              onPress={() => navigation.navigate('TransactionHistory')}
+            >
+              <Text style={[styles.viewAllText, { color: theme.colors.primary }]}>
+                {i18n.t('home.viewAll')}
+              </Text>
+            </TouchableOpacity>
+          </View>
           {mockTransactions.length > 0 ? (
             mockTransactions.map((tx, index) => (
               <TransactionCard
@@ -279,7 +320,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             ))
           ) : (
             <Text style={[styles.emptyText, { color: theme.colors.text.secondary }]}>
-              No transactions yet
+              {i18n.t('home.noTransactions')}
             </Text>
           )}
         </View>
@@ -386,10 +427,19 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     paddingHorizontal: 16,
   },
+  sectionHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    marginBottom: 12,
+  },
+  viewAllText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
 

@@ -16,6 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { EmptyState } from '../components/atoms/EmptyState';
 import { Button } from '../components/atoms/Button';
+import i18n from '../i18n';
 
 interface BLEDevice {
   id: string;
@@ -126,13 +127,13 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
         <View testID="bluetooth-warning" style={styles.warningContainer}>
           <Text style={styles.warningIcon}>📵</Text>
           <Text style={[styles.warningTitle, { color: theme.colors.text.primary }]}>
-            Bluetooth Disabled
+            {i18n.t('deviceDiscovery.bluetoothDisabled.title')}
           </Text>
           <Text style={[styles.warningText, { color: theme.colors.text.secondary }]}>
-            Please enable Bluetooth to discover nearby devices
+            {i18n.t('deviceDiscovery.bluetoothDisabled.message')}
           </Text>
           <Button variant="primary" onPress={() => {}} style={styles.enableButton}>
-            Enable Bluetooth
+            {i18n.t('deviceDiscovery.bluetoothDisabled.action')}
           </Button>
         </View>
       </SafeAreaView>
@@ -143,7 +144,9 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.text.primary }]}>Find Devices</Text>
+        <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+          {i18n.t('deviceDiscovery.title')}
+        </Text>
       </View>
 
       {/* Scan Button */}
@@ -158,7 +161,7 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
           ]}
           onPress={handleScan}
           disabled={scanning}
-          accessibilityLabel="Scan for devices"
+          accessibilityLabel={i18n.t('deviceDiscovery.scanAccessibility')}
         >
           {scanning && (
             <ActivityIndicator
@@ -171,7 +174,7 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
           <Text
             style={[styles.scanButtonText, { color: scanning ? theme.colors.primary : '#FFFFFF' }]}
           >
-            {scanning ? 'Scanning...' : 'Scan'}
+            {scanning ? i18n.t('deviceDiscovery.scanning') : i18n.t('deviceDiscovery.scan')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -188,10 +191,10 @@ export const DeviceDiscoveryScreen: React.FC<DeviceDiscoveryScreenProps> = ({
       ) : (
         <View testID="empty-state" style={styles.emptyContainer}>
           <EmptyState
-            title="No devices found"
-            message="Make sure nearby devices have Bluetooth enabled and are discoverable"
+            title={i18n.t('deviceDiscovery.empty.title')}
+            message={i18n.t('deviceDiscovery.empty.message')}
             icon="search"
-            actionLabel="Scan Again"
+            actionLabel={i18n.t('deviceDiscovery.empty.action')}
             onAction={handleScan}
           />
         </View>

@@ -47,7 +47,7 @@ describe('SendScreen', () => {
 
     it('should render send button', () => {
       const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
-      expect(getByText('Send')).toBeDefined();
+      expect(getByText('Continue')).toBeDefined();
     });
 
     it('should render balance display', () => {
@@ -77,7 +77,7 @@ describe('SendScreen', () => {
       const addressInput = getByPlaceholderText(/Recipient address/i);
       fireEvent.changeText(addressInput, '0x1234567890123456789012345678901234567890');
 
-      const sendButton = getByText('Send');
+      const sendButton = getByText('Continue');
       fireEvent.press(sendButton);
 
       // Should not navigate without amount
@@ -169,7 +169,7 @@ describe('SendScreen', () => {
       const amountInput = getByPlaceholderText(/Amount/i);
       fireEvent.changeText(amountInput, '0.5');
 
-      const sendButton = getByText('Send');
+      const sendButton = getByText('Continue');
       fireEvent.press(sendButton);
 
       expect(mockNavigation.navigate).toHaveBeenCalledWith(
@@ -181,7 +181,7 @@ describe('SendScreen', () => {
     it('should not navigate when form is invalid', () => {
       const { getByText } = renderWithTheme(<SendScreen navigation={mockNavigation as any} />);
 
-      const sendButton = getByText('Send');
+      const sendButton = getByText('Continue');
       fireEvent.press(sendButton);
 
       // Should not navigate with invalid form

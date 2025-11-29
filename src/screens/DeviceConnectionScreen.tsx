@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
+import i18n from '../i18n';
 
 type ConnectionState = 'connecting' | 'pairing' | 'connected' | 'failed';
 
@@ -34,7 +35,7 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
   route,
   initialState = 'connecting',
   pairingCode = '',
-  errorMessage = 'Connection failed. Please try again.',
+  errorMessage = '',
 }) => {
   const { theme } = useTheme();
   const { device } = route.params;
@@ -48,22 +49,22 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
 
   // Get signal strength label
   const getSignalStrength = (rssi: number) => {
-    if (rssi >= -50) return 'Excellent';
-    if (rssi >= -70) return 'Good';
-    return 'Weak';
+    if (rssi >= -50) return i18n.t('deviceConnection.signal.excellent');
+    if (rssi >= -70) return i18n.t('deviceConnection.signal.good');
+    return i18n.t('deviceConnection.signal.weak');
   };
 
   // Get status text
   const getStatusText = () => {
     switch (connectionState) {
       case 'connecting':
-        return 'Connecting...';
+        return i18n.t('deviceConnection.status.connecting');
       case 'pairing':
-        return 'Pairing';
+        return i18n.t('deviceConnection.status.pairing');
       case 'connected':
-        return 'Connected';
+        return i18n.t('deviceConnection.status.connected');
       case 'failed':
-        return 'Connection Failed';
+        return i18n.t('deviceConnection.status.failed');
       default:
         return '';
     }
@@ -117,9 +118,11 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
             testID="cancel-button"
             style={styles.cancelButton}
             onPress={handleCancel}
-            accessibilityLabel="Cancel connection"
+            accessibilityLabel={i18n.t('deviceConnection.cancel')}
           >
-            <Text style={[styles.cancelText, { color: theme.colors.primary }]}>Cancel</Text>
+            <Text style={[styles.cancelText, { color: theme.colors.primary }]}>
+              {i18n.t('deviceConnection.cancel')}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -138,7 +141,7 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
           </Text>
           <View testID="signal-strength" style={styles.signalContainer}>
             <Text style={[styles.signalLabel, { color: theme.colors.text.secondary }]}>
-              Signal: {getSignalStrength(device.rssi)}
+              {i18n.t('deviceConnection.signalLabel', { strength: getSignalStrength(device.rssi) })}
             </Text>
           </View>
         </View>
@@ -171,7 +174,7 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
 
           {connectionState === 'failed' && (
             <Text style={[styles.errorText, { color: theme.colors.text.secondary }]}>
-              {errorMessage}
+              {errorMessage || i18n.t('deviceConnection.errorDefault')}
             </Text>
           )}
         </View>
@@ -180,7 +183,7 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
         {connectionState === 'pairing' && pairingCode && (
           <View style={styles.pairingContainer}>
             <Text style={[styles.pairingLabel, { color: theme.colors.text.secondary }]}>
-              Confirm this code matches on both devices
+              {i18n.t('deviceConnection.pairingLabel')}
             </Text>
             <Text
               testID="pairing-code"
@@ -193,7 +196,7 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
               style={[styles.confirmButton, { backgroundColor: theme.colors.primary }]}
               onPress={handleConfirmPairing}
             >
-              <Text style={styles.confirmButtonText}>Confirm</Text>
+              <Text style={styles.confirmButtonText}>{i18n.t('deviceConnection.confirm')}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -206,7 +209,7 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
               style={[styles.actionButton, { backgroundColor: theme.colors.primary }]}
               onPress={handleRetry}
             >
-              <Text style={styles.actionButtonText}>Retry</Text>
+              <Text style={styles.actionButtonText}>{i18n.t('deviceConnection.retry')}</Text>
             </TouchableOpacity>
           )}
 
@@ -216,7 +219,7 @@ export const DeviceConnectionScreen: React.FC<DeviceConnectionScreenProps> = ({
               style={[styles.actionButton, { backgroundColor: theme.colors.primary }]}
               onPress={handleContinue}
             >
-              <Text style={styles.actionButtonText}>Start Chat</Text>
+              <Text style={styles.actionButtonText}>{i18n.t('deviceConnection.startChat')}</Text>
             </TouchableOpacity>
           )}
         </View>

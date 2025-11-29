@@ -156,10 +156,12 @@ npm run test:e2e
 
 ### Test Statistics
 
-- **490+ tests passing**
-- **54 test suites**
+- **1,472 tests passing**
+- **86 test suites**
+- **80%+ code coverage** (Lines: 80.49%, Statements: 79.77%, Functions: 75.47%)
 - **TDD methodology** throughout development
 - **E2E test coverage** for critical user flows
+- **Comprehensive unit and integration tests** for all core features
 
 ## Usage Examples
 
@@ -184,7 +186,7 @@ const txManager = new TransactionManager(network);
 const transaction = await txManager.createTransaction(
   fromAddress,
   toAddress,
-  '0.1', // Amount in ETH
+  '0.1' // Amount in ETH
 );
 
 const response = await txManager.sendTransaction(privateKey, transaction);
@@ -201,24 +203,16 @@ const sessionManager = new BLESessionManager(walletAddress, privateKey);
 const chatManager = new ChatManager(sessionManager);
 
 // Initiate session
-const session = await sessionManager.initiateSession(
-  deviceId,
-  deviceAddress,
-  deviceName
-);
+const session = await sessionManager.initiateSession(deviceId, deviceAddress, deviceName);
 
 // Send encrypted message
-await chatManager.sendMessage(
-  session.id,
-  fromAddress,
-  toAddress,
-  'Hello via BLE!'
-);
+await chatManager.sendMessage(session.id, fromAddress, toAddress, 'Hello via BLE!');
 ```
 
 ## Development Status
 
 ### ✅ Phase 1: Core Features
+
 - Wallet creation and management
 - Encryption and security
 - BLE session protocol
@@ -227,6 +221,7 @@ await chatManager.sendMessage(
 - Transaction management
 
 ### ✅ Phase 2: UI/UX
+
 - Complete onboarding flow
 - Wallet screens (Home, Send, Receive)
 - Transaction screens (Preview, Status, History)
@@ -236,6 +231,7 @@ await chatManager.sendMessage(
 - Error handling and user feedback
 
 ### ✅ Phase 3: Production Infrastructure
+
 - E2E testing with Detox
 - CI/CD pipeline
 - Internationalization (i18n)
@@ -245,6 +241,7 @@ await chatManager.sendMessage(
 - Security enhancements
 
 ### ✅ Phase 4: Advanced Features
+
 - Token management (ERC-20)
 - Gas estimation (EIP-1559)
 - Multi-network support

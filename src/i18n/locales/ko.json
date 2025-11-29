@@ -1,177 +1,395 @@
 {
   "common": {
+    "ok": "확인",
     "cancel": "취소",
     "confirm": "확인",
-    "continue": "계속",
-    "back": "뒤로",
-    "done": "완료",
+    "close": "닫기",
     "save": "저장",
     "delete": "삭제",
     "edit": "편집",
-    "copy": "복사",
-    "share": "공유",
-    "retry": "재시도",
-    "loading": "로딩중...",
+    "back": "뒤로",
+    "next": "다음",
+    "done": "완료",
+    "loading": "로딩 중...",
     "error": "오류",
     "success": "성공",
-    "warning": "경고"
+    "retry": "재시도",
+    "show": "표시",
+    "hide": "숨기기"
   },
   "welcome": {
-    "title": "Deyond Wallet에 오신 것을 환영합니다",
-    "subtitle": "모두를 위한 안전한 암호화폐 지갑",
-    "createWallet": "지갑 생성",
-    "importWallet": "지갑 가져오기"
+    "title": "디욘드 지갑에 오신 것을 환영합니다",
+    "subtitle": "탈중앙화 세계로 가는 안전한 관문",
+    "createWallet": "새 지갑 만들기",
+    "importWallet": "기존 지갑 가져오기"
   },
-  "onboarding": {
-    "createPassword": {
-      "title": "비밀번호 생성",
-      "subtitle": "지갑을 보호할 강력한 비밀번호를 설정하세요",
-      "passwordPlaceholder": "비밀번호 입력",
-      "confirmPlaceholder": "비밀번호 확인",
-      "requirements": {
-        "length": "8자 이상",
-        "uppercase": "대문자 1개",
-        "lowercase": "소문자 1개",
-        "number": "숫자 1개",
-        "special": "특수문자 1개"
-      },
-      "passwordsMatch": "비밀번호가 일치합니다",
-      "passwordsDontMatch": "비밀번호가 일치하지 않습니다"
+  "createWallet": {
+    "title": "비밀번호 생성",
+    "subtitle": "이 비밀번호는 이 기기에서 지갑을 암호화합니다",
+    "password": "비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "passwordPlaceholder": "비밀번호 입력",
+    "confirmPasswordPlaceholder": "비밀번호 확인",
+    "passwordLabel": "비밀번호 입력",
+    "confirmPasswordLabel": "비밀번호 확인 입력",
+    "passwordStrength": "비밀번호 강도",
+    "requirements": "비밀번호 요구사항",
+    "createButton": "생성",
+    "create": "지갑 만들기",
+    "strength": {
+      "weak": "약함",
+      "medium": "보통",
+      "strong": "강함"
     },
-    "mnemonic": {
-      "title": "복구 문구",
-      "subtitle": "이 12개의 단어를 순서대로 적어두세요",
-      "warning": "복구 문구를 절대 다른 사람과 공유하지 마세요",
-      "copied": "클립보드에 복사됨",
-      "verify": "문구 확인"
+    "validation": {
+      "minLength": "최소 8자 이상",
+      "uppercase": "대문자 1개 이상",
+      "lowercase": "소문자 1개 이상",
+      "number": "숫자 1개 이상",
+      "special": "특수문자 1개 이상"
     },
-    "verifyMnemonic": {
-      "title": "복구 문구 확인",
-      "subtitle": "올바른 순서로 단어를 선택하세요",
-      "incorrect": "잘못된 단어입니다. 다시 시도하세요.",
-      "complete": "확인 완료"
-    },
-    "import": {
-      "title": "지갑 가져오기",
-      "subtitle": "12개의 복구 문구를 입력하세요",
-      "placeholder": "복구 문구 입력",
-      "invalid": "유효하지 않은 복구 문구",
-      "success": "지갑을 성공적으로 가져왔습니다"
-    },
-    "biometric": {
-      "title": "생체 인증 활성화",
-      "subtitle": "빠른 접근을 위해 Face ID 또는 지문을 사용하세요",
-      "enable": "활성화",
-      "skip": "나중에 하기"
+    "errors": {
+      "minLength": "비밀번호는 최소 8자 이상이어야 합니다",
+      "requirementsFailed": "비밀번호가 모든 요구사항을 충족해야 합니다",
+      "passwordTooShort": "비밀번호는 최소 8자 이상이어야 합니다",
+      "passwordsNotMatch": "비밀번호가 일치하지 않습니다",
+      "passwordRequired": "비밀번호를 입력해주세요"
     }
+  },
+  "displayMnemonic": {
+    "title": "복구 문구",
+    "subtitle": "이 12개의 단어를 순서대로 적어서 안전하게 보관하세요",
+    "warningTitle": "보안 경고",
+    "warningText": "절대로 복구 문구를 다른 사람과 공유하지 마세요. 이 단어들로 누구나 자금에 접근할 수 있습니다.",
+    "copyButton": "클립보드에 복사",
+    "copied": "복사됨!",
+    "tipsTitle": "보안 팁",
+    "tip1": "종이에 적어서 안전한 장소에 보관하세요",
+    "tip2": "절대 디지털 형태로 저장하지 마세요 (스크린샷, 클라우드 등)",
+    "tip3": "여러 장소에 복사본을 만들어 안전하게 보관하세요",
+    "continueButton": "적어두었습니다"
+  },
+  "verifyMnemonic": {
+    "title": "복구 문구 확인",
+    "subtitle": "복구 문구를 적어두었는지 확인하기 위해 올바른 순서로 단어를 선택하세요",
+    "wordNumber": "단어 #{{number}}",
+    "tapToSelect": "탭하여 선택",
+    "selectWords": "다음 단어 중에서 선택하세요:",
+    "wordOption": "단어 옵션",
+    "verifyButton": "확인 및 지갑 생성",
+    "errors": {
+      "incorrect": "잘못된 단어가 선택되었습니다. 다시 시도해주세요.",
+      "failed": "계속 진행할 수 없습니다. 다시 시도해주세요."
+    }
+  },
+  "mnemonic": {
+    "title": "복구 문구",
+    "subtitle": "이 12개의 단어를 순서대로 적어두세요. 안전하게 보관하세요!",
+    "warning": "절대로 복구 문구를 다른 사람과 공유하지 마세요",
+    "copied": "클립보드에 복사되었습니다",
+    "verify": "복구 문구 확인",
+    "continue": "저장했습니다",
+    "verifyTitle": "복구 문구 확인",
+    "verifySubtitle": "올바른 순서로 단어를 선택하세요"
+  },
+  "importWallet": {
+    "title": "지갑 가져오기",
+    "subtitle": "복구 문구 또는 개인 키를 사용하여 기존 지갑을 가져오세요",
+    "seedPhrase": "시드 문구",
+    "privateKey": "개인 키",
+    "recoveryPhrase": "복구 문구",
+    "recoveryPhrasePlaceholder": "12개 또는 24개 단어 복구 문구를 입력하세요",
+    "separateWords": "각 단어를 공백으로 구분하세요",
+    "privateKeyLabel": "개인 키",
+    "privateKeyPlaceholder": "개인 키를 입력하세요 (0x 포함 또는 제외)",
+    "hexCharacters": "64자의 16진수",
+    "warning": "절대로 복구 문구나 개인 키를 다른 사람과 공유하지 마세요. 저희는 절대 요청하지 않습니다.",
+    "importButton": "지갑 가져오기",
+    "errors": {
+      "required": "복구 문구 또는 개인 키를 입력해주세요",
+      "wordCount": "니모닉은 12개 또는 24개 단어여야 합니다",
+      "invalidMnemonic": "유효하지 않은 니모닉 문구입니다",
+      "invalidPrivateKey": "유효하지 않은 개인 키입니다. 64자의 16진수여야 합니다."
+    }
+  },
+  "import": {
+    "title": "지갑 가져오기",
+    "subtitle": "12단어 복구 문구를 입력하세요",
+    "mnemonic": "복구 문구",
+    "mnemonicPlaceholder": "12단어 복구 문구를 입력하세요",
+    "import": "지갑 가져오기",
+    "errors": {
+      "invalidMnemonic": "유효하지 않은 복구 문구입니다",
+      "mnemonicRequired": "복구 문구를 입력해주세요"
+    }
+  },
+  "biometricSetup": {
+    "title": "생체 인증 로그인 활성화",
+    "subtitle": "Face ID 또는 Touch ID를 사용하여 지갑을 빠르고 안전하게 잠금 해제하세요",
+    "whyUse": "생체 인증을 사용하는 이유는?",
+    "benefits": {
+      "quickAccess": {
+        "title": "빠른 접근",
+        "description": "비밀번호를 입력하지 않고 즉시 지갑 잠금 해제"
+      },
+      "moreSecure": {
+        "title": "더 안전함",
+        "description": "생체 인증 데이터는 절대 기기를 벗어나지 않습니다"
+      },
+      "convenient": {
+        "title": "편리함",
+        "description": "매번 비밀번호를 기억하거나 입력할 필요가 없습니다"
+      }
+    },
+    "fallbackInfo": "생체 인증이 실패하면 언제든지 비밀번호를 대체 수단으로 사용할 수 있습니다",
+    "enableButton": "생체 인증 로그인 활성화",
+    "skipButton": "나중에 하기",
+    "errors": {
+      "enableFailed": "생체 인증 활성화에 실패했습니다. 다시 시도해주세요.",
+      "walletCreationFailed": "지갑 생성에 실패했습니다. 다시 시도해주세요."
+    }
+  },
+  "auth": {
+    "title": "지갑 잠금 해제",
+    "subtitle": "PIN을 입력하여 잠금 해제하세요",
+    "locked": "지갑 잠김",
+    "lockedMessage": "시도 횟수 초과. {{minutes}}분 후에 다시 시도하세요",
+    "incorrectPin": "잘못된 PIN",
+    "attemptsRemaining": "{{count}}번의 시도 남음",
+    "usePinInstead": "PIN 대신 사용",
+    "useBiometric": "생체 인증 사용"
   },
   "home": {
     "title": "지갑",
     "totalBalance": "총 잔액",
     "send": "보내기",
     "receive": "받기",
-    "swap": "스왑",
-    "tokens": "토큰",
-    "activity": "활동",
-    "noTokens": "아직 토큰이 없습니다"
+    "buy": "구매",
+    "myTokens": "내 토큰",
+    "recentTransactions": "최근 거래",
+    "viewAll": "전체 보기",
+    "noTokens": "토큰이 없습니다",
+    "noTransactions": "거래 내역이 없습니다",
+    "loadingBalances": "잔액 로딩 중...",
+    "selectNetwork": "네트워크 선택"
   },
   "send": {
     "title": "보내기",
-    "to": "받는 주소",
-    "amount": "금액",
-    "addressPlaceholder": "주소 또는 ENS 입력",
-    "amountPlaceholder": "0.00",
+    "token": "토큰",
+    "recipientAddress": "받는 주소",
+    "recipientPlaceholder": "받는 주소 (0x...)",
+    "amount": "수량",
+    "amountPlaceholder": "수량",
     "max": "최대",
-    "insufficientBalance": "잔액 부족",
-    "invalidAddress": "유효하지 않은 주소",
+    "balance": "잔액: {{balance}} {{symbol}}",
     "networkFee": "네트워크 수수료",
-    "total": "총액",
-    "review": "거래 검토"
+    "continue": "계속",
+    "confirm": "확인",
+    "errors": {
+      "invalidAddress": "잘못된 주소",
+      "invalidAmount": "잘못된 수량",
+      "insufficientBalance": "잔액 부족",
+      "addressRequired": "주소를 입력해주세요",
+      "amountRequired": "수량을 입력해주세요"
+    }
   },
   "receive": {
-    "title": "받기",
-    "subtitle": "QR 코드를 스캔하거나 주소를 복사하세요",
+    "title": "암호화폐 받기",
+    "subtitle": "이 주소를 공유하여 암호화폐를 받으세요",
+    "yourAddress": "내 주소",
     "copyAddress": "주소 복사",
-    "copied": "주소가 복사되었습니다",
-    "share": "주소 공유"
+    "addressCopied": "주소가 복사되었습니다",
+    "share": "공유",
+    "qrCode": "QR 코드",
+    "scanToReceive": "스캔하여 받기",
+    "warning": "이 주소로 ETH 및 ERC-20 토큰만 보내세요",
+    "warningTitle": "중요"
   },
-  "transaction": {
-    "preview": {
-      "title": "거래 미리보기",
-      "from": "보내는 주소",
-      "to": "받는 주소",
-      "amount": "금액",
-      "networkFee": "네트워크 수수료",
-      "total": "총액",
-      "confirm": "확인 및 보내기"
+  "transactions": {
+    "title": "거래 내역",
+    "all": "전체",
+    "sent": "보냄",
+    "received": "받음",
+    "pending": "대기 중",
+    "confirmed": "확인됨",
+    "failed": "실패",
+    "to": "받는 주소:",
+    "from": "보낸 주소:",
+    "noTransactions": "거래 내역 없음",
+    "noTransactionsMessage": "거래 내역이 여기에 표시됩니다",
+    "amountSent": "보낸 금액",
+    "transactionHash": "거래 해시",
+    "viewOnExplorer": "탐색기에서 보기",
+    "copy": "복사",
+    "retry": "재시도",
+    "done": "완료"
+  },
+  "transactionHistory": {
+    "title": "거래 내역",
+    "filters": {
+      "all": "전체",
+      "sent": "보냄",
+      "received": "받음"
     },
+    "sent": "보냄",
+    "received": "받음",
+    "to": "받는 주소: ",
+    "from": "보낸 주소: ",
     "status": {
-      "pending": "대기중",
+      "pending": "대기 중",
       "confirmed": "확인됨",
       "failed": "실패"
     },
-    "history": {
-      "title": "거래 내역",
-      "empty": "아직 거래가 없습니다",
-      "sent": "보냄",
-      "received": "받음",
-      "swapped": "스왑"
+    "time": {
+      "minutesAgo": "{{minutes}}분 전",
+      "hoursAgo": "{{hours}}시간 전",
+      "daysAgo": "{{days}}일 전"
     },
-    "details": {
-      "title": "거래 상세",
-      "hash": "거래 해시",
-      "block": "블록 번호",
-      "timestamp": "타임스탬프",
-      "gasUsed": "사용된 가스",
-      "viewOnExplorer": "익스플로러에서 보기"
+    "empty": {
+      "title": "거래 내역 없음",
+      "message": "거래 내역이 여기에 표시됩니다"
     }
+  },
+  "transactionPreview": {
+    "title": "거래 확인",
+    "amount": "금액",
+    "from": "보내는 주소",
+    "to": "받는 주소",
+    "warningNewAddress": "이 주소로 처음 거래합니다. 주소가 올바른지 확인해주세요.",
+    "gasDetails": "가스 상세",
+    "gasLimit": "가스 한도",
+    "maxFee": "최대 수수료",
+    "gwei": "Gwei",
+    "networkFee": "네트워크 수수료",
+    "total": "합계",
+    "edit": "수정",
+    "confirm": "확인"
   },
   "settings": {
     "title": "설정",
-    "general": "일반",
     "security": "보안",
-    "network": "네트워크",
+    "networks": "네트워크",
+    "display": "표시",
     "about": "정보",
     "language": "언어",
-    "currency": "통화",
     "theme": "테마",
-    "notifications": "알림",
-    "version": "버전"
+    "currency": "통화",
+    "light": "라이트",
+    "dark": "다크",
+    "auto": "자동"
+  },
+  "settingsScreen": {
+    "title": "설정",
+    "sections": {
+      "security": "보안",
+      "network": "네트워크",
+      "preferences": "환경설정",
+      "about": "정보",
+      "dangerZone": "위험 구역"
+    },
+    "items": {
+      "securitySettings": "보안 설정",
+      "backupWallet": "지갑 백업",
+      "network": "네트워크",
+      "darkMode": "다크 모드",
+      "currency": "통화",
+      "language": "언어",
+      "notifications": "알림",
+      "version": "버전",
+      "termsOfService": "서비스 약관",
+      "privacyPolicy": "개인정보 처리방침",
+      "resetWallet": "지갑 초기화"
+    }
   },
   "security": {
     "title": "보안 설정",
+    "changePassword": "비밀번호 변경",
     "biometric": "생체 인증",
     "autoLock": "자동 잠금",
-    "autoLockOptions": {
-      "immediately": "즉시",
-      "1min": "1분 후",
-      "5min": "5분 후",
-      "15min": "15분 후"
+    "revealSeed": "복구 문구 보기",
+    "clearData": "지갑 데이터 지우기"
+  },
+  "securitySettings": {
+    "title": "보안",
+    "infoText": "PIN과 생체 인증을 활성화하여 무단 접근으로부터 지갑을 보호하세요.",
+    "sections": {
+      "pin": "PIN",
+      "biometrics": "생체 인증",
+      "autoLock": "자동 잠금",
+      "transactions": "거래",
+      "sessions": "세션"
     },
-    "changePassword": "비밀번호 변경",
-    "showRecoveryPhrase": "복구 문구 보기",
-    "warning": "복구 문구를 안전하게 보관하세요"
+    "items": {
+      "enablePin": "PIN 활성화",
+      "changePin": "PIN 변경",
+      "useBiometricsToUnlock": "{{type}}을(를) 사용하여 잠금 해제",
+      "lockAfter": "잠금 시간",
+      "requireAuth": "인증 필요",
+      "requireAuthSubtext": "모든 거래에 대해",
+      "activeSessions": "활성 세션"
+    }
   },
-  "auth": {
-    "enterPin": "PIN 입력",
-    "createPin": "PIN 생성",
-    "confirmPin": "PIN 확인",
-    "incorrectPin": "잘못된 PIN",
-    "tooManyAttempts": "시도 횟수 초과. 나중에 다시 시도하세요.",
-    "useBiometric": "{{type}} 사용",
-    "usePin": "PIN 사용"
+  "chatHome": {
+    "title": "메시지",
+    "newChat": "새 채팅",
+    "time": {
+      "minutes": "{{minutes}}분",
+      "hours": "{{hours}}시간",
+      "days": "{{days}}일"
+    },
+    "empty": {
+      "title": "대화 내역 없음",
+      "message": "새 채팅을 시작하여 주변 기기와 연결하세요",
+      "action": "새 채팅"
+    }
   },
-  "network": {
-    "title": "네트워크",
-    "mainnet": "메인넷",
-    "testnet": "테스트넷",
-    "custom": "커스텀 RPC",
-    "addNetwork": "네트워크 추가"
+  "deviceDiscovery": {
+    "title": "기기 찾기",
+    "scan": "스캔",
+    "scanning": "스캔 중...",
+    "scanAccessibility": "기기 스캔",
+    "bluetoothDisabled": {
+      "title": "블루투스 비활성화",
+      "message": "주변 기기를 찾으려면 블루투스를 활성화해주세요",
+      "action": "블루투스 활성화"
+    },
+    "empty": {
+      "title": "기기를 찾을 수 없습니다",
+      "message": "주변 기기의 블루투스가 활성화되어 있고 검색 가능한지 확인하세요",
+      "action": "다시 스캔"
+    }
+  },
+  "deviceConnection": {
+    "cancel": "취소",
+    "signal": {
+      "excellent": "우수",
+      "good": "좋음",
+      "weak": "약함"
+    },
+    "signalLabel": "신호: {{strength}}",
+    "status": {
+      "connecting": "연결 중...",
+      "pairing": "페어링 중",
+      "connected": "연결됨",
+      "failed": "연결 실패"
+    },
+    "errorDefault": "연결에 실패했습니다. 다시 시도해주세요.",
+    "pairingLabel": "이 코드가 두 기기에서 일치하는지 확인하세요",
+    "confirm": "확인",
+    "retry": "재시도",
+    "startChat": "채팅 시작"
+  },
+  "chatConversation": {
+    "emptyMessage": "{{name}}님과 대화를 시작하세요",
+    "inputPlaceholder": "메시지를 입력하세요...",
+    "inputAccessibility": "메시지 입력",
+    "sendAccessibility": "메시지 보내기"
   },
   "errors": {
-    "generic": "문제가 발생했습니다",
-    "network": "네트워크 오류. 다시 시도해 주세요.",
-    "timeout": "요청 시간 초과",
-    "unauthorized": "권한이 없습니다"
+    "generic": "문제가 발생했습니다. 다시 시도해주세요.",
+    "network": "네트워크 오류. 연결을 확인해주세요.",
+    "timeout": "요청 시간 초과. 다시 시도해주세요.",
+    "unauthorized": "인증되지 않은 접근입니다.",
+    "notFound": "리소스를 찾을 수 없습니다."
   }
 }

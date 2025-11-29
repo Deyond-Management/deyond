@@ -11,6 +11,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
 import { WalletManager } from '../core/wallet/WalletManager';
+import i18n from '../i18n';
 
 interface ImportWalletScreenProps {
   navigation: any;
@@ -32,7 +33,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
 
     // Check word count
     if (words.length !== 12 && words.length !== 24) {
-      setError('Mnemonic must be 12 or 24 words');
+      setError(i18n.t('importWallet.errors.wordCount'));
       return false;
     }
 
@@ -41,7 +42,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
       const walletManager = WalletManager.getInstance();
       return walletManager.validateMnemonic(trimmed);
     } catch (err) {
-      setError('Invalid mnemonic phrase');
+      setError(i18n.t('importWallet.errors.invalidMnemonic'));
       return false;
     }
   };
@@ -57,7 +58,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
     const hexRegex = /^[0-9a-fA-F]{64}$/;
 
     if (!hexRegex.test(cleanKey)) {
-      setError('Invalid private key. Must be 64 hexadecimal characters.');
+      setError(i18n.t('importWallet.errors.invalidPrivateKey'));
       return false;
     }
 
@@ -69,7 +70,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
     setError('');
 
     if (!inputValue.trim()) {
-      setError('Please enter your recovery phrase or private key');
+      setError(i18n.t('importWallet.errors.required'));
       return;
     }
 
@@ -101,9 +102,11 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>Import Wallet</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>
+            {i18n.t('importWallet.title')}
+          </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Import an existing wallet using your recovery phrase or private key
+            {i18n.t('importWallet.subtitle')}
           </Text>
         </View>
 
@@ -132,7 +135,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                 },
               ]}
             >
-              Seed Phrase
+              {i18n.t('importWallet.seedPhrase')}
             </Text>
           </TouchableOpacity>
 
@@ -159,7 +162,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                 },
               ]}
             >
-              Private Key
+              {i18n.t('importWallet.privateKey')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -169,9 +172,10 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
           {importMethod === 'mnemonic' ? (
             <>
               <Text style={[styles.inputLabel, { color: colors.text.primary }]}>
-                Recovery Phrase
+                {i18n.t('importWallet.recoveryPhrase')}
               </Text>
               <TextInput
+                testID="mnemonic-input"
                 style={[
                   styles.textInput,
                   {
@@ -180,7 +184,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                     borderColor: error ? colors.error : colors.border,
                   },
                 ]}
-                placeholder="Enter your 12 or 24 word recovery phrase"
+                placeholder={i18n.t('importWallet.recoveryPhrasePlaceholder')}
                 placeholderTextColor={colors.textSecondary}
                 value={inputValue}
                 onChangeText={text => {
@@ -194,12 +198,14 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                 textAlignVertical="top"
               />
               <Text style={[styles.helperText, { color: colors.textSecondary }]}>
-                Separate each word with a space
+                {i18n.t('importWallet.separateWords')}
               </Text>
             </>
           ) : (
             <>
-              <Text style={[styles.inputLabel, { color: colors.text.primary }]}>Private Key</Text>
+              <Text style={[styles.inputLabel, { color: colors.text.primary }]}>
+                {i18n.t('importWallet.privateKeyLabel')}
+              </Text>
               <TextInput
                 style={[
                   styles.textInput,
@@ -209,7 +215,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                     borderColor: error ? colors.error : colors.border,
                   },
                 ]}
-                placeholder="Enter your private key (with or without 0x)"
+                placeholder={i18n.t('importWallet.privateKeyPlaceholder')}
                 placeholderTextColor={colors.textSecondary}
                 value={inputValue}
                 onChangeText={text => {
@@ -221,7 +227,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
                 secureTextEntry
               />
               <Text style={[styles.helperText, { color: colors.textSecondary }]}>
-                64 hexadecimal characters
+                {i18n.t('importWallet.hexCharacters')}
               </Text>
             </>
           )}
@@ -231,7 +237,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
         <Card style={[styles.warningCard, { backgroundColor: colors.warning + '15' }]}>
           <Text style={[styles.warningIcon, { color: colors.warning }]}>⚠️</Text>
           <Text style={[styles.warningText, { color: colors.text.primary }]}>
-            Never share your recovery phrase or private key with anyone. We will never ask for it.
+            {i18n.t('importWallet.warning')}
           </Text>
         </Card>
 
@@ -242,7 +248,7 @@ export const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({ navigati
 
         {/* Import Button */}
         <Button onPress={handleImport} style={styles.importButton} testID="import-button">
-          Import Wallet
+          {i18n.t('importWallet.importButton')}
         </Button>
       </ScrollView>
     </SafeAreaView>

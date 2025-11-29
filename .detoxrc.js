@@ -17,30 +17,34 @@ module.exports = {
     'ios.debug': {
       type: 'ios.app',
       binaryPath: 'ios/build/Build/Products/Debug-iphonesimulator/DeyondWallet.app',
-      build: 'xcodebuild -workspace ios/DeyondWallet.xcworkspace -scheme DeyondWallet -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build',
+      build:
+        'xcodebuild -workspace ios/DeyondWallet.xcworkspace -scheme DeyondWallet -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build',
     },
     'ios.release': {
       type: 'ios.app',
       binaryPath: 'ios/build/Build/Products/Release-iphonesimulator/DeyondWallet.app',
-      build: 'xcodebuild -workspace ios/DeyondWallet.xcworkspace -scheme DeyondWallet -configuration Release -sdk iphonesimulator -derivedDataPath ios/build',
+      build:
+        'xcodebuild -workspace ios/DeyondWallet.xcworkspace -scheme DeyondWallet -configuration Release -sdk iphonesimulator -derivedDataPath ios/build',
     },
     'android.debug': {
       type: 'android.apk',
       binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
-      build: 'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..',
+      build:
+        'cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..',
       reversePorts: [8081],
     },
     'android.release': {
       type: 'android.apk',
       binaryPath: 'android/app/build/outputs/apk/release/app-release.apk',
-      build: 'cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..',
+      build:
+        'cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..',
     },
   },
   devices: {
     simulator: {
       type: 'ios.simulator',
       device: {
-        type: 'iPhone 15',
+        type: 'iPhone 16',
       },
     },
     attached: {
@@ -52,7 +56,7 @@ module.exports = {
     emulator: {
       type: 'android.emulator',
       device: {
-        avdName: 'Pixel_4_API_30',
+        avdName: 'Pixel_3a_API_34_extension_level_7_arm64-v8a',
       },
     },
   },

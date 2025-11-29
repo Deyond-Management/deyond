@@ -46,7 +46,7 @@ describe('AuthScreen', () => {
     it('should render number pad', () => {
       const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
-      expect(getByTestId('number-pad')).toBeDefined();
+      expect(getByTestId('pin-pad')).toBeDefined();
     });
   });
 
@@ -54,9 +54,9 @@ describe('AuthScreen', () => {
     it('should update PIN dots when numbers are pressed', () => {
       const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
-      fireEvent.press(getByTestId('key-1'));
-      fireEvent.press(getByTestId('key-2'));
-      fireEvent.press(getByTestId('key-3'));
+      fireEvent.press(getByTestId('pin-1'));
+      fireEvent.press(getByTestId('pin-2'));
+      fireEvent.press(getByTestId('pin-3'));
 
       const pinInput = getByTestId('pin-input');
       expect(pinInput.children.length).toBeGreaterThan(0);
@@ -71,8 +71,8 @@ describe('AuthScreen', () => {
     it('should delete last digit when delete is pressed', () => {
       const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
-      fireEvent.press(getByTestId('key-1'));
-      fireEvent.press(getByTestId('key-2'));
+      fireEvent.press(getByTestId('pin-1'));
+      fireEvent.press(getByTestId('pin-2'));
       fireEvent.press(getByTestId('key-delete'));
 
       // PIN should now be 1 digit
@@ -85,7 +85,7 @@ describe('AuthScreen', () => {
 
       // Press 7 times
       for (let i = 0; i < 7; i++) {
-        fireEvent.press(getByTestId('key-1'));
+        fireEvent.press(getByTestId('pin-1'));
       }
 
       // Should only have 6 filled dots
@@ -144,7 +144,7 @@ describe('AuthScreen', () => {
         <AuthScreen navigation={mockNavigation as any} isLocked={true} lockoutTime={300} />
       );
 
-      const key = getByTestId('key-1');
+      const key = getByTestId('pin-1');
       expect(key.props.accessibilityState?.disabled).toBe(true);
     });
   });
@@ -154,7 +154,7 @@ describe('AuthScreen', () => {
       const { getByTestId } = renderWithTheme(<AuthScreen navigation={mockNavigation as any} />);
 
       for (let i = 0; i <= 9; i++) {
-        expect(getByTestId(`key-${i}`)).toBeDefined();
+        expect(getByTestId(`pin-${i}`)).toBeDefined();
       }
     });
   });

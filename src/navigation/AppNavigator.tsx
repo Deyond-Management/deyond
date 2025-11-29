@@ -6,9 +6,24 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from '../contexts/ThemeContext';
+import {
+  slideFromRight,
+  slideFromBottom,
+  fade,
+  fadeFromCenter,
+  transactionTransitions,
+  authTransitions,
+  settingsTransitions,
+} from './transitions';
 
 // Import screens
 import { WelcomeScreen } from '../screens/WelcomeScreen';
+import { CreatePasswordScreen } from '../screens/CreatePasswordScreen';
+import { DisplayMnemonicScreen } from '../screens/DisplayMnemonicScreen';
+import { VerifyMnemonicScreen } from '../screens/VerifyMnemonicScreen';
+import { ImportWalletScreen } from '../screens/ImportWalletScreen';
+import { AuthScreen } from '../screens/AuthScreen';
+import { BiometricSetupScreen } from '../screens/BiometricSetupScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { SendScreen } from '../screens/SendScreen';
 import { ReceiveScreen } from '../screens/ReceiveScreen';
@@ -25,6 +40,12 @@ import { ChatConversationScreen } from '../screens/ChatConversationScreen';
 // Define route params
 export type RootStackParamList = {
   Welcome: undefined;
+  CreatePassword: undefined;
+  DisplayMnemonic: { mnemonic: string };
+  VerifyMnemonic: { mnemonic: string };
+  ImportWallet: undefined;
+  Auth: undefined;
+  BiometricSetup: undefined;
   Home: undefined;
   Send: { tokenAddress?: string };
   Receive: undefined;
@@ -72,11 +93,37 @@ export const AppNavigator: React.FC<AppNavigatorProps> = ({ initialRouteName = '
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: theme.colors.background },
-        animation: 'slide_from_right',
+        ...slideFromRight,
       }}
     >
       {/* Auth Flow */}
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="Welcome" component={WelcomeScreen} options={authTransitions.welcome} />
+      <Stack.Screen
+        name="CreatePassword"
+        component={CreatePasswordScreen}
+        options={authTransitions.login}
+      />
+      <Stack.Screen
+        name="DisplayMnemonic"
+        component={DisplayMnemonicScreen}
+        options={authTransitions.login}
+      />
+      <Stack.Screen
+        name="VerifyMnemonic"
+        component={VerifyMnemonicScreen}
+        options={authTransitions.login}
+      />
+      <Stack.Screen
+        name="ImportWallet"
+        component={ImportWalletScreen}
+        options={authTransitions.login}
+      />
+      <Stack.Screen name="Auth" component={AuthScreen} options={authTransitions.biometric} />
+      <Stack.Screen
+        name="BiometricSetup"
+        component={BiometricSetupScreen}
+        options={authTransitions.biometric}
+      />
 
       {/* Main Screens */}
       <Stack.Screen name="Home" component={HomeScreen} />
@@ -88,27 +135,35 @@ export const AppNavigator: React.FC<AppNavigatorProps> = ({ initialRouteName = '
       <Stack.Screen
         name="TransactionPreview"
         component={TransactionPreviewScreen as any}
-        options={{ animation: 'slide_from_bottom' }}
+        options={transactionTransitions.preview}
       />
       <Stack.Screen
         name="TransactionStatus"
         component={TransactionStatusScreen as any}
-        options={{ gestureEnabled: false }}
+        options={transactionTransitions.status}
       />
 
       {/* Settings */}
-      <Stack.Screen name="Settings" component={SettingsScreen} />
-      <Stack.Screen name="SecuritySettings" component={SecuritySettingsScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} options={settingsTransitions.main} />
+      <Stack.Screen
+        name="SecuritySettings"
+        component={SecuritySettingsScreen}
+        options={settingsTransitions.detail}
+      />
 
       {/* Chat/BLE */}
-      <Stack.Screen name="ChatHome" component={ChatHomeScreen} />
-      <Stack.Screen name="DeviceDiscovery" component={DeviceDiscoveryScreen} />
+      <Stack.Screen name="ChatHome" component={ChatHomeScreen} options={slideFromRight} />
       <Stack.Screen
-        name="DeviceConnection"
-        component={DeviceConnectionScreen}
-        options={{ animation: 'fade' }}
+        name="DeviceDiscovery"
+        component={DeviceDiscoveryScreen}
+        options={slideFromRight}
       />
-      <Stack.Screen name="ChatConversation" component={ChatConversationScreen} />
+      <Stack.Screen name="DeviceConnection" component={DeviceConnectionScreen} options={fade} />
+      <Stack.Screen
+        name="ChatConversation"
+        component={ChatConversationScreen}
+        options={slideFromRight}
+      />
     </Stack.Navigator>
   );
 };

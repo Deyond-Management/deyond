@@ -11,6 +11,8 @@ import { Provider } from 'react-redux';
 import { store } from './src/store';
 import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
 import { AppNavigator } from './src/navigation/AppNavigator';
+import { ErrorBoundary } from './src/components/ErrorBoundary';
+import Toast from './src/components/Toast';
 
 // App Content with theme access
 const AppContent: React.FC = () => {
@@ -76,13 +78,16 @@ const AppContent: React.FC = () => {
 // Main App Component
 const App: React.FC = () => {
   return (
-    <Provider store={store}>
-      <ThemeProvider>
-        <SafeAreaProvider>
-          <AppContent />
-        </SafeAreaProvider>
-      </ThemeProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <ThemeProvider>
+          <SafeAreaProvider>
+            <AppContent />
+            <Toast />
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 };
 

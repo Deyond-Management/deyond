@@ -3,7 +3,7 @@
  * Displays list of past transactions with filters
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { EmptyState } from '../components/atoms/EmptyState';
+import i18n from '../i18n';
 
 type TransactionType = 'sent' | 'received';
 type TransactionStatus = 'pending' | 'confirmed' | 'failed';
@@ -96,40 +97,47 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   const [refreshing, setRefreshing] = useState(false);
   const [loading] = useState(initialLoading);
 
-  // Filter transactions
-  const filteredTransactions = transactions.filter(tx => {
-    if (filter === 'all') return true;
-    return tx.type === filter;
-  });
+  // Filter transactions - memoized to prevent recalculation
+  const filteredTransactions = useMemo(
+    () =>
+      transactions.filter(tx => {
+        if (filter === 'all') return true;
+        return tx.type === filter;
+      }),
+    [transactions, filter]
+  );
 
   // Format address
-  const formatAddress = (address: string) => {
+  const formatAddress = useCallback((address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
-  };
+  }, []);
 
   // Format timestamp
-  const formatTime = (timestamp: number) => {
+  const formatTime = useCallback((timestamp: number) => {
     const diff = Date.now() - timestamp;
     const minutes = Math.floor(diff / (1000 * 60));
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    return `${days}d ago`;
-  };
+    if (minutes < 60) return i18n.t('transactionHistory.time.minutesAgo', { minutes });
+    if (hours < 24) return i18n.t('transactionHistory.time.hoursAgo', { hours });
+    return i18n.t('transactionHistory.time.daysAgo', { days });
+  }, []);
 
   // Get status color
-  const getStatusColor = (status: TransactionStatus) => {
-    switch (status) {
-      case 'confirmed':
-        return theme.colors.success;
-      case 'failed':
-        return theme.colors.error;
-      default:
-        return theme.colors.warning;
-    }
-  };
+  const getStatusColor = useCallback(
+    (status: TransactionStatus) => {
+      switch (status) {
+        case 'confirmed':
+          return theme.colors.success;
+        case 'failed':
+          return theme.colors.error;
+        default:
+          return theme.colors.warning;
+      }
+    },
+    [theme.colors.success, theme.colors.error, theme.colors.warning]
+  );
 
   // Handle refresh
   const handleRefresh = useCallback(async () => {
@@ -145,109 +153,125 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   }, []);
 
   // Handle transaction press
-  const handleTransactionPress = (tx: Transaction) => {
-    navigation.navigate('TransactionDetail', { transaction: tx });
-  };
+  const handleTransactionPress = useCallback(
+    (tx: Transaction) => {
+      navigation.navigate('TransactionDetail', { transaction: tx });
+    },
+    [navigation]
+  );
 
   // Render transaction item
-  const renderTransaction = ({ item, index }: { item: Transaction; index: number }) => (
-    <TouchableOpacity
-      testID={`tx-item-${index}`}
-      style={[
-        styles.txItem,
-        { backgroundColor: theme.colors.card, borderColor: theme.colors.divider },
-      ]}
-      onPress={() => handleTransactionPress(item)}
-      accessibilityLabel={`${item.type} transaction ${item.amount} ${item.token}`}
-    >
-      <View style={styles.txLeft}>
-        <View
-          style={[
-            styles.txIcon,
-            {
-              backgroundColor:
-                item.type === 'sent' ? theme.colors.error + '20' : theme.colors.success + '20',
-            },
-          ]}
-        >
-          <Text
-            style={{
-              color: item.type === 'sent' ? theme.colors.error : theme.colors.success,
-              fontSize: 16,
-            }}
+  const renderTransaction = useCallback(
+    ({ item, index }: { item: Transaction; index: number }) => (
+      <TouchableOpacity
+        testID={`transaction-item-${index}`}
+        style={[
+          styles.txItem,
+          { backgroundColor: theme.colors.card, borderColor: theme.colors.divider },
+        ]}
+        onPress={() => handleTransactionPress(item)}
+        accessibilityLabel={`${item.type} transaction ${item.amount} ${item.token}`}
+      >
+        <View style={styles.txLeft}>
+          <View
+            style={[
+              styles.txIcon,
+              {
+                backgroundColor:
+                  item.type === 'sent' ? theme.colors.error + '20' : theme.colors.success + '20',
+              },
+            ]}
           >
-            {item.type === 'sent' ? '↑' : '↓'}
-          </Text>
+            <Text
+              style={{
+                color: item.type === 'sent' ? theme.colors.error : theme.colors.success,
+                fontSize: 16,
+              }}
+            >
+              {item.type === 'sent' ? '↑' : '↓'}
+            </Text>
+          </View>
+
+          <View style={styles.txInfo}>
+            <Text
+              testID={item.type === 'sent' ? 'sent-indicator' : 'received-indicator'}
+              style={[styles.txType, { color: theme.colors.text.primary }]}
+            >
+              {item.type === 'sent'
+                ? i18n.t('transactionHistory.sent')
+                : i18n.t('transactionHistory.received')}
+            </Text>
+            <Text style={[styles.txAddress, { color: theme.colors.text.secondary }]}>
+              {item.type === 'sent'
+                ? i18n.t('transactionHistory.to')
+                : i18n.t('transactionHistory.from')}
+              {formatAddress(item.address)}
+            </Text>
+          </View>
         </View>
 
-        <View style={styles.txInfo}>
-          <Text style={[styles.txType, { color: theme.colors.text.primary }]}>
-            {item.type === 'sent' ? 'Sent' : 'Received'}
-          </Text>
-          <Text style={[styles.txAddress, { color: theme.colors.text.secondary }]}>
-            {item.type === 'sent' ? 'To: ' : 'From: '}
-            {formatAddress(item.address)}
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.txRight}>
-        <Text
-          testID={`tx-amount-${index}`}
-          style={[
-            styles.txAmount,
-            {
-              color: item.type === 'sent' ? theme.colors.error : theme.colors.success,
-            },
-          ]}
-        >
-          {item.type === 'sent' ? '-' : '+'}
-          {item.amount} {item.token}
-        </Text>
-        <View style={styles.txMeta}>
+        <View style={styles.txRight}>
           <Text
-            testID={`tx-status-${index}`}
-            style={[styles.txStatus, { color: getStatusColor(item.status) }]}
+            testID={`tx-amount-${index}`}
+            style={[
+              styles.txAmount,
+              {
+                color: item.type === 'sent' ? theme.colors.error : theme.colors.success,
+              },
+            ]}
           >
-            {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+            {item.type === 'sent' ? '-' : '+'}
+            {item.amount} {item.token}
           </Text>
-          <Text
-            testID={`tx-time-${index}`}
-            style={[styles.txTime, { color: theme.colors.text.secondary }]}
-          >
-            {formatTime(item.timestamp)}
-          </Text>
+          <View style={styles.txMeta}>
+            <Text
+              testID={`tx-status-${index}`}
+              style={[styles.txStatus, { color: getStatusColor(item.status) }]}
+            >
+              {i18n.t(`transactionHistory.status.${item.status}`)}
+            </Text>
+            <Text
+              testID={`tx-time-${index}`}
+              style={[styles.txTime, { color: theme.colors.text.secondary }]}
+            >
+              {formatTime(item.timestamp)}
+            </Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    ),
+    [theme, handleTransactionPress, formatAddress, formatTime, getStatusColor]
   );
 
   // Render filter button
-  const renderFilterButton = (filterType: FilterType, label: string) => (
-    <TouchableOpacity
-      testID={`filter-${filterType}`}
-      style={[
-        styles.filterButton,
-        filter === filterType && {
-          backgroundColor: theme.colors.primary,
-        },
-        filter !== filterType && {
-          backgroundColor: theme.colors.surface,
-        },
-      ]}
-      onPress={() => setFilter(filterType)}
-    >
-      <Text
+  const renderFilterButton = useCallback(
+    (filterType: FilterType, label: string) => (
+      <TouchableOpacity
+        testID={`filter-${filterType}`}
         style={[
-          styles.filterText,
-          {
-            color: filter === filterType ? '#FFFFFF' : theme.colors.text.primary,
+          styles.filterButton,
+          filter === filterType && {
+            backgroundColor: theme.colors.primary,
+          },
+          filter !== filterType && {
+            backgroundColor: theme.colors.surface,
           },
         ]}
+        onPress={() => setFilter(filterType)}
       >
-        {label}
-      </Text>
-    </TouchableOpacity>
+        <Text
+          style={[
+            styles.filterText,
+            {
+              color: filter === filterType ? '#FFFFFF' : theme.colors.text.primary,
+            },
+          ]}
+        >
+          {label}
+        </Text>
+      </TouchableOpacity>
+    ),
+    [theme, filter]
   );
 
   if (loading) {
@@ -265,15 +289,15 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
       {/* Header */}
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-          Transaction History
+          {i18n.t('transactionHistory.title')}
         </Text>
       </View>
 
       {/* Filters */}
       <View style={styles.filters}>
-        {renderFilterButton('all', 'All')}
-        {renderFilterButton('sent', 'Sent')}
-        {renderFilterButton('received', 'Received')}
+        {renderFilterButton('all', i18n.t('transactionHistory.filters.all'))}
+        {renderFilterButton('sent', i18n.t('transactionHistory.filters.sent'))}
+        {renderFilterButton('received', i18n.t('transactionHistory.filters.received'))}
       </View>
 
       {/* Transaction List */}
@@ -297,8 +321,8 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
       ) : (
         <View testID="empty-state" style={styles.emptyContainer}>
           <EmptyState
-            title="No transactions"
-            message="Your transaction history will appear here"
+            title={i18n.t('transactionHistory.empty.title')}
+            message={i18n.t('transactionHistory.empty.message')}
             icon="transaction"
           />
         </View>

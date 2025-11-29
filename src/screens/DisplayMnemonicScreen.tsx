@@ -13,6 +13,7 @@ import { Card } from '../components/atoms/Card';
 import { WalletManager } from '../core/wallet/WalletManager';
 import { useAppDispatch } from '../store/hooks';
 import { setMnemonic as setReduxMnemonic } from '../store/slices/onboardingSlice';
+import i18n from '../i18n';
 
 interface DisplayMnemonicScreenProps {
   navigation: any;
@@ -91,19 +92,22 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>Secret Recovery Phrase</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>
+            {i18n.t('displayMnemonic.title')}
+          </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Write down these 12 words in order and store them safely
+            {i18n.t('displayMnemonic.subtitle')}
           </Text>
         </View>
 
         {/* Warning Card */}
         <Card style={[styles.warningCard, { backgroundColor: colors.warning + '15' }]}>
           <Text style={[styles.warningIcon, { color: colors.warning }]}>⚠️</Text>
-          <Text style={[styles.warningTitle, { color: colors.warning }]}>Security Warning</Text>
+          <Text style={[styles.warningTitle, { color: colors.warning }]}>
+            {i18n.t('displayMnemonic.warningTitle')}
+          </Text>
           <Text style={[styles.warningText, { color: colors.text.primary }]}>
-            Never share your recovery phrase with anyone. Anyone with these words can access your
-            funds.
+            {i18n.t('displayMnemonic.warningText')}
           </Text>
         </Card>
 
@@ -138,35 +142,37 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
           style={styles.copyButton}
           testID="copy-button"
         >
-          {copied ? 'Copied!' : 'Copy to Clipboard'}
+          {copied ? i18n.t('displayMnemonic.copied') : i18n.t('displayMnemonic.copyButton')}
         </Button>
 
         {/* Security Tips */}
         <Card style={[styles.tipsCard, { backgroundColor: colors.surface }]}>
-          <Text style={[styles.tipsTitle, { color: colors.text.primary }]}>Security Tips</Text>
+          <Text style={[styles.tipsTitle, { color: colors.text.primary }]}>
+            {i18n.t('displayMnemonic.tipsTitle')}
+          </Text>
           <View style={styles.tipItem}>
             <Text style={[styles.tipBullet, { color: colors.primary }]}>•</Text>
             <Text style={[styles.tipText, { color: colors.textSecondary }]}>
-              Write it down on paper and store in a secure location
+              {i18n.t('displayMnemonic.tip1')}
             </Text>
           </View>
           <View style={styles.tipItem}>
             <Text style={[styles.tipBullet, { color: colors.primary }]}>•</Text>
             <Text style={[styles.tipText, { color: colors.textSecondary }]}>
-              Never store it digitally (screenshots, cloud, etc.)
+              {i18n.t('displayMnemonic.tip2')}
             </Text>
           </View>
           <View style={styles.tipItem}>
             <Text style={[styles.tipBullet, { color: colors.primary }]}>•</Text>
             <Text style={[styles.tipText, { color: colors.textSecondary }]}>
-              Make multiple copies and store in different safe places
+              {i18n.t('displayMnemonic.tip3')}
             </Text>
           </View>
         </Card>
 
         {/* Continue Button */}
         <Button onPress={handleContinue} style={styles.continueButton} testID="continue-button">
-          I&apos;ve Written It Down
+          {i18n.t('displayMnemonic.continueButton')}
         </Button>
       </ScrollView>
     </SafeAreaView>

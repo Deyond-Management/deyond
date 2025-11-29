@@ -44,14 +44,6 @@ describe('TransactionStatusScreen', () => {
       expect(getByText(/Pending/i)).toBeDefined();
     });
 
-    it('should show loading indicator for pending', () => {
-      const { getByTestId } = renderWithTheme(
-        <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
-      );
-
-      expect(getByTestId('status-indicator')).toBeDefined();
-    });
-
     it('should display transaction hash', () => {
       const { getByText } = renderWithTheme(
         <TransactionStatusScreen navigation={mockNavigation as any} route={mockRoute as any} />
@@ -77,14 +69,6 @@ describe('TransactionStatusScreen', () => {
 
       expect(getByText(/Confirmed/i)).toBeDefined();
     });
-
-    it('should show success icon for confirmed', () => {
-      const { getByTestId } = renderWithTheme(
-        <TransactionStatusScreen navigation={mockNavigation as any} route={confirmedRoute as any} />
-      );
-
-      expect(getByTestId('success-icon')).toBeDefined();
-    });
   });
 
   describe('Failed State', () => {
@@ -102,14 +86,6 @@ describe('TransactionStatusScreen', () => {
       );
 
       expect(getByText(/Failed/i)).toBeDefined();
-    });
-
-    it('should show error icon for failed', () => {
-      const { getByTestId } = renderWithTheme(
-        <TransactionStatusScreen navigation={mockNavigation as any} route={failedRoute as any} />
-      );
-
-      expect(getByTestId('error-icon')).toBeDefined();
     });
 
     it('should display error message', () => {

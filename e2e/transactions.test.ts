@@ -2,21 +2,62 @@
  * E2E Tests: Transaction Flow
  */
 
-import { by, device, element, expect } from 'detox';
+import { by, device, element, expect, waitFor } from 'detox';
+
+// Helper function to complete onboarding
+async function completeOnboarding() {
+  // Wait for welcome screen
+  await waitFor(element(by.id('welcome-container')))
+    .toBeVisible()
+    .withTimeout(5000);
+
+  // Create wallet
+  await element(by.id('create-wallet-button')).tap();
+
+  // Create password
+  await waitFor(element(by.id('password-input')))
+    .toBeVisible()
+    .withTimeout(2000);
+  await element(by.id('password-input')).typeText('StrongP@ss123');
+  await element(by.id('confirm-password-input')).typeText('StrongP@ss123');
+  await element(by.id('create-password-button')).tap();
+
+  // Skip mnemonic screens (tap continue/skip buttons)
+  await waitFor(element(by.id('continue-button')))
+    .toBeVisible()
+    .withTimeout(2000);
+  await element(by.id('continue-button')).tap();
+
+  // Skip biometric setup
+  await waitFor(element(by.id('skip-button')))
+    .toBeVisible()
+    .withTimeout(2000);
+  await element(by.id('skip-button')).tap();
+
+  // Wait for home screen
+  await waitFor(element(by.id('home-screen')))
+    .toBeVisible()
+    .withTimeout(5000);
+}
 
 describe('Transaction Flow', () => {
   beforeAll(async () => {
     await device.launchApp({
       newInstance: true,
-      launchArgs: {
-        detoxEnableSynchronization: 0,
-      },
+      delete: true,
     });
-    // Assume wallet is already set up
+    await completeOnboarding();
   });
 
   beforeEach(async () => {
-    await device.reloadReactNative();
+    // Just reload, don't delete data
+    await device.launchApp({
+      newInstance: false,
+    });
+    // Wait for home screen
+    await waitFor(element(by.id('home-screen')))
+      .toBeVisible()
+      .withTimeout(5000);
   });
 
   describe('Send Transaction', () => {

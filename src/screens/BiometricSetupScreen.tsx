@@ -19,6 +19,7 @@ import {
   selectOnboardingError,
 } from '../store/slices/onboardingSlice';
 import { setWallet, unlockWallet } from '../store/slices/walletSlice';
+import i18n from '../i18n';
 
 interface BiometricSetupScreenProps {
   navigation: any;
@@ -72,7 +73,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
       });
     } catch (err) {
       console.error('Biometric setup failed:', err);
-      setError('Failed to enable biometric authentication. Please try again.');
+      setError(i18n.t('biometricSetup.errors.enableFailed'));
     } finally {
       setIsLoading(false);
     }
@@ -108,7 +109,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
       });
     } catch (err) {
       console.error('Failed to create wallet:', err);
-      setError('Failed to create wallet. Please try again.');
+      setError(i18n.t('biometricSetup.errors.walletCreationFailed'));
     } finally {
       setIsLoading(false);
     }
@@ -129,26 +130,28 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
 
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>Enable Biometric Login</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>
+            {i18n.t('biometricSetup.title')}
+          </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Use Face ID or Touch ID to unlock your wallet quickly and securely
+            {i18n.t('biometricSetup.subtitle')}
           </Text>
         </View>
 
         {/* Benefits Card */}
         <Card style={[styles.benefitsCard, { backgroundColor: colors.surface }]}>
           <Text style={[styles.benefitsTitle, { color: colors.text.primary }]}>
-            Why use biometric authentication?
+            {i18n.t('biometricSetup.whyUse')}
           </Text>
 
           <View style={styles.benefitItem}>
             <Text style={[styles.benefitIcon, { color: colors.primary }]}>⚡</Text>
             <View style={styles.benefitContent}>
               <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>
-                Quick Access
+                {i18n.t('biometricSetup.benefits.quickAccess.title')}
               </Text>
               <Text style={[styles.benefitText, { color: colors.textSecondary }]}>
-                Unlock your wallet instantly without typing your password
+                {i18n.t('biometricSetup.benefits.quickAccess.description')}
               </Text>
             </View>
           </View>
@@ -156,9 +159,11 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
           <View style={styles.benefitItem}>
             <Text style={[styles.benefitIcon, { color: colors.primary }]}>🔒</Text>
             <View style={styles.benefitContent}>
-              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>More Secure</Text>
+              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>
+                {i18n.t('biometricSetup.benefits.moreSecure.title')}
+              </Text>
               <Text style={[styles.benefitText, { color: colors.textSecondary }]}>
-                Your biometric data never leaves your device
+                {i18n.t('biometricSetup.benefits.moreSecure.description')}
               </Text>
             </View>
           </View>
@@ -166,9 +171,11 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
           <View style={styles.benefitItem}>
             <Text style={[styles.benefitIcon, { color: colors.primary }]}>✨</Text>
             <View style={styles.benefitContent}>
-              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>Convenient</Text>
+              <Text style={[styles.benefitLabel, { color: colors.text.primary }]}>
+                {i18n.t('biometricSetup.benefits.convenient.title')}
+              </Text>
               <Text style={[styles.benefitText, { color: colors.textSecondary }]}>
-                No need to remember or type your password each time
+                {i18n.t('biometricSetup.benefits.convenient.description')}
               </Text>
             </View>
           </View>
@@ -178,7 +185,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
         <Card style={[styles.infoCard, { backgroundColor: colors.info + '15' }]}>
           <Text style={[styles.infoIcon, { color: colors.info }]}>ℹ️</Text>
           <Text style={[styles.infoText, { color: colors.text.primary }]}>
-            You can always use your password as a fallback if biometric authentication fails
+            {i18n.t('biometricSetup.fallbackInfo')}
           </Text>
         </Card>
 
@@ -194,12 +201,12 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
           style={styles.enableButton}
           testID="enable-biometric-button"
         >
-          Enable Biometric Login
+          {i18n.t('biometricSetup.enableButton')}
         </Button>
 
         {/* Skip Button */}
         <Button onPress={handleSkip} variant="text" style={styles.skipButton} testID="skip-button">
-          Skip for Now
+          {i18n.t('biometricSetup.skipButton')}
         </Button>
       </ScrollView>
     </SafeAreaView>

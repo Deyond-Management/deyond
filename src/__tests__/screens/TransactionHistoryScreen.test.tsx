@@ -46,7 +46,7 @@ describe('TransactionHistoryScreen', () => {
         <TransactionHistoryScreen navigation={mockNavigation as any} />
       );
 
-      const txItems = getAllByTestId(/tx-item-/);
+      const txItems = getAllByTestId(/transaction-item-/);
       expect(txItems.length).toBeGreaterThan(0);
     });
   });
@@ -96,7 +96,7 @@ describe('TransactionHistoryScreen', () => {
         <TransactionHistoryScreen navigation={mockNavigation as any} />
       );
 
-      const txItems = getAllByTestId(/tx-item-/);
+      const txItems = getAllByTestId(/transaction-item-/);
       fireEvent.press(txItems[0]);
 
       expect(mockNavigation.navigate).toHaveBeenCalledWith('TransactionDetail', expect.any(Object));
@@ -161,7 +161,7 @@ describe('TransactionHistoryScreen', () => {
       fireEvent.press(getByTestId('filter-sent'));
 
       // All visible transactions should be sent type
-      const txItems = getAllByTestId(/tx-item-/);
+      const txItems = getAllByTestId(/transaction-item-/);
       expect(txItems.length).toBeGreaterThan(0);
     });
 
@@ -172,7 +172,7 @@ describe('TransactionHistoryScreen', () => {
 
       fireEvent.press(getByTestId('filter-received'));
 
-      const txItems = getAllByTestId(/tx-item-/);
+      const txItems = getAllByTestId(/transaction-item-/);
       expect(txItems.length).toBeGreaterThan(0);
     });
   });

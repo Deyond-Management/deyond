@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
+import i18n from '../i18n';
 
 interface ReceiveScreenProps {
   navigation: any;
@@ -40,9 +41,11 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Instructions */}
         <View style={styles.instructionsContainer}>
-          <Text style={[styles.title, { color: theme.colors.text.primary }]}>Receive Crypto</Text>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+            {i18n.t('receive.title')}
+          </Text>
           <Text style={[styles.instructions, { color: theme.colors.text.secondary }]}>
-            Share this address to receive cryptocurrency
+            {i18n.t('receive.subtitle')}
           </Text>
         </View>
 
@@ -57,9 +60,11 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
               ]}
               testID="qr-code"
             >
-              <Text style={[styles.qrText, { color: theme.colors.text.primary }]}>QR Code</Text>
+              <Text style={[styles.qrText, { color: theme.colors.text.primary }]}>
+                {i18n.t('receive.qrCode')}
+              </Text>
               <Text style={[styles.qrSubtext, { color: theme.colors.text.secondary }]}>
-                Scan to receive
+                {i18n.t('receive.scanToReceive')}
               </Text>
             </View>
           </View>
@@ -68,7 +73,7 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
         {/* Address Card */}
         <Card style={styles.card} elevation={1}>
           <Text style={[styles.addressLabel, { color: theme.colors.text.secondary }]}>
-            Your Address
+            {i18n.t('receive.yourAddress')}
           </Text>
           <Text
             style={[styles.address, { color: theme.colors.text.primary }]}
@@ -82,14 +87,15 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
         {/* Action Buttons */}
         <View style={styles.buttonsContainer}>
           <Button
+            testID="copy-address-button"
             onPress={handleCopyAddress}
             variant={copied ? 'outlined' : 'primary'}
             size="large"
             fullWidth
             style={styles.button}
-            accessibilityLabel="Copy Address"
+            accessibilityLabel={i18n.t('receive.copyAddress')}
           >
-            {copied ? 'Copied!' : 'Copy Address'}
+            {copied ? i18n.t('receive.addressCopied') : i18n.t('receive.copyAddress')}
           </Button>
 
           <Button
@@ -98,20 +104,19 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
             size="large"
             fullWidth
             style={styles.button}
-            accessibilityLabel="Share"
+            accessibilityLabel={i18n.t('receive.share')}
           >
-            Share
+            {i18n.t('receive.share')}
           </Button>
         </View>
 
         {/* Warning */}
         <Card style={styles.warningCard} backgroundColor={theme.isDark ? '#332800' : '#FFF3E0'}>
           <Text style={[styles.warningTitle, { color: theme.isDark ? '#FFB74D' : '#F57C00' }]}>
-            ⚠️ Important
+            ⚠️ {i18n.t('receive.warningTitle')}
           </Text>
           <Text style={[styles.warningText, { color: theme.isDark ? '#FFE0B2' : '#EF6C00' }]}>
-            Only send ETH and ERC-20 tokens to this address. Sending other assets may result in
-            permanent loss.
+            {i18n.t('receive.warning')}
           </Text>
         </Card>
       </ScrollView>

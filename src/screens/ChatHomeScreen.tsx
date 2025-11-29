@@ -8,6 +8,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { EmptyState } from '../components/atoms/EmptyState';
+import i18n from '../i18n';
 
 interface ChatSession {
   id: string;
@@ -38,9 +39,9 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-    if (minutes < 60) return `${minutes}m`;
-    if (hours < 24) return `${hours}h`;
-    return `${days}d`;
+    if (minutes < 60) return i18n.t('chatHome.time.minutes', { minutes });
+    if (hours < 24) return i18n.t('chatHome.time.hours', { hours });
+    return i18n.t('chatHome.time.days', { days });
   };
 
   // Handle new chat
@@ -117,12 +118,14 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.text.primary }]}>Messages</Text>
+        <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+          {i18n.t('chatHome.title')}
+        </Text>
         <TouchableOpacity
           testID="new-chat-button"
           style={[styles.newChatButton, { backgroundColor: theme.colors.primary }]}
           onPress={handleNewChat}
-          accessibilityLabel="New chat"
+          accessibilityLabel={i18n.t('chatHome.newChat')}
         >
           <Text style={styles.newChatText}>+</Text>
         </TouchableOpacity>
@@ -140,10 +143,10 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
       ) : (
         <View testID="empty-state" style={styles.emptyContainer}>
           <EmptyState
-            title="No conversations"
-            message="Start a new chat to connect with nearby devices"
+            title={i18n.t('chatHome.empty.title')}
+            message={i18n.t('chatHome.empty.message')}
             icon="search"
-            actionLabel="New Chat"
+            actionLabel={i18n.t('chatHome.empty.action')}
             onAction={handleNewChat}
           />
         </View>

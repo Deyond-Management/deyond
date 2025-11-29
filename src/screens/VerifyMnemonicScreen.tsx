@@ -12,6 +12,7 @@ import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setStep } from '../store/slices/onboardingSlice';
+import i18n from '../i18n';
 
 interface VerifyMnemonicScreenProps {
   navigation: any;
@@ -123,7 +124,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
     const allCorrect = selectedPositions.every(pos => pos.selectedWord === pos.correctWord);
 
     if (!allCorrect) {
-      setError('Incorrect words selected. Please try again.');
+      setError(i18n.t('verifyMnemonic.errors.incorrect'));
       // Reset selections
       setSelectedPositions(prev => prev.map(pos => ({ ...pos, selectedWord: null })));
       setCurrentPositionIndex(0);
@@ -142,7 +143,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
       });
     } catch (error) {
       console.error('Failed to proceed:', error);
-      setError('Failed to proceed. Please try again.');
+      setError(i18n.t('verifyMnemonic.errors.failed'));
     }
   };
 
@@ -162,10 +163,11 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
         contentContainerStyle={[styles.content, { padding: spacing.lg }]}
       >
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>Verify Recovery Phrase</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>
+            {i18n.t('verifyMnemonic.title')}
+          </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Select the correct words in order to verify you&apos;ve written down your recovery
-            phrase
+            {i18n.t('verifyMnemonic.subtitle')}
           </Text>
         </View>
 
@@ -174,7 +176,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
           {selectedPositions.map((position, index) => (
             <View key={position.index} style={styles.positionItem}>
               <Text style={[styles.positionLabel, { color: colors.textSecondary }]}>
-                Word #{position.index + 1}
+                {i18n.t('verifyMnemonic.wordNumber', { number: position.index + 1 })}
               </Text>
               <TouchableOpacity
                 style={[
@@ -195,7 +197,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
                     },
                   ]}
                 >
-                  {position.selectedWord || 'Tap to select'}
+                  {position.selectedWord || i18n.t('verifyMnemonic.tapToSelect')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -205,7 +207,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
         {/* Word bank */}
         <View style={styles.wordBankSection}>
           <Text style={[styles.sectionTitle, { color: colors.text.primary }]}>
-            Select from these words:
+            {i18n.t('verifyMnemonic.selectWords')}
           </Text>
           <View style={styles.wordBank}>
             {wordBank.map((word, index) => {
@@ -223,7 +225,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
                   onPress={() => !isUsed && handleWordSelect(word)}
                   disabled={isUsed}
                   testID={`word-option-${index}`}
-                  accessibilityLabel={`Word option: ${word}`}
+                  accessibilityLabel={`${i18n.t('verifyMnemonic.wordOption')}: ${word}`}
                 >
                   <Text
                     style={[
@@ -253,7 +255,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
           style={styles.verifyButton}
           testID="verify-button"
         >
-          Verify & Create Wallet
+          {i18n.t('verifyMnemonic.verifyButton')}
         </Button>
       </ScrollView>
     </SafeAreaView>

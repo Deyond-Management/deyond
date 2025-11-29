@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
+import i18n from '../i18n';
 
 interface TransactionPreviewScreenProps {
   navigation: any;
@@ -65,13 +66,15 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-          Confirm Transaction
+          {i18n.t('transactionPreview.title')}
         </Text>
 
         {/* Amount Card */}
         <Card style={styles.card} elevation={1}>
           <View style={styles.amountSection}>
-            <Text style={[styles.amountLabel, { color: theme.colors.text.secondary }]}>Amount</Text>
+            <Text style={[styles.amountLabel, { color: theme.colors.text.secondary }]}>
+              {i18n.t('transactionPreview.amount')}
+            </Text>
             <Text style={[styles.amountValue, { color: theme.colors.text.primary }]}>
               {amount} {token}
             </Text>
@@ -87,7 +90,9 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
         {/* Address Details Card */}
         <Card style={styles.card} elevation={1}>
           <View style={styles.detailRow}>
-            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>From</Text>
+            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>
+              {i18n.t('transactionPreview.from')}
+            </Text>
             <Text style={[styles.detailValue, { color: theme.colors.text.primary }]}>
               {formatAddress(fromAddress)}
             </Text>
@@ -100,7 +105,9 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
               { borderTopColor: theme.colors.divider },
             ]}
           >
-            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>To</Text>
+            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>
+              {i18n.t('transactionPreview.to')}
+            </Text>
             <Text style={[styles.detailValue, { color: theme.colors.text.primary }]}>
               {formatAddress(to)}
             </Text>
@@ -110,31 +117,35 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
         {/* Warning for new address */}
         <View style={[styles.warningCard, { backgroundColor: theme.colors.warning + '20' }]}>
           <Text style={[styles.warningText, { color: theme.colors.warning }]}>
-            First transaction to this address. Please verify it&apos;s correct.
+            {i18n.t('transactionPreview.warningNewAddress')}
           </Text>
         </View>
 
         {/* Gas Details Card */}
         <Card style={styles.card} elevation={1}>
           <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
-            Gas Details
+            {i18n.t('transactionPreview.gasDetails')}
           </Text>
 
           <View style={styles.gasRow}>
-            <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>Gas Limit</Text>
+            <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>
+              {i18n.t('transactionPreview.gasLimit')}
+            </Text>
             <Text style={[styles.gasValue, { color: theme.colors.text.primary }]}>{gasLimit}</Text>
           </View>
 
           <View style={styles.gasRow}>
-            <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>Max Fee</Text>
+            <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>
+              {i18n.t('transactionPreview.maxFee')}
+            </Text>
             <Text style={[styles.gasValue, { color: theme.colors.text.primary }]}>
-              {maxFeePerGas} Gwei
+              {maxFeePerGas} {i18n.t('transactionPreview.gwei')}
             </Text>
           </View>
 
           <View style={[styles.gasRow, styles.feeRow]}>
             <Text style={[styles.gasLabel, { color: theme.colors.text.secondary }]}>
-              Network Fee
+              {i18n.t('transactionPreview.networkFee')}
             </Text>
             <View style={styles.feeValue}>
               <Text style={[styles.gasValue, { color: theme.colors.text.primary }]}>
@@ -150,7 +161,9 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
         {/* Total Card */}
         <Card style={styles.card} elevation={2}>
           <View style={styles.totalRow}>
-            <Text style={[styles.totalLabel, { color: theme.colors.text.secondary }]}>Total</Text>
+            <Text style={[styles.totalLabel, { color: theme.colors.text.secondary }]}>
+              {i18n.t('transactionPreview.total')}
+            </Text>
             <View style={styles.totalValue}>
               <Text style={[styles.totalAmount, { color: theme.colors.text.primary }]}>
                 {totalAmount} {token}
@@ -165,16 +178,16 @@ export const TransactionPreviewScreen: React.FC<TransactionPreviewScreenProps> =
         {/* Action Buttons */}
         <View style={styles.actions}>
           <Button onPress={handleEdit} variant="outlined" size="large" style={styles.editButton}>
-            Edit
+            {i18n.t('transactionPreview.edit')}
           </Button>
           <Button
             onPress={handleConfirm}
             variant="primary"
             size="large"
             style={styles.confirmButton}
-            accessibilityLabel="Confirm"
+            accessibilityLabel={i18n.t('transactionPreview.confirm')}
           >
-            Confirm
+            {i18n.t('transactionPreview.confirm')}
           </Button>
         </View>
       </ScrollView>

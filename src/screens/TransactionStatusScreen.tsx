@@ -9,7 +9,6 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  ActivityIndicator,
   TouchableOpacity,
   Linking,
   Clipboard,
@@ -18,6 +17,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
 import { Card } from '../components/atoms/Card';
+import { AnimatedIcon } from '../components/atoms/AnimatedIcon';
+import i18n from '../i18n';
 
 type TransactionStatus = 'pending' | 'confirmed' | 'failed';
 
@@ -68,11 +69,11 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
   const getStatusText = () => {
     switch (status) {
       case 'confirmed':
-        return 'Confirmed';
+        return i18n.t('transactions.confirmed');
       case 'failed':
-        return 'Failed';
+        return i18n.t('transactions.failed');
       default:
-        return 'Pending';
+        return i18n.t('transactions.pending');
     }
   };
 
@@ -105,22 +106,15 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         {/* Status Indicator */}
         <View style={styles.statusSection}>
-          <View
-            testID="status-indicator"
-            style={[styles.statusIcon, { backgroundColor: getStatusColor() + '20' }]}
-          >
-            {status === 'pending' && <ActivityIndicator size="large" color={getStatusColor()} />}
-            {status === 'confirmed' && (
-              <Text testID="success-icon" style={[styles.icon, { color: getStatusColor() }]}>
-                ✓
-              </Text>
-            )}
-            {status === 'failed' && (
-              <Text testID="error-icon" style={[styles.icon, { color: getStatusColor() }]}>
-                ✕
-              </Text>
-            )}
-          </View>
+          {status === 'pending' && (
+            <AnimatedIcon type="loading" size={120} loop={true} testID="loading-animation" />
+          )}
+          {status === 'confirmed' && (
+            <AnimatedIcon type="success" size={120} loop={false} testID="success-animation" />
+          )}
+          {status === 'failed' && (
+            <AnimatedIcon type="error" size={120} loop={false} testID="error-animation" />
+          )}
 
           <Text style={[styles.statusText, { color: getStatusColor() }]}>{getStatusText()}</Text>
 
@@ -131,7 +125,7 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
         <Card style={styles.card} elevation={1}>
           <View style={styles.amountSection}>
             <Text style={[styles.amountLabel, { color: theme.colors.text.secondary }]}>
-              Amount Sent
+              {i18n.t('transactions.amountSent')}
             </Text>
             <Text style={[styles.amountValue, { color: theme.colors.text.primary }]}>
               {amount} {token}
@@ -142,7 +136,9 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
         {/* Transaction Details */}
         <Card style={styles.card} elevation={1}>
           <View style={styles.detailRow}>
-            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>To</Text>
+            <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>
+              {i18n.t('transactions.to')}
+            </Text>
             <Text style={[styles.detailValue, { color: theme.colors.text.primary }]}>
               {formatAddress(to)}
             </Text>
@@ -160,7 +156,7 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
             ]}
           >
             <Text style={[styles.detailLabel, { color: theme.colors.text.secondary }]}>
-              Transaction Hash
+              {i18n.t('transactions.transactionHash')}
             </Text>
             <View style={styles.hashRow}>
               <Text style={[styles.detailValue, { color: theme.colors.text.primary }]}>
@@ -171,7 +167,9 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
                 testID="copy-hash-button"
                 style={styles.copyButton}
               >
-                <Text style={[styles.copyText, { color: theme.colors.primary }]}>Copy</Text>
+                <Text style={[styles.copyText, { color: theme.colors.primary }]}>
+                  {i18n.t('transactions.copy')}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -180,7 +178,7 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
         {/* View on Explorer */}
         <TouchableOpacity style={styles.explorerButton} onPress={handleViewExplorer}>
           <Text style={[styles.explorerText, { color: theme.colors.primary }]}>
-            View on Explorer
+            {i18n.t('transactions.viewOnExplorer')}
           </Text>
         </TouchableOpacity>
 
@@ -193,7 +191,7 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
               size="large"
               style={styles.retryButton}
             >
-              Retry
+              {i18n.t('transactions.retry')}
             </Button>
           )}
           <Button
@@ -201,9 +199,9 @@ export const TransactionStatusScreen: React.FC<TransactionStatusScreenProps> = (
             variant="primary"
             size="large"
             style={status === 'failed' ? styles.doneButtonHalf : styles.doneButton}
-            accessibilityLabel="Done"
+            accessibilityLabel={i18n.t('transactions.done')}
           >
-            Done
+            {i18n.t('transactions.done')}
           </Button>
         </View>
       </ScrollView>

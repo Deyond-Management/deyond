@@ -39,9 +39,9 @@ describe('AppNavigator', () => {
     });
 
     it('should have Send screen', () => {
-      const { getByText } = renderNavigator('Send');
+      const { getByTestId } = renderNavigator('Send');
 
-      expect(getByText('Send')).toBeDefined();
+      expect(getByTestId('recipient-address-input')).toBeDefined();
     });
 
     it('should have Receive screen', () => {

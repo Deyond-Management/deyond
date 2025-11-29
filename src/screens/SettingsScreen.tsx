@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
+import i18n from '../i18n';
 
 interface SettingsScreenProps {
   navigation: any;
@@ -100,80 +101,95 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
       <ScrollView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.colors.text.primary }]}>Settings</Text>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+            {i18n.t('settingsScreen.title')}
+          </Text>
         </View>
 
         {/* Security Section */}
-        <SectionHeader title="Security" />
+        <SectionHeader title={i18n.t('settingsScreen.sections.security')} />
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <SettingItem
             testID="security-settings"
-            label="Security Settings"
+            label={i18n.t('settingsScreen.items.securitySettings')}
             onPress={() => navigation.navigate('SecuritySettings')}
-            accessibilityLabel="Security settings"
+            accessibilityLabel={i18n.t('settingsScreen.items.securitySettings')}
           />
           <SettingItem
             testID="backup-wallet"
-            label="Backup Wallet"
+            label={i18n.t('settingsScreen.items.backupWallet')}
             onPress={() => navigation.navigate('BackupWallet')}
           />
         </View>
 
         {/* Network Section */}
-        <SectionHeader title="Network" />
+        <SectionHeader title={i18n.t('settingsScreen.sections.network')} />
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <SettingItem
             testID="network-selector"
-            label="Network"
+            label={i18n.t('settingsScreen.items.network')}
             value={network}
             onPress={() => {}}
           />
         </View>
 
         {/* Preferences Section */}
-        <SectionHeader title="Preferences" />
+        <SectionHeader title={i18n.t('settingsScreen.sections.preferences')} />
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <SettingToggle
             testID="theme-toggle"
-            label="Dark Mode"
+            label={i18n.t('settingsScreen.items.darkMode')}
             value={isDark}
             onValueChange={toggleTheme}
-            accessibilityLabel="Dark mode"
+            accessibilityLabel={i18n.t('settingsScreen.items.darkMode')}
           />
           <SettingItem
             testID="currency-selector"
-            label="Currency"
+            label={i18n.t('settingsScreen.items.currency')}
             value={currency}
             onPress={() => {}}
           />
           <SettingItem
             testID="language-selector"
-            label="Language"
+            label={i18n.t('settingsScreen.items.language')}
             value={language}
             onPress={() => {}}
           />
           <SettingToggle
             testID="notifications-toggle"
-            label="Notifications"
+            label={i18n.t('settingsScreen.items.notifications')}
             value={notifications}
             onValueChange={setNotifications}
           />
         </View>
 
         {/* About Section */}
-        <SectionHeader title="About" />
+        <SectionHeader title={i18n.t('settingsScreen.sections.about')} />
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
-          <SettingItem testID="app-version" label="Version" value="1.0.0" showArrow={false} />
-          <SettingItem testID="terms-of-service" label="Terms of Service" onPress={() => {}} />
-          <SettingItem testID="privacy-policy" label="Privacy Policy" onPress={() => {}} />
+          <SettingItem
+            testID="app-version"
+            label={i18n.t('settingsScreen.items.version')}
+            value="1.0.0"
+            showArrow={false}
+          />
+          <SettingItem
+            testID="terms-of-service"
+            label={i18n.t('settingsScreen.items.termsOfService')}
+            onPress={() => {}}
+          />
+          <SettingItem
+            testID="privacy-policy"
+            label={i18n.t('settingsScreen.items.privacyPolicy')}
+            onPress={() => {}}
+          />
         </View>
 
         {/* Danger Zone */}
-        <SectionHeader title="Danger Zone" />
+        <SectionHeader title={i18n.t('settingsScreen.sections.dangerZone')} />
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <SettingItem
             testID="reset-wallet"
-            label="Reset Wallet"
+            label={i18n.t('settingsScreen.items.resetWallet')}
             onPress={() => {}}
             danger={true}
             showArrow={false}

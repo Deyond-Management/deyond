@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
+import i18n from '../i18n';
 
 interface SecuritySettingsScreenProps {
   navigation: any;
@@ -55,11 +56,13 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
             testID="back-button"
             style={styles.backButton}
             onPress={handleBack}
-            accessibilityLabel="Go back"
+            accessibilityLabel={i18n.t('common.back')}
           >
             <Text style={[styles.backIcon, { color: theme.colors.primary }]}>←</Text>
           </TouchableOpacity>
-          <Text style={[styles.title, { color: theme.colors.text.primary }]}>Security</Text>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+            {i18n.t('securitySettings.title')}
+          </Text>
           <View style={styles.placeholder} />
         </View>
 
@@ -69,26 +72,28 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
           style={[styles.infoCard, { backgroundColor: theme.colors.primary + '15' }]}
         >
           <Text style={[styles.infoText, { color: theme.colors.primary }]}>
-            Enable PIN and biometrics to protect your wallet from unauthorized access.
+            {i18n.t('securitySettings.infoText')}
           </Text>
         </View>
 
         {/* PIN Section */}
-        <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>PIN</Text>
+        <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>
+          {i18n.t('securitySettings.sections.pin')}
+        </Text>
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <View
             testID="pin-toggle"
             style={[styles.settingItem, { borderBottomColor: theme.colors.divider }]}
           >
             <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>
-              Enable PIN
+              {i18n.t('securitySettings.items.enablePin')}
             </Text>
             <Switch
               value={pinEnabled}
               onValueChange={handlePinToggle}
               trackColor={{ false: theme.colors.divider, true: theme.colors.primary }}
               thumbColor="#FFFFFF"
-              accessibilityLabel="Enable PIN"
+              accessibilityLabel={i18n.t('securitySettings.items.enablePin')}
             />
           </View>
 
@@ -99,7 +104,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
               onPress={() => {}}
             >
               <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>
-                Change PIN
+                {i18n.t('securitySettings.items.changePin')}
               </Text>
               <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>›</Text>
             </TouchableOpacity>
@@ -108,7 +113,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
 
         {/* Biometrics Section */}
         <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>
-          Biometrics
+          {i18n.t('securitySettings.sections.biometrics')}
         </Text>
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <View
@@ -121,7 +126,9 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
                 {biometricsType}
               </Text>
               <Text style={[styles.settingSubLabel, { color: theme.colors.text.secondary }]}>
-                Use {biometricsType.toLowerCase()} to unlock
+                {i18n.t('securitySettings.items.useBiometricsToUnlock', {
+                  type: biometricsType.toLowerCase(),
+                })}
               </Text>
             </View>
             <Switch
@@ -136,7 +143,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
 
         {/* Auto-lock Section */}
         <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>
-          Auto-lock
+          {i18n.t('securitySettings.sections.autoLock')}
         </Text>
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <TouchableOpacity
@@ -145,7 +152,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
             onPress={() => {}}
           >
             <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>
-              Lock After
+              {i18n.t('securitySettings.items.lockAfter')}
             </Text>
             <View style={styles.settingRight}>
               <Text style={[styles.settingValue, { color: theme.colors.text.secondary }]}>
@@ -158,7 +165,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
 
         {/* Transaction Security */}
         <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>
-          Transactions
+          {i18n.t('securitySettings.sections.transactions')}
         </Text>
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <View
@@ -167,10 +174,10 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
           >
             <View style={styles.settingLabelContainer}>
               <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>
-                Require Authentication
+                {i18n.t('securitySettings.items.requireAuth')}
               </Text>
               <Text style={[styles.settingSubLabel, { color: theme.colors.text.secondary }]}>
-                For all transactions
+                {i18n.t('securitySettings.items.requireAuthSubtext')}
               </Text>
             </View>
             <Switch
@@ -183,7 +190,9 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
         </View>
 
         {/* Sessions */}
-        <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>Sessions</Text>
+        <Text style={[styles.sectionHeader, { color: theme.colors.text.secondary }]}>
+          {i18n.t('securitySettings.sections.sessions')}
+        </Text>
         <View style={[styles.section, { backgroundColor: theme.colors.card }]}>
           <TouchableOpacity
             testID="active-sessions"
@@ -191,7 +200,7 @@ export const SecuritySettingsScreen: React.FC<SecuritySettingsScreenProps> = ({
             onPress={() => {}}
           >
             <Text style={[styles.settingLabel, { color: theme.colors.text.primary }]}>
-              Active Sessions
+              {i18n.t('securitySettings.items.activeSessions')}
             </Text>
             <Text style={[styles.arrow, { color: theme.colors.text.secondary }]}>›</Text>
           </TouchableOpacity>
