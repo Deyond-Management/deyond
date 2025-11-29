@@ -385,6 +385,27 @@
     "inputAccessibility": "메시지 입력",
     "sendAccessibility": "메시지 보내기"
   },
+  "addressBook": {
+    "title": "주소록",
+    "empty": "저장된 주소가 없습니다",
+    "emptyDescription": "자주 사용하는 주소를 추가하여 빠르게 접근하세요",
+    "addContact": "연락처 추가",
+    "editContact": "연락처 수정",
+    "deleteContact": "연락처 삭제",
+    "confirmDelete": "이 연락처를 삭제하시겠습니까?",
+    "search": "연락처 검색...",
+    "name": "이름",
+    "address": "주소",
+    "label": "라벨 (선택사항)",
+    "namePlaceholder": "연락처 이름 입력",
+    "addressPlaceholder": "지갑 주소 입력",
+    "labelPlaceholder": "예: 직장, 거래소, 친구",
+    "saveSuccess": "연락처가 저장되었습니다",
+    "deleteSuccess": "연락처가 삭제되었습니다",
+    "selectContact": "연락처 선택",
+    "invalidAddress": "유효하지 않은 지갑 주소",
+    "duplicateAddress": "이 주소는 이미 주소록에 존재합니다"
+  },
   "errors": {
     "generic": "문제가 발생했습니다. 다시 시도해주세요.",
     "network": "네트워크 오류. 연결을 확인해주세요.",

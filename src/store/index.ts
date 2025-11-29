@@ -11,6 +11,7 @@ import chatReducer from './slices/chatSlice';
 import networkReducer from './slices/networkSlice';
 import onboardingReducer from './slices/onboardingSlice';
 import tokenReducer from './slices/tokenSlice';
+import addressBookReducer from './slices/addressBookSlice';
 
 // Persist configurations
 const walletPersistConfig = {
@@ -43,12 +44,19 @@ const onboardingPersistConfig = {
   whitelist: ['isComplete', 'biometricEnabled'], // Persist completion status
 };
 
+const addressBookPersistConfig = {
+  key: 'addressBook',
+  storage: AsyncStorage,
+  whitelist: ['contacts'], // Persist saved contacts
+};
+
 // Create persisted reducers
 const persistedWalletReducer = persistReducer(walletPersistConfig, walletReducer);
 const persistedTransactionReducer = persistReducer(transactionPersistConfig, transactionReducer);
 const persistedChatReducer = persistReducer(chatPersistConfig, chatReducer);
 const persistedNetworkReducer = persistReducer(networkPersistConfig, networkReducer);
 const persistedOnboardingReducer = persistReducer(onboardingPersistConfig, onboardingReducer);
+const persistedAddressBookReducer = persistReducer(addressBookPersistConfig, addressBookReducer);
 
 // Configure store
 export const store = configureStore({
@@ -59,6 +67,7 @@ export const store = configureStore({
     network: persistedNetworkReducer,
     onboarding: persistedOnboardingReducer,
     token: tokenReducer, // Token balances not persisted - fetched fresh
+    addressBook: persistedAddressBookReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

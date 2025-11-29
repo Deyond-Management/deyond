@@ -3,7 +3,7 @@
  * Screen for sending cryptocurrency to another address
  */
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
@@ -15,13 +15,18 @@ import i18n from '../i18n';
 
 interface SendScreenProps {
   navigation: any;
+  route?: {
+    params?: {
+      selectedAddress?: string;
+    };
+  };
 }
 
-export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
+export const SendScreen: React.FC<SendScreenProps> = ({ navigation, route }) => {
   const { theme } = useTheme();
 
   // Form state
-  const [recipientAddress, setRecipientAddress] = useState('');
+  const [recipientAddress, setRecipientAddress] = useState(route?.params?.selectedAddress || '');
   const [amount, setAmount] = useState('');
   const [addressError, setAddressError] = useState('');
   const [amountError, setAmountError] = useState('');
@@ -117,6 +122,13 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
     })}`;
   }, [amount, selectedToken.usdPrice]);
 
+  // Handle route params change
+  useEffect(() => {
+    if (route?.params?.selectedAddress) {
+      handleAddressChange(route.params.selectedAddress);
+    }
+  }, [route?.params?.selectedAddress, handleAddressChange]);
+
   // Handle QR scan
   const handleQRScan = useCallback(
     (data: string) => {
@@ -125,6 +137,11 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
     },
     [handleAddressChange]
   );
+
+  // Handle address book navigation
+  const handleOpenAddressBook = useCallback(() => {
+    navigation.navigate('AddressBook');
+  }, [navigation]);
 
   // Handle send
   const handleSend = useCallback(() => {
@@ -173,15 +190,26 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation }) => {
             error={addressError}
             accessibilityLabel={i18n.t('send.recipientAddress')}
           />
-          <Button
-            testID="scan-qr-button"
-            onPress={() => setShowQRScanner(true)}
-            variant="outlined"
-            size="medium"
-            style={{ marginTop: 12 }}
-          >
-            📷 Scan QR Code
-          </Button>
+          <View style={styles.buttonRow}>
+            <Button
+              testID="scan-qr-button"
+              onPress={() => setShowQRScanner(true)}
+              variant="outlined"
+              size="medium"
+              style={styles.halfButton}
+            >
+              📷 Scan QR
+            </Button>
+            <Button
+              testID="address-book-button"
+              onPress={handleOpenAddressBook}
+              variant="outlined"
+              size="medium"
+              style={styles.halfButton}
+            >
+              📒 Address Book
+            </Button>
+          </View>
         </Card>
 
         {/* Amount Input */}
@@ -264,8 +292,16 @@ const styles = StyleSheet.create({
   balanceText: {
     fontSize: 14,
   },
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 12,
+  },
   card: {
     marginBottom: 16,
+  },
+  halfButton: {
+    flex: 1,
   },
   feeAmount: {
     fontSize: 14,

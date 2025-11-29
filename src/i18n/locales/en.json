@@ -385,6 +385,27 @@
     "inputAccessibility": "Message input",
     "sendAccessibility": "Send message"
   },
+  "addressBook": {
+    "title": "Address Book",
+    "empty": "No saved addresses yet",
+    "emptyDescription": "Add frequently used addresses for quick access",
+    "addContact": "Add Contact",
+    "editContact": "Edit Contact",
+    "deleteContact": "Delete Contact",
+    "confirmDelete": "Are you sure you want to delete this contact?",
+    "search": "Search contacts...",
+    "name": "Name",
+    "address": "Address",
+    "label": "Label (Optional)",
+    "namePlaceholder": "Enter contact name",
+    "addressPlaceholder": "Enter wallet address",
+    "labelPlaceholder": "e.g., Work, Exchange, Friend",
+    "saveSuccess": "Contact saved successfully",
+    "deleteSuccess": "Contact deleted successfully",
+    "selectContact": "Select Contact",
+    "invalidAddress": "Invalid wallet address",
+    "duplicateAddress": "This address already exists in your address book"
+  },
   "errors": {
     "generic": "Something went wrong. Please try again.",
     "network": "Network error. Please check your connection.",
