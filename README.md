@@ -22,6 +22,16 @@ A feature-rich cryptocurrency wallet application built with React Native, simila
 - **No Internet Required**: Works offline using BLE
 - **Address-Based**: Chat with wallet addresses directly
 
+### User Experience Features
+
+- **QR Code Support**: Scan and generate QR codes for wallet addresses
+- **Address Book**: Save and manage frequently used wallet addresses
+- **Transaction Filters**: Advanced filtering by date, status, token, and search
+- **Gas Tracker**: Real-time gas price monitoring with speed selection (slow/standard/fast)
+- **Biometric Authentication**: Face ID/Touch ID support for quick and secure access
+- **Transaction History**: Comprehensive transaction tracking with detailed filters
+- **Multi-language Support**: English and Korean localization
+
 ### Production Features
 
 - **E2E Testing**: Comprehensive Detox test suite
@@ -44,6 +54,10 @@ A feature-rich cryptocurrency wallet application built with React Native, simila
   - `@noble/curves` - Elliptic curve cryptography
   - `@noble/hashes` - Cryptographic hashing
   - `bip39` - Mnemonic generation and validation
+- **UI/UX**:
+  - `expo-camera` - QR code scanning
+  - `react-native-qrcode-svg` - QR code generation
+  - `expo-local-authentication` - Biometric authentication (Face ID/Touch ID)
 - **Testing**: Jest with React Native Testing Library, Detox for E2E
 - **Development**: TDD (Test-Driven Development) approach
 
@@ -239,6 +253,59 @@ const session = await sessionManager.initiateSession(deviceId, deviceAddress, de
 await chatManager.sendMessage(session.id, fromAddress, toAddress, 'Hello via BLE!');
 ```
 
+### Using the Gas Tracker
+
+```typescript
+import { GasService } from './src/services/GasService';
+
+const gasService = new GasService();
+
+// Get current gas prices
+const gasPrices = await gasService.getGasPrices();
+
+console.log('Slow:', gasPrices.slow.maxFeePerGas, 'Gwei');
+console.log('Standard:', gasPrices.standard.maxFeePerGas, 'Gwei');
+console.log('Fast:', gasPrices.fast.maxFeePerGas, 'Gwei');
+```
+
+### Managing Address Book
+
+```typescript
+import { useAppDispatch } from './src/store/hooks';
+import { addContact } from './src/store/slices/addressBookSlice';
+
+const dispatch = useAppDispatch();
+
+// Add a contact
+dispatch(
+  addContact({
+    name: 'Alice',
+    address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
+    label: 'Friend',
+  })
+);
+```
+
+### Using Biometric Authentication
+
+```typescript
+import SecurityService from './src/services/SecurityService';
+
+const securityService = new SecurityService();
+
+// Check if biometrics is available
+const available = await securityService.isBiometricsAvailable();
+
+// Get biometric type
+const type = await securityService.getBiometricsType(); // 'face', 'fingerprint', or 'iris'
+
+// Authenticate with biometrics
+const result = await securityService.authenticateWithBiometrics();
+if (result.success) {
+  console.log('Authentication successful!');
+}
+```
+
 ## Development Status
 
 ### ✅ Phase 1: Core Features
@@ -279,6 +346,15 @@ await chatManager.sendMessage(session.id, fromAddress, toAddress, 'Hello via BLE
 - Deep linking
 - Push notifications
 - Backend sync
+
+### ✅ Phase 5: User Experience Enhancements (Recently Completed)
+
+- QR code scanning and generation for wallet addresses
+- Address book for managing frequently used contacts
+- Advanced transaction filtering (date, status, token, search)
+- Real-time gas price tracker with speed selection
+- Biometric authentication (Face ID/Touch ID)
+- Enhanced transaction history with multi-dimensional filters
 
 ## Documentation
 
