@@ -212,12 +212,11 @@ export class AnalyticsService {
   }
 
   private sendEvent(event: EventData): void {
-    if (this.debug) {
-      console.log('[Analytics]', event.name, event.properties);
-    }
-
     // In production, send to analytics backend
-    // For now, just log in debug mode
+    // TODO: Implement analytics backend integration
+    if (this.debug) {
+      // Debug logging disabled in production
+    }
   }
 
   private hashValue(value: string): string {

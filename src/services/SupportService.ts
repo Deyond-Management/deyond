@@ -86,7 +86,7 @@ export class SupportService {
 
       return { id: ticketId, success: true };
     } catch (error) {
-      console.error('Failed to create support ticket:', error);
+      // TODO: Implement error logging service
       return { id: '', success: false };
     }
   }
@@ -393,8 +393,7 @@ export class SupportService {
    * Track article view
    */
   async trackArticleView(articleId: string): Promise<void> {
-    // Analytics tracking would go here
-    console.log(`Article viewed: ${articleId}`);
+    // TODO: Implement analytics tracking for article views
   }
 
   /**

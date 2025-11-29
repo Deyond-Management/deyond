@@ -161,12 +161,12 @@ export class PushNotificationService {
 
   private handleNotificationReceived = (notification: Notifications.Notification) => {
     // Handle notification received
-    console.log('Notification received:', notification);
+    // TODO: Implement notification handler
   };
 
   private handleNotificationResponse = (response: Notifications.NotificationResponse) => {
     // Handle notification tap
-    console.log('Notification response:', response);
+    // TODO: Implement notification response handler
   };
 }
 

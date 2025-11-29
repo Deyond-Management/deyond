@@ -261,7 +261,7 @@ export class AlertService {
 
     // Email sending would be implemented with nodemailer or similar
     // This is a placeholder for the actual implementation
-    console.log('Email alert:', alert);
+    // TODO: Implement email alert sending
   }
 
   /**
