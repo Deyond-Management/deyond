@@ -3,8 +3,8 @@
  * Centralized error handling with user-friendly messages
  */
 
-import i18n from '../i18n';
-import { logger } from '../utils';
+import i18n from '../../i18n';
+import { logger } from '../../utils';
 
 /**
  * Error types in the application

@@ -3,7 +3,7 @@
  * RPC provider for blockchain interactions
  */
 
-import { EthereumProvider } from '../../services/EthereumProvider';
+import { EthereumProvider } from '../../services/blockchain/EthereumProvider';
 
 // Mock fetch
 global.fetch = jest.fn();

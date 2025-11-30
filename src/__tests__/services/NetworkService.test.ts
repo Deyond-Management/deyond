@@ -3,7 +3,7 @@
  * Secure network client with SSL pinning support
  */
 
-import { NetworkService } from '../../services/NetworkService';
+import { NetworkService } from '../../services/external/NetworkService';
 
 // Mock fetch
 global.fetch = jest.fn();

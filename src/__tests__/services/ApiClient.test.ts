@@ -3,7 +3,7 @@
  * HTTP client with error handling and retry logic
  */
 
-import { ApiClient, ApiError } from '../../services/ApiClient';
+import { ApiClient, ApiError } from '../../services/external/ApiClient';
 
 // Mock fetch
 global.fetch = jest.fn();

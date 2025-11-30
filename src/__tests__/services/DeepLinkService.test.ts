@@ -2,7 +2,7 @@
  * DeepLinkService Tests
  */
 
-import { DeepLinkService } from '../../services/DeepLinkService';
+import { DeepLinkService } from '../../services/support/DeepLinkService';
 
 describe('DeepLinkService', () => {
   let deepLinkService: DeepLinkService;

@@ -2,7 +2,7 @@
  * ENSService Tests
  */
 
-import { ENSService } from '../../services/ENSService';
+import { ENSService } from '../../services/blockchain/ENSService';
 
 describe('ENSService', () => {
   let ensService: ENSService;

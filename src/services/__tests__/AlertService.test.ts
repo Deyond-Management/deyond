@@ -1,4 +1,4 @@
-import AlertService from '../AlertService';
+import AlertService from '../ui/AlertService';
 
 // Mock fetch
 global.fetch = jest.fn();

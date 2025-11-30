@@ -4,7 +4,7 @@
  * Integrates with ErrorMonitoringService for production error tracking
  */
 
-import { ErrorMonitoringService } from '../services/ErrorMonitoringService';
+import { ErrorMonitoringService } from '../services/monitoring/ErrorMonitoringService';
 
 export enum LogLevel {
   DEBUG = 0,

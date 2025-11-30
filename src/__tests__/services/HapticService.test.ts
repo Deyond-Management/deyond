@@ -2,7 +2,7 @@
  * HapticService Tests
  */
 
-import { HapticService } from '../../services/HapticService';
+import { HapticService } from '../../services/ui/HapticService';
 import * as Haptics from 'expo-haptics';
 
 describe('HapticService', () => {

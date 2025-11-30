@@ -7,7 +7,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 import { Card } from './atoms/Card';
-import { GasService, GasPrices, GasPreset } from '../services/GasService';
+import { GasService, GasPrices, GasPreset } from '../services/blockchain/GasService';
 import i18n from '../i18n';
 
 interface GasTrackerCardProps {

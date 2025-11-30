@@ -3,7 +3,7 @@
  * CoinGecko API integration for price data
  */
 
-import { PriceService } from '../../services/PriceService';
+import { PriceService } from '../../services/external/PriceService';
 
 // Mock fetch
 global.fetch = jest.fn();

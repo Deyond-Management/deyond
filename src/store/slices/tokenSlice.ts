@@ -4,7 +4,7 @@
  */
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { BalanceService, TokenBalance } from '../../services/BalanceService';
+import { BalanceService, TokenBalance } from '../../services/blockchain/BalanceService';
 
 // Types
 export interface TokenState {

@@ -16,7 +16,7 @@ jest.mock('expo-local-authentication', () => ({
   },
 }));
 
-import { SecurityService } from '../../services/SecurityService';
+import { SecurityService } from '../../services/security/SecurityService';
 
 describe('SecurityService', () => {
   let securityService: SecurityService;

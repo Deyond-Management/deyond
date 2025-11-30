@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SupportService from '../SupportService';
+import SupportService from '../support/SupportService';
 
 // Mock fetch
 global.fetch = jest.fn();

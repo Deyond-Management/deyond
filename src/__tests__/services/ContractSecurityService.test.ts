@@ -2,7 +2,7 @@
  * ContractSecurityService Tests
  */
 
-import { ContractSecurityService } from '../../services/ContractSecurityService';
+import { ContractSecurityService } from '../../services/blockchain/ContractSecurityService';
 
 describe('ContractSecurityService', () => {
   let contractSecurity: ContractSecurityService;

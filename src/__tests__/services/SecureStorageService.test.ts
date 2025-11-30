@@ -3,7 +3,7 @@
  * TDD: Write tests first, then implement
  */
 
-import { SecureStorageService } from '../../services/SecureStorageService';
+import { SecureStorageService } from '../../services/wallet/SecureStorageService';
 
 // Mock expo-secure-store
 jest.mock('expo-secure-store', () => ({

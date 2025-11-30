@@ -4,7 +4,7 @@
  */
 
 import { Logger, LogLevel, logger } from '../../utils/Logger';
-import { ErrorMonitoringService } from '../../services/ErrorMonitoringService';
+import { ErrorMonitoringService } from '../../services/monitoring/ErrorMonitoringService';
 
 // Mock console methods
 const originalConsole = { ...console };

@@ -4,7 +4,7 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logger } from '../utils';
+import { logger } from '../../utils';
 
 interface SyncConfig {
   baseUrl: string;

@@ -27,7 +27,7 @@ jest.mock('expo-crypto', () => ({
   },
 }));
 
-import { CryptoService } from '../../services/CryptoService';
+import { CryptoService } from '../../services/wallet/CryptoService';
 
 describe('CryptoService', () => {
   let cryptoService: CryptoService;

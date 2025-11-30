@@ -3,7 +3,7 @@
  * Sentry integration for crash reporting
  */
 
-import { ErrorMonitoringService } from '../../services/ErrorMonitoringService';
+import { ErrorMonitoringService } from '../../services/monitoring/ErrorMonitoringService';
 
 // Mock Sentry
 jest.mock('@sentry/react-native', () => ({

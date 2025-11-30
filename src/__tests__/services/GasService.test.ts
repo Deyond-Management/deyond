@@ -3,7 +3,7 @@
  * TDD: Write tests first, then implement
  */
 
-import { GasService, GasError, GasPreset, GasEstimate } from '../../services/GasService';
+import { GasService, GasError, GasPreset, GasEstimate } from '../../services/blockchain/GasService';
 
 describe('GasService', () => {
   let gasService: GasService;

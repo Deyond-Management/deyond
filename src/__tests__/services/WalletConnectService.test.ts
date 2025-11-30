@@ -2,7 +2,7 @@
  * WalletConnectService Tests
  */
 
-import { WalletConnectService } from '../../services/WalletConnectService';
+import { WalletConnectService } from '../../services/wallet/WalletConnectService';
 
 describe('WalletConnectService', () => {
   let wcService: WalletConnectService;

@@ -9,7 +9,7 @@ import {
   TransactionParams,
   SignedTransaction,
   TransactionReceipt,
-} from '../../services/TransactionService';
+} from '../../services/blockchain/TransactionService';
 
 describe('TransactionService', () => {
   let transactionService: TransactionService;

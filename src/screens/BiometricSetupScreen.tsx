@@ -21,7 +21,7 @@ import {
   selectOnboardingError,
 } from '../store/slices/onboardingSlice';
 import { setWallet, unlockWallet } from '../store/slices/walletSlice';
-import SecurityService from '../services/SecurityService';
+import SecurityService from '../services/security/SecurityService';
 import i18n from '../i18n';
 import { logger } from '../utils';
 

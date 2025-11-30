@@ -3,7 +3,7 @@
  * TDD: Write tests first, then implement
  */
 
-import { ChatService, ChatSession, ChatMessage } from '../../services/ChatService';
+import { ChatService, ChatSession, ChatMessage } from '../../services/communication/ChatService';
 
 describe('ChatService', () => {
   let chatService: ChatService;

@@ -3,7 +3,7 @@
  * TDD: Write tests first, then implement
  */
 
-import { BLEService, BLEDevice, ConnectionStatus } from '../../services/BLEService';
+import { BLEService, BLEDevice, ConnectionStatus } from '../../services/communication/BLEService';
 
 describe('BLEService', () => {
   let bleService: BLEService;

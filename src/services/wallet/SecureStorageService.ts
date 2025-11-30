@@ -4,7 +4,7 @@
  */
 
 import * as SecureStore from 'expo-secure-store';
-import { logger } from '../utils';
+import { logger } from '../../utils';
 
 export class SecureStorageService {
   private options: SecureStore.SecureStoreOptions;

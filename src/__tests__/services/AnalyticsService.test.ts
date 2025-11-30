@@ -2,7 +2,7 @@
  * AnalyticsService Tests
  */
 
-import { AnalyticsService } from '../../services/AnalyticsService';
+import { AnalyticsService } from '../../services/monitoring/AnalyticsService';
 
 describe('AnalyticsService', () => {
   let analytics: AnalyticsService;

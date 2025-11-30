@@ -2,7 +2,7 @@
  * FeatureFlagService Tests
  */
 
-import { FeatureFlagService } from '../../services/FeatureFlagService';
+import { FeatureFlagService } from '../../services/monitoring/FeatureFlagService';
 
 describe('FeatureFlagService', () => {
   let featureFlags: FeatureFlagService;

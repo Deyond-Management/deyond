@@ -2,7 +2,7 @@
  * PushNotificationService Tests
  */
 
-import { PushNotificationService } from '../../services/PushNotificationService';
+import { PushNotificationService } from '../../services/ui/PushNotificationService';
 import * as Notifications from 'expo-notifications';
 
 describe('PushNotificationService', () => {

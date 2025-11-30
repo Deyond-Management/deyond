@@ -3,7 +3,11 @@
  * TDD: Write tests first, then implement
  */
 
-import { BalanceService, TokenBalance, BalanceError } from '../../services/BalanceService';
+import {
+  BalanceService,
+  TokenBalance,
+  BalanceError,
+} from '../../services/blockchain/BalanceService';
 
 describe('BalanceService', () => {
   let balanceService: BalanceService;

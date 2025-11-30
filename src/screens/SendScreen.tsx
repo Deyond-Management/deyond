@@ -12,7 +12,7 @@ import { Input } from '../components/atoms/Input';
 import { Card } from '../components/atoms/Card';
 import { QRScanner } from '../components/QRScanner';
 import { GasTrackerCard } from '../components/GasTrackerCard';
-import type { GasPreset } from '../services/GasService';
+import type { GasPreset } from '../services/blockchain/GasService';
 import i18n from '../i18n';
 
 interface SendScreenProps {

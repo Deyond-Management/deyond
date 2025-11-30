@@ -1,4 +1,4 @@
-import QATestService from '../QATestService';
+import QATestService from '../support/QATestService';
 
 describe('QATestService', () => {
   let service: QATestService;
