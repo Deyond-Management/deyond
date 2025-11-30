@@ -12,14 +12,15 @@ import {
   RefreshControl,
   TouchableOpacity,
   Linking,
-  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
-import { Button } from '../components/atoms/Button';
 import { TokenCard } from '../components/molecules/TokenCard';
 import { TransactionCard } from '../components/molecules/TransactionCard';
-import { TokenCardSkeleton, TransactionCardSkeleton } from '../components/atoms/SkeletonLoader';
+import { TokenCardSkeleton } from '../components/atoms/SkeletonLoader';
+import { HomeHeader } from '../components/home/HomeHeader';
+import { BalanceCard } from '../components/home/BalanceCard';
+import { QuickActions } from '../components/home/QuickActions';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import {
   fetchTokenBalances,
@@ -70,28 +71,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     [networks]
   );
 
-  // Fetch balances on mount
-  useEffect(() => {
-    dispatch(fetchTokenBalances(walletAddress));
-  }, [dispatch, walletAddress]);
-
-  // Pull to refresh handler
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await dispatch(refreshTokenBalances(walletAddress));
-    setRefreshing(false);
-  }, [dispatch, walletAddress]);
-
-  // Format total balance for display - memoized to prevent recalculation
-  const formattedTotalBalance = useMemo(
-    () =>
-      parseFloat(totalBalance).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }),
-    [totalBalance]
-  );
-
+  // Mock transactions
   const mockTransactions = [
     {
       type: 'sent' as const,
@@ -115,11 +95,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     },
   ];
 
-  // Truncate address for display - memoized
-  const truncatedAddress = useMemo(
-    () => `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`,
-    [walletAddress]
-  );
+  // Fetch balances on mount
+  useEffect(() => {
+    dispatch(fetchTokenBalances(walletAddress));
+  }, [dispatch, walletAddress]);
+
+  // Pull to refresh handler
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await dispatch(refreshTokenBalances(walletAddress));
+    setRefreshing(false);
+  }, [dispatch, walletAddress]);
 
   const handleSend = useCallback(() => {
     navigation.navigate('Send');
@@ -170,40 +156,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       testID="home-screen"
     >
       {/* Header */}
-      <View
-        style={[
-          styles.header,
-          { backgroundColor: theme.colors.card, borderBottomColor: theme.colors.divider },
-        ]}
-        testID="account-header"
-      >
-        <View style={styles.headerTop}>
-          <View>
-            <Text style={[styles.headerTitle, { color: theme.colors.text.primary }]}>
-              {i18n.t('home.title')}
-            </Text>
-            <Text style={[styles.headerAddress, { color: theme.colors.text.secondary }]}>
-              {truncatedAddress}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={[styles.networkSelector, { backgroundColor: theme.colors.surface }]}
-            onPress={handleNetworkSelect}
-            testID="network-selector"
-          >
-            <View
-              style={[
-                styles.networkDot,
-                { backgroundColor: currentNetwork?.isTestnet ? '#FF9800' : '#4CAF50' },
-              ]}
-            />
-            <Text style={[styles.networkName, { color: theme.colors.text.primary }]}>
-              {currentNetwork?.name ?? i18n.t('home.selectNetwork')}
-            </Text>
-            <Text style={[styles.networkArrow, { color: theme.colors.text.secondary }]}>▼</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <HomeHeader
+        walletAddress={walletAddress}
+        networkName={currentNetwork?.name ?? ''}
+        isTestnet={currentNetwork?.isTestnet ?? false}
+        onNetworkSelect={handleNetworkSelect}
+      />
 
       <ScrollView
         style={styles.scrollView}
@@ -218,48 +176,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         }
       >
         {/* Total Balance Section */}
-        <View style={styles.balanceSection}>
-          <Text style={[styles.balanceLabel, { color: theme.colors.text.secondary }]}>
-            {i18n.t('home.totalBalance')}
-          </Text>
-          <Text
-            style={[styles.balanceAmount, { color: theme.colors.text.primary }]}
-            testID="total-balance"
-          >
-            ${formattedTotalBalance}
-          </Text>
-        </View>
+        <BalanceCard totalBalance={totalBalance} />
 
         {/* Action Buttons */}
-        <View style={styles.actionsContainer}>
-          <Button
-            testID="send-button"
-            onPress={handleSend}
-            variant="primary"
-            style={styles.actionButton}
-            accessibilityLabel={i18n.t('home.send')}
-          >
-            {i18n.t('home.send')}
-          </Button>
-          <Button
-            testID="receive-button"
-            onPress={handleReceive}
-            variant="outlined"
-            style={styles.actionButton}
-            accessibilityLabel={i18n.t('home.receive')}
-          >
-            {i18n.t('home.receive')}
-          </Button>
-          <Button
-            testID="buy-button"
-            onPress={handleBuy}
-            variant="outlined"
-            style={styles.actionButton}
-            accessibilityLabel={i18n.t('home.buy')}
-          >
-            {i18n.t('home.buy')}
-          </Button>
-        </View>
+        <QuickActions onSend={handleSend} onReceive={handleReceive} onBuy={handleBuy} />
 
         {/* Tokens Section */}
         <View style={styles.section}>
@@ -339,28 +259,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  actionButton: {
-    flex: 1,
-  },
-  actionsContainer: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 24,
-    paddingHorizontal: 16,
-  },
-  balanceAmount: {
-    fontSize: 36,
-    fontWeight: 'bold',
-  },
-  balanceLabel: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  balanceSection: {
-    alignItems: 'center',
-    marginBottom: 16,
-    padding: 24,
-  },
   card: {
     marginBottom: 12,
   },
@@ -368,51 +266,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingVertical: 32,
     textAlign: 'center',
-  },
-  header: {
-    borderBottomWidth: 1,
-    padding: 16,
-  },
-  headerAddress: {
-    fontSize: 14,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  headerTop: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  loadingContainer: {
-    alignItems: 'center',
-    paddingVertical: 32,
-  },
-  loadingText: {
-    fontSize: 14,
-    marginTop: 12,
-  },
-  networkArrow: {
-    fontSize: 8,
-  },
-  networkDot: {
-    borderRadius: 4,
-    height: 8,
-    width: 8,
-  },
-  networkName: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  networkSelector: {
-    alignItems: 'center',
-    borderRadius: 20,
-    flexDirection: 'row',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
   },
   safeArea: {
     flex: 1,
