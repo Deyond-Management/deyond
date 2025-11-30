@@ -15,6 +15,9 @@ export {
 // Export validators
 export * from './validators';
 
+// Export logger
+export { logger, Logger, LogLevel } from './Logger';
+
 // Additional utility functions
 
 /**
