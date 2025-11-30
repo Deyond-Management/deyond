@@ -4,9 +4,11 @@
  */
 
 import * as SecureStore from 'expo-secure-store';
+import { logger } from '../utils';
 
 export class SecureStorageService {
   private options: SecureStore.SecureStoreOptions;
+  private logger = logger.child({ service: 'SecureStorage' });
 
   constructor() {
     this.options = {
@@ -21,7 +23,7 @@ export class SecureStorageService {
     try {
       await SecureStore.setItemAsync(key, value, this.options);
     } catch (error) {
-      console.error('SecureStorage setItem error:', error);
+      this.logger.error('setItem error', error as Error, { key });
       throw new Error('Failed to store secure data');
     }
   }
@@ -33,7 +35,7 @@ export class SecureStorageService {
     try {
       return await SecureStore.getItemAsync(key);
     } catch (error) {
-      console.error('SecureStorage getItem error:', error);
+      this.logger.error('getItem error', error as Error, { key });
       throw new Error('Failed to retrieve secure data');
     }
   }
@@ -45,7 +47,7 @@ export class SecureStorageService {
     try {
       await SecureStore.deleteItemAsync(key);
     } catch (error) {
-      console.error('SecureStorage deleteItem error:', error);
+      this.logger.error('deleteItem error', error as Error, { key });
       throw new Error('Failed to delete secure data');
     }
   }
@@ -71,7 +73,7 @@ export class SecureStorageService {
     try {
       return JSON.parse(jsonString) as T;
     } catch (error) {
-      console.error('SecureStorage parse error:', error);
+      this.logger.error('parse error', error as Error, { key });
       throw new Error('Failed to parse secure data');
     }
   }

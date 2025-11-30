@@ -4,6 +4,7 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logger } from '../utils';
 
 interface SyncConfig {
   baseUrl: string;
@@ -70,7 +71,11 @@ export class BackendSyncService {
     }
 
     this.syncTimer = setInterval(() => {
-      this.syncToCloud().catch(console.error);
+      this.syncToCloud().catch(error => {
+        logger.error('Periodic sync to cloud failed', error as Error, {
+          service: 'BackendSync',
+        });
+      });
     }, this.config.syncInterval);
   }
 

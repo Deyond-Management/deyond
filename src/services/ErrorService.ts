@@ -4,6 +4,7 @@
  */
 
 import i18n from '../i18n';
+import { logger } from '../utils';
 
 /**
  * Error types in the application
@@ -166,15 +167,12 @@ export class ErrorService {
    * Log error (in production, send to error tracking service)
    */
   static logError(error: AppError, context?: string): void {
-    if (__DEV__) {
-      const contextStr = context ? ` - ${context}` : '';
-      console.error(`[ErrorService${contextStr}]:`, {
-        type: error.type,
-        message: error.message,
-        details: error.details,
-        originalError: error.originalError,
-      });
-    }
+    logger.error(`ErrorService: ${error.message}`, error.originalError, {
+      service: 'ErrorService',
+      context,
+      errorType: error.type,
+      details: error.details,
+    });
   }
 
   /**

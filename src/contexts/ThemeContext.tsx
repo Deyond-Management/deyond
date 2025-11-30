@@ -8,6 +8,7 @@ import { ColorScheme } from '../constants/colors';
 import { createTheme, Theme } from '../constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Appearance } from 'react-native';
+import { logger } from '../utils';
 
 interface ThemeContextType {
   theme: Theme;
@@ -20,6 +21,8 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const THEME_STORAGE_KEY = '@theme_preference';
+
+const themeLogger = logger.child({ context: 'ThemeContext' });
 
 interface ThemeProviderProps {
   children: React.ReactNode;
@@ -45,7 +48,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
           setColorSchemeState(saved as ColorScheme | 'auto');
         }
       } catch (error) {
-        console.error('Failed to load theme preference:', error);
+        themeLogger.error('Failed to load theme preference', error as Error);
       }
     };
     loadTheme();
@@ -65,7 +68,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       await AsyncStorage.setItem(THEME_STORAGE_KEY, scheme);
       setColorSchemeState(scheme);
     } catch (error) {
-      console.error('Failed to save theme preference:', error);
+      themeLogger.error('Failed to save theme preference', error as Error);
     }
   }, []);
 

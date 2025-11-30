@@ -23,8 +23,11 @@ import {
 import { setWallet, unlockWallet } from '../store/slices/walletSlice';
 import SecurityService from '../services/SecurityService';
 import i18n from '../i18n';
+import { logger } from '../utils';
 
 type BiometricSetupScreenProps = NativeStackScreenProps<RootStackParamList, 'BiometricSetup'>;
+
+const screenLogger = logger.child({ screen: 'BiometricSetup' });
 
 export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
   navigation,
@@ -106,7 +109,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
         routes: [{ name: 'Home' }],
       });
     } catch (err) {
-      console.error('Biometric setup failed:', err);
+      screenLogger.error('Biometric setup failed', err as Error);
       setError(i18n.t('biometricSetup.errors.enableFailed'));
     } finally {
       setIsLoading(false);
@@ -142,7 +145,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
         routes: [{ name: 'Home' }],
       });
     } catch (err) {
-      console.error('Failed to create wallet:', err);
+      screenLogger.error('Failed to create wallet', err as Error);
       setError(i18n.t('biometricSetup.errors.walletCreationFailed'));
     } finally {
       setIsLoading(false);

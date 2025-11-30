@@ -15,6 +15,7 @@ import { Card } from '../components/atoms/Card';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setStep } from '../store/slices/onboardingSlice';
 import i18n from '../i18n';
+import { logger } from '../utils';
 
 type VerifyMnemonicScreenProps = NativeStackScreenProps<RootStackParamList, 'VerifyMnemonic'>;
 
@@ -23,6 +24,8 @@ interface WordPosition {
   correctWord: string;
   selectedWord: string | null;
 }
+
+const screenLogger = logger.child({ screen: 'VerifyMnemonic' });
 
 export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
   navigation,
@@ -136,7 +139,7 @@ export const VerifyMnemonicScreen: React.FC<VerifyMnemonicScreenProps> = ({
         password: route.params.password,
       });
     } catch (error) {
-      console.error('Failed to proceed:', error);
+      screenLogger.error('Failed to proceed', error as Error);
       setError(i18n.t('verifyMnemonic.errors.failed'));
     }
   };

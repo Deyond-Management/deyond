@@ -16,8 +16,11 @@ import { WalletManager } from '../core/wallet/WalletManager';
 import { useAppDispatch } from '../store/hooks';
 import { setMnemonic as setReduxMnemonic } from '../store/slices/onboardingSlice';
 import i18n from '../i18n';
+import { logger } from '../utils';
 
 type DisplayMnemonicScreenProps = NativeStackScreenProps<RootStackParamList, 'DisplayMnemonic'>;
+
+const screenLogger = logger.child({ screen: 'DisplayMnemonic' });
 
 export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
   navigation,
@@ -40,7 +43,7 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
         // Store mnemonic in Redux
         dispatch(setReduxMnemonic(words));
       } catch (error) {
-        console.error('Failed to generate mnemonic:', error);
+        screenLogger.error('Failed to generate mnemonic', error as Error);
         // Fallback to mock data for testing
         const fallbackWords = [
           'abandon',

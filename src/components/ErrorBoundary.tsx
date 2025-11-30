@@ -5,6 +5,7 @@
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { logger } from '../utils';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -35,7 +36,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log error to reporting service
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    logger.errorWithContext('ErrorBoundary caught an error', error, {
+      componentStack: errorInfo.componentStack,
+    });
 
     // Call onError callback if provided
     this.props.onError?.(error, errorInfo);
