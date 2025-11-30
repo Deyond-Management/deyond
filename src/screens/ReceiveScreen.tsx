@@ -34,7 +34,7 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
   // Handle share
   const handleShare = () => {
     // In real app, would use React Native Share API
-    console.log('Share:', walletAddress);
+    // Share functionality will be implemented when needed
   };
 
   return (
