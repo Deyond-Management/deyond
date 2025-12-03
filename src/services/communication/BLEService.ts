@@ -37,6 +37,7 @@ export class BLEService {
   private connectionStatus: Map<string, ConnectionStatus> = new Map();
   private subscriptions: Map<string, NotificationCallback> = new Map();
   private currentPairingCode: string = '';
+  private scanTimeout: ReturnType<typeof setTimeout> | null = null;
 
   /**
    * Check if Bluetooth is enabled
@@ -60,10 +61,17 @@ export class BLEService {
   async startScanning(options?: ScanOptions): Promise<void> {
     this.scanning = true;
 
+    // Clear any existing timeout
+    if (this.scanTimeout) {
+      clearTimeout(this.scanTimeout);
+      this.scanTimeout = null;
+    }
+
     // Mock: simulate finding devices
     if (options?.timeout) {
-      setTimeout(() => {
+      this.scanTimeout = setTimeout(() => {
         this.scanning = false;
+        this.scanTimeout = null;
       }, options.timeout);
     }
   }
@@ -73,6 +81,12 @@ export class BLEService {
    */
   async stopScanning(): Promise<void> {
     this.scanning = false;
+
+    // Clear scan timeout if exists
+    if (this.scanTimeout) {
+      clearTimeout(this.scanTimeout);
+      this.scanTimeout = null;
+    }
   }
 
   /**
@@ -208,8 +222,12 @@ export class BLEService {
    * Cleanup all connections and stop scanning
    */
   async cleanup(): Promise<void> {
-    // Stop scanning
+    // Stop scanning and clear timeout
     this.scanning = false;
+    if (this.scanTimeout) {
+      clearTimeout(this.scanTimeout);
+      this.scanTimeout = null;
+    }
 
     // Disconnect all devices
     for (const [deviceId] of this.connectionStatus) {

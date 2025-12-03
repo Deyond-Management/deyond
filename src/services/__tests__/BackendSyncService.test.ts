@@ -18,6 +18,11 @@ describe('BackendSyncService', () => {
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
   });
 
+  afterEach(() => {
+    // Clean up any active timers to prevent memory leaks
+    service.stopPeriodicSync();
+  });
+
   describe('constructor', () => {
     it('should create service with config', () => {
       expect(service).toBeDefined();
