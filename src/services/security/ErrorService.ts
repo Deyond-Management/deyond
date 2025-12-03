@@ -62,6 +62,36 @@ export class AppError extends Error {
   }
 }
 
+// Error message configurations
+// Using functions to ensure i18n is evaluated at runtime (for language changes)
+const ERROR_MESSAGES: Record<ErrorType, (details?: any) => string> = {
+  // Network errors
+  [ErrorType.NETWORK_ERROR]: () => i18n.t('errors.network'),
+  [ErrorType.TIMEOUT_ERROR]: () => i18n.t('errors.timeout'),
+  [ErrorType.CONNECTION_LOST]: () => i18n.t('errors.network'),
+
+  // Wallet errors
+  [ErrorType.INVALID_ADDRESS]: () => i18n.t('send.errors.invalidAddress'),
+  [ErrorType.INSUFFICIENT_BALANCE]: () => i18n.t('send.errors.insufficientBalance'),
+  [ErrorType.INVALID_AMOUNT]: () => i18n.t('send.errors.invalidAmount'),
+  [ErrorType.TRANSACTION_FAILED]: (details?: any) => details?.message || i18n.t('errors.generic'),
+  [ErrorType.INVALID_MNEMONIC]: () => i18n.t('import.errors.invalidMnemonic'),
+  [ErrorType.WALLET_LOCKED]: () => i18n.t('auth.locked'),
+
+  // Authentication errors
+  [ErrorType.INCORRECT_PIN]: () => i18n.t('auth.incorrectPin'),
+  [ErrorType.INCORRECT_PASSWORD]: () => i18n.t('createWallet.errors.passwordsNotMatch'),
+  [ErrorType.BIOMETRIC_FAILED]: () => i18n.t('errors.generic'),
+
+  // Validation errors
+  [ErrorType.REQUIRED_FIELD]: () => i18n.t('errors.generic'),
+  [ErrorType.INVALID_FORMAT]: () => i18n.t('errors.generic'),
+
+  // Generic errors
+  [ErrorType.OPERATION_CANCELLED]: () => 'Operation cancelled',
+  [ErrorType.UNKNOWN_ERROR]: () => i18n.t('errors.generic'),
+};
+
 /**
  * Error service for handling and formatting errors
  */
@@ -70,50 +100,8 @@ export class ErrorService {
    * Get user-friendly error message based on error type
    */
   static getErrorMessage(type: ErrorType, details?: any): string {
-    switch (type) {
-      // Network errors
-      case ErrorType.NETWORK_ERROR:
-        return i18n.t('errors.network');
-      case ErrorType.TIMEOUT_ERROR:
-        return i18n.t('errors.timeout');
-      case ErrorType.CONNECTION_LOST:
-        return i18n.t('errors.network');
-
-      // Wallet errors
-      case ErrorType.INVALID_ADDRESS:
-        return i18n.t('send.errors.invalidAddress');
-      case ErrorType.INSUFFICIENT_BALANCE:
-        return i18n.t('send.errors.insufficientBalance');
-      case ErrorType.INVALID_AMOUNT:
-        return i18n.t('send.errors.invalidAmount');
-      case ErrorType.TRANSACTION_FAILED:
-        return details?.message || i18n.t('errors.generic');
-      case ErrorType.INVALID_MNEMONIC:
-        return i18n.t('import.errors.invalidMnemonic');
-      case ErrorType.WALLET_LOCKED:
-        return i18n.t('auth.locked');
-
-      // Authentication errors
-      case ErrorType.INCORRECT_PIN:
-        return i18n.t('auth.incorrectPin');
-      case ErrorType.INCORRECT_PASSWORD:
-        return i18n.t('createWallet.errors.passwordsNotMatch');
-      case ErrorType.BIOMETRIC_FAILED:
-        return i18n.t('errors.generic');
-
-      // Validation errors
-      case ErrorType.REQUIRED_FIELD:
-        return i18n.t('errors.generic');
-      case ErrorType.INVALID_FORMAT:
-        return i18n.t('errors.generic');
-
-      // Generic errors
-      case ErrorType.OPERATION_CANCELLED:
-        return 'Operation cancelled';
-      case ErrorType.UNKNOWN_ERROR:
-      default:
-        return i18n.t('errors.generic');
-    }
+    const messageGetter = ERROR_MESSAGES[type] || ERROR_MESSAGES[ErrorType.UNKNOWN_ERROR];
+    return messageGetter(details);
   }
 
   /**
