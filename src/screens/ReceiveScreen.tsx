@@ -5,8 +5,9 @@
  */
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Clipboard } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Clipboard from 'expo-clipboard';
 import QRCode from 'react-native-qrcode-svg';
 import { useTheme } from '../contexts/ThemeContext';
 import { Button } from '../components/atoms/Button';
@@ -25,8 +26,8 @@ export const ReceiveScreen: React.FC<ReceiveScreenProps> = ({ navigation }) => {
   const walletAddress = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb';
 
   // Handle copy to clipboard
-  const handleCopyAddress = () => {
-    Clipboard.setString(walletAddress);
+  const handleCopyAddress = async () => {
+    await Clipboard.setStringAsync(walletAddress);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

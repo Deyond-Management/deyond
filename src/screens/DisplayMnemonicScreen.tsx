@@ -5,8 +5,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Clipboard } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Clipboard from 'expo-clipboard';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/AppNavigator';
 import { useTheme } from '../contexts/ThemeContext';
@@ -68,9 +69,9 @@ export const DisplayMnemonicScreen: React.FC<DisplayMnemonicScreenProps> = ({
   }, [dispatch]);
 
   // Handle copy to clipboard
-  const handleCopy = () => {
+  const handleCopy = async () => {
     const mnemonicString = mnemonic.join(' ');
-    Clipboard.setString(mnemonicString);
+    await Clipboard.setStringAsync(mnemonicString);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

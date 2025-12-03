@@ -4,10 +4,9 @@
  */
 
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { ReceiveScreen } from '../../screens/ReceiveScreen';
 import { ThemeProvider } from '../../contexts/ThemeContext';
-import { Clipboard } from 'react-native';
 
 // Mock navigation
 const mockNavigation = {
@@ -61,14 +60,16 @@ describe('ReceiveScreen', () => {
   });
 
   describe('Copy Address', () => {
-    it('should show copied confirmation when copy button is pressed', () => {
+    it('should show copied confirmation when copy button is pressed', async () => {
       const { getByText } = renderWithTheme(<ReceiveScreen navigation={mockNavigation as any} />);
 
       const copyButton = getByText(/Copy Address/i);
       fireEvent.press(copyButton);
 
-      // Should show "Copied!" confirmation
-      expect(getByText(/Copied/i)).toBeDefined();
+      // Should show "Copied!" confirmation after async clipboard operation
+      await waitFor(() => {
+        expect(getByText(/Copied/i)).toBeDefined();
+      });
     });
   });
 
