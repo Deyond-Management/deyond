@@ -3,6 +3,9 @@
  * CoinGecko API integration for cryptocurrency price data
  */
 
+import { AppConfig } from '../../config/app.config';
+import { MOCK_PRICE_DATA } from '../../mocks/mockData';
+
 interface PriceResult {
   usd: number;
   change24h?: number;
@@ -45,6 +48,24 @@ export class PriceService {
    * Get current price for a token
    */
   async getPrice(tokenId: string): Promise<PriceResult> {
+    // Use mock data in demo mode
+    if (AppConfig.demoMode) {
+      const mockData = (MOCK_PRICE_DATA as Record<string, typeof MOCK_PRICE_DATA.ethereum>)[
+        tokenId
+      ];
+      if (mockData) {
+        return {
+          usd: mockData.usd,
+          change24h: mockData.usd_24h_change,
+        };
+      }
+      // Return default price if not found in mock data
+      return {
+        usd: 1.0,
+        change24h: 0,
+      };
+    }
+
     const cacheKey = `price:${tokenId}`;
     const cached = this.getFromCache<{ [key: string]: { usd: number; usd_24h_change?: number } }>(
       cacheKey

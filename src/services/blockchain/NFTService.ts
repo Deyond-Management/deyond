@@ -3,6 +3,9 @@
  * NFT management and display
  */
 
+import { AppConfig } from '../../config/app.config';
+import { MOCK_NFTS } from '../../mocks/mockData';
+
 interface NFT {
   tokenId: string;
   contractAddress: string;
@@ -29,7 +32,23 @@ export class NFTService {
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey)!;
     }
-    // Fetch from API (Alchemy, OpenSea, etc.)
+
+    // Use mock data in demo mode
+    if (AppConfig.demoMode) {
+      const mockNFTs: NFT[] = MOCK_NFTS.map(nft => ({
+        tokenId: nft.tokenId,
+        contractAddress: nft.contractAddress,
+        name: nft.name,
+        description: nft.description,
+        imageUrl: nft.image,
+        collection: nft.collection,
+        standard: 'ERC721' as const,
+      }));
+      this.cache.set(cacheKey, mockNFTs);
+      return mockNFTs;
+    }
+
+    // Real implementation - fetch from API (Alchemy, OpenSea, etc.)
     return [];
   }
 

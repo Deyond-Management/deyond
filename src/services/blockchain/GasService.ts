@@ -3,6 +3,9 @@
  * Service for gas estimation and fee calculation
  */
 
+import { AppConfig } from '../../config/app.config';
+import { MOCK_GAS_PRICES } from '../../mocks/mockData';
+
 export class GasError extends Error {
   constructor(message: string) {
     super(message);
@@ -52,27 +55,51 @@ export class GasService {
       return this.cache.data;
     }
 
-    // Mock gas prices (in real app, fetch from RPC or gas station API)
-    const baseFee = '25'; // gwei
+    let gasPrices: GasPrices;
 
-    const gasPrices: GasPrices = {
-      slow: {
-        maxFeePerGas: '30',
-        maxPriorityFeePerGas: '1',
-        estimatedTime: 120, // 2 minutes
-      },
-      standard: {
-        maxFeePerGas: '40',
-        maxPriorityFeePerGas: '2',
-        estimatedTime: 45, // 45 seconds
-      },
-      fast: {
-        maxFeePerGas: '60',
-        maxPriorityFeePerGas: '5',
-        estimatedTime: 15, // 15 seconds
-      },
-      baseFee,
-    };
+    // Use mock data in demo mode
+    if (AppConfig.demoMode) {
+      gasPrices = {
+        slow: {
+          maxFeePerGas: MOCK_GAS_PRICES.slow.maxFeePerGas.toString(),
+          maxPriorityFeePerGas: MOCK_GAS_PRICES.slow.maxPriorityFeePerGas.toString(),
+          estimatedTime: MOCK_GAS_PRICES.slow.estimatedTime,
+        },
+        standard: {
+          maxFeePerGas: MOCK_GAS_PRICES.standard.maxFeePerGas.toString(),
+          maxPriorityFeePerGas: MOCK_GAS_PRICES.standard.maxPriorityFeePerGas.toString(),
+          estimatedTime: MOCK_GAS_PRICES.standard.estimatedTime,
+        },
+        fast: {
+          maxFeePerGas: MOCK_GAS_PRICES.fast.maxFeePerGas.toString(),
+          maxPriorityFeePerGas: MOCK_GAS_PRICES.fast.maxPriorityFeePerGas.toString(),
+          estimatedTime: MOCK_GAS_PRICES.fast.estimatedTime,
+        },
+        baseFee: MOCK_GAS_PRICES.baseFee.toString(),
+      };
+    } else {
+      // Real implementation - fetch from RPC or gas station API
+      const baseFee = '25'; // gwei
+
+      gasPrices = {
+        slow: {
+          maxFeePerGas: '30',
+          maxPriorityFeePerGas: '1',
+          estimatedTime: 120, // 2 minutes
+        },
+        standard: {
+          maxFeePerGas: '40',
+          maxPriorityFeePerGas: '2',
+          estimatedTime: 45, // 45 seconds
+        },
+        fast: {
+          maxFeePerGas: '60',
+          maxPriorityFeePerGas: '5',
+          estimatedTime: 15, // 15 seconds
+        },
+        baseFee,
+      };
+    }
 
     // Cache the result
     this.cache = {

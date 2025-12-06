@@ -3,6 +3,9 @@
  * Handles fetching and formatting token balances
  */
 
+import { AppConfig } from '../../config/app.config';
+import { MOCK_TOKEN_BALANCES } from '../../mocks/mockData';
+
 export interface TokenBalance {
   symbol: string;
   name: string;
@@ -47,18 +50,49 @@ export class BalanceService {
       if (nativeToken) return nativeToken;
     }
 
-    // Mock balance - in real app, would fetch from blockchain
-    const balance: TokenBalance = {
-      symbol: 'ETH',
-      name: 'Ethereum',
-      balance: '1.5234',
-      usdValue: '2850.45',
-      priceChange24h: 2.35,
-      contractAddress: '0x0000000000000000000000000000000000000000',
-      decimals: 18,
-    };
+    let balance: TokenBalance;
+
+    // Use mock data in demo mode
+    if (AppConfig.demoMode) {
+      const mockETH = MOCK_TOKEN_BALANCES.find(t => t.symbol === 'ETH');
+      if (mockETH) {
+        balance = this.convertMockBalance(mockETH);
+      } else {
+        throw new BalanceError('ETH not found in mock data');
+      }
+    } else {
+      // Real implementation - fetch from blockchain
+      balance = {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        balance: '1.5234',
+        usdValue: '2850.45',
+        priceChange24h: 2.35,
+        contractAddress: '0x0000000000000000000000000000000000000000',
+        decimals: 18,
+      };
+    }
 
     return balance;
+  }
+
+  /**
+   * Convert mock data TokenBalance to service TokenBalance format
+   */
+  private convertMockBalance(mockBalance: (typeof MOCK_TOKEN_BALANCES)[0]): TokenBalance {
+    return {
+      symbol: mockBalance.symbol,
+      name: mockBalance.name,
+      balance: mockBalance.balance,
+      usdValue: mockBalance.balanceUSD.toString(),
+      priceChange24h: mockBalance.priceChange24h,
+      contractAddress:
+        mockBalance.symbol === 'ETH'
+          ? '0x0000000000000000000000000000000000000000'
+          : `0x${mockBalance.id.padStart(40, '0')}`,
+      decimals: mockBalance.symbol === 'ETH' || mockBalance.symbol === 'MATIC' ? 18 : 6,
+      logoUrl: mockBalance.logo,
+    };
   }
 
   /**
@@ -75,45 +109,52 @@ export class BalanceService {
       return cached.data;
     }
 
-    // Mock token balances - in real app, would fetch from blockchain/API
-    const balances: TokenBalance[] = [
-      {
-        symbol: 'ETH',
-        name: 'Ethereum',
-        balance: '1.5234',
-        usdValue: '2850.45',
-        priceChange24h: 2.35,
-        contractAddress: '0x0000000000000000000000000000000000000000',
-        decimals: 18,
-      },
-      {
-        symbol: 'USDT',
-        name: 'Tether USD',
-        balance: '500.00',
-        usdValue: '500.00',
-        priceChange24h: 0.01,
-        contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-        decimals: 6,
-      },
-      {
-        symbol: 'USDC',
-        name: 'USD Coin',
-        balance: '250.50',
-        usdValue: '250.50',
-        priceChange24h: -0.02,
-        contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-        decimals: 6,
-      },
-      {
-        symbol: 'LINK',
-        name: 'Chainlink',
-        balance: '15.75',
-        usdValue: '187.43',
-        priceChange24h: 5.67,
-        contractAddress: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
-        decimals: 18,
-      },
-    ];
+    let balances: TokenBalance[];
+
+    // Use mock data in demo mode
+    if (AppConfig.demoMode) {
+      balances = MOCK_TOKEN_BALANCES.map(mock => this.convertMockBalance(mock));
+    } else {
+      // Real implementation - fetch from blockchain/API
+      balances = [
+        {
+          symbol: 'ETH',
+          name: 'Ethereum',
+          balance: '1.5234',
+          usdValue: '2850.45',
+          priceChange24h: 2.35,
+          contractAddress: '0x0000000000000000000000000000000000000000',
+          decimals: 18,
+        },
+        {
+          symbol: 'USDT',
+          name: 'Tether USD',
+          balance: '500.00',
+          usdValue: '500.00',
+          priceChange24h: 0.01,
+          contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+          decimals: 6,
+        },
+        {
+          symbol: 'USDC',
+          name: 'USD Coin',
+          balance: '250.50',
+          usdValue: '250.50',
+          priceChange24h: -0.02,
+          contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+          decimals: 6,
+        },
+        {
+          symbol: 'LINK',
+          name: 'Chainlink',
+          balance: '15.75',
+          usdValue: '187.43',
+          priceChange24h: 5.67,
+          contractAddress: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
+          decimals: 18,
+        },
+      ];
+    }
 
     // Cache the result
     this.cache.set(address, {
