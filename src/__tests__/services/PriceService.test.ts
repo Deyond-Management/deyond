@@ -4,16 +4,27 @@
  */
 
 import { PriceService } from '../../services/external/PriceService';
+import { AppConfig } from '../../config/app.config';
 
 // Mock fetch
 global.fetch = jest.fn();
 
 describe('PriceService', () => {
   let priceService: PriceService;
+  let originalDemoMode: boolean;
 
   beforeEach(() => {
+    // Disable demo mode for tests
+    originalDemoMode = AppConfig.demoMode;
+    AppConfig.demoMode = false;
+
     priceService = new PriceService();
     jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    // Restore demo mode
+    AppConfig.demoMode = originalDemoMode;
   });
 
   describe('getPrice', () => {

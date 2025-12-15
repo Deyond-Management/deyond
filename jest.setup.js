@@ -91,3 +91,27 @@ jest.mock(
   }),
   { virtual: true }
 );
+
+// Mock react-native-webview
+jest.mock('react-native-webview', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+  return {
+    WebView: jest.fn().mockImplementation(props => {
+      return React.createElement(View, { testID: 'webview-mock', ...props });
+    }),
+  };
+});
+
+// Mock expo-camera
+jest.mock('expo-camera', () => ({
+  CameraView: jest.fn().mockImplementation(props => {
+    const React = require('react');
+    const { View } = require('react-native');
+    return React.createElement(View, { testID: 'camera-mock', ...props });
+  }),
+  useCameraPermissions: jest.fn(() => [
+    { granted: true, canAskAgain: true },
+    jest.fn(() => Promise.resolve({ granted: true })),
+  ]),
+}));

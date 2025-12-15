@@ -5,6 +5,7 @@
 
 import { AppConfig } from '../../config/app.config';
 import { MOCK_PRICE_DATA } from '../../mocks/mockData';
+import { DEFAULT_SERVICES_CONFIG, CacheConfig } from '../../config/services.config';
 
 interface PriceResult {
   usd: number;
@@ -42,7 +43,12 @@ interface CacheEntry<T> {
 export class PriceService {
   private baseUrl: string = 'https://api.coingecko.com/api/v3';
   private cache: Map<string, CacheEntry<unknown>> = new Map();
-  private cacheTTL: number = 60000; // 60 seconds
+  private cacheTTL: number;
+
+  constructor(config?: Partial<CacheConfig>) {
+    const cacheConfig = { ...DEFAULT_SERVICES_CONFIG.cache, ...config };
+    this.cacheTTL = cacheConfig.priceTimeout;
+  }
 
   /**
    * Get current price for a token

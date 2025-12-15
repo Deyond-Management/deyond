@@ -4,6 +4,8 @@
  */
 
 import * as LocalAuthentication from 'expo-local-authentication';
+import { CryptoUtils } from '../../core/crypto/CryptoUtils';
+import { DEFAULT_SERVICES_CONFIG, SecurityConfig } from '../../config/services.config';
 
 type BiometricsType = 'none' | 'fingerprint' | 'face' | 'iris';
 type SecurityLevel = 'low' | 'medium' | 'high';
@@ -22,15 +24,22 @@ interface SetPINResult {
   success: boolean;
 }
 
-const MAX_FAILED_ATTEMPTS = 5;
-const LOCK_DURATION = 300000; // 5 minutes
-
 export class SecurityService {
   private pinHash: string | null = null;
+  private pinSalt: string | null = null; // Store salt for PBKDF2
   private biometricsEnabled: boolean = false;
   private failedAttempts: number = 0;
   private lockedUntil: number = 0;
-  private autoLockTimeout: number = 300000; // 5 minutes default
+  private autoLockTimeout: number;
+  private maxFailedAttempts: number;
+  private lockDuration: number;
+
+  constructor(config?: Partial<SecurityConfig>) {
+    const securityConfig = { ...DEFAULT_SERVICES_CONFIG.security, ...config };
+    this.maxFailedAttempts = securityConfig.maxFailedAttempts;
+    this.lockDuration = securityConfig.lockDuration;
+    this.autoLockTimeout = securityConfig.defaultAutoLockTimeout;
+  }
 
   /**
    * Set a new PIN
@@ -45,7 +54,11 @@ export class SecurityService {
       throw new Error('PIN must contain only digits');
     }
 
-    this.pinHash = this.hashPIN(pin);
+    // Generate new salt and hash PIN using PBKDF2
+    const { hash, salt } = await this.hashPIN(pin);
+    this.pinHash = hash;
+    this.pinSalt = salt;
+
     return { success: true };
   }
 
@@ -53,11 +66,12 @@ export class SecurityService {
    * Verify PIN
    */
   async verifyPIN(pin: string): Promise<boolean> {
-    if (!this.pinHash) {
+    if (!this.pinHash || !this.pinSalt) {
       return false;
     }
 
-    return this.hashPIN(pin) === this.pinHash;
+    const { hash } = await this.hashPIN(pin, this.pinSalt);
+    return hash === this.pinHash;
   }
 
   /**
@@ -89,6 +103,7 @@ export class SecurityService {
     }
 
     this.pinHash = null;
+    this.pinSalt = null;
     this.biometricsEnabled = false;
   }
 
@@ -198,8 +213,8 @@ export class SecurityService {
       return { success: true };
     } else {
       this.failedAttempts++;
-      if (this.failedAttempts >= MAX_FAILED_ATTEMPTS) {
-        this.lockedUntil = Date.now() + LOCK_DURATION;
+      if (this.failedAttempts >= this.maxFailedAttempts) {
+        this.lockedUntil = Date.now() + this.lockDuration;
       }
       return { success: false, error: 'Authentication failed' };
     }
@@ -244,6 +259,24 @@ export class SecurityService {
    * Set auto-lock timeout
    */
   async setAutoLockTimeout(timeout: number): Promise<void> {
+    // Validate timeout
+    if (typeof timeout !== 'number') {
+      throw new Error('Timeout must be a number');
+    }
+
+    if (timeout < 0) {
+      throw new Error('Timeout cannot be negative');
+    }
+
+    // Set reasonable limits: min 30 seconds, max 1 hour
+    if (timeout > 0 && timeout < 30000) {
+      throw new Error('Timeout must be at least 30 seconds (30000ms)');
+    }
+
+    if (timeout > 3600000) {
+      throw new Error('Timeout cannot exceed 1 hour (3600000ms)');
+    }
+
     this.autoLockTimeout = timeout;
   }
 
@@ -270,18 +303,43 @@ export class SecurityService {
   }
 
   /**
-   * Hash PIN (simple implementation for demo)
+   * Hash PIN using PBKDF2 with salt
+   * @param pin - The PIN to hash
+   * @param saltHex - Optional hex-encoded salt (if verifying), otherwise generates new salt
+   * @returns Object containing hash and salt as hex strings
    */
-  hashPIN(pin: string): string {
-    // In real app, use proper cryptographic hash with salt
-    let hash = 0;
-    const str = pin + 'salt_key_for_hashing';
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = (hash << 5) - hash + char;
-      hash = hash & hash; // Convert to 32-bit integer
+  private async hashPIN(pin: string, saltHex?: string): Promise<{ hash: string; salt: string }> {
+    // Use provided salt or generate new one
+    const salt = saltHex ? this.hexToBytes(saltHex) : CryptoUtils.generateRandomBytes(32);
+
+    // Derive key from PIN using PBKDF2
+    const hashBytes = await CryptoUtils.deriveKey(pin, salt);
+
+    // Convert to hex
+    const hash = this.bytesToHex(hashBytes);
+    const saltHexStr = this.bytesToHex(salt);
+
+    return { hash, salt: saltHexStr };
+  }
+
+  /**
+   * Convert bytes to hexadecimal string
+   */
+  private bytesToHex(bytes: Uint8Array): string {
+    return Array.from(bytes)
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  /**
+   * Convert hexadecimal string to bytes
+   */
+  private hexToBytes(hex: string): Uint8Array {
+    const bytes = new Uint8Array(hex.length / 2);
+    for (let i = 0; i < hex.length; i += 2) {
+      bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
     }
-    return hash.toString(16);
+    return bytes;
   }
 }
 

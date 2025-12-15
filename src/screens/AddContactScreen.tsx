@@ -55,7 +55,7 @@ export const AddContactScreen: React.FC<AddContactScreenProps> = ({ navigation, 
   const isAddressDuplicate = useCallback(
     (addr: string): boolean => {
       return contacts.some(
-        contact =>
+        (contact: Contact) =>
           contact.address.toLowerCase() === addr.toLowerCase() && contact.id !== editingContact?.id
       );
     },
@@ -151,7 +151,7 @@ export const AddContactScreen: React.FC<AddContactScreenProps> = ({ navigation, 
             onChangeText={handleNameChange}
             error={nameError}
             accessibilityLabel={i18n.t('addressBook.name')}
-            style={styles.input}
+            containerStyle={styles.input}
           />
 
           {/* Address Input */}
@@ -163,7 +163,7 @@ export const AddContactScreen: React.FC<AddContactScreenProps> = ({ navigation, 
             onChangeText={handleAddressChange}
             error={addressError}
             accessibilityLabel={i18n.t('addressBook.address')}
-            style={styles.input}
+            containerStyle={styles.input}
           />
 
           {/* QR Scan Button */}
@@ -185,7 +185,7 @@ export const AddContactScreen: React.FC<AddContactScreenProps> = ({ navigation, 
             value={label}
             onChangeText={handleLabelChange}
             accessibilityLabel={i18n.t('addressBook.label')}
-            style={styles.input}
+            containerStyle={styles.input}
           />
         </Card>
 

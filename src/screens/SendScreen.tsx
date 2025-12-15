@@ -52,7 +52,7 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation, route }) => 
   const networkFee = useMemo(() => {
     if (!selectedGasPreset) return '0.0021'; // Default fallback
     // Convert Gwei to ETH: (maxFeePerGas * gasLimit) / 1e9
-    const feeInEth = (selectedGasPreset.maxFeePerGas * gasLimit) / 1e9;
+    const feeInEth = (Number(selectedGasPreset.maxFeePerGas) * gasLimit) / 1e9;
     return feeInEth.toFixed(6);
   }, [selectedGasPreset, gasLimit]);
 

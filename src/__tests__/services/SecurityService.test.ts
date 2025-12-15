@@ -246,20 +246,17 @@ describe('SecurityService', () => {
     });
   });
 
+  // Note: hashPIN is now a private method using PBKDF2
+  // PIN hashing security is tested indirectly through setPIN/verifyPIN methods
   describe('Hash', () => {
-    it('should hash PIN securely', () => {
-      const hash1 = securityService.hashPIN('123456');
-      const hash2 = securityService.hashPIN('123456');
+    it('should hash and verify PIN securely', async () => {
+      await securityService.setPIN('123456');
 
-      expect(hash1).toBe(hash2);
-      expect(hash1).not.toBe('123456');
-    });
+      const isValid = await securityService.verifyPIN('123456');
+      const isInvalid = await securityService.verifyPIN('654321');
 
-    it('should produce different hashes for different PINs', () => {
-      const hash1 = securityService.hashPIN('123456');
-      const hash2 = securityService.hashPIN('654321');
-
-      expect(hash1).not.toBe(hash2);
+      expect(isValid).toBe(true);
+      expect(isInvalid).toBe(false);
     });
   });
 });

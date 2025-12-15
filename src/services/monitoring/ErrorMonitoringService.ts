@@ -184,6 +184,34 @@ export class ErrorMonitoringService {
       data: { type, status },
     });
   }
+
+  /**
+   * Log error with context
+   */
+  logError(message: string, error?: Error, context?: Record<string, unknown>): void {
+    if (error) {
+      this.captureError(error, { message, ...context });
+    } else {
+      this.captureMessage(message, 'error');
+      if (context) {
+        Object.entries(context).forEach(([key, value]) => {
+          this.setExtra(key, value);
+        });
+      }
+    }
+  }
+
+  /**
+   * Log warning with context
+   */
+  logWarning(message: string, context?: Record<string, unknown>): void {
+    this.captureMessage(message, 'warning');
+    if (context) {
+      Object.entries(context).forEach(([key, value]) => {
+        this.setExtra(key, value);
+      });
+    }
+  }
 }
 
 // Singleton instance

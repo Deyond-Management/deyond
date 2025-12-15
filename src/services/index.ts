@@ -4,7 +4,7 @@
  */
 
 // Blockchain Services
-export { default as BalanceService } from './blockchain/BalanceService';
+export { BalanceService, balanceService } from './blockchain/BalanceService';
 export { default as GasService } from './blockchain/GasService';
 export { default as TransactionService } from './blockchain/TransactionService';
 export { default as EthereumProvider } from './blockchain/EthereumProvider';
@@ -15,8 +15,31 @@ export { default as NFTService } from './blockchain/NFTService';
 // Wallet Services
 export { SecureStorageService } from './wallet/SecureStorageService';
 export { default as CryptoService } from './wallet/CryptoService';
-export { default as WalletConnectService } from './wallet/WalletConnectService';
+export { default as WalletService } from './wallet/WalletService';
 export { default as HardwareWalletService } from './wallet/HardwareWalletService';
+
+// WalletConnect Services
+export {
+  default as WalletConnectService,
+  getWalletConnectService,
+} from './walletconnect/WalletConnectService';
+
+// Swap Services
+export { default as SwapService, getSwapService } from './swap/SwapService';
+
+// DApp Services
+export { getWeb3ProviderScript } from './dapp/Web3ProviderInjection';
+export { default as Web3RequestHandler } from './dapp/Web3RequestHandler';
+
+// NFT Services
+export { default as NFTServiceFromNFT } from './nft/NFTService';
+
+// Multi-chain Support
+export { getChainManager } from './blockchain/ChainManager';
+export { getProviderManager } from './blockchain/ProviderManager';
+
+// Error Handling
+export { getErrorReporter } from './error/ErrorReporter';
 
 // Monitoring Services
 export { default as AnalyticsService } from './monitoring/AnalyticsService';

@@ -206,13 +206,17 @@ describe('Logger', () => {
 
       testLogger.error('error message', error, context);
 
-      expect(mockErrorMonitoring.logError).toHaveBeenCalledWith(error, context);
+      expect(mockErrorMonitoring.logError).toHaveBeenCalledWith('error message', error, context);
     });
 
     it('should create Error object if none provided', () => {
       testLogger.error('error message without Error object');
 
-      expect(mockErrorMonitoring.logError).toHaveBeenCalledWith(expect.any(Error), undefined);
+      expect(mockErrorMonitoring.logError).toHaveBeenCalledWith(
+        'error message without Error object',
+        expect.any(Error),
+        undefined
+      );
     });
 
     it('should not send to error monitoring when disabled', () => {

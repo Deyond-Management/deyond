@@ -132,9 +132,9 @@ class Logger {
 
     if (this.config.enableErrorMonitoring && this.errorMonitoring) {
       if (error) {
-        this.errorMonitoring.logError(error, context);
+        this.errorMonitoring.logError(message, error, context);
       } else {
-        this.errorMonitoring.logError(new Error(message), context);
+        this.errorMonitoring.logError(message, new Error(message), context);
       }
     }
   }

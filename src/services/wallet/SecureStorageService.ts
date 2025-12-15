@@ -146,6 +146,42 @@ export class SecureStorageService {
   async getPINHash(): Promise<string | null> {
     return this.getItem('pin_hash');
   }
+
+  /**
+   * Delete mnemonic phrase
+   */
+  async deleteMnemonic(walletId: string): Promise<void> {
+    const key = `mnemonic_${walletId}`;
+    await this.deleteItem(key);
+  }
+
+  /**
+   * Store wallet address (current active wallet)
+   */
+  async storeWalletAddress(address: string): Promise<void> {
+    await this.setItem('current_wallet_address', address.toLowerCase());
+  }
+
+  /**
+   * Get wallet address (current active wallet)
+   */
+  async getWalletAddress(): Promise<string | null> {
+    return this.getItem('current_wallet_address');
+  }
+
+  /**
+   * Delete wallet address
+   */
+  async deleteWalletAddress(): Promise<void> {
+    await this.deleteItem('current_wallet_address');
+  }
+
+  /**
+   * Generic set method (alias for setItem)
+   */
+  async set(key: string, value: string): Promise<void> {
+    await this.setItem(key, value);
+  }
 }
 
 export default SecureStorageService;

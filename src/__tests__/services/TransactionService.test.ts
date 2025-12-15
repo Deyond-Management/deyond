@@ -90,7 +90,8 @@ describe('TransactionService', () => {
         chainId: 1,
       };
 
-      const signed = await transactionService.signTransaction(tx, 'mockPrivateKey');
+      const mockPrivateKey = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef';
+      const signed = await transactionService.signTransaction(tx, mockPrivateKey);
 
       expect(signed).toBeDefined();
       expect(signed.rawTransaction).toBeDefined();
@@ -108,7 +109,8 @@ describe('TransactionService', () => {
         chainId: 1,
       };
 
-      const signed = await transactionService.signTransaction(tx, 'mockPrivateKey');
+      const mockPrivateKey = '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef';
+      const signed = await transactionService.signTransaction(tx, mockPrivateKey);
 
       expect(signed.transactionHash).toMatch(/^0x[a-fA-F0-9]{64}$/);
     });
@@ -118,7 +120,7 @@ describe('TransactionService', () => {
     it('should broadcast signed transaction', async () => {
       const signedTx: SignedTransaction = {
         rawTransaction: '0xf86c...',
-        transactionHash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab',
+        transactionHash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef123456789a',
       };
 
       const result = await transactionService.broadcastTransaction(signedTx);
@@ -130,7 +132,7 @@ describe('TransactionService', () => {
     it('should return pending status after broadcast', async () => {
       const signedTx: SignedTransaction = {
         rawTransaction: '0xf86c...',
-        transactionHash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab',
+        transactionHash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef123456789a',
       };
 
       const result = await transactionService.broadcastTransaction(signedTx);
@@ -141,7 +143,7 @@ describe('TransactionService', () => {
 
   describe('Get Transaction Receipt', () => {
     it('should get transaction receipt', async () => {
-      const txHash = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab';
+      const txHash = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef123456789a';
 
       const receipt = await transactionService.getTransactionReceipt(txHash);
 
@@ -157,7 +159,7 @@ describe('TransactionService', () => {
     });
 
     it('should include status in receipt', async () => {
-      const txHash = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab';
+      const txHash = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef123456789a';
 
       const receipt = await transactionService.getTransactionReceipt(txHash);
 
@@ -168,7 +170,7 @@ describe('TransactionService', () => {
     });
 
     it('should include gas used in receipt', async () => {
-      const txHash = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab';
+      const txHash = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef123456789a';
 
       const receipt = await transactionService.getTransactionReceipt(txHash);
 
@@ -180,7 +182,7 @@ describe('TransactionService', () => {
 
   describe('Wait for Transaction', () => {
     it('should wait for transaction confirmation', async () => {
-      const txHash = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab';
+      const txHash = '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef123456789a';
 
       const receipt = await transactionService.waitForTransaction(txHash, 1);
 
@@ -191,7 +193,7 @@ describe('TransactionService', () => {
     it('should timeout if transaction not confirmed', async () => {
       const txHash = '0x0000000000000000000000000000000000000000000000000000000000000001';
 
-      await expect(transactionService.waitForTransaction(txHash, 1, 100)).rejects.toThrow(
+      await expect(transactionService.waitForTransaction(txHash, 1, 1000)).rejects.toThrow(
         'Transaction confirmation timeout'
       );
     });

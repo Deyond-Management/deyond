@@ -168,10 +168,7 @@ describe('GasService', () => {
       expect(eth).toBe('1');
     });
 
-    it('should format wei to gwei', () => {
-      const gwei = gasService.weiToGwei('1000000000'); // 1 billion wei = 1 gwei
-      expect(gwei).toBe('1');
-    });
+    // weiToGwei is now private - tested indirectly through formatGasPrice and getGasPrices
 
     it('should format gas price for display', () => {
       const formatted = gasService.formatGasPrice('50000000000'); // 50 gwei in wei

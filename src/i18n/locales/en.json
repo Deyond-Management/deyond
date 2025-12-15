@@ -165,6 +165,7 @@
     "send": "Send",
     "receive": "Receive",
     "buy": "Buy",
+    "swap": "Swap",
     "myTokens": "My Tokens",
     "recentTransactions": "Recent Transactions",
     "viewAll": "View All",
@@ -446,5 +447,109 @@
     "timeout": "Request timed out. Please try again.",
     "unauthorized": "Unauthorized access.",
     "notFound": "Resource not found."
+  },
+  "network": {
+    "selectNetwork": "Select Network",
+    "switching": "Switching network...",
+    "mainnet": "Mainnet",
+    "testnet": "Testnet",
+    "currentNetwork": "Current Network"
+  },
+  "dappBrowser": {
+    "title": "Browser",
+    "enterUrl": "Enter URL",
+    "reload": "Reload",
+    "bookmarks": "Bookmarks",
+    "history": "History",
+    "transactionRequest": "Transaction Request",
+    "signRequest": "Sign Request",
+    "popular": "Popular DApps",
+    "addBookmark": "Add Bookmark",
+    "removeBookmark": "Remove Bookmark"
+  },
+  "walletConnect": {
+    "title": "WalletConnect",
+    "scanQR": "Scan QR Code",
+    "sessions": "Connected Sessions",
+    "noSessions": "No active sessions",
+    "noSessionsMessage": "Scan a QR code to connect with DApps",
+    "connecting": "Connecting",
+    "connectingMessage": "Please approve the connection request",
+    "connected": "Connected",
+    "disconnect": "Disconnect",
+    "sessionRequest": "Connection Request",
+    "approveSession": "Approve Connection",
+    "rejectSession": "Reject",
+    "invalidQR": "Invalid QR Code",
+    "invalidQRMessage": "Please scan a valid WalletConnect QR code",
+    "pairingFailed": "Failed to connect",
+    "cameraPermissionTitle": "Camera Permission Required",
+    "cameraPermissionMessage": "Please allow camera access to scan QR codes",
+    "requestingPermission": "Requesting camera permission...",
+    "grantPermission": "Grant Permission",
+    "scanInstructions": "Align QR code within the frame",
+    "connectedAt": "Connected",
+    "disconnectConfirm": "Are you sure you want to disconnect?"
+  },
+  "exportWallet": {
+    "title": "Export Wallet",
+    "securityWarning": {
+      "title": "Security Warning",
+      "message": "Never share your recovery phrase or private key with anyone. Store them securely offline."
+    },
+    "selectMethod": "Select Export Method",
+    "methods": {
+      "mnemonic": "Recovery Phrase",
+      "privateKey": "Private Key"
+    },
+    "descriptions": {
+      "mnemonic": "Your 12 or 24 word recovery phrase can be used to restore your wallet in any compatible wallet app.",
+      "privateKey": "Your private key is a unique identifier for this account. It can be used to import this account into other wallets."
+    },
+    "enterPin": "Enter PIN to continue",
+    "export": "Export",
+    "warning": {
+      "title": "Security Warning",
+      "message": "Make sure no one is watching your screen. Anyone with access to this information can steal your funds."
+    },
+    "yourMnemonic": "Your Recovery Phrase",
+    "yourPrivateKey": "Your Private Key",
+    "copyToClipboard": "Copy to Clipboard",
+    "copied": {
+      "title": "Copied",
+      "message": "Copied to clipboard. Make sure to store it securely."
+    },
+    "notes": {
+      "title": "Important Notes",
+      "note1": "Store this information securely offline",
+      "note2": "Never share it with anyone",
+      "note3": "Clear your clipboard after pasting"
+    },
+    "errors": {
+      "pinRequired": "PIN is required",
+      "exportFailed": "Failed to export wallet data"
+    }
+  },
+  "nft": {
+    "title": "NFTs",
+    "nfts": "NFTs",
+    "collections": "Collections",
+    "empty": {
+      "title": "No NFTs",
+      "message": "Your NFT collection will appear here"
+    },
+    "detail": {
+      "properties": "Properties",
+      "details": "Details",
+      "contractAddress": "Contract Address",
+      "tokenId": "Token ID",
+      "tokenStandard": "Token Standard",
+      "blockchain": "Blockchain",
+      "owner": "Owner",
+      "description": "Description",
+      "viewOnExplorer": "View on Explorer",
+      "send": "Send",
+      "share": "Share"
+    }
   }
 }

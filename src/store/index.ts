@@ -12,6 +12,7 @@ import networkReducer from './slices/networkSlice';
 import onboardingReducer from './slices/onboardingSlice';
 import tokenReducer from './slices/tokenSlice';
 import addressBookReducer from './slices/addressBookSlice';
+import swapReducer from './slices/swapSlice';
 
 // Persist configurations
 const walletPersistConfig = {
@@ -50,6 +51,12 @@ const addressBookPersistConfig = {
   whitelist: ['contacts'], // Persist saved contacts
 };
 
+const swapPersistConfig = {
+  key: 'swap',
+  storage: AsyncStorage,
+  whitelist: ['history', 'settings'], // Persist swap history and settings
+};
+
 // Create persisted reducers
 const persistedWalletReducer = persistReducer(walletPersistConfig, walletReducer);
 const persistedTransactionReducer = persistReducer(transactionPersistConfig, transactionReducer);
@@ -57,6 +64,7 @@ const persistedChatReducer = persistReducer(chatPersistConfig, chatReducer);
 const persistedNetworkReducer = persistReducer(networkPersistConfig, networkReducer);
 const persistedOnboardingReducer = persistReducer(onboardingPersistConfig, onboardingReducer);
 const persistedAddressBookReducer = persistReducer(addressBookPersistConfig, addressBookReducer);
+const persistedSwapReducer = persistReducer(swapPersistConfig, swapReducer);
 
 // Configure store
 export const store = configureStore({
@@ -68,6 +76,7 @@ export const store = configureStore({
     onboarding: persistedOnboardingReducer,
     token: tokenReducer, // Token balances not persisted - fetched fresh
     addressBook: persistedAddressBookReducer,
+    swap: persistedSwapReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -115,6 +115,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     navigation.navigate('Receive');
   }, [navigation]);
 
+  const handleSwap = useCallback(() => {
+    navigation.navigate('Swap');
+  }, [navigation]);
+
   const handleBuy = useCallback(() => {
     // Open external buy crypto link (placeholder)
     Linking.openURL('https://buy.crypto.example.com');
@@ -179,7 +183,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <BalanceCard totalBalance={totalBalance} />
 
         {/* Action Buttons */}
-        <QuickActions onSend={handleSend} onReceive={handleReceive} onBuy={handleBuy} />
+        <QuickActions
+          onSend={handleSend}
+          onReceive={handleReceive}
+          onSwap={handleSwap}
+          onBuy={handleBuy}
+        />
 
         {/* Tokens Section */}
         <View style={styles.section}>

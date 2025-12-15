@@ -7,7 +7,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ViewStyle, StyleProp } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
 
-type IconType = 'wallet' | 'transaction' | 'search' | 'generic';
+type IconType = 'wallet' | 'transaction' | 'search' | 'generic' | 'nft';
 
 interface EmptyStateProps {
   title: string;
@@ -25,6 +25,7 @@ const IconSymbol: Record<IconType, string> = {
   transaction: '📋',
   search: '🔍',
   generic: '📭',
+  nft: '🖼️',
 };
 
 export const EmptyState: React.FC<EmptyStateProps> = ({

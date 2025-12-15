@@ -12,9 +12,10 @@ interface QuickActionsProps {
   onSend: () => void;
   onReceive: () => void;
   onBuy: () => void;
+  onSwap: () => void;
 }
 
-export const QuickActions: React.FC<QuickActionsProps> = ({ onSend, onReceive, onBuy }) => {
+export const QuickActions: React.FC<QuickActionsProps> = ({ onSend, onReceive, onBuy, onSwap }) => {
   return (
     <View style={styles.actionsContainer}>
       <Button
@@ -34,6 +35,15 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ onSend, onReceive, o
         accessibilityLabel={i18n.t('home.receive')}
       >
         {i18n.t('home.receive')}
+      </Button>
+      <Button
+        testID="swap-button"
+        onPress={onSwap}
+        variant="outlined"
+        style={styles.actionButton}
+        accessibilityLabel={i18n.t('home.swap')}
+      >
+        {i18n.t('home.swap')}
       </Button>
       <Button
         testID="buy-button"

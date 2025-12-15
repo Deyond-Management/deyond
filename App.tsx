@@ -13,6 +13,7 @@ import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { ErrorBoundary } from './src/components/ErrorBoundary';
 import Toast from './src/components/Toast';
+import { validateEnvironment, getEnvironmentSummary } from './src/config/env.validation';
 
 // App Content with theme access
 const AppContent: React.FC = () => {
@@ -24,10 +25,38 @@ const AppContent: React.FC = () => {
     // Simulate app initialization
     const initializeApp = async () => {
       try {
+        // Validate environment variables
+        const envValidation = validateEnvironment();
+
+        // Log validation results
+        if (envValidation.warnings.length > 0) {
+          console.warn('Environment validation warnings:');
+          envValidation.warnings.forEach(warning => console.warn(`  - ${warning}`));
+        }
+
+        if (!envValidation.isValid) {
+          console.error('Environment validation errors:');
+          envValidation.errors.forEach(error => console.error(`  - ${error}`));
+          throw new Error('Environment validation failed. Check console for details.');
+        }
+
+        // Log environment summary
+        const summary = getEnvironmentSummary();
+        console.log('Environment summary:', {
+          demoMode: summary.demoMode,
+          appEnv: summary.appEnv,
+          hasRpcProviders: summary.hasRpcProviders,
+          configuredNetworks: summary.configuredNetworks,
+        });
+
         // Check for stored wallet
         // Check authentication state
         // Load user preferences
         await new Promise(resolve => setTimeout(resolve, 500));
+      } catch (error) {
+        console.error('App initialization failed:', error);
+        // In production, you might want to show an error screen
+        // For now, we'll just log and continue
       } finally {
         setIsLoading(false);
       }

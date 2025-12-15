@@ -5,6 +5,9 @@
 
 import { AppConfig } from '../../config/app.config';
 import { MOCK_TOKEN_BALANCES } from '../../mocks/mockData';
+import { DEFAULT_SERVICES_CONFIG, CacheConfig } from '../../config/services.config';
+import { getProviderManager } from './ProviderManager';
+import { EthereumProvider } from './EthereumProvider';
 
 export interface TokenBalance {
   symbol: string;
@@ -26,7 +29,22 @@ export class BalanceError extends Error {
 
 export class BalanceService {
   private cache: Map<string, { data: TokenBalance[]; timestamp: number }> = new Map();
-  private cacheTimeout = 30000; // 30 seconds
+  private cacheTimeout: number;
+  private provider: EthereumProvider | null = null;
+
+  constructor(config?: Partial<CacheConfig>) {
+    const cacheConfig = { ...DEFAULT_SERVICES_CONFIG.cache, ...config };
+    this.cacheTimeout = cacheConfig.balanceTimeout;
+
+    // Initialize provider if not in demo mode
+    if (!AppConfig.demoMode) {
+      try {
+        this.provider = getProviderManager().getCurrentProvider();
+      } catch (error) {
+        console.warn('Failed to initialize provider:', error);
+      }
+    }
+  }
 
   /**
    * Validate Ethereum address format
@@ -61,16 +79,36 @@ export class BalanceService {
         throw new BalanceError('ETH not found in mock data');
       }
     } else {
-      // Real implementation - fetch from blockchain
-      balance = {
-        symbol: 'ETH',
-        name: 'Ethereum',
-        balance: '1.5234',
-        usdValue: '2850.45',
-        priceChange24h: 2.35,
-        contractAddress: '0x0000000000000000000000000000000000000000',
-        decimals: 18,
-      };
+      // Real implementation - fetch from blockchain via RPC
+      if (!this.provider) {
+        throw new BalanceError('Provider not initialized');
+      }
+
+      try {
+        // Get balance in wei
+        const balanceWei = await this.provider.getBalance(address);
+
+        // Convert wei to ETH (1 ETH = 10^18 wei)
+        const balanceETH = this.weiToEther(balanceWei);
+
+        // TODO: Fetch USD price from PriceService
+        const usdValue = '0.00';
+        const priceChange24h = 0;
+
+        balance = {
+          symbol: 'ETH',
+          name: 'Ethereum',
+          balance: balanceETH,
+          usdValue,
+          priceChange24h,
+          contractAddress: '0x0000000000000000000000000000000000000000',
+          decimals: 18,
+        };
+      } catch (error) {
+        throw new BalanceError(
+          `Failed to fetch balance: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      }
     }
 
     return balance;
@@ -182,7 +220,20 @@ export class BalanceService {
    * Format balance with proper decimal places
    */
   formatBalance(balance: string): string {
+    // Validate input
+    if (!balance || typeof balance !== 'string') {
+      throw new BalanceError('Balance must be a valid string');
+    }
+
     const num = parseFloat(balance);
+
+    if (isNaN(num)) {
+      throw new BalanceError('Balance must be a valid number');
+    }
+
+    if (num < 0) {
+      throw new BalanceError('Balance cannot be negative');
+    }
 
     if (num === 0) return '0';
 
@@ -208,7 +259,20 @@ export class BalanceService {
    * Format USD value with dollar sign
    */
   formatUSD(value: string): string {
+    // Validate input
+    if (!value || typeof value !== 'string') {
+      throw new BalanceError('USD value must be a valid string');
+    }
+
     const num = parseFloat(value);
+
+    if (isNaN(num)) {
+      throw new BalanceError('USD value must be a valid number');
+    }
+
+    if (num < 0) {
+      throw new BalanceError('USD value cannot be negative');
+    }
 
     return num.toLocaleString('en-US', {
       style: 'currency',
@@ -223,6 +287,30 @@ export class BalanceService {
    */
   clearCache(): void {
     this.cache.clear();
+  }
+
+  /**
+   * Convert wei to ether
+   */
+  private weiToEther(wei: string): string {
+    const weiValue = BigInt(wei);
+    const divisor = BigInt('1000000000000000000'); // 10^18
+
+    // Get whole and fractional parts
+    const wholePart = weiValue / divisor;
+    const fractionalPart = weiValue % divisor;
+
+    // Convert fractional part to string with leading zeros
+    const fractionalStr = fractionalPart.toString().padStart(18, '0');
+
+    // Trim trailing zeros
+    const trimmed = fractionalStr.replace(/0+$/, '');
+
+    if (trimmed === '') {
+      return wholePart.toString();
+    }
+
+    return `${wholePart}.${trimmed}`;
   }
 
   /**

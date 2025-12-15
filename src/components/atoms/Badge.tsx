@@ -150,19 +150,19 @@ export const Badge: React.FC<BadgeProps> = ({
   // Container style
   const containerStyle: ViewStyle = {
     backgroundColor: outlined ? 'transparent' : backgroundColor || colors.bg,
-    borderRadius: dot ? (dimensions.width as number) / 2 : 999,
+    borderRadius: dot ? (dimensions as (typeof DOT_SIZES)[BadgeSize]).width / 2 : 999,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'flex-start',
     ...(dot
       ? {
-          width: dimensions.width,
-          height: dimensions.height,
+          width: (dimensions as (typeof DOT_SIZES)[BadgeSize]).width,
+          height: (dimensions as (typeof DOT_SIZES)[BadgeSize]).height,
         }
       : {
-          paddingHorizontal: dimensions.paddingHorizontal,
-          paddingVertical: dimensions.paddingVertical,
-          minWidth: dimensions.minWidth,
+          paddingHorizontal: (dimensions as (typeof TEXT_SIZES)[BadgeSize]).paddingHorizontal,
+          paddingVertical: (dimensions as (typeof TEXT_SIZES)[BadgeSize]).paddingVertical,
+          minWidth: (dimensions as (typeof TEXT_SIZES)[BadgeSize]).minWidth,
         }),
     ...(outlined && {
       borderWidth: 1,
@@ -174,9 +174,11 @@ export const Badge: React.FC<BadgeProps> = ({
   // Text style
   const textStyles: TextStyle = {
     color: outlined ? backgroundColor || colors.border : textColor || colors.text,
-    fontSize: dimensions.fontSize,
+    fontSize: (dimensions as (typeof TEXT_SIZES)[BadgeSize]).fontSize,
     fontWeight: '600',
-    lineHeight: dimensions.fontSize ? dimensions.fontSize * 1.2 : undefined,
+    lineHeight: (dimensions as (typeof TEXT_SIZES)[BadgeSize]).fontSize
+      ? (dimensions as (typeof TEXT_SIZES)[BadgeSize]).fontSize * 1.2
+      : undefined,
   };
 
   return (

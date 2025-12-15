@@ -1,13 +1,14 @@
 /**
  * TransactionHistoryScreen
- * Displays list of past transactions with filters
+ * Displays list of past transactions with filters and infinite scroll
  */
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { EmptyState } from '../components/atoms/EmptyState';
+import { SkeletonTransactionItem } from '../components/atoms/Skeleton';
 import {
   TransactionItem,
   Transaction,
@@ -21,6 +22,7 @@ import {
   StatusFilter,
 } from '../components/transactions/TransactionFilters';
 import { TransactionSearchBar } from '../components/transactions/TransactionSearchBar';
+import TransactionService, { TransactionHistory } from '../services/blockchain/TransactionService';
 import i18n from '../i18n';
 
 // Export types for external use
@@ -28,65 +30,39 @@ export type { Transaction, TransactionType, TransactionStatus };
 
 interface TransactionHistoryScreenProps {
   navigation: any;
-  initialTransactions?: Transaction[];
+  walletAddress?: string;
   initialLoading?: boolean;
 }
 
-// Mock transactions
-const mockTransactions: Transaction[] = [
-  {
-    id: '1',
-    type: 'sent',
-    amount: '0.5',
+// Convert TransactionHistory to Transaction format for UI
+const convertToTransaction = (tx: TransactionHistory, currentAddress: string): Transaction => {
+  const isSent = tx.from.toLowerCase() === currentAddress.toLowerCase();
+
+  return {
+    id: tx.hash,
+    type: isSent ? 'sent' : 'received',
+    amount: tx.value,
     token: 'ETH',
-    address: '0x1234567890123456789012345678901234567890',
-    hash: '0xabcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234',
-    status: 'confirmed',
-    timestamp: Date.now() - 1000 * 60 * 30,
-    fee: '0.0021',
-  },
-  {
-    id: '2',
-    type: 'received',
-    amount: '1.0',
-    token: 'ETH',
-    address: '0x9876543210987654321098765432109876543210',
-    hash: '0xefgh5678901234efgh5678901234efgh5678901234efgh5678901234efgh5678',
-    status: 'confirmed',
-    timestamp: Date.now() - 1000 * 60 * 60 * 2,
-  },
-  {
-    id: '3',
-    type: 'sent',
-    amount: '100',
-    token: 'USDT',
-    address: '0xabcdef1234567890abcdef1234567890abcdef12',
-    hash: '0xijkl9012345678ijkl9012345678ijkl9012345678ijkl9012345678ijkl9012',
-    status: 'pending',
-    timestamp: Date.now() - 1000 * 60 * 5,
-    fee: '0.0015',
-  },
-  {
-    id: '4',
-    type: 'received',
-    amount: '0.25',
-    token: 'ETH',
-    address: '0xfedcba0987654321fedcba0987654321fedcba09',
-    hash: '0xmnop3456789012mnop3456789012mnop3456789012mnop3456789012mnop3456',
-    status: 'confirmed',
-    timestamp: Date.now() - 1000 * 60 * 60 * 24,
-  },
-];
+    address: isSent ? tx.to : tx.from,
+    hash: tx.hash,
+    status: tx.status,
+    timestamp: tx.timestamp,
+    fee: tx.gasUsed,
+  };
+};
 
 export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> = ({
   navigation,
-  initialTransactions,
+  walletAddress = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb', // Default demo address
   initialLoading = false,
 }) => {
   const { theme } = useTheme();
 
+  // Services
+  const transactionService = useMemo(() => new TransactionService(), []);
+
   // State
-  const [transactions] = useState<Transaction[]>(initialTransactions ?? mockTransactions);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filter, setFilter] = useState<FilterType>('all');
   const [dateRangeFilter, setDateRangeFilter] = useState<DateRangeFilter>('allTime');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('allStatus');
@@ -94,7 +70,52 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   const [searchQuery, setSearchQuery] = useState('');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [loading] = useState(initialLoading);
+  const [loading, setLoading] = useState(initialLoading);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const PAGE_SIZE = 20;
+
+  // Initial load
+  useEffect(() => {
+    loadTransactions(0, true);
+  }, []);
+
+  // Load transactions from service
+  const loadTransactions = useCallback(
+    async (page: number, isInitial: boolean = false) => {
+      if (isInitial) {
+        setLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
+
+      try {
+        const history = await transactionService.getTransactionHistory({
+          address: walletAddress,
+          page,
+          pageSize: PAGE_SIZE,
+        });
+
+        const newTransactions = history.map(tx => convertToTransaction(tx, walletAddress));
+
+        if (isInitial) {
+          setTransactions(newTransactions);
+        } else {
+          setTransactions(prev => [...prev, ...newTransactions]);
+        }
+
+        setHasMore(newTransactions.length === PAGE_SIZE);
+        setCurrentPage(page);
+      } catch (error) {
+        console.error('Failed to load transactions:', error);
+      } finally {
+        setLoading(false);
+        setLoadingMore(false);
+      }
+    },
+    [walletAddress, transactionService, PAGE_SIZE]
+  );
 
   // Get unique tokens from transactions
   const availableTokens = useMemo(() => {
@@ -160,15 +181,17 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   // Handle refresh
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    // In real app, fetch new transactions
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    transactionService.clearTransactionCache();
+    await loadTransactions(0, true);
     setRefreshing(false);
-  }, []);
+  }, [loadTransactions, transactionService]);
 
   // Handle load more
   const handleLoadMore = useCallback(() => {
-    // In real app, load more transactions
-  }, []);
+    if (!loadingMore && hasMore && !loading) {
+      loadTransactions(currentPage + 1, false);
+    }
+  }, [loadingMore, hasMore, loading, currentPage, loadTransactions]);
 
   // Clear all filters
   const handleClearFilters = useCallback(() => {
@@ -196,8 +219,18 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   if (loading) {
     return (
       <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator testID="loading-indicator" size="large" color={theme.colors.primary} />
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+            {i18n.t('transactionHistory.title')}
+          </Text>
+        </View>
+
+        {/* Skeleton Loading */}
+        <View style={styles.skeletonContainer}>
+          {[...Array(8)].map((_, index) => (
+            <SkeletonTransactionItem key={index} index={index} />
+          ))}
         </View>
       </SafeAreaView>
     );
@@ -248,8 +281,15 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
           }
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
+          ListFooterComponent={
+            loadingMore ? (
+              <View style={styles.footerLoader}>
+                <ActivityIndicator size="small" color={theme.colors.primary} />
+              </View>
+            ) : null
+          }
         />
-      ) : (
+      ) : loading ? null : (
         <View testID="empty-state" style={styles.emptyContainer}>
           <EmptyState
             title={i18n.t('transactionHistory.empty.title')}
@@ -267,6 +307,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  footerLoader: {
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
   header: {
     padding: 16,
   },
@@ -281,6 +325,9 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
+  },
+  skeletonContainer: {
+    padding: 16,
   },
   title: {
     fontSize: 24,

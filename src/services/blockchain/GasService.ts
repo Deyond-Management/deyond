@@ -5,6 +5,9 @@
 
 import { AppConfig } from '../../config/app.config';
 import { MOCK_GAS_PRICES } from '../../mocks/mockData';
+import { DEFAULT_SERVICES_CONFIG, CacheConfig } from '../../config/services.config';
+import { getProviderManager } from './ProviderManager';
+import { EthereumProvider } from './EthereumProvider';
 
 export class GasError extends Error {
   constructor(message: string) {
@@ -44,7 +47,22 @@ export interface FeeCalculation {
 
 export class GasService {
   private cache: { data: GasPrices; timestamp: number } | null = null;
-  private cacheTimeout = 15000; // 15 seconds
+  private cacheTimeout: number;
+  private provider: EthereumProvider | null = null;
+
+  constructor(config?: Partial<CacheConfig>) {
+    const cacheConfig = { ...DEFAULT_SERVICES_CONFIG.cache, ...config };
+    this.cacheTimeout = cacheConfig.gasTimeout;
+
+    // Initialize provider if not in demo mode
+    if (!AppConfig.demoMode) {
+      try {
+        this.provider = getProviderManager().getCurrentProvider();
+      } catch (error) {
+        console.warn('Failed to initialize provider:', error);
+      }
+    }
+  }
 
   /**
    * Get current gas prices for all presets
@@ -78,27 +96,46 @@ export class GasService {
         baseFee: MOCK_GAS_PRICES.baseFee.toString(),
       };
     } else {
-      // Real implementation - fetch from RPC or gas station API
-      const baseFee = '25'; // gwei
+      // Real implementation - fetch from RPC
+      if (!this.provider) {
+        throw new GasError('Provider not initialized');
+      }
 
-      gasPrices = {
-        slow: {
-          maxFeePerGas: '30',
-          maxPriorityFeePerGas: '1',
-          estimatedTime: 120, // 2 minutes
-        },
-        standard: {
-          maxFeePerGas: '40',
-          maxPriorityFeePerGas: '2',
-          estimatedTime: 45, // 45 seconds
-        },
-        fast: {
-          maxFeePerGas: '60',
-          maxPriorityFeePerGas: '5',
-          estimatedTime: 15, // 15 seconds
-        },
-        baseFee,
-      };
+      try {
+        // Get EIP-1559 fee data
+        const feeData = await this.provider.getFeeData();
+
+        // Convert wei to gwei for display
+        const baseFeeGwei = feeData.baseFeePerGas ? this.weiToGwei(feeData.baseFeePerGas) : '0';
+        const priorityFeeGwei = this.weiToGwei(feeData.maxPriorityFeePerGas);
+
+        // Calculate presets based on current fees
+        const baseFee = parseFloat(baseFeeGwei);
+        const priorityFee = parseFloat(priorityFeeGwei);
+
+        gasPrices = {
+          slow: {
+            maxFeePerGas: (baseFee * 1.1 + priorityFee * 0.8).toFixed(2),
+            maxPriorityFeePerGas: (priorityFee * 0.8).toFixed(2),
+            estimatedTime: 120, // 2 minutes
+          },
+          standard: {
+            maxFeePerGas: (baseFee * 1.25 + priorityFee).toFixed(2),
+            maxPriorityFeePerGas: priorityFee.toFixed(2),
+            estimatedTime: 45, // 45 seconds
+          },
+          fast: {
+            maxFeePerGas: (baseFee * 1.5 + priorityFee * 1.5).toFixed(2),
+            maxPriorityFeePerGas: (priorityFee * 1.5).toFixed(2),
+            estimatedTime: 15, // 15 seconds
+          },
+          baseFee: baseFeeGwei,
+        };
+      } catch (error) {
+        throw new GasError(
+          `Failed to fetch gas prices: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      }
     }
 
     // Cache the result
@@ -143,8 +180,31 @@ export class GasService {
     maxFeePerGas: string;
     ethPriceUSD?: number;
   }): FeeCalculation {
+    // Validate inputs
+    if (!params.gasLimit || typeof params.gasLimit !== 'string') {
+      throw new GasError('Gas limit must be a valid string');
+    }
+
+    if (!params.maxFeePerGas || typeof params.maxFeePerGas !== 'string') {
+      throw new GasError('Max fee per gas must be a valid string');
+    }
+
     const gasLimit = parseFloat(params.gasLimit);
     const maxFeePerGas = parseFloat(params.maxFeePerGas);
+
+    if (isNaN(gasLimit) || gasLimit <= 0) {
+      throw new GasError('Gas limit must be a positive number');
+    }
+
+    if (isNaN(maxFeePerGas) || maxFeePerGas <= 0) {
+      throw new GasError('Max fee per gas must be a positive number');
+    }
+
+    if (params.ethPriceUSD !== undefined) {
+      if (typeof params.ethPriceUSD !== 'number' || params.ethPriceUSD <= 0) {
+        throw new GasError('ETH price must be a positive number');
+      }
+    }
 
     // Calculate fee in gwei
     const feeInGwei = gasLimit * maxFeePerGas;
@@ -205,18 +265,18 @@ export class GasService {
    * Convert gwei to ETH
    */
   gweiToEth(gwei: string): string {
+    if (!gwei || typeof gwei !== 'string') {
+      throw new GasError('Gwei value must be a valid string');
+    }
+
     const gweiNum = parseFloat(gwei);
+
+    if (isNaN(gweiNum) || gweiNum < 0) {
+      throw new GasError('Gwei value must be a non-negative number');
+    }
+
     const eth = gweiNum / 1_000_000_000;
     return eth.toString();
-  }
-
-  /**
-   * Convert wei to gwei
-   */
-  weiToGwei(wei: string): string {
-    const weiNum = parseFloat(wei);
-    const gwei = weiNum / 1_000_000_000;
-    return gwei.toString();
   }
 
   /**
@@ -239,6 +299,30 @@ export class GasService {
    */
   private isValidAddress(address: string): boolean {
     return /^0x[a-fA-F0-9]{40}$/.test(address);
+  }
+
+  /**
+   * Convert wei to gwei
+   */
+  private weiToGwei(wei: string): string {
+    const weiValue = BigInt(wei);
+    const divisor = BigInt('1000000000'); // 10^9
+
+    // Get whole and fractional parts
+    const wholePart = weiValue / divisor;
+    const fractionalPart = weiValue % divisor;
+
+    // Convert fractional part to string with leading zeros
+    const fractionalStr = fractionalPart.toString().padStart(9, '0');
+
+    // Trim trailing zeros
+    const trimmed = fractionalStr.replace(/0+$/, '');
+
+    if (trimmed === '') {
+      return wholePart.toString();
+    }
+
+    return `${wholePart}.${trimmed}`;
   }
 }
 

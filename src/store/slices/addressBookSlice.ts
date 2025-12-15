@@ -4,7 +4,7 @@
  */
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../store';
+import type { RootState } from '../index';
 
 export interface Contact {
   id: string;
@@ -72,7 +72,7 @@ export const selectFilteredContacts = (state: RootState) => {
 
   const query = searchQuery.toLowerCase();
   return contacts.filter(
-    contact =>
+    (contact: Contact) =>
       contact.name.toLowerCase().includes(query) ||
       contact.address.toLowerCase().includes(query) ||
       contact.label?.toLowerCase().includes(query)
@@ -80,7 +80,7 @@ export const selectFilteredContacts = (state: RootState) => {
 };
 
 export const selectContactById = (id: string) => (state: RootState) =>
-  state.addressBook.contacts.find(c => c.id === id);
+  state.addressBook.contacts.find((c: Contact) => c.id === id);
 
 export const selectSearchQuery = (state: RootState) => state.addressBook.searchQuery;
 

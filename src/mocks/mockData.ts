@@ -3,8 +3,34 @@
  * Provides sample data when backend is unavailable
  */
 
-import type { Transaction } from '../types/Transaction';
-import type { TokenBalance } from '../types/Token';
+export interface TokenBalance {
+  id: string;
+  symbol: string;
+  name: string;
+  balance: string;
+  balanceUSD: number;
+  price: number;
+  priceChange24h: number;
+  logo: string;
+  network: string;
+}
+
+export interface Transaction {
+  id: string;
+  hash: string;
+  from: string;
+  to: string;
+  value: string;
+  valueUSD: number;
+  symbol: string;
+  type: 'send' | 'receive' | 'swap';
+  status: 'pending' | 'completed' | 'failed';
+  timestamp: number;
+  network: string;
+  gasUsed: string;
+  gasFee: string;
+  gasFeeUSD: number;
+}
 
 // Mock Wallet Address
 export const MOCK_WALLET_ADDRESS = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb';
