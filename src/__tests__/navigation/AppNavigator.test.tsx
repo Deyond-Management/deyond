@@ -4,12 +4,31 @@
  */
 
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, waitFor } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppNavigator, RootStackParamList } from '../../navigation/AppNavigator';
 import { ThemeProvider } from '../../contexts/ThemeContext';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
+
+// Mock TransactionService for TransactionHistory screen
+jest.mock('../../services/blockchain/TransactionService', () => {
+  return jest.fn().mockImplementation(() => ({
+    getTransactionHistory: jest.fn().mockResolvedValue([
+      {
+        hash: '0x123abc',
+        from: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
+        to: '0xABC123',
+        value: '1.5',
+        gasUsed: '0.002',
+        status: 'confirmed',
+        timestamp: Date.now() - 1000 * 60 * 30,
+        blockNumber: 12345,
+      },
+    ]),
+    clearTransactionCache: jest.fn(),
+  }));
+});
 
 // Helper to render navigator
 const renderNavigator = (initialRoute?: keyof RootStackParamList) => {
@@ -56,10 +75,19 @@ describe('AppNavigator', () => {
       expect(getByText('Settings')).toBeDefined();
     });
 
-    it('should have TransactionHistory screen', () => {
-      const { getByTestId } = renderNavigator('TransactionHistory');
+    it('should have TransactionHistory screen', async () => {
+      const { getByText, getByTestId } = renderNavigator('TransactionHistory');
 
-      expect(getByTestId('filter-all')).toBeDefined();
+      // Title should be visible immediately
+      expect(getByText('Transaction History')).toBeDefined();
+
+      // Wait for filter buttons to appear after loading
+      await waitFor(
+        () => {
+          expect(getByTestId('filter-all')).toBeDefined();
+        },
+        { timeout: 3000 }
+      );
     });
 
     it('should have ChatHome screen', () => {
