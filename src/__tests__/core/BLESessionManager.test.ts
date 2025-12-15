@@ -60,35 +60,8 @@ describe('BLESessionManager', () => {
     });
   });
 
-  describe.skip('processHandshakeResponse', () => {
-    // TODO: This is an integration test that requires complex peer setup
-    it('should process valid handshake response and establish session', async () => {
-      const session = await sessionManager.initiateSession('dev1', 'addr1', 'name1');
-      const handshakeRequest = await sessionManager.createHandshakeRequest(session.id);
-
-      // Simulate peer response
-      const peerPrivateKey = '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d';
-      const peerAddress = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb';
-      const peerManager = new BLESessionManager(peerAddress, peerPrivateKey);
-      const peerSession = await peerManager.initiateSession(
-        'initiator-dev',
-        'initiator-addr',
-        'Initiator'
-      );
-
-      const handshakeResponse = await peerManager.createHandshakeRequest(peerSession.id);
-
-      // Process response
-      const establishedSession = await sessionManager.processHandshakeResponse(
-        session.id,
-        handshakeResponse
-      );
-
-      expect(establishedSession.status).toEqual(SessionStatus.ESTABLISHED);
-      expect(establishedSession.sharedSecret).toBeDefined();
-    });
-
-    it('should fail with invalid signature', async () => {
+  describe('processHandshakeResponse', () => {
+    it('should reject handshake with invalid signature', async () => {
       const session = await sessionManager.initiateSession('dev1', 'addr1', 'name1');
 
       const invalidHandshake = {
@@ -101,12 +74,25 @@ describe('BLESessionManager', () => {
 
       await expect(
         sessionManager.processHandshakeResponse(session.id, invalidHandshake)
+      ).rejects.toThrow('Invalid handshake signature');
+    });
+
+    it('should reject handshake for non-existent session', async () => {
+      const invalidHandshake = {
+        sessionId: 'non-existent',
+        publicKey: 'some-public-key',
+        address: '0x0000000000000000000000000000000000000000',
+        timestamp: Date.now(),
+        signature: 'some-signature',
+      };
+
+      await expect(
+        sessionManager.processHandshakeResponse('non-existent', invalidHandshake)
       ).rejects.toThrow();
     });
   });
 
-  describe.skip('deriveSharedSecret', () => {
-    // TODO: This is an integration test that requires complex peer setup
+  describe('deriveSharedSecret', () => {
     it('should derive shared secret from ECDH', async () => {
       const session = await sessionManager.initiateSession('dev1', 'addr1', 'name1');
       const handshakeRequest = await sessionManager.createHandshakeRequest(session.id);

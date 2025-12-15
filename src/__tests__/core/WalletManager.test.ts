@@ -144,8 +144,7 @@ describe('WalletManager', () => {
     });
   });
 
-  describe.skip('verifySignature', () => {
-    // TODO: Signature verification test needs proper environment setup for ethers.js
+  describe('verifySignature', () => {
     it('should verify valid signature', async () => {
       const password = 'password';
       const wallet = await walletManager.createWallet(password);
