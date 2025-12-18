@@ -466,36 +466,46 @@ interface SessionState {
 
 ## 4. 구현 로드맵
 
-### Phase 1: 기반 구축 (1-2주)
+### Phase 1: 기반 구축 ✅ (완료 - 2025년 12월)
 
-- [ ] ICryptoPrimitive 인터페이스 정의
-- [ ] EVMCrypto 구현 (secp256k1)
-- [ ] 기본 KDF 및 AEAD 구현
-- [ ] 키 파생 모듈
+- [x] ICryptoPrimitive 인터페이스 정의
+- [x] EVMCrypto 구현 (secp256k1)
+- [x] 기본 KDF 및 AEAD 구현
+- [x] 키 파생 모듈
 
-### Phase 2: 핵심 프로토콜 (2-3주)
+### Phase 2: 핵심 프로토콜 ✅ (완료 - 2025년 12월)
 
-- [ ] Double Ratchet 구현
-- [ ] X3DH 키 교환 (블록체인 변형)
-- [ ] 세션 관리
-- [ ] 메시지 인코딩/디코딩
+- [x] Double Ratchet 구현
+- [x] X3DH 키 교환 (블록체인 변형)
+- [x] 세션 관리
+- [x] 메시지 인코딩/디코딩
 
-### Phase 3: P2P 통합 (1-2주)
+### Phase 3: P2P 통합 ✅ (완료 - 2025년 12월)
 
-- [ ] P2P Transport 추상화
-- [ ] Bluetooth 통합
-- [ ] PreKey 배포 메커니즘
+- [x] P2P Transport 추상화 (libp2p 스타일)
+- [x] Bluetooth 통합 (BLE Transport)
+- [x] WebRTC Transport
+- [x] TCP Transport (LAN)
+- [x] Relay Transport
+- [x] PreKey 배포 메커니즘 (QR 코드)
 
-### Phase 4: 그룹 메시징 (2주)
+### Phase 4: 그룹 메시징 ✅ (완료 - 2025년 12월)
 
-- [ ] Sender Keys 구현
-- [ ] 그룹 세션 관리
-- [ ] 멤버 추가/제거 처리
+- [x] Sender Keys 구현
+- [x] 그룹 세션 관리
+- [x] 멤버 추가/제거 처리
+- [x] 그룹 채팅 UI
 
-### Phase 5: Solana 확장 (1주)
+### Phase 5: Solana 확장 (계획됨)
 
 - [ ] SolanaCrypto 구현 (ed25519)
 - [ ] 크로스체인 세션 지원
+
+### Phase 6: 백엔드 서버 (계획됨)
+
+- [ ] WebRTC 시그널링 서버
+- [ ] 릴레이 서버 구현
+- [ ] TURN 서버 구축
 
 ---
 
@@ -505,3 +515,12 @@ interface SessionState {
 - Double Ratchet Algorithm: https://signal.org/docs/specifications/doubleratchet/
 - X3DH Key Agreement: https://signal.org/docs/specifications/x3dh/
 - libsignal: https://github.com/signalapp/libsignal
+
+---
+
+## 관련 문서
+
+- [P2P Transport Architecture](./P2P_TRANSPORT_ARCHITECTURE.md)
+- [Architecture Design](./ARCHITECTURE.md)
+- [Feature List](./FEATURE_LIST.md)
+- [Security Considerations](./SECURITY.md)
