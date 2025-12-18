@@ -1,13 +1,23 @@
 /**
  * EmptyState Component
  * Displays a friendly empty state with optional action
+ * Supports both static emoji icons and animated Lottie icons
  */
 
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ViewStyle, StyleProp } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
+import { AnimatedIcon, AnimationType } from './AnimatedIcon';
 
-type IconType = 'wallet' | 'transaction' | 'search' | 'generic' | 'nft';
+type IconType =
+  | 'wallet'
+  | 'transaction'
+  | 'search'
+  | 'generic'
+  | 'nft'
+  | 'loading'
+  | 'error'
+  | 'success';
 
 interface EmptyStateProps {
   title: string;
@@ -18,6 +28,8 @@ interface EmptyStateProps {
   compact?: boolean;
   testID?: string;
   style?: StyleProp<ViewStyle>;
+  /** Use animated Lottie icon instead of emoji */
+  animated?: boolean;
 }
 
 const IconSymbol: Record<IconType, string> = {
@@ -26,6 +38,16 @@ const IconSymbol: Record<IconType, string> = {
   search: '🔍',
   generic: '📭',
   nft: '🖼️',
+  loading: '⏳',
+  error: '❌',
+  success: '✅',
+};
+
+// Map icon types to animation types
+const AnimatedIconMap: Partial<Record<IconType, AnimationType>> = {
+  loading: 'loading',
+  error: 'error',
+  success: 'success',
 };
 
 export const EmptyState: React.FC<EmptyStateProps> = ({
@@ -37,23 +59,42 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   compact = false,
   testID,
   style,
+  animated = false,
 }) => {
   const { theme } = useTheme();
   const { colors } = theme;
 
+  // Check if icon can be animated
+  const animationType = AnimatedIconMap[icon];
+  const shouldAnimate = animated && animationType;
+
   return (
     <View testID={testID} style={[styles.container, compact && styles.compact, style]}>
-      {/* Icon */}
-      <View
-        testID={testID ? `${testID}-icon` : 'empty-icon'}
-        style={[
-          styles.iconContainer,
-          { backgroundColor: colors.surface },
-          compact && styles.iconCompact,
-        ]}
-      >
-        <Text style={[styles.icon, compact && styles.iconTextCompact]}>{IconSymbol[icon]}</Text>
-      </View>
+      {/* Icon - Static or Animated */}
+      {shouldAnimate ? (
+        <View
+          testID={testID ? `${testID}-icon` : 'empty-icon'}
+          style={[styles.animatedIconContainer, compact && styles.iconCompact]}
+        >
+          <AnimatedIcon
+            type={animationType}
+            size={compact ? 56 : 80}
+            loop={icon === 'loading'}
+            autoPlay={true}
+          />
+        </View>
+      ) : (
+        <View
+          testID={testID ? `${testID}-icon` : 'empty-icon'}
+          style={[
+            styles.iconContainer,
+            { backgroundColor: colors.surface },
+            compact && styles.iconCompact,
+          ]}
+        >
+          <Text style={[styles.icon, compact && styles.iconTextCompact]}>{IconSymbol[icon]}</Text>
+        </View>
+      )}
 
       {/* Content */}
       <Text style={[styles.title, { color: colors.text.primary }, compact && styles.titleCompact]}>
@@ -92,6 +133,13 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 };
 
 const styles = StyleSheet.create({
+  animatedIconContainer: {
+    alignItems: 'center',
+    height: 80,
+    justifyContent: 'center',
+    marginBottom: 16,
+    width: 80,
+  },
   button: {
     alignItems: 'center',
     borderRadius: 8,

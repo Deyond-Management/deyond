@@ -15,13 +15,17 @@
     "success": "Success",
     "retry": "Retry",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "disconnect": "Disconnect",
+    "copy": "Copy",
+    "copied": "Copied!"
   },
   "welcome": {
     "title": "Welcome to Deyond Wallet",
     "subtitle": "Your secure gateway to the decentralized world",
     "createWallet": "Create New Wallet",
-    "importWallet": "Import Existing Wallet"
+    "importWallet": "Import Existing Wallet",
+    "tagline": "Your keys, your crypto"
   },
   "createWallet": {
     "title": "Create Password",
@@ -124,8 +128,8 @@
     }
   },
   "biometricSetup": {
-    "title": "Enable Biometric Login",
-    "subtitle": "Use Face ID or Touch ID to unlock your wallet quickly and securely",
+    "title": "Enable {{type}}",
+    "subtitle": "Use {{type}} to unlock your wallet quickly and securely",
     "whyUse": "Why use biometric authentication?",
     "benefits": {
       "quickAccess": {
@@ -142,8 +146,11 @@
       }
     },
     "fallbackInfo": "You can always use your password as a fallback if biometric authentication fails",
-    "enableButton": "Enable Biometric Login",
+    "enableButton": "Enable {{type}}",
     "skipButton": "Skip for Now",
+    "notAvailable": "Biometric not available",
+    "notAvailableMessage": "Biometric authentication is not available on this device",
+    "authFailed": "Biometric authentication failed",
     "errors": {
       "enableFailed": "Failed to enable biometric authentication. Please try again.",
       "walletCreationFailed": "Failed to create wallet. Please try again."
@@ -169,6 +176,8 @@
     "myTokens": "My Tokens",
     "recentTransactions": "Recent Transactions",
     "viewAll": "View All",
+    "viewAllTransactions": "View all transactions",
+    "viewAllTokens": "View all tokens",
     "noTokens": "No tokens found",
     "noTransactions": "No transactions yet",
     "loadingBalances": "Loading balances...",
@@ -186,6 +195,8 @@
     "networkFee": "Network Fee",
     "continue": "Continue",
     "confirm": "Confirm",
+    "scanQR": "Scan QR",
+    "addressBook": "Address Book",
     "errors": {
       "invalidAddress": "Invalid address",
       "invalidAmount": "Invalid amount",
@@ -265,6 +276,14 @@
     "empty": {
       "title": "No transactions",
       "message": "Your transaction history will appear here"
+    },
+    "export": {
+      "title": "Export",
+      "csv": "Export as CSV",
+      "json": "Export as JSON",
+      "success": "Transactions exported successfully",
+      "error": "Failed to export transactions",
+      "noData": "No transactions to export"
     }
   },
   "transactionPreview": {
@@ -297,6 +316,7 @@
   },
   "settingsScreen": {
     "title": "Settings",
+    "selectLanguage": "Select Language",
     "sections": {
       "security": "Security",
       "network": "Network",
@@ -308,6 +328,7 @@
       "securitySettings": "Security Settings",
       "backupWallet": "Backup Wallet",
       "network": "Network",
+      "showTestnets": "Show Testnets",
       "darkMode": "Dark Mode",
       "currency": "Currency",
       "language": "Language",
@@ -349,6 +370,9 @@
   "chatHome": {
     "title": "Messages",
     "newChat": "New chat",
+    "encrypted": "End-to-end encrypted",
+    "loading": "Loading messages...",
+    "noMessages": "No messages yet",
     "time": {
       "minutes": "{{minutes}}m",
       "hours": "{{hours}}h",
@@ -358,6 +382,11 @@
       "title": "No conversations",
       "message": "Start a new chat to connect with nearby devices",
       "action": "New Chat"
+    },
+    "setup": {
+      "title": "Enable Secure Messaging",
+      "description": "Set up end-to-end encryption to send and receive private messages with your contacts.",
+      "button": "Set Up Messaging"
     }
   },
   "deviceDiscovery": {
@@ -400,7 +429,10 @@
     "emptyMessage": "Start a conversation with {{name}}",
     "inputPlaceholder": "Type a message...",
     "inputAccessibility": "Message input",
-    "sendAccessibility": "Send message"
+    "sendAccessibility": "Send message",
+    "encrypted": "End-to-end encrypted",
+    "encryptedLabel": "Encrypted",
+    "encryptionNote": "Messages are end-to-end encrypted. Only you and the recipient can read them."
   },
   "addressBook": {
     "title": "Address Book",
@@ -465,7 +497,18 @@
     "signRequest": "Sign Request",
     "popular": "Popular DApps",
     "addBookmark": "Add Bookmark",
-    "removeBookmark": "Remove Bookmark"
+    "removeBookmark": "Remove Bookmark",
+    "deleteBookmark": "Delete Bookmark",
+    "deleteBookmarkConfirm": "Are you sure you want to delete this bookmark?",
+    "clearHistory": "Clear History",
+    "clearHistoryConfirm": "Are you sure you want to clear all history?",
+    "noBookmarks": "No bookmarks",
+    "noBookmarksMessage": "Tap the star icon to add bookmarks",
+    "noHistory": "No history",
+    "noHistoryMessage": "Your browsing history will appear here",
+    "tapToOpen": "Tap to open",
+    "bookmarkAdded": "Bookmark added",
+    "bookmarkRemoved": "Bookmark removed"
   },
   "walletConnect": {
     "title": "WalletConnect",
@@ -473,10 +516,16 @@
     "sessions": "Connected Sessions",
     "noSessions": "No active sessions",
     "noSessionsMessage": "Scan a QR code to connect with DApps",
+    "noSessionsDescription": "Connect to DApps by scanning their WalletConnect QR code",
     "connecting": "Connecting",
     "connectingMessage": "Please approve the connection request",
     "connected": "Connected",
     "disconnect": "Disconnect",
+    "disconnectTitle": "Disconnect Session",
+    "disconnectConfirm": "Are you sure you want to disconnect from {{name}}?",
+    "disconnectAll": "Disconnect All",
+    "disconnectAllTitle": "Disconnect All Sessions",
+    "disconnectAllConfirm": "Are you sure you want to disconnect from all DApps?",
     "sessionRequest": "Connection Request",
     "approveSession": "Approve Connection",
     "rejectSession": "Reject",
@@ -489,7 +538,96 @@
     "grantPermission": "Grant Permission",
     "scanInstructions": "Align QR code within the frame",
     "connectedAt": "Connected",
-    "disconnectConfirm": "Are you sure you want to disconnect?"
+    "chains": "Chains",
+    "methods": "Methods",
+    "activeSessions": "Active",
+    "pendingRequests": "Pending Requests"
+  },
+  "walletConnectRequest": {
+    "transactionRequest": "Transaction Request",
+    "signMessage": "Sign Message",
+    "signTypedData": "Sign Typed Data",
+    "simulating": "Simulating transaction...",
+    "transactionDetails": "Transaction Details",
+    "approvalDetails": "Approval Details",
+    "spender": "Spender",
+    "amount": "Amount",
+    "estimatedGas": "Estimated Gas",
+    "gasPrice": "Gas Price",
+    "data": "Data",
+    "sign": "Sign",
+    "messageContent": "Message Content",
+    "domain": "Domain",
+    "primaryType": "Type",
+    "riskAssessment": "Risk Assessment",
+    "noRisksDetected": "No risks detected",
+    "highRiskWarning": "This request may be dangerous. Proceed with caution.",
+    "riskLevel": {
+      "low": "Low Risk",
+      "medium": "Medium Risk",
+      "high": "High Risk"
+    },
+    "riskReasons": {
+      "unknownDomain": "Unknown or unverified domain",
+      "permitSignature": "This is a permit signature that can grant token approvals",
+      "nftApproval": "This grants approval to manage your NFTs",
+      "suspiciousPattern": "Contains patterns associated with phishing",
+      "longMessage": "Unusually long message"
+    },
+    "warnings": {
+      "title": "Warnings",
+      "unlimitedApproval": "This grants unlimited token approval",
+      "gasEstimateFailed": "Gas estimation failed - transaction may fail",
+      "highValue": "High value transaction: {{value}} ETH",
+      "contractInteraction": "Interacting with a smart contract"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "enableNotifications": "Enable Notifications",
+    "enableDescription": "Receive alerts for transactions, price changes, and security events",
+    "permissionRequired": "Permission Required",
+    "permissionMessage": "Please enable notifications in your device settings to receive alerts",
+    "categories": {
+      "title": "Notification Types",
+      "transaction": "Transactions",
+      "priceAlert": "Price Alerts",
+      "security": "Security",
+      "system": "System"
+    },
+    "descriptions": {
+      "transaction": "Sent, received, confirmed, and failed transactions",
+      "priceAlert": "Price thresholds and significant changes",
+      "security": "New device logins and suspicious activity",
+      "system": "App updates and maintenance notices"
+    },
+    "quietHours": {
+      "title": "Quiet Hours",
+      "enable": "Enable Quiet Hours",
+      "description": "No notifications from {{start}}:00 to {{end}}:00"
+    },
+    "alerts": {
+      "title": "Alert Style",
+      "sound": "Sound",
+      "vibration": "Vibration"
+    },
+    "infoText": "You can customize which notifications you receive. Security notifications are recommended to keep your wallet safe."
+  },
+  "walletConnectErrors": {
+    "unknownError": "An unknown error occurred",
+    "userRejected": "Request was rejected",
+    "unauthorized": "Not authorized for this action",
+    "chainNotSupported": "This network is not supported",
+    "disconnected": "Session disconnected",
+    "pairingExpired": "QR code has expired. Please scan a new one.",
+    "sessionNotFound": "Session not found. Please reconnect.",
+    "pairingFailed": "Failed to connect to the DApp",
+    "invalidUri": "Invalid QR code. Please scan a valid WalletConnect QR code.",
+    "rateLimited": "Too many requests. Please wait a moment and try again.",
+    "connectionTimeout": "Connection timed out. Please check your internet connection.",
+    "networkError": "Network error. Please check your internet connection.",
+    "openSettings": "Open Settings",
+    "reconnect": "Reconnect"
   },
   "exportWallet": {
     "title": "Export Wallet",
@@ -530,10 +668,52 @@
       "exportFailed": "Failed to export wallet data"
     }
   },
+  "swap": {
+    "title": "Swap",
+    "history": "History",
+    "from": "From",
+    "to": "To",
+    "select": "Select",
+    "balance": "Balance: {{balance}} {{symbol}}",
+    "rate": "Rate",
+    "priceImpact": "Price Impact",
+    "estimatedGas": "Estimated Gas",
+    "minimumReceived": "Minimum Received",
+    "fetchingPrice": "Fetching best price...",
+    "error": "Error",
+    "retry": "Retry",
+    "swapButton": "Swap",
+    "swapping": "Swapping...",
+    "selectFromToken": "Select Token to Swap From",
+    "selectToToken": "Select Token to Receive",
+    "confirmSwap": "Confirm Swap",
+    "swapSuccessful": "Swap Successful",
+    "swapFailed": "Swap Failed",
+    "viewTransaction": "View Transaction",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "continueAnyway": "Continue Anyway",
+    "tryAgain": "Try Again",
+    "highPriceImpactWarning": "High Price Impact Warning",
+    "errors": {
+      "amountTooLarge": "Amount is too large. Please enter a smaller amount.",
+      "insufficientLiquidity": "Insufficient liquidity for this swap.",
+      "networkError": "Network error. Please check your connection and try again.",
+      "timeout": "Request timed out. Please try again.",
+      "missingParams": "Missing required swap parameters",
+      "insufficientBalance": "You do not have enough tokens to complete this swap.",
+      "transactionReverted": "The swap transaction was reverted. This could be due to insufficient liquidity, price changes, or slippage tolerance.",
+      "transactionRejected": "You rejected the transaction.",
+      "gasEstimationFailed": "Failed to estimate gas for this transaction. The swap may fail.",
+      "generic": "An error occurred during the swap"
+    }
+  },
   "nft": {
     "title": "NFTs",
     "nfts": "NFTs",
     "collections": "Collections",
+    "itemCount_one": "{{count}} item",
+    "itemCount_other": "{{count}} items",
     "empty": {
       "title": "No NFTs",
       "message": "Your NFT collection will appear here"
@@ -550,6 +730,328 @@
       "viewOnExplorer": "View on Explorer",
       "send": "Send",
       "share": "Share"
+    }
+  },
+  "tokenList": {
+    "title": "Tokens",
+    "tokenCount": "{{count}} tokens",
+    "searchPlaceholder": "Search tokens...",
+    "sortBy": "Sort by",
+    "sortOptions": {
+      "name": "Name",
+      "balance": "Balance",
+      "value": "Value",
+      "change": "24h Change"
+    },
+    "noTokens": "No tokens yet",
+    "noTokensMessage": "Your tokens will appear here once you receive some",
+    "noSearchResults": "No tokens found",
+    "tryDifferentSearch": "Try a different search term"
+  },
+  "simulation": {
+    "title": "Transaction Simulation",
+    "simulating": "Simulating transaction...",
+    "simulationSuccess": "Simulation Successful",
+    "simulationFailed": "Simulation Failed",
+    "riskLevel": "Risk Level",
+    "riskCritical": "Critical",
+    "riskHigh": "High",
+    "riskMedium": "Medium",
+    "riskLow": "Low",
+    "riskSafe": "Safe",
+    "warnings": "Warnings",
+    "tokenTransfers": "Token Transfers",
+    "approvalChanges": "Approval Changes",
+    "gasEstimation": "Gas Estimation",
+    "gasLimit": "Gas Limit",
+    "estimatedCost": "Estimated Cost",
+    "contractInfo": "Contract Information",
+    "unknownMethod": "Unknown Method",
+    "verified": "Verified",
+    "spender": "Spender",
+    "newAllowance": "New Allowance",
+    "unlimited": "Unlimited",
+    "retry": "Retry Simulation",
+    "expectedOutcome": "Expected Outcome",
+    "willReceive": "You will receive",
+    "willSend": "You will send",
+    "approvalRequired": "Approval Required",
+    "errors": {
+      "revertDetected": "Transaction will revert",
+      "insufficientFunds": "Insufficient funds",
+      "gasEstimationFailed": "Gas estimation failed"
+    }
+  },
+  "tokenApproval": {
+    "title": "Token Approvals",
+    "subtitle": "Manage your token approvals and revoke unnecessary permissions",
+    "noApprovals": "No Active Approvals",
+    "noApprovalsMessage": "You have no active token approvals. This is a good thing!",
+    "scanning": "Scanning for approvals...",
+    "active": "Active",
+    "highRisk": "High Risk",
+    "unlimited": "Unlimited",
+    "spender": "Spender",
+    "approvedAt": "Approved",
+    "lastUsed": "Last Used",
+    "viewDetails": "Details",
+    "revoke": "Revoke",
+    "revokeTitle": "Revoke Approval",
+    "revokeConfirm": "Are you sure you want to revoke the approval for {{token}} to {{spender}}?",
+    "revokeSuccess": "Approval revoked successfully",
+    "lastScanned": "Last scanned",
+    "filterAll": "All",
+    "filterHighRisk": "High Risk",
+    "filterUnlimited": "Unlimited",
+    "highRiskWarning": "You have {{count}} high-risk approvals that should be reviewed",
+    "riskCritical": "Critical",
+    "riskHigh": "High",
+    "riskMedium": "Medium",
+    "riskLow": "Low",
+    "riskReasons": {
+      "unlimited": "Unlimited approval",
+      "unknown": "Unknown or unverified spender",
+      "stale": "Not used in over 90 days",
+      "highValue": "High value token"
+    },
+    "details": {
+      "title": "Approval Details",
+      "tokenAddress": "Token Address",
+      "spenderAddress": "Spender Address",
+      "allowance": "Allowance",
+      "transactionHash": "Transaction"
+    }
+  },
+  "priceAlert": {
+    "title": "Price Alerts",
+    "subtitle": "Get notified when prices change",
+    "createAlert": "Create Alert",
+    "editAlert": "Edit Alert",
+    "noAlerts": "No price alerts",
+    "noAlertsMessage": "Create alerts to get notified about price changes",
+    "activeAlerts": "Active Alerts",
+    "triggeredAlerts": "Triggered Alerts",
+    "token": "Token",
+    "selectToken": "Select Token",
+    "condition": "Condition",
+    "above": "Price goes above",
+    "below": "Price goes below",
+    "changePercent": "Change by percentage",
+    "targetPrice": "Target Price",
+    "changeAmount": "Change Amount",
+    "direction": "Direction",
+    "directionAny": "Any direction",
+    "directionUp": "Up only",
+    "directionDown": "Down only",
+    "timeframe": "Timeframe",
+    "timeframe1h": "1 hour",
+    "timeframe24h": "24 hours",
+    "timeframe7d": "7 days",
+    "repeat": "Repeat",
+    "repeatDescription": "Re-enable after triggered",
+    "currentPrice": "Current Price",
+    "triggered": "Triggered",
+    "active": "Active",
+    "disabled": "Disabled",
+    "enable": "Enable",
+    "disable": "Disable",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this alert?",
+    "createSuccess": "Alert created successfully",
+    "deleteSuccess": "Alert deleted successfully",
+    "maxAlerts": "Maximum {{count}} alerts allowed",
+    "errors": {
+      "tokenRequired": "Please select a token",
+      "targetPriceRequired": "Please enter a target price",
+      "changeAmountRequired": "Please enter a change percentage",
+      "invalidPrice": "Please enter a valid price",
+      "invalidPercentage": "Please enter a valid percentage"
+    }
+  },
+  "hardwareWallet": {
+    "title": "Hardware Wallet",
+    "connectionType": "Connection Type",
+    "scanDevices": "Scan for Devices",
+    "availableDevices": "Available Devices",
+    "supportedDevices": "Supported Devices",
+    "connected": "Connected",
+    "connecting": "Connecting...",
+    "disconnect": "Disconnect",
+    "disconnectConfirm": "Are you sure you want to disconnect this hardware wallet?",
+    "derivationPath": "Derivation Path",
+    "selectAccount": "Select Account",
+    "loadMore": "Load More Accounts",
+    "useAccount": "Use This Account",
+    "verifyOnDevice": "Verify on Device",
+    "verifyAddress": "Please verify the address on your device",
+    "signOnDevice": "Sign on Device",
+    "signTransaction": "Please confirm the transaction on your device",
+    "signMessage": "Please confirm the message on your device",
+    "error": "Hardware Wallet Error",
+    "errors": {
+      "deviceNotFound": "No hardware wallet found. Make sure your device is connected and unlocked.",
+      "connectionFailed": "Failed to connect to the hardware wallet. Please try again.",
+      "connectionLost": "Connection to hardware wallet lost. Please reconnect.",
+      "bluetoothDisabled": "Bluetooth is disabled. Please enable Bluetooth to connect.",
+      "usbNotSupported": "USB connection not supported on this device.",
+      "deviceLocked": "Your hardware wallet is locked. Please unlock it and try again.",
+      "wrongApp": "Wrong app open on device. Please open the Ethereum app.",
+      "appNotOpen": "Please open the Ethereum app on your hardware wallet.",
+      "userRejected": "Action rejected on the hardware wallet.",
+      "timeout": "Request timed out. Please try again.",
+      "invalidPath": "Invalid derivation path.",
+      "signingFailed": "Failed to sign. Please try again."
+    }
+  },
+  "a11y": {
+    "tapToViewAllTransactions": "Tap to view all transactions",
+    "tapToViewTokenDetails": "Tap to view {{symbol}} details",
+    "tapToViewTransaction": "Tap to view transaction details",
+    "copyToClipboard": "Copy to clipboard",
+    "closeModal": "Close modal",
+    "goBack": "Go back",
+    "refresh": "Refresh",
+    "loading": "Loading content",
+    "networkSelector": "Select network",
+    "searchResults": "{{count}} results found",
+    "noResults": "No results found",
+    "selected": "Selected",
+    "notSelected": "Not selected",
+    "expandSection": "Expand {{section}}",
+    "collapseSection": "Collapse {{section}}"
+  },
+  "messagingSetup": {
+    "title": "Secure Messaging",
+    "subtitle": "Set up end-to-end encrypted messaging to communicate privately with your contacts.",
+    "features": {
+      "encryption": {
+        "title": "End-to-End Encryption",
+        "description": "Only you and your recipient can read messages. Not even we can access them."
+      },
+      "keys": {
+        "title": "Your Keys, Your Privacy",
+        "description": "Encryption keys are derived from your wallet and stored securely on your device."
+      },
+      "contacts": {
+        "title": "Connect Securely",
+        "description": "Exchange keys with contacts via QR code or Bluetooth for maximum security."
+      }
+    },
+    "setupButton": "Set Up Secure Messaging",
+    "skipButton": "Skip for Now",
+    "errors": {
+      "noWallet": "Please create or import a wallet first.",
+      "setupFailed": "Failed to set up messaging. Please try again.",
+      "shareFailed": "Failed to share keys. Please try again."
+    },
+    "complete": {
+      "title": "You're All Set!",
+      "subtitle": "Your secure messaging is now ready to use.",
+      "yourIdentity": "Your Messaging Identity",
+      "encrypted": "End-to-End Encrypted",
+      "nextSteps": "Next Steps",
+      "step1": "Find nearby contacts or scan their QR code",
+      "step2": "Exchange encryption keys securely",
+      "step3": "Start sending encrypted messages",
+      "continueButton": "Start Messaging"
+    }
+  },
+  "createGroup": {
+    "title": "Create Group",
+    "groupName": "Group Name",
+    "namePlaceholder": "Enter group name",
+    "addMembers": "Add Members",
+    "selectedMembers": "{{count}} members selected",
+    "noContacts": "No contacts yet",
+    "findContacts": "Find contacts",
+    "encryptionNote": "All messages in this group will be end-to-end encrypted. Only members can read messages.",
+    "createButton": "Create Group",
+    "errors": {
+      "nameRequired": "Please enter a group name",
+      "membersRequired": "Please select at least one member",
+      "createFailed": "Failed to create group. Please try again."
+    }
+  },
+  "groupChat": {
+    "tapForInfo": "Tap for group info",
+    "inputPlaceholder": "Message group...",
+    "empty": {
+      "title": "No messages yet",
+      "subtitle": "Start the conversation with your group"
+    }
+  },
+  "groupInfo": {
+    "title": "Group Info",
+    "members": "Members",
+    "you": "You",
+    "admin": "Admin",
+    "encrypted": "End-to-End Encrypted",
+    "created": "Created",
+    "leaveGroup": "Leave Group",
+    "notFound": "Group not found",
+    "leaveConfirm": {
+      "title": "Leave Group",
+      "message": "Are you sure you want to leave this group? You won't be able to see messages anymore."
+    },
+    "leave": "Leave",
+    "errors": {
+      "leaveFailed": "Failed to leave group. Please try again."
+    }
+  },
+  "contactDetail": {
+    "title": "Contact Details",
+    "address": "Wallet Address",
+    "chainType": "Network",
+    "verified": "Verified",
+    "sendMessage": "Send Message",
+    "deleteContact": "Delete Contact",
+    "encryption": {
+      "title": "Encryption Status",
+      "active": "End-to-end encrypted session active",
+      "inactive": "No active encryption session"
+    },
+    "deleteConfirm": {
+      "title": "Delete Contact",
+      "message": "Are you sure you want to delete {{name}}? This will also remove any active encryption sessions."
+    },
+    "errors": {
+      "deleteFailed": "Failed to delete contact. Please try again."
+    }
+  },
+  "scanPreKeyBundle": {
+    "title": "Scan QR Code",
+    "instruction": "Point your camera at a contact's QR code to add them",
+    "processing": "Processing...",
+    "info": "Scanning a QR code will exchange encryption keys and add the contact to your list.",
+    "success": {
+      "title": "Contact Added!",
+      "message": "You can now exchange encrypted messages with {{name}}",
+      "sendMessage": "Send Message"
+    },
+    "errors": {
+      "invalidQR": "Invalid QR code. Please scan a valid Deyond key exchange QR code."
+    },
+    "tryAgain": "Try Again",
+    "demo": {
+      "title": "Camera Access",
+      "message": "Camera integration requires expo-camera. In production, point your camera at a contact's QR code.",
+      "button": "Manual Entry (Demo)"
+    }
+  },
+  "sharePreKeyBundle": {
+    "title": "Share Your Keys",
+    "subtitle": "Let others scan this code to establish a secure connection with you.",
+    "shareTitle": "My Deyond Encryption Keys",
+    "qrNote": "QR Code for key exchange",
+    "howToUse": "How to Use",
+    "step1": "Have your contact open their Deyond Wallet",
+    "step2": "They should scan this QR code",
+    "step3": "Once scanned, you can exchange encrypted messages",
+    "securityNotice": "Only share with people you trust. Anyone with this code can initiate encrypted chats with you.",
+    "copyButton": "Copy Key Bundle",
+    "shareButton": "Share via...",
+    "errors": {
+      "shareFailed": "Failed to share. Please try again."
     }
   }
 }

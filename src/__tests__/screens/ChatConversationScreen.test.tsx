@@ -8,6 +8,26 @@ import { fireEvent } from '@testing-library/react-native';
 import { ChatConversationScreen } from '../../screens/ChatConversationScreen';
 import { renderWithProviders } from '../utils/testUtils';
 
+// Mock useDeyondCrypt hook
+jest.mock('../../hooks', () => ({
+  ...jest.requireActual('../../hooks'),
+  useDeyondCrypt: jest.fn(() => ({
+    isInitialized: true,
+    isLoading: false,
+    hasIdentity: true,
+    sessions: [],
+    initialize: jest.fn(),
+    contacts: [],
+    groups: [],
+    myAddress: '0x1234',
+    myChainType: 'evm',
+    error: null,
+    getSession: jest.fn(() => null),
+    sendMessage: jest.fn(() => Promise.resolve({ messageId: 'new-msg-id' })),
+    markSessionRead: jest.fn(),
+  })),
+}));
+
 // Mock navigation and route
 const mockNavigation = {
   navigate: jest.fn(),
@@ -28,27 +48,36 @@ const renderWithTheme = (component: React.ReactElement) => {
   return renderWithProviders(component);
 };
 
-// Mock messages
+// Mock messages with all required ChatMessage properties
 const mockMessages = [
   {
     id: 'msg-1',
     content: 'Hello!',
+    contentType: 'text' as const,
     timestamp: Date.now() - 1000 * 60 * 10,
     isOwn: false,
+    senderAddress: '0x1234567890123456789012345678901234567890',
+    senderChainType: 'evm' as const,
     status: 'delivered' as const,
   },
   {
     id: 'msg-2',
     content: 'Hi there! How are you?',
+    contentType: 'text' as const,
     timestamp: Date.now() - 1000 * 60 * 5,
     isOwn: true,
+    senderAddress: '0x0987654321098765432109876543210987654321',
+    senderChainType: 'evm' as const,
     status: 'read' as const,
   },
   {
     id: 'msg-3',
     content: 'I am doing great, thanks for asking!',
+    contentType: 'text' as const,
     timestamp: Date.now() - 1000 * 60 * 2,
     isOwn: false,
+    senderAddress: '0x1234567890123456789012345678901234567890',
+    senderChainType: 'evm' as const,
     status: 'delivered' as const,
   },
 ];

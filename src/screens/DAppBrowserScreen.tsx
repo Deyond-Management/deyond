@@ -26,6 +26,14 @@ import Web3RequestHandler, {
 } from '../services/dapp/Web3RequestHandler';
 import { Web3Request, TransactionRequest } from '../types/dapp';
 import { getChainManager } from '../services/blockchain/ChainManager';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import {
+  addHistoryItem,
+  addBookmark,
+  removeBookmarkByUrl,
+  selectIsBookmarked,
+} from '../store/slices/browserSlice';
+import { BrowserModal } from '../components/browser/BrowserModal';
 import i18n from '../i18n';
 
 interface DAppBrowserScreenProps {
@@ -40,6 +48,7 @@ interface DAppBrowserScreenProps {
 
 export const DAppBrowserScreen: React.FC<DAppBrowserScreenProps> = ({ navigation, route }) => {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch();
   const webViewRef = useRef<WebView>(null);
   const chainManager = getChainManager();
 
@@ -50,10 +59,15 @@ export const DAppBrowserScreen: React.FC<DAppBrowserScreenProps> = ({ navigation
   // State
   const [url, setUrl] = useState(initialUrl);
   const [currentUrl, setCurrentUrl] = useState(initialUrl);
+  const [pageTitle, setPageTitle] = useState('');
   const [canGoBack, setCanGoBack] = useState(false);
   const [canGoForward, setCanGoForward] = useState(false);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [browserModalVisible, setBrowserModalVisible] = useState(false);
+
+  // Redux selectors
+  const isCurrentPageBookmarked = useAppSelector(selectIsBookmarked(currentUrl));
 
   // Web3 Request Handler
   const requestHandlerRef = useRef<Web3RequestHandler | null>(null);
@@ -132,10 +146,12 @@ export const DAppBrowserScreen: React.FC<DAppBrowserScreenProps> = ({ navigation
     requestHandlerRef.current = new Web3RequestHandler(callbacks, walletAddress);
   }, [walletAddress]);
 
-  // Inject Web3 provider
+  // Inject Web3 provider (DApp browser is EVM-only, so ensure numeric chainId)
+  const currentChainId = chainManager.getChainId();
+  const evmChainId = typeof currentChainId === 'number' ? currentChainId : 1;
   const injectedJavaScript = `
-    ${getWeb3ProviderScript(chainManager.getChainId(), walletAddress)}
-    ${getQuickResponseScript(chainManager.getChainId(), walletAddress)}
+    ${getWeb3ProviderScript(evmChainId, walletAddress)}
+    ${getQuickResponseScript(evmChainId, walletAddress)}
   `;
 
   // Handle messages from WebView
@@ -164,12 +180,21 @@ export const DAppBrowserScreen: React.FC<DAppBrowserScreenProps> = ({ navigation
   }, []);
 
   // Handle navigation state change
-  const handleNavigationStateChange = useCallback((navState: WebViewNavigation) => {
-    setCurrentUrl(navState.url);
-    setCanGoBack(navState.canGoBack);
-    setCanGoForward(navState.canGoForward);
-    setLoading(navState.loading);
-  }, []);
+  const handleNavigationStateChange = useCallback(
+    (navState: WebViewNavigation) => {
+      setCurrentUrl(navState.url);
+      setPageTitle(navState.title || '');
+      setCanGoBack(navState.canGoBack);
+      setCanGoForward(navState.canGoForward);
+      setLoading(navState.loading);
+
+      // Save to history when navigation completes
+      if (!navState.loading && navState.url) {
+        dispatch(addHistoryItem({ url: navState.url, title: navState.title }));
+      }
+    },
+    [dispatch]
+  );
 
   // Handle load progress
   const handleLoadProgress = useCallback(({ nativeEvent }: any) => {
@@ -198,6 +223,23 @@ export const DAppBrowserScreen: React.FC<DAppBrowserScreenProps> = ({ navigation
       setCurrentUrl(formattedUrl);
     }
   }, [url]);
+
+  // Toggle bookmark
+  const toggleBookmark = useCallback(() => {
+    if (isCurrentPageBookmarked) {
+      dispatch(removeBookmarkByUrl(currentUrl));
+      Alert.alert(i18n.t('dappBrowser.bookmarkRemoved'));
+    } else {
+      dispatch(addBookmark({ url: currentUrl, title: pageTitle }));
+      Alert.alert(i18n.t('dappBrowser.bookmarkAdded'));
+    }
+  }, [isCurrentPageBookmarked, currentUrl, pageTitle, dispatch]);
+
+  // Handle URL selection from modal
+  const handleSelectUrl = useCallback((selectedUrl: string) => {
+    setUrl(selectedUrl);
+    setCurrentUrl(selectedUrl);
+  }, []);
 
   return (
     <SafeAreaView
@@ -239,7 +281,7 @@ export const DAppBrowserScreen: React.FC<DAppBrowserScreenProps> = ({ navigation
           value={url}
           onChangeText={setUrl}
           onSubmitEditing={navigateToUrl}
-          placeholder="Enter URL"
+          placeholder={i18n.t('dappBrowser.enterUrl')}
           placeholderTextColor={theme.colors.text.secondary}
           autoCapitalize="none"
           autoCorrect={false}
@@ -314,14 +356,41 @@ export const DAppBrowserScreen: React.FC<DAppBrowserScreenProps> = ({ navigation
         <View style={styles.navSpacer} />
 
         <TouchableOpacity
-          onPress={() => {
-            // TODO: Open bookmarks
-          }}
+          onPress={toggleBookmark}
           style={styles.navButton}
+          accessibilityRole="button"
+          accessibilityLabel={
+            isCurrentPageBookmarked
+              ? i18n.t('dappBrowser.removeBookmark')
+              : i18n.t('dappBrowser.addBookmark')
+          }
         >
-          <Text style={[styles.navButtonText, { color: theme.colors.primary }]}>★</Text>
+          <Text
+            style={[
+              styles.navButtonText,
+              { color: isCurrentPageBookmarked ? '#FFD700' : theme.colors.text.secondary },
+            ]}
+          >
+            {isCurrentPageBookmarked ? '★' : '☆'}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setBrowserModalVisible(true)}
+          style={styles.navButton}
+          accessibilityRole="button"
+          accessibilityLabel={i18n.t('dappBrowser.history')}
+        >
+          <Text style={[styles.navButtonText, { color: theme.colors.primary }]}>☰</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Browser Modal */}
+      <BrowserModal
+        visible={browserModalVisible}
+        onClose={() => setBrowserModalVisible(false)}
+        onSelectUrl={handleSelectUrl}
+      />
     </SafeAreaView>
   );
 };

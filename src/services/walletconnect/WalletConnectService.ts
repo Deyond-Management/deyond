@@ -196,6 +196,47 @@ export class WalletConnectService {
   }
 
   /**
+   * Disconnect session (alias for disconnectSession)
+   */
+  async disconnect(topic: string): Promise<void> {
+    return this.disconnectSession(topic);
+  }
+
+  /**
+   * Refresh sessions from storage
+   */
+  async refreshSessions(): Promise<WalletConnectSession[]> {
+    try {
+      await this.loadSessions();
+
+      // Filter out expired sessions
+      const now = Date.now();
+      const expiredTopics: string[] = [];
+
+      this.sessions.forEach((session, topic) => {
+        if (session.expiry * 1000 < now) {
+          expiredTopics.push(topic);
+        }
+      });
+
+      // Remove expired sessions
+      for (const topic of expiredTopics) {
+        this.sessions.delete(topic);
+        this.callbacks.onSessionDelete(topic);
+      }
+
+      if (expiredTopics.length > 0) {
+        await this.saveSessions();
+      }
+
+      return this.getActiveSessions();
+    } catch (error) {
+      console.error('Failed to refresh sessions:', error);
+      throw new WalletConnectServiceError('Failed to refresh sessions');
+    }
+  }
+
+  /**
    * Get all active sessions
    */
   getActiveSessions(): WalletConnectSession[] {

@@ -1,39 +1,31 @@
 /**
  * ChatHomeScreen
- * Shows list of active chat sessions and new chat button
+ * Shows list of active chat sessions with end-to-end encryption
  */
 
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React, { useCallback } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { EmptyState } from '../components/atoms/EmptyState';
+import { LoadingState } from '../components/atoms/LoadingState';
+import { useDeyondCrypt, ChatSession } from '../hooks';
 import i18n from '../i18n';
-
-interface ChatSession {
-  id: string;
-  peerAddress: string;
-  peerName: string;
-  lastMessage: string;
-  lastMessageTime: number;
-  unreadCount: number;
-  isActive: boolean;
-}
 
 interface ChatHomeScreenProps {
   navigation: any;
   initialSessions?: ChatSession[];
 }
 
-export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
-  navigation,
-  initialSessions = [],
-}) => {
+export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({ navigation, initialSessions }) => {
   const { theme } = useTheme();
-  const [sessions] = useState<ChatSession[]>(initialSessions);
+  const { isInitialized, isLoading, hasIdentity, sessions, initialize } = useDeyondCrypt();
+
+  // Use initial sessions for testing, otherwise use hook sessions
+  const displaySessions = initialSessions || sessions;
 
   // Format time
-  const formatTime = (timestamp: number) => {
+  const formatTime = useCallback((timestamp: number) => {
     const diff = Date.now() - timestamp;
     const minutes = Math.floor(diff / (1000 * 60));
     const hours = Math.floor(diff / (1000 * 60 * 60));
@@ -42,85 +34,149 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
     if (minutes < 60) return i18n.t('chatHome.time.minutes', { minutes });
     if (hours < 24) return i18n.t('chatHome.time.hours', { hours });
     return i18n.t('chatHome.time.days', { days });
-  };
+  }, []);
 
   // Handle new chat
-  const handleNewChat = () => {
-    navigation.navigate('DeviceDiscovery');
-  };
+  const handleNewChat = useCallback(() => {
+    if (!hasIdentity) {
+      // Need to setup messaging first
+      navigation.navigate('MessagingSetup');
+    } else {
+      navigation.navigate('DeviceDiscovery');
+    }
+  }, [navigation, hasIdentity]);
 
   // Handle session press
-  const handleSessionPress = (session: ChatSession) => {
-    navigation.navigate('ChatConversation', { sessionId: session.id });
-  };
+  const handleSessionPress = useCallback(
+    (session: ChatSession) => {
+      navigation.navigate('ChatConversation', {
+        sessionId: session.id,
+        peerName: session.peerName,
+        peerAddress: session.peerAddress,
+      });
+    },
+    [navigation]
+  );
+
+  // Handle refresh
+  const handleRefresh = useCallback(async () => {
+    await initialize();
+  }, [initialize]);
 
   // Render session item
-  const renderSession = ({ item }: { item: ChatSession }) => (
-    <TouchableOpacity
-      testID={`session-item-${item.id}`}
-      style={[
-        styles.sessionItem,
-        { backgroundColor: theme.colors.card, borderColor: theme.colors.divider },
-      ]}
-      onPress={() => handleSessionPress(item)}
-    >
-      {/* Avatar */}
-      <View style={[styles.avatar, { backgroundColor: theme.colors.primary + '30' }]}>
-        <Text style={[styles.avatarText, { color: theme.colors.primary }]}>
-          {item.peerName.charAt(0).toUpperCase()}
-        </Text>
-        {item.isActive && (
-          <View
-            testID={`active-indicator-${item.id}`}
-            style={[styles.activeIndicator, { backgroundColor: theme.colors.success }]}
-          />
-        )}
-      </View>
-
-      {/* Content */}
-      <View style={styles.sessionContent}>
-        <View style={styles.sessionHeader}>
-          <Text style={[styles.peerName, { color: theme.colors.text.primary }]} numberOfLines={1}>
-            {item.peerName}
+  const renderSession = useCallback(
+    ({ item }: { item: ChatSession }) => (
+      <TouchableOpacity
+        testID={`session-item-${item.id}`}
+        style={[
+          styles.sessionItem,
+          { backgroundColor: theme.colors.card, borderColor: theme.colors.divider },
+        ]}
+        onPress={() => handleSessionPress(item)}
+      >
+        {/* Avatar */}
+        <View style={[styles.avatar, { backgroundColor: theme.colors.primary + '30' }]}>
+          <Text style={[styles.avatarText, { color: theme.colors.primary }]}>
+            {item.peerName.charAt(0).toUpperCase()}
           </Text>
-          <Text style={[styles.time, { color: theme.colors.text.secondary }]}>
-            {formatTime(item.lastMessageTime)}
-          </Text>
-        </View>
-        <View style={styles.sessionFooter}>
-          <Text
-            style={[
-              styles.lastMessage,
-              {
-                color:
-                  item.unreadCount > 0 ? theme.colors.text.primary : theme.colors.text.secondary,
-                fontWeight: item.unreadCount > 0 ? '600' : '400',
-              },
-            ]}
-            numberOfLines={1}
-          >
-            {item.lastMessage}
-          </Text>
-          {item.unreadCount > 0 && (
+          {item.isActive && (
             <View
-              testID={`unread-badge-${item.id}`}
-              style={[styles.badge, { backgroundColor: theme.colors.primary }]}
-            >
-              <Text style={styles.badgeText}>{item.unreadCount}</Text>
-            </View>
+              testID={`active-indicator-${item.id}`}
+              style={[styles.activeIndicator, { backgroundColor: theme.colors.success }]}
+            />
           )}
         </View>
-      </View>
-    </TouchableOpacity>
+
+        {/* Content */}
+        <View style={styles.sessionContent}>
+          <View style={styles.sessionHeader}>
+            <Text style={[styles.peerName, { color: theme.colors.text.primary }]} numberOfLines={1}>
+              {item.peerName}
+            </Text>
+            <Text style={[styles.time, { color: theme.colors.text.secondary }]}>
+              {formatTime(item.lastMessageTime)}
+            </Text>
+          </View>
+          <View style={styles.sessionFooter}>
+            <View style={styles.messageRow}>
+              {/* Encryption indicator */}
+              <Text style={[styles.encryptionIcon, { color: theme.colors.success }]}>🔒</Text>
+              <Text
+                style={[
+                  styles.lastMessage,
+                  {
+                    color:
+                      item.unreadCount > 0
+                        ? theme.colors.text.primary
+                        : theme.colors.text.secondary,
+                    fontWeight: item.unreadCount > 0 ? '600' : '400',
+                  },
+                ]}
+                numberOfLines={1}
+              >
+                {item.lastMessage || i18n.t('chatHome.noMessages')}
+              </Text>
+            </View>
+            {item.unreadCount > 0 && (
+              <View
+                testID={`unread-badge-${item.id}`}
+                style={[styles.badge, { backgroundColor: theme.colors.primary }]}
+              >
+                <Text style={styles.badgeText}>{item.unreadCount}</Text>
+              </View>
+            )}
+          </View>
+        </View>
+      </TouchableOpacity>
+    ),
+    [theme, formatTime, handleSessionPress]
   );
+
+  // Render setup prompt
+  const renderSetupPrompt = () => (
+    <View testID="setup-prompt" style={styles.setupContainer}>
+      <View style={[styles.setupCard, { backgroundColor: theme.colors.card }]}>
+        <Text style={[styles.setupIcon]}>🔐</Text>
+        <Text style={[styles.setupTitle, { color: theme.colors.text.primary }]}>
+          {i18n.t('chatHome.setup.title')}
+        </Text>
+        <Text style={[styles.setupDescription, { color: theme.colors.text.secondary }]}>
+          {i18n.t('chatHome.setup.description')}
+        </Text>
+        <TouchableOpacity
+          testID="setup-button"
+          style={[styles.setupButton, { backgroundColor: theme.colors.primary }]}
+          onPress={() => navigation.navigate('MessagingSetup')}
+        >
+          <Text style={styles.setupButtonText}>{i18n.t('chatHome.setup.button')}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  // Show loading state
+  if (isLoading && !isInitialized) {
+    return (
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
+        <LoadingState message={i18n.t('chatHome.loading')} />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-          {i18n.t('chatHome.title')}
-        </Text>
+        <View>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+            {i18n.t('chatHome.title')}
+          </Text>
+          {hasIdentity && (
+            <Text style={[styles.subtitle, { color: theme.colors.text.secondary }]}>
+              {i18n.t('chatHome.encrypted')}
+            </Text>
+          )}
+        </View>
         <TouchableOpacity
           testID="new-chat-button"
           style={[styles.newChatButton, { backgroundColor: theme.colors.primary }]}
@@ -131,14 +187,23 @@ export const ChatHomeScreen: React.FC<ChatHomeScreenProps> = ({
         </TouchableOpacity>
       </View>
 
-      {/* Session List */}
-      {sessions.length > 0 ? (
+      {/* Show setup prompt if no identity */}
+      {!hasIdentity && !initialSessions ? (
+        renderSetupPrompt()
+      ) : displaySessions.length > 0 ? (
         <FlatList
           testID="session-list"
-          data={sessions}
+          data={displaySessions}
           renderItem={renderSession}
           keyExtractor={item => item.id}
           contentContainerStyle={styles.listContent}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={handleRefresh}
+              tintColor={theme.colors.primary}
+            />
+          }
         />
       ) : (
         <View testID="empty-state" style={styles.emptyContainer}>
@@ -197,6 +262,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  encryptionIcon: {
+    fontSize: 12,
+    marginRight: 4,
+  },
   header: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -210,6 +279,11 @@ const styles = StyleSheet.create({
   listContent: {
     padding: 16,
     paddingTop: 0,
+  },
+  messageRow: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
   },
   newChatButton: {
     alignItems: 'center',
@@ -252,6 +326,45 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 12,
     padding: 12,
+  },
+  setupButton: {
+    borderRadius: 12,
+    marginTop: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+  },
+  setupButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  setupCard: {
+    alignItems: 'center',
+    borderRadius: 16,
+    margin: 16,
+    padding: 24,
+  },
+  setupContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  setupDescription: {
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  setupIcon: {
+    fontSize: 48,
+    marginBottom: 16,
+  },
+  setupTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 12,
+    marginTop: 2,
   },
   time: {
     fontSize: 12,

@@ -3,7 +3,7 @@
  * Main dashboard showing wallet balance, tokens, and recent transactions
  */
 
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -29,8 +29,15 @@ import {
   selectTotalBalance,
   selectTokenLoading,
 } from '../store/slices/tokenSlice';
-import { setCurrentNetwork } from '../store/slices/networkSlice';
-import { NetworkSelectorModal, Network } from '../components/organisms/NetworkSelectorModal';
+import {
+  setCurrentNetwork,
+  toggleShowTestnets,
+  selectNetworks,
+  selectCurrentNetwork,
+  selectShowTestnets,
+} from '../store/slices/networkSlice';
+import { NetworkSelectorModal } from '../components/organisms/NetworkSelectorModal';
+import { Network } from '../types/wallet';
 import i18n from '../i18n';
 
 interface HomeScreenProps {
@@ -53,23 +60,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const isLoading = useAppSelector(selectTokenLoading);
 
   // Get network state from Redux
-  const networks = useAppSelector(state => state.network?.networks ?? []);
-  const currentNetwork = useAppSelector(state => state.network?.currentNetwork);
-
-  // Map networks to modal format - memoized to prevent recalculation
-  const modalNetworks: Network[] = useMemo(
-    () =>
-      networks.map(n => ({
-        id: n.id,
-        name: n.name,
-        chainId: n.chainId,
-        rpcUrl: n.rpcUrl,
-        symbol: n.currencySymbol,
-        blockExplorer: n.blockExplorerUrl || '',
-        isTestnet: n.isTestnet,
-      })),
-    [networks]
-  );
+  const networks = useAppSelector(selectNetworks);
+  const currentNetwork = useAppSelector(selectCurrentNetwork);
+  const showTestnets = useAppSelector(selectShowTestnets);
 
   // Mock transactions
   const mockTransactions = [
@@ -130,15 +123,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const handleNetworkChange = useCallback(
     (network: Network) => {
-      // Find the original network from Redux state
-      const originalNetwork = networks.find(n => n.id === network.id);
-      if (originalNetwork) {
-        dispatch(setCurrentNetwork(originalNetwork));
-      }
+      dispatch(setCurrentNetwork(network));
       setNetworkModalVisible(false);
     },
-    [networks, dispatch]
+    [dispatch]
   );
+
+  const handleToggleTestnets = useCallback(() => {
+    dispatch(toggleShowTestnets());
+  }, [dispatch]);
 
   const handleTokenPress = useCallback(
     (symbol: string) => {
@@ -191,10 +184,25 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         />
 
         {/* Tokens Section */}
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
-            {i18n.t('home.myTokens')}
-          </Text>
+        <View style={styles.section} accessible={true} accessibilityLabel={i18n.t('home.myTokens')}>
+          <View style={styles.sectionHeader}>
+            <Text
+              style={[styles.sectionTitle, { color: theme.colors.text.primary }]}
+              accessibilityRole="header"
+            >
+              {i18n.t('home.myTokens')}
+            </Text>
+            <TouchableOpacity
+              testID="tokens-view-all"
+              onPress={() => navigation.navigate('TokenList')}
+              accessibilityRole="button"
+              accessibilityLabel={i18n.t('home.viewAllTokens')}
+            >
+              <Text style={[styles.viewAllText, { color: theme.colors.primary }]}>
+                {i18n.t('home.viewAll')}
+              </Text>
+            </TouchableOpacity>
+          </View>
           {isLoading && tokens.length === 0 ? (
             <>
               <TokenCardSkeleton testID="token-skeleton-0" style={styles.card} />
@@ -204,12 +212,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           ) : tokens.length > 0 ? (
             tokens.map((token, index) => (
               <TokenCard
-                key={token.symbol}
+                key={`${token.symbol}-${token.chainId || index}`}
                 symbol={token.symbol}
                 name={token.name}
                 balance={token.balance}
                 usdValue={token.usdValue}
                 priceChange24h={token.priceChange24h}
+                networkType={token.networkType}
+                network={token.network}
+                iconUrl={token.logoUrl}
                 onPress={() => handleTokenPress(token.symbol)}
                 testID={`token-card-${index}`}
                 style={styles.card}
@@ -223,14 +234,24 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </View>
 
         {/* Transactions Section */}
-        <View style={styles.section}>
+        <View
+          style={styles.section}
+          accessible={true}
+          accessibilityLabel={i18n.t('home.recentTransactions')}
+        >
           <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: theme.colors.text.primary }]}>
+            <Text
+              style={[styles.sectionTitle, { color: theme.colors.text.primary }]}
+              accessibilityRole="header"
+            >
               {i18n.t('home.recentTransactions')}
             </Text>
             <TouchableOpacity
               testID="history-tab"
               onPress={() => navigation.navigate('TransactionHistory')}
+              accessibilityRole="button"
+              accessibilityLabel={i18n.t('home.viewAllTransactions')}
+              accessibilityHint={i18n.t('a11y.tapToViewAllTransactions')}
             >
               <Text style={[styles.viewAllText, { color: theme.colors.primary }]}>
                 {i18n.t('home.viewAll')}
@@ -258,10 +279,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       {/* Network Selector Modal */}
       <NetworkSelectorModal
         visible={networkModalVisible}
-        networks={modalNetworks}
+        networks={networks}
         selectedNetworkId={currentNetwork?.id ?? ''}
+        showTestnets={showTestnets}
         onSelect={handleNetworkChange}
         onClose={() => setNetworkModalVisible(false)}
+        onToggleTestnets={handleToggleTestnets}
       />
     </SafeAreaView>
   );

@@ -68,7 +68,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
   // Handle enable biometric
   const handleEnableBiometric = async () => {
     if (!biometricAvailable) {
-      setError('Biometric authentication is not available on this device');
+      setError(i18n.t('biometricSetup.notAvailableMessage'));
       return;
     }
 
@@ -81,7 +81,7 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
       const authResult = await securityService.authenticateWithBiometrics();
 
       if (!authResult.success) {
-        setError(authResult.error || 'Biometric authentication failed');
+        setError(authResult.error || i18n.t('biometricSetup.authFailed'));
         setIsLoading(false);
         return;
       }
@@ -167,9 +167,11 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
 
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text.primary }]}>Enable {biometricType}</Text>
+          <Text style={[styles.title, { color: colors.text.primary }]}>
+            {i18n.t('biometricSetup.title', { type: biometricType })}
+          </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Use {biometricType} to unlock your wallet quickly and securely
+            {i18n.t('biometricSetup.subtitle', { type: biometricType })}
           </Text>
         </View>
 
@@ -237,7 +239,9 @@ export const BiometricSetupScreen: React.FC<BiometricSetupScreenProps> = ({
           style={styles.enableButton}
           testID="enable-biometric-button"
         >
-          {biometricAvailable ? `Enable ${biometricType}` : 'Biometric not available'}
+          {biometricAvailable
+            ? i18n.t('biometricSetup.enableButton', { type: biometricType })
+            : i18n.t('biometricSetup.notAvailable')}
         </Button>
 
         {/* Skip Button */}

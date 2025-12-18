@@ -20,10 +20,13 @@ export class NFTService {
 
   /**
    * Get NFTs owned by address
+   * Note: NFT service currently only supports EVM chains
    */
   async getNFTs(params: NFTQueryParams): Promise<NFT[]> {
     const { owner, chainId, page = 0, pageSize = 20 } = params;
-    const currentChainId = chainId || this.chainManager.getChainId();
+    const rawChainId = chainId || this.chainManager.getChainId();
+    // NFT service only supports EVM chains with numeric chainIds
+    const currentChainId = typeof rawChainId === 'number' ? rawChainId : 1;
 
     // Check cache first
     const cacheKey = `${owner}:${currentChainId}:${page}`;
@@ -86,9 +89,12 @@ export class NFTService {
 
   /**
    * Get NFT by token ID and contract
+   * Note: NFT service currently only supports EVM chains
    */
   async getNFT(contractAddress: string, tokenId: string, chainId?: number): Promise<NFT | null> {
-    const currentChainId = chainId || this.chainManager.getChainId();
+    const rawChainId = chainId || this.chainManager.getChainId();
+    // NFT service only supports EVM chains with numeric chainIds
+    const currentChainId = typeof rawChainId === 'number' ? rawChainId : 1;
 
     if (AppConfig.demoMode) {
       return this.generateMockNFT(contractAddress, tokenId, currentChainId);

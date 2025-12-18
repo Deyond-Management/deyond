@@ -86,7 +86,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
         {/* Footer Section */}
         <View style={styles.footerContainer}>
           <Text style={[styles.footerText, { color: theme.colors.text.hint }]}>
-            Your keys, your crypto
+            {i18n.t('welcome.tagline')}
           </Text>
         </View>
       </View>

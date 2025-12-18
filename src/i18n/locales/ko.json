@@ -15,13 +15,17 @@
     "success": "성공",
     "retry": "재시도",
     "show": "표시",
-    "hide": "숨기기"
+    "hide": "숨기기",
+    "disconnect": "연결 해제",
+    "copy": "복사",
+    "copied": "복사됨!"
   },
   "welcome": {
     "title": "디욘드 지갑에 오신 것을 환영합니다",
     "subtitle": "탈중앙화 세계로 가는 안전한 관문",
     "createWallet": "새 지갑 만들기",
-    "importWallet": "기존 지갑 가져오기"
+    "importWallet": "기존 지갑 가져오기",
+    "tagline": "내 키, 내 암호화폐"
   },
   "createWallet": {
     "title": "비밀번호 생성",
@@ -124,8 +128,8 @@
     }
   },
   "biometricSetup": {
-    "title": "생체 인증 로그인 활성화",
-    "subtitle": "Face ID 또는 Touch ID를 사용하여 지갑을 빠르고 안전하게 잠금 해제하세요",
+    "title": "{{type}} 활성화",
+    "subtitle": "{{type}}을(를) 사용하여 지갑을 빠르고 안전하게 잠금 해제하세요",
     "whyUse": "생체 인증을 사용하는 이유는?",
     "benefits": {
       "quickAccess": {
@@ -142,8 +146,11 @@
       }
     },
     "fallbackInfo": "생체 인증이 실패하면 언제든지 비밀번호를 대체 수단으로 사용할 수 있습니다",
-    "enableButton": "생체 인증 로그인 활성화",
+    "enableButton": "{{type}} 활성화",
     "skipButton": "나중에 하기",
+    "notAvailable": "생체 인증 불가",
+    "notAvailableMessage": "이 기기에서는 생체 인증을 사용할 수 없습니다",
+    "authFailed": "생체 인증에 실패했습니다",
     "errors": {
       "enableFailed": "생체 인증 활성화에 실패했습니다. 다시 시도해주세요.",
       "walletCreationFailed": "지갑 생성에 실패했습니다. 다시 시도해주세요."
@@ -169,6 +176,8 @@
     "myTokens": "내 토큰",
     "recentTransactions": "최근 거래",
     "viewAll": "전체 보기",
+    "viewAllTransactions": "모든 거래 내역 보기",
+    "viewAllTokens": "모든 토큰 보기",
     "noTokens": "토큰이 없습니다",
     "noTransactions": "거래 내역이 없습니다",
     "loadingBalances": "잔액 로딩 중...",
@@ -186,6 +195,8 @@
     "networkFee": "네트워크 수수료",
     "continue": "계속",
     "confirm": "확인",
+    "scanQR": "QR 스캔",
+    "addressBook": "주소록",
     "errors": {
       "invalidAddress": "잘못된 주소",
       "invalidAmount": "잘못된 수량",
@@ -265,6 +276,14 @@
     "empty": {
       "title": "거래 내역 없음",
       "message": "거래 내역이 여기에 표시됩니다"
+    },
+    "export": {
+      "title": "내보내기",
+      "csv": "CSV로 내보내기",
+      "json": "JSON으로 내보내기",
+      "success": "거래 내역을 성공적으로 내보냈습니다",
+      "error": "거래 내역 내보내기 실패",
+      "noData": "내보낼 거래 내역이 없습니다"
     }
   },
   "transactionPreview": {
@@ -297,6 +316,7 @@
   },
   "settingsScreen": {
     "title": "설정",
+    "selectLanguage": "언어 선택",
     "sections": {
       "security": "보안",
       "network": "네트워크",
@@ -308,6 +328,7 @@
       "securitySettings": "보안 설정",
       "backupWallet": "지갑 백업",
       "network": "네트워크",
+      "showTestnets": "테스트넷 표시",
       "darkMode": "다크 모드",
       "currency": "통화",
       "language": "언어",
@@ -349,6 +370,9 @@
   "chatHome": {
     "title": "메시지",
     "newChat": "새 채팅",
+    "encrypted": "종단 간 암호화",
+    "loading": "메시지 로딩 중...",
+    "noMessages": "메시지 없음",
     "time": {
       "minutes": "{{minutes}}분",
       "hours": "{{hours}}시간",
@@ -358,6 +382,11 @@
       "title": "대화 내역 없음",
       "message": "새 채팅을 시작하여 주변 기기와 연결하세요",
       "action": "새 채팅"
+    },
+    "setup": {
+      "title": "보안 메시지 활성화",
+      "description": "연락처와 비공개 메시지를 주고받기 위해 종단 간 암호화를 설정하세요.",
+      "button": "메시지 설정"
     }
   },
   "deviceDiscovery": {
@@ -400,7 +429,10 @@
     "emptyMessage": "{{name}}님과 대화를 시작하세요",
     "inputPlaceholder": "메시지를 입력하세요...",
     "inputAccessibility": "메시지 입력",
-    "sendAccessibility": "메시지 보내기"
+    "sendAccessibility": "메시지 보내기",
+    "encrypted": "종단 간 암호화",
+    "encryptedLabel": "암호화됨",
+    "encryptionNote": "메시지는 종단 간 암호화됩니다. 본인과 수신자만 읽을 수 있습니다."
   },
   "addressBook": {
     "title": "주소록",
@@ -465,7 +497,18 @@
     "signRequest": "서명 요청",
     "popular": "인기 DApp",
     "addBookmark": "북마크 추가",
-    "removeBookmark": "북마크 제거"
+    "removeBookmark": "북마크 제거",
+    "deleteBookmark": "북마크 삭제",
+    "deleteBookmarkConfirm": "이 북마크를 삭제하시겠습니까?",
+    "clearHistory": "기록 삭제",
+    "clearHistoryConfirm": "모든 기록을 삭제하시겠습니까?",
+    "noBookmarks": "북마크 없음",
+    "noBookmarksMessage": "별 아이콘을 탭하여 북마크를 추가하세요",
+    "noHistory": "기록 없음",
+    "noHistoryMessage": "방문 기록이 여기에 표시됩니다",
+    "tapToOpen": "탭하여 열기",
+    "bookmarkAdded": "북마크가 추가되었습니다",
+    "bookmarkRemoved": "북마크가 제거되었습니다"
   },
   "walletConnect": {
     "title": "WalletConnect",
@@ -473,10 +516,16 @@
     "sessions": "연결된 세션",
     "noSessions": "활성 세션 없음",
     "noSessionsMessage": "QR 코드를 스캔하여 DApp과 연결하세요",
+    "noSessionsDescription": "WalletConnect QR 코드를 스캔하여 DApp에 연결하세요",
     "connecting": "연결 중",
     "connectingMessage": "연결 요청을 승인해주세요",
     "connected": "연결됨",
     "disconnect": "연결 해제",
+    "disconnectTitle": "세션 연결 해제",
+    "disconnectConfirm": "{{name}}과의 연결을 해제하시겠습니까?",
+    "disconnectAll": "모두 연결 해제",
+    "disconnectAllTitle": "모든 세션 연결 해제",
+    "disconnectAllConfirm": "모든 DApp과의 연결을 해제하시겠습니까?",
     "sessionRequest": "연결 요청",
     "approveSession": "연결 승인",
     "rejectSession": "거절",
@@ -489,7 +538,96 @@
     "grantPermission": "권한 허용",
     "scanInstructions": "프레임 안에 QR 코드를 맞추세요",
     "connectedAt": "연결됨",
-    "disconnectConfirm": "연결을 해제하시겠습니까?"
+    "chains": "체인",
+    "methods": "메서드",
+    "activeSessions": "활성",
+    "pendingRequests": "대기 중인 요청"
+  },
+  "walletConnectRequest": {
+    "transactionRequest": "트랜잭션 요청",
+    "signMessage": "메시지 서명",
+    "signTypedData": "타입 데이터 서명",
+    "simulating": "트랜잭션 시뮬레이션 중...",
+    "transactionDetails": "트랜잭션 상세",
+    "approvalDetails": "승인 상세",
+    "spender": "수신자",
+    "amount": "금액",
+    "estimatedGas": "예상 가스",
+    "gasPrice": "가스 가격",
+    "data": "데이터",
+    "sign": "서명",
+    "messageContent": "메시지 내용",
+    "domain": "도메인",
+    "primaryType": "타입",
+    "riskAssessment": "위험 평가",
+    "noRisksDetected": "위험 요소가 감지되지 않음",
+    "highRiskWarning": "이 요청은 위험할 수 있습니다. 주의해서 진행하세요.",
+    "riskLevel": {
+      "low": "낮은 위험",
+      "medium": "중간 위험",
+      "high": "높은 위험"
+    },
+    "riskReasons": {
+      "unknownDomain": "알 수 없거나 검증되지 않은 도메인",
+      "permitSignature": "토큰 승인을 부여할 수 있는 permit 서명입니다",
+      "nftApproval": "NFT 관리 권한을 부여합니다",
+      "suspiciousPattern": "피싱과 관련된 패턴 포함",
+      "longMessage": "비정상적으로 긴 메시지"
+    },
+    "warnings": {
+      "title": "경고",
+      "unlimitedApproval": "무제한 토큰 승인을 부여합니다",
+      "gasEstimateFailed": "가스 추정 실패 - 트랜잭션이 실패할 수 있습니다",
+      "highValue": "고액 트랜잭션: {{value}} ETH",
+      "contractInteraction": "스마트 컨트랙트와 상호작용"
+    }
+  },
+  "notifications": {
+    "title": "알림",
+    "enableNotifications": "알림 활성화",
+    "enableDescription": "거래, 가격 변동, 보안 이벤트에 대한 알림을 받습니다",
+    "permissionRequired": "권한 필요",
+    "permissionMessage": "알림을 받으려면 기기 설정에서 알림을 활성화해주세요",
+    "categories": {
+      "title": "알림 유형",
+      "transaction": "거래",
+      "priceAlert": "가격 알림",
+      "security": "보안",
+      "system": "시스템"
+    },
+    "descriptions": {
+      "transaction": "보낸, 받은, 확인된, 실패한 거래",
+      "priceAlert": "가격 임계값 및 주요 변동",
+      "security": "새 기기 로그인 및 의심스러운 활동",
+      "system": "앱 업데이트 및 유지보수 알림"
+    },
+    "quietHours": {
+      "title": "방해 금지 시간",
+      "enable": "방해 금지 시간 활성화",
+      "description": "{{start}}:00부터 {{end}}:00까지 알림 없음"
+    },
+    "alerts": {
+      "title": "알림 스타일",
+      "sound": "소리",
+      "vibration": "진동"
+    },
+    "infoText": "받을 알림을 사용자 지정할 수 있습니다. 지갑을 안전하게 유지하려면 보안 알림을 사용하는 것이 좋습니다."
+  },
+  "walletConnectErrors": {
+    "unknownError": "알 수 없는 오류가 발생했습니다",
+    "userRejected": "요청이 거절되었습니다",
+    "unauthorized": "이 작업에 대한 권한이 없습니다",
+    "chainNotSupported": "이 네트워크는 지원되지 않습니다",
+    "disconnected": "세션이 연결 해제되었습니다",
+    "pairingExpired": "QR 코드가 만료되었습니다. 새로운 코드를 스캔해주세요.",
+    "sessionNotFound": "세션을 찾을 수 없습니다. 다시 연결해주세요.",
+    "pairingFailed": "DApp 연결에 실패했습니다",
+    "invalidUri": "잘못된 QR 코드입니다. 유효한 WalletConnect QR 코드를 스캔해주세요.",
+    "rateLimited": "요청이 너무 많습니다. 잠시 후 다시 시도해주세요.",
+    "connectionTimeout": "연결 시간이 초과되었습니다. 인터넷 연결을 확인해주세요.",
+    "networkError": "네트워크 오류입니다. 인터넷 연결을 확인해주세요.",
+    "openSettings": "설정 열기",
+    "reconnect": "다시 연결"
   },
   "exportWallet": {
     "title": "지갑 내보내기",
@@ -530,10 +668,52 @@
       "exportFailed": "지갑 데이터 내보내기 실패"
     }
   },
+  "swap": {
+    "title": "스왑",
+    "history": "내역",
+    "from": "보내기",
+    "to": "받기",
+    "select": "선택",
+    "balance": "잔액: {{balance}} {{symbol}}",
+    "rate": "환율",
+    "priceImpact": "가격 영향",
+    "estimatedGas": "예상 가스",
+    "minimumReceived": "최소 수령량",
+    "fetchingPrice": "최적 가격 조회 중...",
+    "error": "오류",
+    "retry": "재시도",
+    "swapButton": "스왑",
+    "swapping": "스왑 중...",
+    "selectFromToken": "스왑할 토큰 선택",
+    "selectToToken": "받을 토큰 선택",
+    "confirmSwap": "스왑 확인",
+    "swapSuccessful": "스왑 성공",
+    "swapFailed": "스왑 실패",
+    "viewTransaction": "거래 보기",
+    "cancel": "취소",
+    "confirm": "확인",
+    "continueAnyway": "계속 진행",
+    "tryAgain": "다시 시도",
+    "highPriceImpactWarning": "높은 가격 영향 경고",
+    "errors": {
+      "amountTooLarge": "금액이 너무 큽니다. 더 작은 금액을 입력해주세요.",
+      "insufficientLiquidity": "이 스왑을 위한 유동성이 부족합니다.",
+      "networkError": "네트워크 오류. 연결을 확인하고 다시 시도해주세요.",
+      "timeout": "요청 시간 초과. 다시 시도해주세요.",
+      "missingParams": "필수 스왑 매개변수가 누락되었습니다",
+      "insufficientBalance": "이 스왑을 완료하기에 충분한 토큰이 없습니다.",
+      "transactionReverted": "스왑 거래가 실패했습니다. 유동성 부족, 가격 변동, 또는 슬리피지 허용 범위 때문일 수 있습니다.",
+      "transactionRejected": "거래를 거부했습니다.",
+      "gasEstimationFailed": "가스 추정에 실패했습니다. 스왑이 실패할 수 있습니다.",
+      "generic": "스왑 중 오류가 발생했습니다"
+    }
+  },
   "nft": {
     "title": "NFT",
     "nfts": "NFT",
     "collections": "컬렉션",
+    "itemCount_one": "{{count}}개 아이템",
+    "itemCount_other": "{{count}}개 아이템",
     "empty": {
       "title": "NFT 없음",
       "message": "NFT 컬렉션이 여기에 표시됩니다"
@@ -550,6 +730,328 @@
       "viewOnExplorer": "탐색기에서 보기",
       "send": "전송",
       "share": "공유"
+    }
+  },
+  "tokenList": {
+    "title": "토큰",
+    "tokenCount": "{{count}}개 토큰",
+    "searchPlaceholder": "토큰 검색...",
+    "sortBy": "정렬",
+    "sortOptions": {
+      "name": "이름",
+      "balance": "잔액",
+      "value": "가치",
+      "change": "24시간 변동"
+    },
+    "noTokens": "토큰이 없습니다",
+    "noTokensMessage": "토큰을 받으면 여기에 표시됩니다",
+    "noSearchResults": "토큰을 찾을 수 없습니다",
+    "tryDifferentSearch": "다른 검색어를 시도해보세요"
+  },
+  "simulation": {
+    "title": "트랜잭션 시뮬레이션",
+    "simulating": "트랜잭션 시뮬레이션 중...",
+    "simulationSuccess": "시뮬레이션 성공",
+    "simulationFailed": "시뮬레이션 실패",
+    "riskLevel": "위험 수준",
+    "riskCritical": "치명적",
+    "riskHigh": "높음",
+    "riskMedium": "보통",
+    "riskLow": "낮음",
+    "riskSafe": "안전",
+    "warnings": "경고",
+    "tokenTransfers": "토큰 전송",
+    "approvalChanges": "승인 변경",
+    "gasEstimation": "가스 예측",
+    "gasLimit": "가스 한도",
+    "estimatedCost": "예상 비용",
+    "contractInfo": "컨트랙트 정보",
+    "unknownMethod": "알 수 없는 메서드",
+    "verified": "검증됨",
+    "spender": "수신자",
+    "newAllowance": "새 승인량",
+    "unlimited": "무제한",
+    "retry": "시뮬레이션 재시도",
+    "expectedOutcome": "예상 결과",
+    "willReceive": "받을 금액",
+    "willSend": "보낼 금액",
+    "approvalRequired": "승인 필요",
+    "errors": {
+      "revertDetected": "트랜잭션이 실패할 것입니다",
+      "insufficientFunds": "잔액 부족",
+      "gasEstimationFailed": "가스 예측 실패"
+    }
+  },
+  "tokenApproval": {
+    "title": "토큰 승인 관리",
+    "subtitle": "토큰 승인을 관리하고 불필요한 권한을 취소하세요",
+    "noApprovals": "활성 승인 없음",
+    "noApprovalsMessage": "활성화된 토큰 승인이 없습니다. 좋은 상태입니다!",
+    "scanning": "승인 내역 검색 중...",
+    "active": "활성",
+    "highRisk": "고위험",
+    "unlimited": "무제한",
+    "spender": "수신자",
+    "approvedAt": "승인일",
+    "lastUsed": "마지막 사용",
+    "viewDetails": "상세",
+    "revoke": "취소",
+    "revokeTitle": "승인 취소",
+    "revokeConfirm": "{{spender}}에 대한 {{token}} 승인을 취소하시겠습니까?",
+    "revokeSuccess": "승인이 성공적으로 취소되었습니다",
+    "lastScanned": "마지막 스캔",
+    "filterAll": "전체",
+    "filterHighRisk": "고위험",
+    "filterUnlimited": "무제한",
+    "highRiskWarning": "검토가 필요한 {{count}}개의 고위험 승인이 있습니다",
+    "riskCritical": "치명적",
+    "riskHigh": "높음",
+    "riskMedium": "보통",
+    "riskLow": "낮음",
+    "riskReasons": {
+      "unlimited": "무제한 승인",
+      "unknown": "알 수 없거나 검증되지 않은 수신자",
+      "stale": "90일 이상 사용되지 않음",
+      "highValue": "고가치 토큰"
+    },
+    "details": {
+      "title": "승인 상세",
+      "tokenAddress": "토큰 주소",
+      "spenderAddress": "수신자 주소",
+      "allowance": "승인량",
+      "transactionHash": "트랜잭션"
+    }
+  },
+  "priceAlert": {
+    "title": "가격 알림",
+    "subtitle": "가격이 변동되면 알림을 받습니다",
+    "createAlert": "알림 생성",
+    "editAlert": "알림 수정",
+    "noAlerts": "가격 알림 없음",
+    "noAlertsMessage": "가격 변동에 대한 알림을 생성하세요",
+    "activeAlerts": "활성 알림",
+    "triggeredAlerts": "트리거된 알림",
+    "token": "토큰",
+    "selectToken": "토큰 선택",
+    "condition": "조건",
+    "above": "가격이 이 이상일 때",
+    "below": "가격이 이 이하일 때",
+    "changePercent": "변동률로 알림",
+    "targetPrice": "목표 가격",
+    "changeAmount": "변동폭",
+    "direction": "방향",
+    "directionAny": "모든 방향",
+    "directionUp": "상승만",
+    "directionDown": "하락만",
+    "timeframe": "기간",
+    "timeframe1h": "1시간",
+    "timeframe24h": "24시간",
+    "timeframe7d": "7일",
+    "repeat": "반복",
+    "repeatDescription": "트리거 후 다시 활성화",
+    "currentPrice": "현재 가격",
+    "triggered": "트리거됨",
+    "active": "활성",
+    "disabled": "비활성",
+    "enable": "활성화",
+    "disable": "비활성화",
+    "delete": "삭제",
+    "deleteConfirm": "이 알림을 삭제하시겠습니까?",
+    "createSuccess": "알림이 생성되었습니다",
+    "deleteSuccess": "알림이 삭제되었습니다",
+    "maxAlerts": "최대 {{count}}개의 알림만 허용됩니다",
+    "errors": {
+      "tokenRequired": "토큰을 선택해주세요",
+      "targetPriceRequired": "목표 가격을 입력해주세요",
+      "changeAmountRequired": "변동률을 입력해주세요",
+      "invalidPrice": "유효한 가격을 입력해주세요",
+      "invalidPercentage": "유효한 변동률을 입력해주세요"
+    }
+  },
+  "hardwareWallet": {
+    "title": "하드웨어 지갑",
+    "connectionType": "연결 방식",
+    "scanDevices": "기기 검색",
+    "availableDevices": "사용 가능한 기기",
+    "supportedDevices": "지원 기기",
+    "connected": "연결됨",
+    "connecting": "연결 중...",
+    "disconnect": "연결 해제",
+    "disconnectConfirm": "이 하드웨어 지갑의 연결을 해제하시겠습니까?",
+    "derivationPath": "파생 경로",
+    "selectAccount": "계정 선택",
+    "loadMore": "더 많은 계정 불러오기",
+    "useAccount": "이 계정 사용",
+    "verifyOnDevice": "기기에서 확인",
+    "verifyAddress": "기기에서 주소를 확인해주세요",
+    "signOnDevice": "기기에서 서명",
+    "signTransaction": "기기에서 거래를 확인해주세요",
+    "signMessage": "기기에서 메시지를 확인해주세요",
+    "error": "하드웨어 지갑 오류",
+    "errors": {
+      "deviceNotFound": "하드웨어 지갑을 찾을 수 없습니다. 기기가 연결되어 있고 잠금 해제되어 있는지 확인하세요.",
+      "connectionFailed": "하드웨어 지갑 연결에 실패했습니다. 다시 시도해주세요.",
+      "connectionLost": "하드웨어 지갑 연결이 끊어졌습니다. 다시 연결해주세요.",
+      "bluetoothDisabled": "블루투스가 비활성화되어 있습니다. 블루투스를 켜주세요.",
+      "usbNotSupported": "이 기기에서는 USB 연결이 지원되지 않습니다.",
+      "deviceLocked": "하드웨어 지갑이 잠겨 있습니다. 잠금을 해제하고 다시 시도해주세요.",
+      "wrongApp": "기기에서 잘못된 앱이 열려 있습니다. 이더리움 앱을 열어주세요.",
+      "appNotOpen": "하드웨어 지갑에서 이더리움 앱을 열어주세요.",
+      "userRejected": "하드웨어 지갑에서 작업이 거부되었습니다.",
+      "timeout": "요청 시간이 초과되었습니다. 다시 시도해주세요.",
+      "invalidPath": "잘못된 파생 경로입니다.",
+      "signingFailed": "서명에 실패했습니다. 다시 시도해주세요."
+    }
+  },
+  "a11y": {
+    "tapToViewAllTransactions": "모든 거래 내역 보기",
+    "tapToViewTokenDetails": "{{symbol}} 상세 정보 보기",
+    "tapToViewTransaction": "거래 상세 정보 보기",
+    "copyToClipboard": "클립보드에 복사",
+    "closeModal": "모달 닫기",
+    "goBack": "뒤로 가기",
+    "refresh": "새로고침",
+    "loading": "콘텐츠 로딩 중",
+    "networkSelector": "네트워크 선택",
+    "searchResults": "{{count}}개 결과 발견",
+    "noResults": "결과 없음",
+    "selected": "선택됨",
+    "notSelected": "선택되지 않음",
+    "expandSection": "{{section}} 펼치기",
+    "collapseSection": "{{section}} 접기"
+  },
+  "messagingSetup": {
+    "title": "보안 메시지",
+    "subtitle": "연락처와 비공개로 통신하기 위해 종단 간 암호화 메시지를 설정하세요.",
+    "features": {
+      "encryption": {
+        "title": "종단 간 암호화",
+        "description": "본인과 수신자만 메시지를 읽을 수 있습니다. 저희도 접근할 수 없습니다."
+      },
+      "keys": {
+        "title": "내 키, 내 프라이버시",
+        "description": "암호화 키는 지갑에서 파생되어 기기에 안전하게 저장됩니다."
+      },
+      "contacts": {
+        "title": "안전하게 연결",
+        "description": "QR 코드 또는 블루투스를 통해 연락처와 키를 교환하세요."
+      }
+    },
+    "setupButton": "보안 메시지 설정",
+    "skipButton": "나중에 하기",
+    "errors": {
+      "noWallet": "먼저 지갑을 생성하거나 가져와 주세요.",
+      "setupFailed": "메시지 설정에 실패했습니다. 다시 시도해주세요.",
+      "shareFailed": "키 공유에 실패했습니다. 다시 시도해주세요."
+    },
+    "complete": {
+      "title": "설정 완료!",
+      "subtitle": "보안 메시지가 준비되었습니다.",
+      "yourIdentity": "나의 메시지 ID",
+      "encrypted": "종단 간 암호화",
+      "nextSteps": "다음 단계",
+      "step1": "주변 연락처를 찾거나 QR 코드를 스캔하세요",
+      "step2": "암호화 키를 안전하게 교환하세요",
+      "step3": "암호화된 메시지를 보내세요",
+      "continueButton": "메시지 시작"
+    }
+  },
+  "createGroup": {
+    "title": "그룹 만들기",
+    "groupName": "그룹 이름",
+    "namePlaceholder": "그룹 이름 입력",
+    "addMembers": "멤버 추가",
+    "selectedMembers": "{{count}}명 선택됨",
+    "noContacts": "연락처가 없습니다",
+    "findContacts": "연락처 찾기",
+    "encryptionNote": "이 그룹의 모든 메시지는 종단 간 암호화됩니다. 멤버만 메시지를 읽을 수 있습니다.",
+    "createButton": "그룹 만들기",
+    "errors": {
+      "nameRequired": "그룹 이름을 입력해주세요",
+      "membersRequired": "최소 한 명의 멤버를 선택해주세요",
+      "createFailed": "그룹 생성에 실패했습니다. 다시 시도해주세요."
+    }
+  },
+  "groupChat": {
+    "tapForInfo": "그룹 정보 보기",
+    "inputPlaceholder": "그룹에 메시지...",
+    "empty": {
+      "title": "메시지가 없습니다",
+      "subtitle": "그룹과 대화를 시작하세요"
+    }
+  },
+  "groupInfo": {
+    "title": "그룹 정보",
+    "members": "멤버",
+    "you": "나",
+    "admin": "관리자",
+    "encrypted": "종단 간 암호화",
+    "created": "생성일",
+    "leaveGroup": "그룹 나가기",
+    "notFound": "그룹을 찾을 수 없습니다",
+    "leaveConfirm": {
+      "title": "그룹 나가기",
+      "message": "이 그룹을 나가시겠습니까? 더 이상 메시지를 볼 수 없습니다."
+    },
+    "leave": "나가기",
+    "errors": {
+      "leaveFailed": "그룹 나가기에 실패했습니다. 다시 시도해주세요."
+    }
+  },
+  "contactDetail": {
+    "title": "연락처 상세",
+    "address": "지갑 주소",
+    "chainType": "네트워크",
+    "verified": "인증됨",
+    "sendMessage": "메시지 보내기",
+    "deleteContact": "연락처 삭제",
+    "encryption": {
+      "title": "암호화 상태",
+      "active": "종단 간 암호화 세션 활성화됨",
+      "inactive": "활성화된 암호화 세션 없음"
+    },
+    "deleteConfirm": {
+      "title": "연락처 삭제",
+      "message": "{{name}}을(를) 삭제하시겠습니까? 활성화된 암호화 세션도 함께 삭제됩니다."
+    },
+    "errors": {
+      "deleteFailed": "연락처 삭제에 실패했습니다. 다시 시도해주세요."
+    }
+  },
+  "scanPreKeyBundle": {
+    "title": "QR 코드 스캔",
+    "instruction": "연락처의 QR 코드에 카메라를 가져다 대세요",
+    "processing": "처리 중...",
+    "info": "QR 코드를 스캔하면 암호화 키를 교환하고 연락처 목록에 추가됩니다.",
+    "success": {
+      "title": "연락처 추가됨!",
+      "message": "이제 {{name}}님과 암호화된 메시지를 교환할 수 있습니다",
+      "sendMessage": "메시지 보내기"
+    },
+    "errors": {
+      "invalidQR": "유효하지 않은 QR 코드입니다. 유효한 Deyond 키 교환 QR 코드를 스캔해주세요."
+    },
+    "tryAgain": "다시 시도",
+    "demo": {
+      "title": "카메라 접근",
+      "message": "카메라 통합에는 expo-camera가 필요합니다. 실제 앱에서는 연락처의 QR 코드에 카메라를 가져다 대세요.",
+      "button": "수동 입력 (데모)"
+    }
+  },
+  "sharePreKeyBundle": {
+    "title": "키 공유",
+    "subtitle": "다른 사람이 이 코드를 스캔하여 안전한 연결을 설정할 수 있습니다.",
+    "shareTitle": "내 Deyond 암호화 키",
+    "qrNote": "키 교환용 QR 코드",
+    "howToUse": "사용 방법",
+    "step1": "연락처가 Deyond 지갑을 열도록 하세요",
+    "step2": "이 QR 코드를 스캔하게 하세요",
+    "step3": "스캔 후 암호화된 메시지를 교환할 수 있습니다",
+    "securityNotice": "신뢰하는 사람에게만 공유하세요. 이 코드가 있으면 누구나 암호화된 채팅을 시작할 수 있습니다.",
+    "copyButton": "키 번들 복사",
+    "shareButton": "공유...",
+    "errors": {
+      "shareFailed": "공유에 실패했습니다. 다시 시도해주세요."
     }
   }
 }

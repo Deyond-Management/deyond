@@ -6,19 +6,47 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - onboarding
+          - transactions
+          - authentication
+          - wallet
+          - settings
+          - swap
+          - nft
+          - walletconnect
+
+env:
+  DETOX_ARTIFACTS_DIR: artifacts
 
 jobs:
   e2e-ios:
     name: E2E iOS
-    runs-on: macos-13
+    runs-on: macos-14
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
 
       - name: Install dependencies
         run: npm ci
@@ -29,37 +57,44 @@ jobs:
       - name: Install CocoaPods
         run: |
           cd ios
-          pod install
+          pod install --repo-update
 
       - name: Boot iOS Simulator
         run: |
-          xcrun simctl boot "iPhone 15"
+          xcrun simctl boot "iPhone 16" || true
 
       - name: Build for Detox
         run: detox build --configuration ios.sim.debug
 
       - name: Run E2E tests
-        run: detox test --configuration ios.sim.debug --cleanup --headless
+        run: |
+          if [ "${{ github.event.inputs.test_suite }}" = "all" ] || [ -z "${{ github.event.inputs.test_suite }}" ]; then
+            detox test --configuration ios.sim.debug --cleanup --headless --record-logs all --take-screenshots failing
+          else
+            detox test --configuration ios.sim.debug --cleanup --headless --record-logs all --take-screenshots failing e2e/${{ github.event.inputs.test_suite }}.test.ts
+          fi
 
       - name: Upload E2E artifacts
-        uses: actions/upload-artifact@v3
-        if: failure()
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: e2e-ios-artifacts
           path: |
             artifacts/
             *.log
+          retention-days: 14
 
   e2e-android:
     name: E2E Android
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
 
       - name: Setup Java
@@ -67,6 +102,16 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Install dependencies
         run: npm ci
@@ -81,19 +126,19 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: AVD cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: avd-cache
         with:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-30
+          key: avd-34-x86_64
 
       - name: Create AVD and generate snapshot
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 34
           arch: x86_64
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
@@ -106,18 +151,43 @@ jobs:
       - name: Run E2E tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 34
           arch: x86_64
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: detox test --configuration android.emu.debug --cleanup --headless
+          script: |
+            if [ "${{ github.event.inputs.test_suite }}" = "all" ] || [ -z "${{ github.event.inputs.test_suite }}" ]; then
+              detox test --configuration android.emu.debug --cleanup --headless --record-logs all --take-screenshots failing
+            else
+              detox test --configuration android.emu.debug --cleanup --headless --record-logs all --take-screenshots failing e2e/${{ github.event.inputs.test_suite }}.test.ts
+            fi
 
       - name: Upload E2E artifacts
-        uses: actions/upload-artifact@v3
-        if: failure()
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: e2e-android-artifacts
           path: |
             artifacts/
             *.log
+          retention-days: 14
+
+  # Summary job to report test results
+  e2e-summary:
+    name: E2E Test Summary
+    needs: [e2e-ios, e2e-android]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check test results
+        run: |
+          if [ "${{ needs.e2e-ios.result }}" = "success" ] && [ "${{ needs.e2e-android.result }}" = "success" ]; then
+            echo "All E2E tests passed!"
+            exit 0
+          else
+            echo "Some E2E tests failed"
+            echo "iOS: ${{ needs.e2e-ios.result }}"
+            echo "Android: ${{ needs.e2e-android.result }}"
+            exit 1
+          fi

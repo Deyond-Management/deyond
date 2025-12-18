@@ -13,6 +13,8 @@ export interface TokenBalance {
   priceChange24h: number;
   logo: string;
   network: string;
+  networkType: 'evm' | 'solana' | 'bitcoin' | 'cosmos';
+  chainId: number | string;
 }
 
 export interface Transaction {
@@ -35,8 +37,9 @@ export interface Transaction {
 // Mock Wallet Address
 export const MOCK_WALLET_ADDRESS = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb';
 
-// Mock Token Balances
+// Mock Token Balances (Multi-chain support)
 export const MOCK_TOKEN_BALANCES: TokenBalance[] = [
+  // EVM - Ethereum
   {
     id: '1',
     symbol: 'ETH',
@@ -47,6 +50,8 @@ export const MOCK_TOKEN_BALANCES: TokenBalance[] = [
     priceChange24h: 2.5,
     logo: 'https://assets.coingecko.com/coins/images/279/small/ethereum.png',
     network: 'ethereum',
+    networkType: 'evm',
+    chainId: 1,
   },
   {
     id: '2',
@@ -58,6 +63,8 @@ export const MOCK_TOKEN_BALANCES: TokenBalance[] = [
     priceChange24h: 0.01,
     logo: 'https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png',
     network: 'ethereum',
+    networkType: 'evm',
+    chainId: 1,
   },
   {
     id: '3',
@@ -69,7 +76,10 @@ export const MOCK_TOKEN_BALANCES: TokenBalance[] = [
     priceChange24h: -0.02,
     logo: 'https://assets.coingecko.com/coins/images/325/small/Tether.png',
     network: 'ethereum',
+    networkType: 'evm',
+    chainId: 1,
   },
+  // EVM - Polygon
   {
     id: '4',
     symbol: 'MATIC',
@@ -80,6 +90,49 @@ export const MOCK_TOKEN_BALANCES: TokenBalance[] = [
     priceChange24h: 5.2,
     logo: 'https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png',
     network: 'polygon',
+    networkType: 'evm',
+    chainId: 137,
+  },
+  // Solana
+  {
+    id: '5',
+    symbol: 'SOL',
+    name: 'Solana',
+    balance: '15.5',
+    balanceUSD: 1550.0,
+    price: 100.0,
+    priceChange24h: 3.8,
+    logo: 'https://assets.coingecko.com/coins/images/4128/small/solana.png',
+    network: 'solana',
+    networkType: 'solana',
+    chainId: 'mainnet-beta',
+  },
+  {
+    id: '6',
+    symbol: 'BONK',
+    name: 'Bonk',
+    balance: '5000000',
+    balanceUSD: 150.0,
+    price: 0.00003,
+    priceChange24h: 12.5,
+    logo: 'https://assets.coingecko.com/coins/images/28600/small/bonk.jpg',
+    network: 'solana',
+    networkType: 'solana',
+    chainId: 'mainnet-beta',
+  },
+  // Bitcoin
+  {
+    id: '7',
+    symbol: 'BTC',
+    name: 'Bitcoin',
+    balance: '0.15',
+    balanceUSD: 6300.0,
+    price: 42000.0,
+    priceChange24h: 1.2,
+    logo: 'https://assets.coingecko.com/coins/images/1/small/bitcoin.png',
+    network: 'bitcoin',
+    networkType: 'bitcoin',
+    chainId: 'mainnet',
   },
 ];
 

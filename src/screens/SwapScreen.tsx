@@ -33,6 +33,7 @@ import {
 import { SwapToken } from '../types/swap';
 import { TokenSelectorModal } from '../components/swap/TokenSelectorModal';
 import { getSwapService } from '../services/swap/SwapService';
+import i18n from '../i18n';
 
 interface SwapScreenProps {
   navigation: any;
@@ -133,13 +134,16 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
           throw new Error('Amount too large');
         }
 
+        // Swap only supports EVM chains with numeric chainIds
+        const chainId = typeof currentNetwork.chainId === 'number' ? currentNetwork.chainId : 1;
+
         const quoteResult = await swapService.getQuote({
           fromTokenAddress: fromToken.address,
           toTokenAddress: toToken.address,
           amount: amountInWei,
           fromAddress: walletAddress,
           slippage: 0.5, // 0.5% default slippage
-          chainId: currentNetwork.chainId,
+          chainId,
         });
 
         dispatch(setQuote(quoteResult));
@@ -252,6 +256,9 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
       const swapHistoryId = `swap_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
       // Add pending swap to history
+      // Swap only supports EVM chains with numeric chainIds
+      const swapChainId = typeof currentNetwork.chainId === 'number' ? currentNetwork.chainId : 1;
+
       dispatch(
         addSwapHistory({
           id: swapHistoryId,
@@ -262,7 +269,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
           txHash: swapHistoryId, // Temporary, will be replaced with real tx hash
           status: 'pending',
           timestamp: Date.now(),
-          chainId: currentNetwork.chainId,
+          chainId: swapChainId,
         })
       );
 
@@ -291,7 +298,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
           txHash: mockTxHash,
           status: 'confirmed',
           timestamp: Date.now(),
-          chainId: currentNetwork.chainId,
+          chainId: swapChainId,
         })
       );
 
@@ -378,18 +385,18 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Text style={styles.backText}>←</Text>
           </TouchableOpacity>
-          <Text style={styles.title}>Swap</Text>
+          <Text style={styles.title}>{i18n.t('swap.title')}</Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('SwapHistory')}
             style={styles.historyButton}
           >
-            <Text style={styles.historyText}>History</Text>
+            <Text style={styles.historyText}>{i18n.t('swap.history')}</Text>
           </TouchableOpacity>
         </View>
 
         {/* From Section */}
         <View style={styles.swapSection}>
-          <Text style={styles.sectionLabel}>From</Text>
+          <Text style={styles.sectionLabel}>{i18n.t('swap.from')}</Text>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.amountInput}
@@ -403,11 +410,15 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
               style={styles.tokenButton}
               onPress={() => setFromTokenModalVisible(true)}
             >
-              <Text style={styles.tokenSymbol}>{fromToken?.symbol || 'Select'}</Text>
+              <Text style={styles.tokenSymbol}>{fromToken?.symbol || i18n.t('swap.select')}</Text>
               <Text style={styles.dropdownIcon}>▼</Text>
             </TouchableOpacity>
           </View>
-          {fromToken && <Text style={styles.balanceText}>Balance: 0.0 {fromToken.symbol}</Text>}
+          {fromToken && (
+            <Text style={styles.balanceText}>
+              {i18n.t('swap.balance', { balance: '0.0', symbol: fromToken.symbol })}
+            </Text>
+          )}
         </View>
 
         {/* Swap Button */}
@@ -419,7 +430,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
 
         {/* To Section */}
         <View style={styles.swapSection}>
-          <Text style={styles.sectionLabel}>To</Text>
+          <Text style={styles.sectionLabel}>{i18n.t('swap.to')}</Text>
           <View style={styles.inputContainer}>
             <Text style={styles.estimatedAmount}>
               {quote?.toAmount && toToken
@@ -430,18 +441,22 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
               style={styles.tokenButton}
               onPress={() => setToTokenModalVisible(true)}
             >
-              <Text style={styles.tokenSymbol}>{toToken?.symbol || 'Select'}</Text>
+              <Text style={styles.tokenSymbol}>{toToken?.symbol || i18n.t('swap.select')}</Text>
               <Text style={styles.dropdownIcon}>▼</Text>
             </TouchableOpacity>
           </View>
-          {toToken && <Text style={styles.balanceText}>Balance: 0.0 {toToken.symbol}</Text>}
+          {toToken && (
+            <Text style={styles.balanceText}>
+              {i18n.t('swap.balance', { balance: '0.0', symbol: toToken.symbol })}
+            </Text>
+          )}
         </View>
 
         {/* Quote Info */}
         {quote && fromToken && toToken && (
           <View style={styles.quoteInfo}>
             <View style={styles.quoteRow}>
-              <Text style={styles.quoteLabel}>Rate</Text>
+              <Text style={styles.quoteLabel}>{i18n.t('swap.rate')}</Text>
               <Text style={styles.quoteValue}>
                 1 {fromToken.symbol} ≈{' '}
                 {(
@@ -453,7 +468,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
               </Text>
             </View>
             <View style={styles.quoteRow}>
-              <Text style={styles.quoteLabel}>Price Impact</Text>
+              <Text style={styles.quoteLabel}>{i18n.t('swap.priceImpact')}</Text>
               <Text
                 style={[
                   styles.quoteValue,
@@ -464,11 +479,11 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
               </Text>
             </View>
             <View style={styles.quoteRow}>
-              <Text style={styles.quoteLabel}>Estimated Gas</Text>
+              <Text style={styles.quoteLabel}>{i18n.t('swap.estimatedGas')}</Text>
               <Text style={styles.quoteValue}>{quote.estimatedGas}</Text>
             </View>
             <View style={styles.quoteRow}>
-              <Text style={styles.quoteLabel}>Minimum Received</Text>
+              <Text style={styles.quoteLabel}>{i18n.t('swap.minimumReceived')}</Text>
               <Text style={styles.quoteValue}>
                 {((parseFloat(quote.toAmount) / 10 ** toToken.decimals) * 0.995).toFixed(6)}{' '}
                 {toToken.symbol}
@@ -482,7 +497,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
           <View style={styles.loadingContainer}>
             <ActivityIndicator color={theme.colors.primary} />
             <Text style={[styles.loadingText, { color: theme.colors.textSecondary }]}>
-              Fetching best price...
+              {i18n.t('swap.fetchingPrice')}
             </Text>
           </View>
         )}
@@ -492,7 +507,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
           <View style={styles.errorContainer}>
             <View style={styles.errorHeader}>
               <Text style={styles.errorIcon}>⚠️</Text>
-              <Text style={styles.errorTitle}>Error</Text>
+              <Text style={styles.errorTitle}>{i18n.t('swap.error')}</Text>
             </View>
             <Text style={styles.errorText}>{error}</Text>
             {error.includes('network') || error.includes('timeout') ? (
@@ -506,7 +521,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
                   setTimeout(() => dispatch(setFromAmount(currentAmount)), 100);
                 }}
               >
-                <Text style={styles.retryButtonText}>Retry</Text>
+                <Text style={styles.retryButtonText}>{i18n.t('swap.retry')}</Text>
               </TouchableOpacity>
             ) : null}
           </View>
@@ -525,12 +540,14 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
           {isSwapping ? (
             <View style={styles.swapButtonContent}>
               <ActivityIndicator color="#FFFFFF" size="small" />
-              <Text style={[styles.swapButtonText, { marginLeft: 8 }]}>Swapping...</Text>
+              <Text style={[styles.swapButtonText, { marginLeft: 8 }]}>
+                {i18n.t('swap.swapping')}
+              </Text>
             </View>
           ) : isLoadingQuote ? (
             <ActivityIndicator color="#FFFFFF" />
           ) : (
-            <Text style={styles.swapButtonText}>Swap</Text>
+            <Text style={styles.swapButtonText}>{i18n.t('swap.swapButton')}</Text>
           )}
         </TouchableOpacity>
       </ScrollView>
@@ -542,7 +559,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
         selectedTokenAddress={fromToken?.address}
         onSelect={token => dispatch(setFromToken(token))}
         onClose={() => setFromTokenModalVisible(false)}
-        title="Select Token to Swap From"
+        title={i18n.t('swap.selectFromToken')}
       />
       <TokenSelectorModal
         visible={toTokenModalVisible}
@@ -550,7 +567,7 @@ export const SwapScreen: React.FC<SwapScreenProps> = ({ navigation }) => {
         selectedTokenAddress={toToken?.address}
         onSelect={token => dispatch(setToToken(token))}
         onClose={() => setToTokenModalVisible(false)}
-        title="Select Token to Receive"
+        title={i18n.t('swap.selectToToken')}
       />
     </SafeAreaView>
   );

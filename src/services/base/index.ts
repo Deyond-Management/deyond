@@ -5,3 +5,4 @@
 export * from './BaseHttpClient';
 export * from './CacheManager';
 export * from './AppError';
+export * from './BaseService';

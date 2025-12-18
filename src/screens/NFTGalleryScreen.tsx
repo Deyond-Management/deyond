@@ -20,6 +20,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { NFT, NFTCollection } from '../types/nft';
 import NFTService from '../services/nft/NFTService';
 import { EmptyState } from '../components/atoms/EmptyState';
+import { LoadingState } from '../components/atoms/LoadingState';
 import i18n from '../i18n';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -208,7 +209,9 @@ export const NFTGalleryScreen: React.FC<NFTGalleryScreenProps> = ({ navigation, 
               {item.name}
             </Text>
             <Text style={[styles.collectionCount, { color: theme.colors.text.secondary }]}>
-              {item.ownedCount} {item.ownedCount === 1 ? 'item' : 'items'}
+              {i18n.t(item.ownedCount === 1 ? 'nft.itemCount_one' : 'nft.itemCount_other', {
+                count: item.ownedCount,
+              })}
             </Text>
           </View>
         </View>
@@ -225,9 +228,7 @@ export const NFTGalleryScreen: React.FC<NFTGalleryScreenProps> = ({ navigation, 
             {i18n.t('nft.title')}
           </Text>
         </View>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={theme.colors.primary} />
-        </View>
+        <LoadingState message={i18n.t('common.loading')} size={80} />
       </SafeAreaView>
     );
   }

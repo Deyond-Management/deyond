@@ -1,14 +1,34 @@
 /**
  * WalletConnectScanScreen
- * QR code scanner for WalletConnect pairing
+ * QR code scanner for WalletConnect pairing with improved error handling
  */
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Linking } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Linking,
+  ActivityIndicator,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useTheme } from '../contexts/ThemeContext';
 import { getWalletConnectService } from '../services/walletconnect/WalletConnectService';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  setPairing,
+  setPairingError,
+  selectIsPairing,
+  selectPairingError,
+} from '../store/slices/walletConnectSlice';
+import {
+  parseWalletConnectError,
+  getErrorActionText,
+  WalletConnectErrorCode,
+} from '../services/walletconnect/WalletConnectErrorHandler';
 import i18n from '../i18n';
 
 interface WalletConnectScanScreenProps {
@@ -25,6 +45,10 @@ export const WalletConnectScanScreen: React.FC<WalletConnectScanScreenProps> = (
   route,
 }) => {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch();
+  const isPairing = useAppSelector(selectIsPairing);
+  const pairingError = useAppSelector(selectPairingError);
+
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [scanning, setScanning] = useState(true);
@@ -46,58 +70,93 @@ export const WalletConnectScanScreen: React.FC<WalletConnectScanScreenProps> = (
     }
   }, [permission]);
 
-  // Handle QR code scan
-  const handleBarCodeScanned = async ({ data }: { data: string }) => {
-    if (scanned || !scanning) return;
+  // Handle error display
+  const handleError = useCallback(
+    (error: any, onRetry?: () => void) => {
+      const parsedError = parseWalletConnectError(error);
+      dispatch(setPairingError(parsedError.message));
 
-    setScanned(true);
-    setScanning(false);
+      const buttons: any[] = [];
 
-    // Validate WalletConnect URI
-    if (!data.startsWith('wc:')) {
-      Alert.alert(i18n.t('walletConnect.invalidQR'), i18n.t('walletConnect.invalidQRMessage'), [
-        {
-          text: i18n.t('common.ok'),
+      if (parsedError.retryable && onRetry) {
+        buttons.push({
+          text: getErrorActionText('retry'),
           onPress: () => {
+            dispatch(setPairingError(null));
+            onRetry();
+          },
+        });
+      }
+
+      buttons.push({
+        text: getErrorActionText(parsedError.action || 'dismiss'),
+        onPress: () => {
+          dispatch(setPairingError(null));
+          if (parsedError.action === 'settings') {
+            Linking.openSettings();
+          } else {
             setScanned(false);
             setScanning(true);
-          },
+          }
         },
-      ]);
-      return;
-    }
+        style: parsedError.retryable ? 'cancel' : 'default',
+      });
 
-    try {
-      // If callback provided, use it
-      if (route?.params?.onScan) {
-        route.params.onScan(data);
-        navigation.goBack();
+      Alert.alert(i18n.t('common.error'), parsedError.message, buttons);
+    },
+    [dispatch]
+  );
+
+  // Handle QR code scan
+  const handleBarCodeScanned = useCallback(
+    async ({ data }: { data: string }) => {
+      if (scanned || !scanning || isPairing) return;
+
+      setScanned(true);
+      setScanning(false);
+
+      // Validate WalletConnect URI
+      if (!data.startsWith('wc:')) {
+        handleError({
+          code: WalletConnectErrorCode.INVALID_URI,
+          message: i18n.t('walletConnectErrors.invalidUri'),
+        });
         return;
       }
 
-      // Otherwise, pair directly
-      const wcService = getWalletConnectService();
-      await wcService.pair(data);
+      try {
+        dispatch(setPairing(true));
 
-      Alert.alert(i18n.t('walletConnect.connecting'), i18n.t('walletConnect.connectingMessage'), [
-        {
-          text: i18n.t('common.ok'),
-          onPress: () => navigation.goBack(),
-        },
-      ]);
-    } catch (error: any) {
-      console.error('Failed to pair:', error);
-      Alert.alert(i18n.t('common.error'), error.message || i18n.t('walletConnect.pairingFailed'), [
-        {
-          text: i18n.t('common.ok'),
-          onPress: () => {
-            setScanned(false);
-            setScanning(true);
+        // If callback provided, use it
+        if (route?.params?.onScan) {
+          route.params.onScan(data);
+          dispatch(setPairing(false));
+          navigation.goBack();
+          return;
+        }
+
+        // Otherwise, pair directly
+        const wcService = getWalletConnectService();
+        await wcService.pair(data);
+
+        dispatch(setPairing(false));
+        Alert.alert(i18n.t('walletConnect.connecting'), i18n.t('walletConnect.connectingMessage'), [
+          {
+            text: i18n.t('common.ok'),
+            onPress: () => navigation.goBack(),
           },
-        },
-      ]);
-    }
-  };
+        ]);
+      } catch (error: any) {
+        console.error('Failed to pair:', error);
+        dispatch(setPairing(false));
+        handleError(error, () => {
+          setScanned(false);
+          setScanning(true);
+        });
+      }
+    },
+    [scanned, scanning, isPairing, dispatch, navigation, route, handleError]
+  );
 
   // Show permission request
   if (!permission) {
@@ -197,9 +256,18 @@ export const WalletConnectScanScreen: React.FC<WalletConnectScanScreenProps> = (
             <View style={styles.overlaySide} />
           </View>
           <View style={styles.overlayBottom}>
-            <Text style={[styles.instructions, { color: '#FFF' }]}>
-              {i18n.t('walletConnect.scanInstructions')}
-            </Text>
+            {isPairing ? (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color={theme.colors.primary} />
+                <Text style={[styles.loadingText, { color: '#FFF' }]}>
+                  {i18n.t('walletConnect.connecting')}
+                </Text>
+              </View>
+            ) : (
+              <Text style={[styles.instructions, { color: '#FFF' }]}>
+                {i18n.t('walletConnect.scanInstructions')}
+              </Text>
+            )}
           </View>
         </View>
       </View>
@@ -294,6 +362,15 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontSize: 16,
+    textAlign: 'center',
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
+    marginTop: 12,
     textAlign: 'center',
   },
   message: {

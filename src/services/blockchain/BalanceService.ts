@@ -18,6 +18,9 @@ export interface TokenBalance {
   contractAddress: string;
   decimals: number;
   logoUrl?: string;
+  networkType: 'evm' | 'solana' | 'bitcoin' | 'cosmos';
+  chainId: number | string;
+  network: string;
 }
 
 export class BalanceError extends Error {
@@ -103,6 +106,9 @@ export class BalanceService {
           priceChange24h,
           contractAddress: '0x0000000000000000000000000000000000000000',
           decimals: 18,
+          networkType: 'evm',
+          chainId: 1,
+          network: 'ethereum',
         };
       } catch (error) {
         throw new BalanceError(
@@ -118,18 +124,34 @@ export class BalanceService {
    * Convert mock data TokenBalance to service TokenBalance format
    */
   private convertMockBalance(mockBalance: (typeof MOCK_TOKEN_BALANCES)[0]): TokenBalance {
+    // Determine decimals based on network type
+    const getDecimals = (): number => {
+      if (mockBalance.networkType === 'bitcoin') return 8;
+      if (mockBalance.networkType === 'solana') return 9;
+      if (mockBalance.symbol === 'ETH' || mockBalance.symbol === 'MATIC') return 18;
+      return 6; // USDC, USDT
+    };
+
+    // Determine contract address based on network type
+    const getContractAddress = (): string => {
+      if (mockBalance.networkType === 'bitcoin') return mockBalance.symbol;
+      if (mockBalance.networkType === 'solana') return mockBalance.symbol;
+      if (mockBalance.symbol === 'ETH') return '0x0000000000000000000000000000000000000000';
+      return `0x${mockBalance.id.padStart(40, '0')}`;
+    };
+
     return {
       symbol: mockBalance.symbol,
       name: mockBalance.name,
       balance: mockBalance.balance,
       usdValue: mockBalance.balanceUSD.toString(),
       priceChange24h: mockBalance.priceChange24h,
-      contractAddress:
-        mockBalance.symbol === 'ETH'
-          ? '0x0000000000000000000000000000000000000000'
-          : `0x${mockBalance.id.padStart(40, '0')}`,
-      decimals: mockBalance.symbol === 'ETH' || mockBalance.symbol === 'MATIC' ? 18 : 6,
+      contractAddress: getContractAddress(),
+      decimals: getDecimals(),
       logoUrl: mockBalance.logo,
+      networkType: mockBalance.networkType,
+      chainId: mockBalance.chainId,
+      network: mockBalance.network,
     };
   }
 
@@ -154,6 +176,7 @@ export class BalanceService {
       balances = MOCK_TOKEN_BALANCES.map(mock => this.convertMockBalance(mock));
     } else {
       // Real implementation - fetch from blockchain/API
+      // For now, return hardcoded multi-chain data
       balances = [
         {
           symbol: 'ETH',
@@ -163,6 +186,9 @@ export class BalanceService {
           priceChange24h: 2.35,
           contractAddress: '0x0000000000000000000000000000000000000000',
           decimals: 18,
+          networkType: 'evm',
+          chainId: 1,
+          network: 'ethereum',
         },
         {
           symbol: 'USDT',
@@ -172,24 +198,33 @@ export class BalanceService {
           priceChange24h: 0.01,
           contractAddress: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
           decimals: 6,
+          networkType: 'evm',
+          chainId: 1,
+          network: 'ethereum',
         },
         {
-          symbol: 'USDC',
-          name: 'USD Coin',
-          balance: '250.50',
-          usdValue: '250.50',
-          priceChange24h: -0.02,
-          contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-          decimals: 6,
+          symbol: 'SOL',
+          name: 'Solana',
+          balance: '10.5',
+          usdValue: '1050.00',
+          priceChange24h: 3.8,
+          contractAddress: 'SOL',
+          decimals: 9,
+          networkType: 'solana',
+          chainId: 'mainnet-beta',
+          network: 'solana',
         },
         {
-          symbol: 'LINK',
-          name: 'Chainlink',
-          balance: '15.75',
-          usdValue: '187.43',
-          priceChange24h: 5.67,
-          contractAddress: '0x514910771AF9Ca656af840dff83E8264EcF986CA',
-          decimals: 18,
+          symbol: 'BTC',
+          name: 'Bitcoin',
+          balance: '0.05',
+          usdValue: '2100.00',
+          priceChange24h: 1.2,
+          contractAddress: 'BTC',
+          decimals: 8,
+          networkType: 'bitcoin',
+          chainId: 'mainnet',
+          network: 'bitcoin',
         },
       ];
     }

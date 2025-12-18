@@ -114,3 +114,64 @@ export const settingsTransitions = {
     animation: 'default' as const,
   },
 };
+
+/**
+ * NFT flow specific transitions
+ */
+export const nftTransitions = {
+  gallery: {
+    animation: 'slide_from_right' as const,
+  },
+  detail: {
+    animation: 'fade_from_bottom' as const,
+    presentation: 'card' as const,
+  },
+};
+
+/**
+ * Swap flow specific transitions
+ */
+export const swapTransitions = {
+  main: {
+    animation: 'slide_from_bottom' as const,
+    presentation: 'modal' as const,
+  },
+  history: {
+    animation: 'slide_from_right' as const,
+  },
+};
+
+/**
+ * Chat/BLE flow specific transitions
+ */
+export const chatTransitions = {
+  home: {
+    animation: 'slide_from_right' as const,
+  },
+  discovery: {
+    animation: 'fade_from_bottom' as const,
+  },
+  connection: {
+    animation: 'fade' as const,
+  },
+  conversation: {
+    animation: 'slide_from_right' as const,
+  },
+};
+
+/**
+ * Wallet action transitions (Send, Receive)
+ */
+export const walletActionTransitions = {
+  send: {
+    animation: 'slide_from_bottom' as const,
+    presentation: 'modal' as const,
+  },
+  receive: {
+    animation: 'slide_from_bottom' as const,
+    presentation: 'modal' as const,
+  },
+  tokenDetails: {
+    animation: 'slide_from_right' as const,
+  },
+};

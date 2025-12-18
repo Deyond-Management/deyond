@@ -4,7 +4,16 @@
  */
 
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  RefreshControl,
+  ActivityIndicator,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { EmptyState } from '../components/atoms/EmptyState';
@@ -23,6 +32,7 @@ import {
 } from '../components/transactions/TransactionFilters';
 import { TransactionSearchBar } from '../components/transactions/TransactionSearchBar';
 import TransactionService, { TransactionHistory } from '../services/blockchain/TransactionService';
+import ExportService, { TransactionExportData } from '../services/export/ExportService';
 import i18n from '../i18n';
 
 // Export types for external use
@@ -60,6 +70,7 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
 
   // Services
   const transactionService = useMemo(() => new TransactionService(), []);
+  const exportService = useMemo(() => ExportService.getInstance(), []);
 
   // State
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -74,6 +85,7 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
   const [loadingMore, setLoadingMore] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [exporting, setExporting] = useState(false);
   const PAGE_SIZE = 20;
 
   // Initial load
@@ -208,6 +220,85 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
     [navigation]
   );
 
+  // Convert transactions to export format
+  const convertToExportData = useCallback((txs: Transaction[]): TransactionExportData[] => {
+    return txs.map(tx => ({
+      id: tx.id,
+      type: tx.type,
+      amount: tx.amount,
+      token: tx.token,
+      address: tx.address,
+      hash: tx.hash,
+      status: tx.status,
+      timestamp: tx.timestamp,
+      fee: tx.fee,
+    }));
+  }, []);
+
+  // Handle export
+  const handleExport = useCallback(() => {
+    if (filteredTransactions.length === 0) {
+      Alert.alert(
+        i18n.t('transactionHistory.export.title'),
+        i18n.t('transactionHistory.export.noData')
+      );
+      return;
+    }
+
+    Alert.alert(i18n.t('transactionHistory.export.title'), '', [
+      {
+        text: i18n.t('transactionHistory.export.csv'),
+        onPress: () => handleExportCSV(),
+      },
+      {
+        text: i18n.t('transactionHistory.export.json'),
+        onPress: () => handleExportJSON(),
+      },
+      {
+        text: i18n.t('common.cancel'),
+        style: 'cancel',
+      },
+    ]);
+  }, [filteredTransactions]);
+
+  // Export as CSV
+  const handleExportCSV = useCallback(async () => {
+    setExporting(true);
+    try {
+      const exportData = convertToExportData(filteredTransactions);
+      const result = await exportService.exportTransactionsToCSV(exportData);
+
+      if (result.success) {
+        Alert.alert(i18n.t('common.success'), i18n.t('transactionHistory.export.success'));
+      } else {
+        Alert.alert(i18n.t('common.error'), i18n.t('transactionHistory.export.error'));
+      }
+    } catch (error) {
+      Alert.alert(i18n.t('common.error'), i18n.t('transactionHistory.export.error'));
+    } finally {
+      setExporting(false);
+    }
+  }, [filteredTransactions, convertToExportData, exportService]);
+
+  // Export as JSON
+  const handleExportJSON = useCallback(async () => {
+    setExporting(true);
+    try {
+      const exportData = convertToExportData(filteredTransactions);
+      const result = await exportService.exportTransactionsToJSON(exportData);
+
+      if (result.success) {
+        Alert.alert(i18n.t('common.success'), i18n.t('transactionHistory.export.success'));
+      } else {
+        Alert.alert(i18n.t('common.error'), i18n.t('transactionHistory.export.error'));
+      }
+    } catch (error) {
+      Alert.alert(i18n.t('common.error'), i18n.t('transactionHistory.export.error'));
+    } finally {
+      setExporting(false);
+    }
+  }, [filteredTransactions, convertToExportData, exportService]);
+
   // Render transaction item
   const renderTransaction = useCallback(
     ({ item, index }: { item: Transaction; index: number }) => (
@@ -243,6 +334,22 @@ export const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> =
         <Text style={[styles.title, { color: theme.colors.text.primary }]}>
           {i18n.t('transactionHistory.title')}
         </Text>
+        <TouchableOpacity
+          testID="export-button"
+          style={[styles.exportButton, { backgroundColor: theme.colors.surface }]}
+          onPress={handleExport}
+          disabled={exporting}
+          accessibilityRole="button"
+          accessibilityLabel={i18n.t('transactionHistory.export.title')}
+        >
+          {exporting ? (
+            <ActivityIndicator size="small" color={theme.colors.primary} />
+          ) : (
+            <Text style={[styles.exportButtonText, { color: theme.colors.primary }]}>
+              {i18n.t('transactionHistory.export.title')}
+            </Text>
+          )}
+        </TouchableOpacity>
       </View>
 
       {/* Search Bar */}
@@ -307,11 +414,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  exportButton: {
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  exportButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
   footerLoader: {
     paddingVertical: 20,
     alignItems: 'center',
   },
   header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 16,
   },
   listContent: {

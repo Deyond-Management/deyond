@@ -13,6 +13,13 @@ import onboardingReducer from './slices/onboardingSlice';
 import tokenReducer from './slices/tokenSlice';
 import addressBookReducer from './slices/addressBookSlice';
 import swapReducer from './slices/swapSlice';
+import browserReducer from './slices/browserSlice';
+import walletConnectReducer from './slices/walletConnectSlice';
+import notificationReducer from './slices/notificationSlice';
+import hardwareWalletReducer from './slices/hardwareWalletSlice';
+import priceAlertReducer from './slices/priceAlertSlice';
+import tokenApprovalReducer from './slices/tokenApprovalSlice';
+import simulationReducer from './slices/simulationSlice';
 
 // Persist configurations
 const walletPersistConfig = {
@@ -57,6 +64,42 @@ const swapPersistConfig = {
   whitelist: ['history', 'settings'], // Persist swap history and settings
 };
 
+const browserPersistConfig = {
+  key: 'browser',
+  storage: AsyncStorage,
+  whitelist: ['history', 'bookmarks'], // Persist browser history and bookmarks
+};
+
+const walletConnectPersistConfig = {
+  key: 'walletConnect',
+  storage: AsyncStorage,
+  whitelist: ['sessions', 'lastConnectedDApp'], // Persist WalletConnect sessions
+};
+
+const notificationPersistConfig = {
+  key: 'notification',
+  storage: AsyncStorage,
+  whitelist: ['settings', 'history'], // Persist notification settings and history
+};
+
+const hardwareWalletPersistConfig = {
+  key: 'hardwareWallet',
+  storage: AsyncStorage,
+  whitelist: ['accounts'], // Only persist account names, not connection state
+};
+
+const priceAlertPersistConfig = {
+  key: 'priceAlert',
+  storage: AsyncStorage,
+  whitelist: ['alerts'], // Persist alerts
+};
+
+const tokenApprovalPersistConfig = {
+  key: 'tokenApproval',
+  storage: AsyncStorage,
+  whitelist: ['approvals', 'lastScanned'], // Persist approvals cache
+};
+
 // Create persisted reducers
 const persistedWalletReducer = persistReducer(walletPersistConfig, walletReducer);
 const persistedTransactionReducer = persistReducer(transactionPersistConfig, transactionReducer);
@@ -65,6 +108,21 @@ const persistedNetworkReducer = persistReducer(networkPersistConfig, networkRedu
 const persistedOnboardingReducer = persistReducer(onboardingPersistConfig, onboardingReducer);
 const persistedAddressBookReducer = persistReducer(addressBookPersistConfig, addressBookReducer);
 const persistedSwapReducer = persistReducer(swapPersistConfig, swapReducer);
+const persistedBrowserReducer = persistReducer(browserPersistConfig, browserReducer);
+const persistedWalletConnectReducer = persistReducer(
+  walletConnectPersistConfig,
+  walletConnectReducer
+);
+const persistedNotificationReducer = persistReducer(notificationPersistConfig, notificationReducer);
+const persistedHardwareWalletReducer = persistReducer(
+  hardwareWalletPersistConfig,
+  hardwareWalletReducer
+);
+const persistedPriceAlertReducer = persistReducer(priceAlertPersistConfig, priceAlertReducer);
+const persistedTokenApprovalReducer = persistReducer(
+  tokenApprovalPersistConfig,
+  tokenApprovalReducer
+);
 
 // Configure store
 export const store = configureStore({
@@ -77,6 +135,13 @@ export const store = configureStore({
     token: tokenReducer, // Token balances not persisted - fetched fresh
     addressBook: persistedAddressBookReducer,
     swap: persistedSwapReducer,
+    browser: persistedBrowserReducer,
+    walletConnect: persistedWalletConnectReducer,
+    notification: persistedNotificationReducer,
+    hardwareWallet: persistedHardwareWalletReducer,
+    priceAlert: persistedPriceAlertReducer,
+    tokenApproval: persistedTokenApprovalReducer,
+    simulation: simulationReducer, // Not persisted - transient state
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

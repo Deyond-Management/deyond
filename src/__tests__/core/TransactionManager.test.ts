@@ -58,6 +58,9 @@ describe('TransactionManager', () => {
     currencySymbol: 'ETH',
     blockExplorerUrl: 'https://etherscan.io',
     isTestnet: false,
+    networkType: 'evm',
+    decimals: 18,
+    coinType: 60,
   };
 
   let transactionManager: TransactionManager;

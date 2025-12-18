@@ -11,6 +11,26 @@ import { ThemeProvider } from '../../contexts/ThemeContext';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 
+// Mock useDeyondCrypt hook for ChatHome screen
+jest.mock('../../hooks', () => ({
+  ...jest.requireActual('../../hooks'),
+  useDeyondCrypt: jest.fn(() => ({
+    isInitialized: true,
+    isLoading: false,
+    hasIdentity: true,
+    sessions: [],
+    initialize: jest.fn(),
+    contacts: [],
+    groups: [],
+    myAddress: '0x1234',
+    myChainType: 'evm',
+    error: null,
+    getSession: jest.fn(() => null),
+    sendMessage: jest.fn(() => Promise.resolve({ messageId: 'new-msg-id' })),
+    markSessionRead: jest.fn(),
+  })),
+}));
+
 // Mock TransactionService for TransactionHistory screen
 jest.mock('../../services/blockchain/TransactionService', () => {
   return jest.fn().mockImplementation(() => ({

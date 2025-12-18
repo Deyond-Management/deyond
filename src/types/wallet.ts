@@ -20,14 +20,19 @@ export interface Account {
   balance: string;
 }
 
+export type NetworkType = 'evm' | 'solana' | 'bitcoin' | 'cosmos';
+
 export interface Network {
   id: string;
   name: string;
-  chainId: number;
+  chainId: number | string;
   rpcUrl: string;
   currencySymbol: string;
   blockExplorerUrl?: string;
   isTestnet: boolean;
+  networkType: NetworkType;
+  decimals: number;
+  coinType?: number; // BIP44 coin type
 }
 
 export interface Transaction {

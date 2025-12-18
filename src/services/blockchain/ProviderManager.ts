@@ -24,9 +24,11 @@ export class ProviderManager {
 
   /**
    * Get provider for specific chain ID
+   * Note: ProviderManager only supports EVM chains with numeric chainIds
    */
   getProvider(chainId?: number): EthereumProvider {
-    const targetChainId = chainId || this.chainManager.getChainId();
+    const currentChainId = this.chainManager.getChainId();
+    const targetChainId = chainId ?? (typeof currentChainId === 'number' ? currentChainId : 1);
 
     // Check if provider already exists
     if (this.providers.has(targetChainId)) {
@@ -39,6 +41,13 @@ export class ProviderManager {
       throw new Error(`Chain not supported: ${targetChainId}`);
     }
 
+    // Verify this is an EVM chain
+    if (chain.networkType !== 'evm') {
+      throw new Error(
+        `ProviderManager only supports EVM chains. Use appropriate adapter for ${chain.networkType}`
+      );
+    }
+
     const provider = this.createProvider(chain);
     this.providers.set(targetChainId, provider);
 
@@ -47,9 +56,14 @@ export class ProviderManager {
 
   /**
    * Get current provider
+   * Returns provider for current EVM chain or throws if current chain is not EVM
    */
   getCurrentProvider(): EthereumProvider {
-    return this.getProvider(this.chainManager.getChainId());
+    const chainId = this.chainManager.getChainId();
+    if (typeof chainId !== 'number') {
+      throw new Error('Current chain is not an EVM chain. Use appropriate adapter.');
+    }
+    return this.getProvider(chainId);
   }
 
   /**
@@ -64,10 +78,12 @@ export class ProviderManager {
   }
 
   /**
-   * Get current chain ID
+   * Get current chain ID (for EVM chains only)
+   * Returns numeric chain ID or 1 (Ethereum mainnet) if current chain is non-EVM
    */
   getCurrentChainId(): number {
-    return this.chainManager.getChainId();
+    const chainId = this.chainManager.getChainId();
+    return typeof chainId === 'number' ? chainId : 1;
   }
 
   /**
@@ -103,10 +119,11 @@ export class ProviderManager {
 
   /**
    * Create provider instance for chain
+   * Note: This method is only called for EVM chains, so chainId is always a number
    */
   private createProvider(chain: ChainConfig): EthereumProvider {
     return new EthereumProvider({
-      chainId: chain.chainId,
+      chainId: chain.chainId as number,
       rpcUrl: chain.rpcUrl,
       timeout: 30000,
     });

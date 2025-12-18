@@ -3,6 +3,12 @@
  * Export all services organized by category
  */
 
+// Base Services
+export { BaseService, ServiceStatus } from './base/BaseService';
+export { AppError as BaseAppError } from './base/AppError';
+export { CacheManager } from './base/CacheManager';
+export { BaseHttpClient } from './base/BaseHttpClient';
+
 // Blockchain Services
 export { BalanceService, balanceService } from './blockchain/BalanceService';
 export { default as GasService } from './blockchain/GasService';
@@ -60,6 +66,25 @@ export { default as PushNotificationService } from './ui/PushNotificationService
 // Communication Services
 export { ChatService } from './communication/ChatService';
 export { BLEService } from './communication/BLEService';
+
+// Encrypted Messaging Services (DeyondCrypt)
+export {
+  DeyondCryptService,
+  getDeyondCryptService,
+  DeyondCryptPreKeyStore,
+  DeyondCryptSessionStore,
+  DeyondCryptGroupSessionStore,
+  MessageStore,
+  getMessageStore,
+} from './messaging';
+export type {
+  Contact as DeyondCryptContact,
+  DecryptedMessage,
+  EncryptedMessageResult,
+  GroupInfo as DeyondCryptGroupInfo,
+  StoredMessage,
+  StoredSession,
+} from './messaging';
 
 // Security Services
 export { default as SecurityService } from './security/SecurityService';

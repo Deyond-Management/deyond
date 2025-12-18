@@ -3,11 +3,21 @@
  * App settings and preferences
  */
 
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
-import i18n from '../i18n';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import {
+  setCurrentNetwork,
+  toggleShowTestnets,
+  selectNetworks,
+  selectCurrentNetwork,
+  selectShowTestnets,
+} from '../store/slices/networkSlice';
+import { NetworkSelectorModal } from '../components/organisms/NetworkSelectorModal';
+import { Network } from '../types/wallet';
+import i18n, { setLanguage, getCurrentLanguage, getAvailableLanguages } from '../i18n';
 
 interface SettingsScreenProps {
   navigation: any;
@@ -33,10 +43,60 @@ interface SettingToggleProps {
 
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
   const { theme, isDark, toggleTheme } = useTheme();
+  const dispatch = useAppDispatch();
+
+  // Redux state for network
+  const networks = useAppSelector(selectNetworks);
+  const currentNetwork = useAppSelector(selectCurrentNetwork);
+  const showTestnets = useAppSelector(selectShowTestnets);
+
+  // Local state
   const [notifications, setNotifications] = useState(true);
   const [currency, setCurrency] = useState('USD');
-  const [language, setLanguage] = useState('English');
-  const [network, setNetwork] = useState('Ethereum Mainnet');
+  const [currentLang, setCurrentLang] = useState(getCurrentLanguage());
+  const [networkModalVisible, setNetworkModalVisible] = useState(false);
+  const [, forceUpdate] = useState({});
+
+  // Get current language display name
+  const getCurrentLanguageDisplay = useCallback(() => {
+    const languages = getAvailableLanguages();
+    const found = languages.find(lang => lang.code === currentLang);
+    return found?.name || 'English';
+  }, [currentLang]);
+
+  // Handle language change
+  const handleLanguageChange = useCallback(() => {
+    const languages = getAvailableLanguages();
+    Alert.alert(i18n.t('settingsScreen.items.language'), i18n.t('settingsScreen.selectLanguage'), [
+      ...languages.map(lang => ({
+        text: lang.name,
+        onPress: () => {
+          setLanguage(lang.code);
+          setCurrentLang(lang.code);
+          // Force re-render to update all i18n strings
+          forceUpdate({});
+        },
+      })),
+      {
+        text: i18n.t('common.cancel'),
+        style: 'cancel' as const,
+      },
+    ]);
+  }, []);
+
+  // Handle network selection
+  const handleNetworkSelect = useCallback(
+    (network: Network) => {
+      dispatch(setCurrentNetwork(network));
+      setNetworkModalVisible(false);
+    },
+    [dispatch]
+  );
+
+  // Handle testnet toggle
+  const handleToggleTestnets = useCallback(() => {
+    dispatch(toggleShowTestnets());
+  }, [dispatch]);
 
   // Setting item component
   const SettingItem: React.FC<SettingItemProps> = ({
@@ -128,8 +188,14 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
           <SettingItem
             testID="network-selector"
             label={i18n.t('settingsScreen.items.network')}
-            value={network}
-            onPress={() => {}}
+            value={currentNetwork?.name || 'Ethereum'}
+            onPress={() => setNetworkModalVisible(true)}
+          />
+          <SettingToggle
+            testID="testnet-toggle"
+            label={i18n.t('settingsScreen.items.showTestnets')}
+            value={showTestnets}
+            onValueChange={handleToggleTestnets}
           />
         </View>
 
@@ -152,8 +218,8 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
           <SettingItem
             testID="language-selector"
             label={i18n.t('settingsScreen.items.language')}
-            value={language}
-            onPress={() => {}}
+            value={getCurrentLanguageDisplay()}
+            onPress={handleLanguageChange}
           />
           <SettingToggle
             testID="notifications-toggle"
@@ -198,6 +264,17 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
 
         <View style={styles.bottomPadding} />
       </ScrollView>
+
+      {/* Network Selector Modal */}
+      <NetworkSelectorModal
+        visible={networkModalVisible}
+        networks={networks}
+        selectedNetworkId={currentNetwork?.id ?? ''}
+        showTestnets={showTestnets}
+        onSelect={handleNetworkSelect}
+        onClose={() => setNetworkModalVisible(false)}
+        onToggleTestnets={handleToggleTestnets}
+      />
     </SafeAreaView>
   );
 };

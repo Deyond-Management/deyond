@@ -227,7 +227,7 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation, route }) => 
               size="medium"
               style={styles.halfButton}
             >
-              📷 Scan QR
+              📷 {i18n.t('send.scanQR')}
             </Button>
             <Button
               testID="address-book-button"
@@ -236,7 +236,7 @@ export const SendScreen: React.FC<SendScreenProps> = ({ navigation, route }) => 
               size="medium"
               style={styles.halfButton}
             >
-              📒 Address Book
+              📒 {i18n.t('send.addressBook')}
             </Button>
           </View>
         </Card>

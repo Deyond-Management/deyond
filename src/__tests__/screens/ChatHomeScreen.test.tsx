@@ -8,6 +8,23 @@ import { fireEvent } from '@testing-library/react-native';
 import { ChatHomeScreen } from '../../screens/ChatHomeScreen';
 import { renderWithProviders } from '../utils/testUtils';
 
+// Mock useDeyondCrypt hook
+jest.mock('../../hooks', () => ({
+  ...jest.requireActual('../../hooks'),
+  useDeyondCrypt: jest.fn(() => ({
+    isInitialized: true,
+    isLoading: false,
+    hasIdentity: true,
+    sessions: [],
+    initialize: jest.fn(),
+    contacts: [],
+    groups: [],
+    myAddress: '0x1234',
+    myChainType: 'evm',
+    error: null,
+  })),
+}));
+
 // Mock navigation
 const mockNavigation = {
   navigate: jest.fn(),
@@ -19,25 +36,29 @@ const renderWithTheme = (component: React.ReactElement) => {
   return renderWithProviders(component);
 };
 
-// Mock sessions
+// Mock sessions with all required ChatSession properties
 const mockSessions = [
   {
     id: 'session-1',
     peerAddress: '0x1234567890123456789012345678901234567890',
+    peerChainType: 'evm' as const,
     peerName: 'Alice',
     lastMessage: 'Hello there!',
     lastMessageTime: Date.now() - 1000 * 60 * 5,
     unreadCount: 2,
     isActive: true,
+    messages: [],
   },
   {
     id: 'session-2',
     peerAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
+    peerChainType: 'evm' as const,
     peerName: 'Bob',
     lastMessage: 'See you later',
     lastMessageTime: Date.now() - 1000 * 60 * 60,
     unreadCount: 0,
     isActive: true,
+    messages: [],
   },
 ];
 

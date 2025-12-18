@@ -20,6 +20,9 @@ export {
 } from './atoms/SkeletonLoader';
 export { ErrorDisplay } from './atoms/ErrorDisplay';
 export { EmptyState } from './atoms/EmptyState';
+export { AnimatedIcon } from './atoms/AnimatedIcon';
+export type { AnimatedIconProps, AnimationType } from './atoms/AnimatedIcon';
+export { LoadingState } from './atoms/LoadingState';
 
 // Molecules
 export { TokenCard } from './molecules/TokenCard';

@@ -33,6 +33,10 @@ export interface TokenCardProps {
   iconUrl?: string;
   /** Loading state */
   loading?: boolean;
+  /** Network type (evm, solana, bitcoin, cosmos) */
+  networkType?: 'evm' | 'solana' | 'bitcoin' | 'cosmos';
+  /** Network name for display */
+  network?: string;
   /** Custom style */
   style?: ViewStyle;
   /** On press handler */
@@ -43,6 +47,14 @@ export interface TokenCardProps {
   accessibilityLabel?: string;
 }
 
+// Network badge configuration
+const NETWORK_BADGE_CONFIG: Record<string, { label: string; color: string; bgColor: string }> = {
+  evm: { label: 'EVM', color: '#627EEA', bgColor: '#627EEA20' },
+  solana: { label: 'SOL', color: '#14F195', bgColor: '#14F19520' },
+  bitcoin: { label: 'BTC', color: '#F7931A', bgColor: '#F7931A20' },
+  cosmos: { label: 'ATOM', color: '#2E3148', bgColor: '#2E314820' },
+};
+
 export const TokenCard = React.memo<TokenCardProps>(
   ({
     symbol,
@@ -52,12 +64,17 @@ export const TokenCard = React.memo<TokenCardProps>(
     priceChange24h = 0,
     iconUrl,
     loading = false,
+    networkType,
+    network,
     style,
     onPress,
     testID,
     accessibilityLabel,
   }) => {
     const { theme } = useTheme();
+
+    // Get network badge config
+    const networkBadge = networkType ? NETWORK_BADGE_CONFIG[networkType] : null;
 
     // Format USD value with commas
     const formatUSD = (value: string): string => {
@@ -217,7 +234,30 @@ export const TokenCard = React.memo<TokenCardProps>(
 
           {/* Token Info */}
           <View style={infoContainerStyle}>
-            <Text style={tokenNameStyle}>{name}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              <Text style={tokenNameStyle}>{name}</Text>
+              {networkBadge && (
+                <View
+                  style={{
+                    backgroundColor: networkBadge.bgColor,
+                    paddingHorizontal: 6,
+                    paddingVertical: 2,
+                    borderRadius: 4,
+                  }}
+                  testID="network-badge"
+                >
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      fontWeight: '600',
+                      color: networkBadge.color,
+                    }}
+                  >
+                    {networkBadge.label}
+                  </Text>
+                </View>
+              )}
+            </View>
             <Text style={tokenSymbolStyle}>{symbol}</Text>
           </View>
 
